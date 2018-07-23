@@ -1,5 +1,5 @@
 "use strict";
-/// <reference path="../phaser.d.ts"/>
+/// <reference path="../bin/lib/phaser.d.ts"/>
 //import "phaser";
 //import { BootScene } from "./scenes/bootScene";
 //import { MainMenuScene } from "./scenes/mainMenuScene";
@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var config = {
     title: "RS Clicker",
     version: "0.1",

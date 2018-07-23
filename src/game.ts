@@ -1,4 +1,4 @@
-/// <reference path="../lib/phaser.d.ts"/>
+/// <reference path="../bin/lib/phaser.d.ts"/>
 //import "phaser";
 //import { BootScene } from "./scenes/bootScene";
 //import { MainMenuScene } from "./scenes/mainMenuScene";
