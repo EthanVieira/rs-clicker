@@ -1,4 +1,9 @@
 "use strict";
+/// <reference path="../phaser.d.ts"/>
+//import "phaser";
+//import { BootScene } from "./scenes/bootScene";
+//import { MainMenuScene } from "./scenes/mainMenuScene";
+//import { GameScene } from "./scenes/gameScene";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -9,12 +14,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-/// <reference path="../phaser.d.ts"/>
-require("phaser");
-//import { BootScene } from "./scenes/bootScene";
-//import { MainMenuScene } from "./scenes/mainMenuScene";
-//import { GameScene } from "./scenes/gameScene";
+Object.defineProperty(exports, "__esModule", { value: true });
 var config = {
     title: "RS Clicker",
     version: "0.1",
