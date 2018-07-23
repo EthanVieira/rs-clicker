@@ -7,9 +7,9 @@ import { MenuScene } from "./scenes/menuScene";
 const config: GameConfig = {
   title: "RS Clicker",
   version: "0.1",
-  width: 256,
-  height: 224,
-  zoom: 3,
+  width: window.innerWidth/1.5,
+  height: window.innerHeight/1.5,
+  zoom: 1,
   type: Phaser.AUTO,
   parent: "game",
   scene: [LoadScene, MenuScene],
