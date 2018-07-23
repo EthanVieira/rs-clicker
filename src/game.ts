@@ -1,7 +1,7 @@
 /// <reference path="../bin/lib/phaser.d.ts"/>
 //import "phaser";
-//import { BootScene } from "./scenes/bootScene";
-//import { MainMenuScene } from "./scenes/mainMenuScene";
+import { LoadScene } from "./scenes/loadScene";
+import { MenuScene } from "./scenes/menuScene";
 //import { GameScene } from "./scenes/gameScene";
 
 const config: GameConfig = {
@@ -12,6 +12,7 @@ const config: GameConfig = {
   zoom: 3,
   type: Phaser.AUTO,
   parent: "game",
+  scene: [LoadScene, MenuScene],
   input: {
     keyboard: true,
     mouse: true,
