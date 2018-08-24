@@ -1,15 +1,14 @@
 # RS Clicker
 
-We are using Browserify to compile all of our Typescript into one JS file
-Browserify Install:
-
-    npm install -g browserify
-    npm install -g tsify
-
-Browserify Compile:
-
-    browserify src/game.ts -p [ tsify --noImplicitAny ] > bin/js/bundle.js
 
 Run Game:
 
-    node server/server
+python -m SimpleHTTPServer
+
+Then open a browser and access it via:
+
+http://192.168.1.2:8000 
+or
+http://127.0.0.1:8000
+
+
