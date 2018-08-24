@@ -1,4 +1,4 @@
-# RSClicker
+# RS Clicker
 
 We are using Browserify to compile all of our Typescript into one JS file
 Browserify Install:
