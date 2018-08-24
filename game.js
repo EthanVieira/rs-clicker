@@ -1,26 +1,16 @@
-var config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
-};
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+preload: preload, create: create, update: update });
 
-var game = new Phaser.Game(config);
+function preload() {
 
-function preload ()
-{
-    this.load.image('background', 'source/assets/background.png')
+  game.load.image('background', 'source/assets/background.png');
+
 }
 
-function create ()
-{
-    this.add.image(400,300, 'background')
+function create() {
+
+  game.add.image(400, 300, 'background');
 }
 
-function update ()
-{
+function update() {
 }
