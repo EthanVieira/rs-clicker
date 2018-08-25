@@ -1,5 +1,5 @@
 var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO, '', {
-  preload: preload, create: create, update: update 
+  preload: preload, create: create, update: update
 });
 
 // Upgrades
@@ -36,7 +36,7 @@ function preload() {
 
 function create() {
 
-  background = game.add.image(0, 0, 'background');
+  background = game.add.image(game.world.centerX, game.world.centerY, 'background');
 
   // Button
   button = game.add.button(200, 200, 'button', actionOnClick, this, 2, 1, 0);
@@ -64,5 +64,5 @@ function actionOnClick(){
 }
 
 function update() {
-	
+
 }
