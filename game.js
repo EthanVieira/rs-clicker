@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 550, Phaser.AUTO, '', {
+var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO, '', {
   preload: preload, create: create, update: update 
 });
 
@@ -29,6 +29,9 @@ function preload() {
   game.load.image('background', 'source/assets/background.png');
   game.load.image('button', 'source/assets/logo.png');
 
+  //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  //game.scale.pageAlignVertically = true;
+  //game.scale.setScreenSize( true );
 }
 
 function create() {
@@ -45,14 +48,15 @@ function create() {
 
 function over(){
 	console.log('Button over');
+	console.log(window.innerWidth, window.devicePixelRatio, window.innerHeight);
 }
 
 function up(){
-	console.log('button up', arguments);
+	console.log('Button up', arguments);
 }
 
 function out(){
-	console.log('button out');
+	console.log('Button out');
 }
 
 function actionOnClick(){
