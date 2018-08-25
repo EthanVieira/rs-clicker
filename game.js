@@ -20,17 +20,45 @@ var player = {
 	gold: 0
 }
 
+// Game objects
+var button;
+var background;
+
 function preload() {
 
   game.load.image('background', 'source/assets/background.png');
+  game.load.image('button', 'source/assets/logo.png');
 
 }
 
 function create() {
 
-  game.add.image(0, 0, 'background');
+  background = game.add.image(0, 0, 'background');
+
+  // Button
+  button = game.add.button(200, 200, 'button', actionOnClick, this, 2, 1, 0);
+  button.onInputOver.add(over, this);
+  button.onInputOut.add(out, this);
+  button.onInputUp.add(up, this);
 
 }
 
+function over(){
+	console.log('Button over');
+}
+
+function up(){
+	console.log('button up', arguments);
+}
+
+function out(){
+	console.log('button out');
+}
+
+function actionOnClick(){
+	background.visible =! background.visible;
+}
+
 function update() {
+	
 }
