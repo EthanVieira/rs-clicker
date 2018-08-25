@@ -23,6 +23,8 @@ var player = {
 // Game objects
 var button;
 var background;
+var clicks = 0;
+var scoreText;
 
 function preload() {
 
@@ -37,16 +39,23 @@ function preload() {
 function create() {
 
   background = game.add.image(game.world.centerX, game.world.centerY, 'background');
+  background.anchor.setTo(0.5);
 
   // Button
-  button = game.add.button(200, 200, 'button', actionOnClick, this, 2, 1, 0);
-  button.onInputOver.add(over, this);
-  button.onInputOut.add(out, this);
-  button.onInputUp.add(up, this);
+  button = game.add.sprite(50, 50, 'button');
+  button.inputEnabled = true;
+  scoreText = game.add.text(16, 16, 'Clicks: 0', {fontSize: '32px', fill: '#555'});
+  button.events.onInputDown.add(listener, this);
 
 }
 
-function over(){
+function listener()
+{
+  clicks++;
+  scoreText.text = 'Clicks: ' + clicks;
+}
+
+/*function over(){
 	console.log('Button over');
 	console.log(window.innerWidth, window.devicePixelRatio, window.innerHeight);
 }
@@ -61,7 +70,7 @@ function out(){
 
 function actionOnClick(){
 	background.visible =! background.visible;
-}
+} */
 
 function update() {
 
