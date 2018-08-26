@@ -45,9 +45,10 @@ function create() {
 	gameWindow.background.anchor.setTo(0.5);
 
 	// Button
-	gameWindow.button = game.add.sprite(50, 50, 'button');
+	gameWindow.button = game.add.sprite(game.world.centerX, game.world.centerY, 'button');
+  gameWindow.button.anchor.setTo(0.5);
 	gameWindow.button.inputEnabled = true;
-	gameWindow.scoreText = game.add.text(16, 16, 'Gold: 0', {fontSize: '32px', fill: '#999'});
+	gameWindow.scoreText = game.add.text(game.world.width - 200, 20, 'Gold: 0', {fontSize: '32px', fill: '#999'});
 	gameWindow.button.events.onInputDown.add(buttonClick, this);
 
 }
@@ -65,15 +66,12 @@ function buttonClick(){
 	console.log('Button over');
 	console.log(window.innerWidth, window.devicePixelRatio, window.innerHeight);
 }
-
 function up(){
 	console.log('Button up', arguments);
 }
-
 function out(){
 	console.log('Button out');
 }
-
 function actionOnClick(){
 	background.visible =! background.visible;
 } */
