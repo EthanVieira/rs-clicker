@@ -1,4 +1,5 @@
-var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO, 'game'),
+var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, 
+	window.innerHeight * window.devicePixelRatio, Phaser.AUTO, 'game'),
   Main = function () {};
 
 // Upgrades
@@ -31,9 +32,9 @@ Main.prototype = {
   preload: function () {
 
     game.load.image('background', 'source/assets/MenuBg.png');
-    game.load.image('loading', 'source/assets/MenuBg.png');
+    game.load.image('loading', 'source/assets/loading.png');
     game.load.image('button', 'source/assets/chicken.jpg');
-    game.load.script('splash', 'Splash.js');
+    game.load.script('Splash', 'splash.js');
 
 
     //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
