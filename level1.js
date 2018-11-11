@@ -28,9 +28,9 @@ var gameWindow = {
 Level1.prototype = {
   preload: function () {
 
-    game.load.image('background', 'source/assets/MenuBg.png');
+    /*game.load.image('background', 'source/assets/MenuBg.png');
     game.load.image('loading', 'source/assets/loading.png');
-    game.load.image('button', 'source/assets/chicken.jpg');
+    game.load.image('button', 'source/assets/chicken.jpg');*/
 
 
     //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -39,7 +39,7 @@ Level1.prototype = {
   },
 
   create: function () {
-    //game.state.start('Splash');
+
   	// Background
   	gameWindow.background = game.add.image(game.world.centerX, game.world.centerY, 'background');
   	gameWindow.background.anchor.setTo(0.5);
@@ -53,6 +53,7 @@ Level1.prototype = {
     
   }
 }
+
 function buttonClick(){
 	player.gold++;
 	gameWindow.scoreText.text = 'Gold: ' + player.gold;

@@ -22,14 +22,13 @@ Splash.prototype = {
   },
 
   init: function() {
-    this.loadingBar = game.make.sprite(game.width/2, game.height/2, 'loading');
-    this.loadingBar.anchor.setTo(.5, 1);
-    this.status = game.make.text(game.world.centerX, 380, 'loading...', {fill: 'white'});
+    //this.loadingBar = game.make.sprite(game.width/2, game.height/2, 'loading');
+    //this.loadingBar.anchor.setTo(.5, 1);
+    this.status = game.make.text(game.world.centerX, game.world.centerY, 'loading...', {fill: 'white'});
     this.status.anchor.setTo(0.5);
   },
 
   preload: function () {
-    //var loadingBar, status;
     //game.add.sprite(0, 0, 'background');
     //game.add.existing(this.loadingBar);
     game.add.existing(this.status);
@@ -56,7 +55,7 @@ Splash.prototype = {
 
     // Transition to main menu
     setTimeout(function() {
-      game.state.start('Level1');
-    }, 5000);
+      game.state.start('Menu');
+    }, 1000);
   }
 };
