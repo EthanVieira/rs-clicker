@@ -1,4 +1,5 @@
 var Splash = function(){};
+
 Splash.prototype = {
 
   loadScripts: function() {
@@ -30,9 +31,9 @@ Splash.prototype = {
   preload: function () {
     //var loadingBar, status;
     //game.add.sprite(0, 0, 'background');
-    game.add.existing(this.loadingBar);
+    //game.add.existing(this.loadingBar);
     game.add.existing(this.status);
-    this.load.setPreloadSprite(this.loadingBar, 0);
+    //this.load.setPreloadSprite(this.loadingBar, 0);
 
     this.loadScripts();
     this.loadImages();
@@ -55,7 +56,7 @@ Splash.prototype = {
 
     // Transition to main menu
     setTimeout(function() {
-      // game.state.start('GameMenu');
+      game.state.start('Level1');
     }, 5000);
   }
 };
