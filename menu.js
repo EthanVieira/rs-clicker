@@ -26,7 +26,7 @@ Menu.prototype = {
 
 	// Function to add menu buttons
 	addMenuOption: function(text, callback) {
-		var optionStyle = { font: '30pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', srokeThickness: 4};
+		var optionStyle = { font: '30pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', stokeThickness: 4};
 		var txt = game.add.text(game.world.centerX, (this.optionCount * 80) + 260, text, optionStyle);
 		var onOver = function (target) {
 			target.fill = "#FEFFD5";
