@@ -20,9 +20,9 @@ Main.prototype = {
 		game.load.image('menu-bg', 'source/assets/background.png');
 
 		// Load states
-		game.load.script('Splash', 'splash.js');
-		game.load.script('Level1', 'level1.js');
-		game.load.script('Menu', 'menu.js');
+		game.load.script('Splash', 'source/splash.js');
+		game.load.script('Level1', 'source/level1.js');
+		game.load.script('Menu', 'source/menu.js');
 
 	},
 
