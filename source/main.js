@@ -5,9 +5,9 @@ var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio,
 Main.prototype = {
 
 	init: function () {
-		// Loading
+		// Loading text
 		this.status = game.make.text(game.world.centerX, game.world.centerY, 'loading...', {fill: 'white'});
-    this.status.anchor.setTo(0.5);
+    	this.status.anchor.setTo(0.5);
 		game.add.existing(this.status);
 	},
 
@@ -16,8 +16,9 @@ Main.prototype = {
 		// Load images
 		game.load.image('background', 'source/assets/MenuBg.png');
 		game.load.image('loading', 'source/assets/loading.png');
-		game.load.image('button', 'source/assets/chicken.jpg');
+		game.load.image('enemy', 'source/assets/chicken.jpg');
 		game.load.image('menu-bg', 'source/assets/background.png');
+		game.load.image('red-hitsplat', 'source/assets/red_hitsplat.png');
 
 		// Load states
 		game.load.script('Splash', 'source/splash.js');

@@ -20,9 +20,11 @@ var player = {
 
 // Game objects
 var gameWindow = {
-	button: null,
+	enemy: null,
 	background: null,
-	scoreText: null
+	scoreText: null,
+	redHitsplat: null,
+	hitsplatText: null
 }
 
 Level1.prototype = {
@@ -44,22 +46,36 @@ Level1.prototype = {
   	gameWindow.background = game.add.image(game.world.centerX, game.world.centerY, 'background');
   	gameWindow.background.anchor.setTo(0.5);
 
-  	// Button
-  	gameWindow.button = game.add.sprite(game.world.centerX, game.world.centerY, 'button');
-    gameWindow.button.anchor.setTo(0.5);
-  	gameWindow.button.inputEnabled = true;
+  	// Enemy
+  	gameWindow.enemy = game.add.sprite(game.world.centerX, game.world.centerY, 'enemy');
+    gameWindow.enemy.anchor.setTo(0.5);
+  	gameWindow.enemy.inputEnabled = true;
   	gameWindow.scoreText = game.add.text(game.world.width - 200, 20, 'Gold: 0', {fontSize: '32px', fill: '#999'});
-  	gameWindow.button.events.onInputDown.add(buttonClick, this);
-    
+  	gameWindow.enemy.events.onInputDown.add(clickEnemy, this);
+
+    // Hitsplat
+    gameWindow.redHitsplat = game.add.sprite(game.world.centerX, game.world.centerY, 'red-hitsplat');
+    gameWindow.redHitsplat.anchor.setTo(0.5);
+    gameWindow.redHitsplat.visible = false;
+    gameWindow.redHitsplat.scale.setTo(.5, .5);
+    gameWindow.hitsplatText = game.add.text(game.world.centerX-10, game.world.centerY-10, '1', {fill: 'white'});
+    gameWindow.hitsplatText.visible = false;
   }
 }
 
-function buttonClick(){
-	player.gold++;
+function clickEnemy(){
+	// Display hit
+	let hitValue = Math.floor( Math.random()*2 ); // Currently just 50-50 chance 0/1
+	gameWindow.hitsplatText.text = hitValue
+	gameWindow.redHitsplat.visible = true;
+	gameWindow.hitsplatText.visible = true;
+	player.gold += hitValue;
 	gameWindow.scoreText.text = 'Gold: ' + player.gold;
-	gameWindow.button.tint = 0xff0000;
+
+	// Show/hide hitsplat
 	setTimeout(function(){
-		gameWindow.button.tint = 0xFFFFFF
+		gameWindow.redHitsplat.visible = false;
+		gameWindow.hitsplatText.visible = false;
 	}, 100);
 }
 
