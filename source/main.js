@@ -18,7 +18,8 @@ Main.prototype = {
 		game.load.image('loading', 'source/assets/loading.png');
 		game.load.image('enemy', 'source/assets/chicken.jpg');
 		game.load.image('menu-bg', 'source/assets/background.png');
-		game.load.image('red-hitsplat', 'source/assets/red_hitsplat.png');
+		game.load.image('red-hitsplat', 'source/assets/Red_Hitsplat.png');
+		game.load.image('blue-hitsplat', 'source/assets/Blue_Hitsplat.png');
 
 		// Load states
 		game.load.script('Splash', 'source/splash.js');
