@@ -12,16 +12,3 @@ let game = new Phaser.Game({
 		LoadScene
 	]
 });
-
-// // Define global vars
-// // var gold = 0;
-// // Player progression
-
-// // Add states
-// game.state.add('splash', splash);
-// //game.state.add('menu', menu);
-// //game.state.add('level1', level1);
-
-
-// // Start program
-// game.state.start('splash');
