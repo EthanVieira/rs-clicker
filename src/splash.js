@@ -16,7 +16,7 @@ Splash.prototype = {
     WebFontConfig = {
       custom: {
         families: ['testFont'],
-        urls: ['source/assets/fonts.css']
+        urls: ['src/assets/fonts.css']
       }
     }
   },
@@ -24,8 +24,8 @@ Splash.prototype = {
   init: function() {
     //this.loadingBar = game.make.sprite(game.width/2, game.height/2, 'loading');
     //this.loadingBar.anchor.setTo(.5, 1);
-    this.status = game.make.text(game.world.centerX, game.world.centerY, 'loading...', {fill: 'white'});
-    this.status.anchor.setTo(0.5);
+    //this.status = game.make.text(game.world.centerX, game.world.centerY, 'loading...', {fill: 'white'});
+    //this.status.anchor.setTo(0.5);
   },
 
   preload: function () {
@@ -33,6 +33,7 @@ Splash.prototype = {
     //game.add.existing(this.loadingBar);
     game.add.existing(this.status);
     //this.load.setPreloadSprite(this.loadingBar, 0);
+    
 
     this.loadScripts();
     this.loadImages();
@@ -52,10 +53,14 @@ Splash.prototype = {
     this.addGameStates();
     this.addGameMusic();
 
+    // Display 
+    var lesserDemonSprite = game.add.sprite(450, 290, 'lesser-demon');
+    lesserDemonSpriteSprite.anchor.setTo(0.5, 0.5);
+    
+    game.add.text('Welcome to RS Clicker!', 250, 290);
+		game.add.text('Click anywhere to continue.', 250, 340);
 
     // Transition to main menu
-    setTimeout(function() {
-      game.state.start('Menu');
-    }, 1000);
+    game.input.onDown.add(game.start.start('Menu'));
   }
 };
