@@ -16,7 +16,7 @@ Main.prototype = {
 		// Load images
 		game.load.image('background', 'source/assets/MenuBg.png');
 		game.load.image('loading', 'source/assets/loading.png');
-		game.load.image('enemy', 'source/assets/chicken.jpg');
+		game.load.image('chicken', 'source/assets/chicken.jpg');
 		game.load.image('menu-bg', 'source/assets/background.png');
 		game.load.image('red-hitsplat', 'source/assets/Red_Hitsplat.png');
 		game.load.image('blue-hitsplat', 'source/assets/Blue_Hitsplat.png');
@@ -35,7 +35,15 @@ Main.prototype = {
 		game.state.add('Level1', Level1);
 		game.state.add('Menu', Menu);
 		game.state.start('Splash');
+
+		// Create enemies
+		var chickenSprite = game.add.sprite(540, 290, 'chicken');
+		chickenSprite.anchor.setTo(0.5, 0.5);
 		
+	}
+
+	render: function() {
+		game.debug.text('Welcome to Runescape!');
 	}
 }
 
