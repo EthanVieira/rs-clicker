@@ -1,23 +1,5 @@
 # RS Clicker
 
-### Run game with chrome app
-
-In Google Chrome, go to chrome::/flags
-
-Enable "Experimental Extension APIs
-
-Restart Chrome
-
-Go to chrome://extensions
-
-Make sure developer mode is turned on
-
-Click "Load unpacked" and select the rs-clicker folder
-
-To launch app with new content:
-
---app-id=...........
-
 
 #### Run Game with Python server:
 
