@@ -28,7 +28,7 @@ export class LoadScene extends Phaser.Scene{
 
         var progressBar = this.add.graphics();
         var progressBox = this.add.graphics();
-        progressBox.fillStyle("#ff0000", 0.8);
+        progressBox.fillStyle("#ED1C24", .2);
         progressBox.fillRect(240, 270, 320, 50);
         
         var width = this.cameras.main.width;
@@ -69,7 +69,7 @@ export class LoadScene extends Phaser.Scene{
         this.load.on('progress', function (value, file) {
             percentText.setText('Loading asset: good ol rs stuff ' + parseInt(value * 100) + '%');
             progressBar.clear();
-            progressBar.fillStyle(0xff0000, 1);
+            progressBar.fillStyle(0xED1C24, 1);
             progressBar.fillRect(250, 280, 300 * value, 30);
         });
         
