@@ -48,7 +48,7 @@ Level1.prototype = {
   	gameWindow.background.anchor.setTo(0.5);
 
   	// Enemy
-  	gameWindow.enemy = game.add.sprite(game.world.centerX, game.world.centerY, 'enemy');
+  	gameWindow.enemy = game.add.sprite(game.world.centerX, game.world.centerY, 'chicken');
     gameWindow.enemy.anchor.setTo(0.5);
   	gameWindow.enemy.inputEnabled = true;
   	gameWindow.scoreText = game.add.text(game.world.width - 200, 20, 'Gold: 0', {fontSize: '32px', fill: '#999'});
