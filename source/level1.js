@@ -1,4 +1,4 @@
-Level1 = function () {};
+level1 = function () {};
 // Upgrades
 var purchases = {
 	weapons: weapons,
@@ -28,12 +28,12 @@ var gameWindow = {
 	hitsplatText: null
 }
 
-Level1.prototype = {
+level1.prototype = {
   preload: function () {
 
-    /*game.load.image('background', 'src/assets/MenuBg.png');
-    game.load.image('loading', 'src/assets/loading.png');
-    game.load.image('button', 'src/assets/chicken.jpg');*/
+    /*game.load.image('background', 'source/assets/MenuBg.png');
+    game.load.image('loading', 'source/assets/loading.png');
+    game.load.image('button', 'source/assets/chicken.jpg');*/
 
 
     //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -48,7 +48,7 @@ Level1.prototype = {
   	gameWindow.background.anchor.setTo(0.5);
 
   	// Enemy
-  	gameWindow.enemy = game.add.sprite(game.world.centerX, game.world.centerY, 'enemy');
+  	gameWindow.enemy = game.add.sprite(game.world.centerX, game.world.centerY, 'chicken');
     gameWindow.enemy.anchor.setTo(0.5);
   	gameWindow.enemy.inputEnabled = true;
   	gameWindow.scoreText = game.add.text(game.world.width - 200, 20, 'Gold: 0', {fontSize: '32px', fill: '#999'});
