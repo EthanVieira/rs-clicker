@@ -6,6 +6,8 @@ https://www.youtube.com/playlist?list=PLitFP8FdScfHcJQ-kDmm0i6aOhinVO7ND
 
 https://gamedevacademy.org/phaser-tutorial-how-to-create-an-idle-clicker-game/ -- I think this is Phaser 2
 
+https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
+
 https://gamedevacademy.org/category/tutorials/phaser-tutorials/phaser-3-tutorials/
 
 https://gamedevacademy.org/free-ebook-how-to-create-a-game-with-phaser-3/
