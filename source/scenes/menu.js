@@ -6,15 +6,49 @@ export class MenuScene extends Phaser.Scene{
             key: CONSTANTS.SCENES.MENU
         })
     }
-    init(data) {
+    init() {
         // receieve data from other scene that initialized this scene
-        console.log(data);
-        console.log("I GOT IT");
+    }
+    preload(){
+        // Image won't show up unless i preload it here as well?? Why do I need to do this again
+        this.load.image('menu-bg', 'source/assets/MenuBg.png');
+
+        // Load buttons here I guess since loading in LoadScene is currently busted
+        // NEED:
+        // Play 
+        // Settings
+        // Stats
     }
     create(){
         // create the menu screen
 
-        this.add.image(0, 0, 'menu-bg').setOrigin(0,0);
+        this.add.image(0, 0, 'menu-bg').setOrigin(0,0).setDepth(0);
+
+        // Button hover sprites
+
+
+        // Button format
+/*
+        let buttonName = this.add.image(locationX, locationY, "button-name").setDepth(1);
+        buttonName.setInteractive();
+        buttonName.on("pointerover", ()=>{
+             stuff on hover 
+        }
+        buttonName.on("pointerover", ()=>{
+             stuff on hover 
+        
+        }
+        buttonName.on("pointerout", ()=>{
+             stuff on not hover 
+        }
+        buttonName.on("pointerup", ()=>{
+             stuff on click 
+        }
+*/
+        //
+        //
+        //
+        //
 
     }
 }
