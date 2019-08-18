@@ -25,14 +25,6 @@ http://labs.phaser.io/
 
 #### TODO
 Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get gold
-
-                                    ->  
-                                    
-                                    ->
-                                    
-                  -> Settings
-                  
-                  -> Stats
                   
 Making menu look good - Ethan (Menu branch)
 
