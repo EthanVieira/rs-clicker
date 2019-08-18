@@ -5,13 +5,20 @@
 https://www.youtube.com/playlist?list=PLitFP8FdScfHcJQ-kDmm0i6aOhinVO7ND
 
 https://gamedevacademy.org/phaser-tutorial-how-to-create-an-idle-clicker-game/
+
 https://gamedevacademy.org/category/tutorials/phaser-tutorials/phaser-3-tutorials/
+
 https://gamedevacademy.org/free-ebook-how-to-create-a-game-with-phaser-3/
+
 https://photonstorm.github.io/phaser3-docs/index.html
+
 
 Repo of examples:
 https://github.com/photonstorm/phaser3-examples
+
+
 http://labs.phaser.io/
+
 
 
 #### TODO
