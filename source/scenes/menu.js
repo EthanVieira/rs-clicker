@@ -11,12 +11,12 @@ export class MenuScene extends Phaser.Scene{
     }
     preload(){
         // Image won't show up unless i preload it here as well?? Why do I need to do this again
-        this.load.image('menu-bg', 'source/assets/MenuBg.png');
+        this.load.image('rs-logo', 'source/assets/rslogo.jpg');
 
         // Load buttons here I guess since loading in LoadScene is currently busted
         // NEED:
         // Play 
-        this.load.image('play-button', 'source/assets/playbutton.png');
+        
         // Settings
         // Stats
     }
@@ -24,6 +24,7 @@ export class MenuScene extends Phaser.Scene{
         // create the menu screen
 
         this.add.image(0, 0, 'menu-bg').setOrigin(0,0).setDepth(0);
+        this.add.image(400, 125, 'rsc-logo').setDepth(1);
 
         // Button hover sprites
 
@@ -47,7 +48,7 @@ export class MenuScene extends Phaser.Scene{
         }
 */
         // Buttons
-        let playButton = this.add.image(300, 300, "play-button").setDepth(1);
+        let playButton = this.add.image(400, 300, "play-button").setDepth(1);
         playButton.setInteractive();
         
 
