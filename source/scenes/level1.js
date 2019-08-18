@@ -11,7 +11,7 @@ export class Level1 extends Phaser.Scene{
     }
     preload(){
         // Once again just loading stuff here until load state gets figured out
-        this.load.image('lvl1-bg', 'source/assets/level1bg.png');
+        this.load.image('lvl1-bg', 'source/assets/lvl1bg.png');
 
 
     }

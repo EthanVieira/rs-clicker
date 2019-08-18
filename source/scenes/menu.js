@@ -50,6 +50,8 @@ export class MenuScene extends Phaser.Scene{
         let playButton = this.add.image(300, 300, "play-button").setDepth(1);
         playButton.setInteractive();
         
+
+        // Why isn't level one starting???
         playButton.on("pointerup", ()=>{
             this.scene.start(CONSTANTS.SCENES.LEVEL1); 
             console.log("oof");

@@ -23,7 +23,7 @@ export class LoadScene extends Phaser.Scene{
     preload(){
 
         // splash screen stuff
-        var lesserDemonSprite = this.add.image(750, 600, 'lesser-demon');
+        this.add.image(750, 600, 'lesser-demon');
 
 
         var progressBar = this.add.graphics();
@@ -99,6 +99,7 @@ export class LoadScene extends Phaser.Scene{
         
         // Backgrounds
         this.load.image('menu-bg', 'source/assets/MenuBg.png');
+        this.load.image('lvl1-bg', 'source/assets/lvl1bg.png');
         
     }
     create(){
@@ -107,7 +108,7 @@ export class LoadScene extends Phaser.Scene{
         this.add.text(250, 300, "Welcome to RS Clicker!");
         this.add.text(250, 340, "Click the demon to continue.");
 
-        let lesserDemonSprite = this.add.image(750, 600, 'lesser-demon')
+        let lesserDemonSprite = this.add.image(750, 600, 'lesser-demon');
         lesserDemonSprite.setInteractive();
 
         // Make it go to menu on click
