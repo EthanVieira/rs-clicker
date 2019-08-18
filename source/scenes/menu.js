@@ -8,10 +8,13 @@ export class MenuScene extends Phaser.Scene{
     }
     init(data) {
         // receieve data from other scene that initialized this scene
-        console.log(data)
-        console.log("I GOT IT")
+        console.log(data);
+        console.log("I GOT IT");
     }
     create(){
+        // create the menu screen
+
+        this.add.image(0, 0, 'menu-bg').setOrigin(0,0);
 
     }
 }

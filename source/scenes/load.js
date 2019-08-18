@@ -1,5 +1,4 @@
 import { CONSTANTS } from "../constants.js";
-import { MenuScene } from "./menu.js";
 
 export class LoadScene extends Phaser.Scene{
     constructor() {
@@ -86,23 +85,32 @@ export class LoadScene extends Phaser.Scene{
             //assetText.destroy();
         });
         
+        // Simulate lag
+        for (let i = 0; i < 500; i++) {
+            this.load.image('chicken' + i, 'source/assets/sprites/chicken.jpg');
+        }
+
         // Fonts
         //this.load.bitmapFont('rsfont', 'source/assets/fonts/runescape_uf.bmp');
+
         // Enemies
         this.load.image('chicken', 'source/assets/sprites/chicken.jpg');
- 		this.load.image('lesser-demon', 'source/assets/sprites/Lesser_demon.png')
+ 		this.load.image('lesser-demon', 'source/assets/sprites/Lesser_demon.png');
         
+        // Backgrounds
+        this.load.image('menu-bg', 'source/assets/background.png');
         
     }
     create(){
         // this is where you make game objects
         this.add.text(250, 300, "Welcome to RS Clicker!");
         this.add.text(250, 340, "Click anywhere to continue.");
-        this.scene.add(CONSTANTS.SCENES.MENU, MenuScene, false);
+        //this.scene.add(CONSTANTS.SCENES.MENU, MenuScene, false);
 
-        var pointer = this.scene.input.activePointer;
-        
+        // Make it go to menu on click
+        //var pointer = this.scene.input.activePointer;
 
+        this.scene.start(CONSTANTS.SCENES.MENU, "hello from load scene");
 
         //
         /*
@@ -116,26 +124,6 @@ export class LoadScene extends Phaser.Scene{
     update(){
         // this is the update loop
         // dont need this for load scene
-        if (pointer.isDown) {
-            this.scene.start(CONSTANTS.SCENES.MENU, "hello from load scene");
-        }
+    
     }
 }
-
-
-// var splash = {
-//     preload: function() {
-
-//         
-        
-//         // Enemies
-// 		this.game.load.image('chicken', 'source/assets/chicken.jpg');
-// 		this.game.load.image('lesser-demon', 'source/assets/Lesser_demon.png')
-//     },
-
-//     create: function() {
-//         var lesserDemonSprite = game.add.sprite(450, 290, 'lesser-demon');
-//         lesserDemonSprite.anchor.setTo(0.5, 0.5);
-
-//     }
-// };
