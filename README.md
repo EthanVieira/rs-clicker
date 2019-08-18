@@ -24,7 +24,17 @@ http://labs.phaser.io/
 
 
 #### TODO
-Menu skeleton - Ethan
+Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get gold
+
+                                    ->  
+                                    
+                                    ->
+                                    
+                  -> Settings
+                  
+                  -> Stats
+                  
+Making menu look good - Ethan (Menu branch)
 
 #### Run Game with Python server:
 
