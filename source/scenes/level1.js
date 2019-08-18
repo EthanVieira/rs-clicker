@@ -1,3 +1,26 @@
+import { CONSTANTS } from "../constants.js";
+
+export class Level1 extends Phaser.Scene{
+    constructor() {
+        super({
+            key: CONSTANTS.SCENES.LEVEL1
+        })
+    }
+    init() {
+        // receieve data from other scene that initialized this scene
+    }
+    preload(){
+        // Once again just loading stuff here until load state gets figured out
+        this.load.image('lvl1-bg', 'source/assets/level1bg.png');
+
+
+    }
+    create(){
+        this.add.image(0,0, 'lvl1-bg').setOrigin(0,0).setDepth(0);
+
+    }
+}
+
 // level1 = function () {};
 // // Upgrades
 // var purchases = {

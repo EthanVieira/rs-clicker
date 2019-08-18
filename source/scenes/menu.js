@@ -16,6 +16,7 @@ export class MenuScene extends Phaser.Scene{
         // Load buttons here I guess since loading in LoadScene is currently busted
         // NEED:
         // Play 
+        this.load.image('play-button', 'source/assets/playbutton.png');
         // Settings
         // Stats
     }
@@ -45,10 +46,14 @@ export class MenuScene extends Phaser.Scene{
              stuff on click 
         }
 */
-        //
-        //
-        //
-        //
+        // Buttons
+        let playButton = this.add.image(300, 300, "play-button").setDepth(1);
+        playButton.setInteractive();
+        
+        playButton.on("pointerup", ()=>{
+            this.scene.start(CONSTANTS.SCENES.LEVEL1); 
+            console.log("oof");
+        })
 
     }
 }
