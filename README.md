@@ -4,7 +4,7 @@
 
 https://www.youtube.com/playlist?list=PLitFP8FdScfHcJQ-kDmm0i6aOhinVO7ND
 
-https://gamedevacademy.org/phaser-tutorial-how-to-create-an-idle-clicker-game/
+https://gamedevacademy.org/phaser-tutorial-how-to-create-an-idle-clicker-game/ -- I think this is Phaser 2
 
 https://gamedevacademy.org/category/tutorials/phaser-tutorials/phaser-3-tutorials/
 
