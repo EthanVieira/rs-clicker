@@ -28,14 +28,6 @@ Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get g
                   
 Making menu look good - Ethan (Menu branch)
 
-#### Better server imo
-
-from cmd:
-
-npm install -g parcel-bundler http-server
-
-http-server
-
 
 #### Run Game with Python server:
 
