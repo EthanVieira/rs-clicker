@@ -1,9 +1,9 @@
 import { CONSTANTS } from "../constants.js";
 
-export class MenuScene extends Phaser.Scene{
+export class CCScene extends Phaser.Scene{
     constructor() {
         super({
-            key: CONSTANTS.SCENES.MENU
+            key: CONSTANTS.SCENES.CC
         })
     }
     init() {
@@ -11,7 +11,7 @@ export class MenuScene extends Phaser.Scene{
     }
     preload(){
         // Image won't show up unless i preload it here as well?? Why do I need to do this again
-        this.load.image('menu-bg', 'source/assets/MenuBg.png');
+        this.load.image('cc-bg', 'source/assets/CCBg.png');
 
         // Load buttons here I guess since loading in LoadScene is currently busted
         // NEED:
@@ -23,7 +23,7 @@ export class MenuScene extends Phaser.Scene{
     create(){
         // create the menu screen
 
-        this.add.image(0, 0, 'menu-bg').setOrigin(0,0).setDepth(0);
+        this.add.image(0, 0, 'cc-bg').setOrigin(0,0).setDepth(0);
 
         // Button hover sprites
 
@@ -53,10 +53,9 @@ export class MenuScene extends Phaser.Scene{
 
         // Why isn't level one starting???
         playButton.on("pointerup", ()=>{
-            this.scene.start(CONSTANTS.SCENES.CC); 
-            console.log("Going to Character Creation");
+            this.scene.start(CONSTANTS.SCENES.LEVEL1); 
+            console.log("Going to Level 1");
         })
 
     }
 }
-
