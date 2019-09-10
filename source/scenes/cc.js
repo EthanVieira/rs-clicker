@@ -24,7 +24,7 @@ export class CCScene extends Phaser.Scene{
             // Stats
     }
     create(){
-
+        let characterClass = CONSTANTS.CLASS.UNARMED;
         // Load the default character creation screen
         this.add.image(0, 0, 'default').setOrigin(0,0).setDepth(0);
 
@@ -51,21 +51,24 @@ export class CCScene extends Phaser.Scene{
         warriorButton.on("pointerup", ()=>{
             // Load the warrior image
             this.add.image(0, 0, 'warrior').setOrigin(0,0).setDepth(0);
+            characterClass = CONSTANTS.CLASS.WARRIOR;
         })
 
         mageButton.on("pointerup", ()=>{
             // Load the mage image
             this.add.image(0, 0, 'mage').setOrigin(0,0).setDepth(0);
+            characterClass = CONSTANTS.CLASS.MAGE;
         })
 
         rangerButton.on("pointerup", ()=>{
             // Load the ranger image
             this.add.image(0, 0, 'ranger').setOrigin(0,0).setDepth(0);
+            characterClass = CONSTANTS.CLASS.RANGER;
         })
 
         // Why isn't level one starting???
         acceptButton.on("pointerup", ()=>{
-            this.scene.start(CONSTANTS.SCENES.LEVEL1); 
+            this.scene.start(CONSTANTS.SCENES.LEVEL1, {characterClass}); 
             console.log("Going to Level 1");
         })
 
