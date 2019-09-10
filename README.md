@@ -28,6 +28,7 @@ Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get g
                   
 Making menu look good - Ethan (Menu branch)
 
+Make character creation screen - Will (character-creation branch)
 
 #### Run Game with Python server:
 
