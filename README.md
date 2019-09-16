@@ -49,6 +49,7 @@ or
 http://127.0.0.1:8000
 
 Previous ideas for class progression
+
 | Upgrades |            |              |                 |                |               |                |             |
 |-------------|------------|--------------|-----------------|----------------|---------------|----------------|-------------|
 | Spells      | Air Strike | Water Blast  | High Alc        | Earth Wave     | Blood Barrage | Ice Barrage    | Fire Surge  |
