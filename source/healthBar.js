@@ -6,10 +6,10 @@ export class HealthBar {
 	y = 0;
 	height = 0;
 	constructor(scene, x, y, maxHealth){
-		// Get coordinates
-		this.x = x/2 + 40 - (5*maxHealth/12);
-		this.y = y/2 - 40;
+		// Offset coordinates based on width/height of health bar
+		this.x = x - 4 - (5*maxHealth/12);
 		this.height = 12;
+		this.y = y - this.height;
 
 		// Get health
 		this.maxHealth = maxHealth;
@@ -17,6 +17,7 @@ export class HealthBar {
 
 		// Construct health bar
 		this.healthBar = scene.add.graphics();
+		this.healthBar.setDepth(3);
         this.healthBar.fillStyle(0x000000); // Border (black)
         this.healthBar.fillRect(this.x, this.y, this.maxHealth+4, this.height+4);
         this.healthBar.fillStyle(0x00ff00);	// Health (green)
@@ -36,7 +37,7 @@ export class HealthBar {
 
         // If dead, bring back to life
         if (this.currentHealth <= 0){
-        	this.currentHealth = maxHealth;
+        	this.currentHealth = this.maxHealth;
         }
 
         // Make health red if below 1/3
