@@ -30,6 +30,8 @@ Making menu look good - Ethan (Menu branch)
 
 Make character creation screen - Will (character-creation branch)
 
+Create initial level mechanics - Curtis (level1 branch)
+
 #### Run Game with Python server:
 
 Python version 2.x:
@@ -46,4 +48,11 @@ http://192.168.1.2:8000
 or
 http://127.0.0.1:8000
 
+Previous ideas for class progression
 
+| Upgrades |            |              |                 |                |               |                |             |
+|-------------|------------|--------------|-----------------|----------------|---------------|----------------|-------------|
+| Spells      | Air Strike | Water Blast  | High Alc        | Earth Wave     | Blood Barrage | Ice Barrage    | Fire Surge  |
+| Weapons     | Dagger     | Sword        | Halberd         | Battle Axe     | Scimitar      |                |             |
+| Ranged      | Shortbow   | Oak Shortbow | Willow Shortbow | Maple Shortbow | Yew Shortbow  | Magic Shortbow | Crystal Bow |
+| Ores        | Bronze     | Iron         | Steel           | Mithril        | Adamant       | Rune           | Dragon      |
