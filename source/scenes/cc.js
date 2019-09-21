@@ -68,7 +68,7 @@ export class CCScene extends Phaser.Scene{
 
         // Why isn't level one starting???
         acceptButton.on("pointerup", ()=>{
-            this.scene.start(CONSTANTS.SCENES.LEVEL1, {characterClass}); 
+            this.scene.start(CONSTANTS.SCENES.LUMBRIDGE, {characterClass}); 
             console.log("Going to Level 1");
         })
 

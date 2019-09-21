@@ -8,6 +8,7 @@ export class Enemy {
 	hitsplatText = '1';
 	scene;
 	killGold;
+	enemyName = '';
 	constructor(data){
 		// Add enemy
 		this.enemy = data.scene.add.image(data.x, data.y, data.imageName);
@@ -15,8 +16,8 @@ export class Enemy {
         this.enemy.setInteractive();
         this.enemy.on("pointerup", ()=>{
         	this.clickEnemy();
-        })
-        data.scene.add.existing(this.enemy);
+        });
+        this.enemyName = data.enemyName;
 
         // Add hitsplats
         this.blueHitsplat = data.scene.add.image(data.x, data.y + 50, 'blue-hitsplat').setOrigin(.5,0).setDepth(3);
@@ -45,18 +46,12 @@ export class Enemy {
 		hitValue == 0 ? this.blueHitsplat.visible = true : this.redHitsplat.visible = true; 
 		this.hitsplatText.visible = true;
 
-		// Lower health and check status
-		let isDead = this.healthBar.updateHealth(hitValue);
-		
-		// Give extra gold if unit is killed
-		if (isDead){
-			hitValue += this.killGold;
-			console.log("Enemy killed, getting " + this.killGold + " extra gold");
-		}
-
-		// Increase gold
+		// Get bonus gold for using mouseclick to encourage user interaction
 		this.scene.gold += hitValue;
 		this.scene.goldText.text = 'Gold: ' + this.scene.gold;
+
+		// Lower health and check life
+		this.damageEnemy(hitValue);
 
 		// Hide hitsplat
 		let _this = this;	// Gross scope workaround
@@ -65,6 +60,30 @@ export class Enemy {
 			_this.blueHitsplat.visible = false;
 			_this.hitsplatText.visible = false;
 		}, 200);
+	}
+	damageEnemy(damage){
+		// Lower health and check status
+		let isDead = this.healthBar.updateHealth(damage);
+		
+		if (isDead){
+			// Give extra gold if unit is killed
+			this.scene.gold += this.killGold;
+			this.scene.goldText.text = 'Gold: ' + this.scene.gold;
+			console.log(this.enemyName + " killed, getting " + this.killGold + " extra gold");
+
+			// Update kill quest score
+			if (this.scene.enemiesKilled < this.scene.killQuest) {
+				this.scene.enemiesKilled++;
+				this.scene.killQuestText.text = this.scene.enemiesKilled + "/" + this.scene.killQuest + " " + this.enemyName + "s killed";
+
+				// Quest completed
+				if (this.scene.enemiesKilled == this.scene.killQuest){
+    				this.scene.questCompleteText.visible = true;
+    				console.log("Quest complete!");
+    			}
+			}
+			
+		}
 	}
 
 }
