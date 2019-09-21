@@ -8,6 +8,7 @@ export class Enemy {
 	hitsplatText = '1';
 	scene;
 	killGold;
+	enemyName = '';
 	constructor(data){
 		// Add enemy
 		this.enemy = data.scene.add.image(data.x, data.y, data.imageName);
@@ -15,7 +16,8 @@ export class Enemy {
         this.enemy.setInteractive();
         this.enemy.on("pointerup", ()=>{
         	this.clickEnemy();
-        })
+        });
+        this.enemyName = data.enemyName;
 
         // Add hitsplats
         this.blueHitsplat = data.scene.add.image(data.x, data.y + 50, 'blue-hitsplat').setOrigin(.5,0).setDepth(3);
@@ -63,12 +65,24 @@ export class Enemy {
 		// Lower health and check status
 		let isDead = this.healthBar.updateHealth(damage);
 		
-		// Give extra gold if unit is killed
 		if (isDead){
+			// Give extra gold if unit is killed
 			this.scene.gold += this.killGold;
 			this.scene.goldText.text = 'Gold: ' + this.scene.gold;
-			console.log("Enemy killed, getting " + this.killGold + " extra gold");
+			console.log(this.enemyName + " killed, getting " + this.killGold + " extra gold");
 
+			// Update kill quest score
+			if (this.scene.enemiesKilled < this.scene.killQuest) {
+				this.scene.enemiesKilled++;
+				this.scene.killQuestText.text = this.scene.enemiesKilled + "/" + this.scene.killQuest + " " + this.enemyName + "s killed";
+
+				// Quest completed
+				if (this.scene.enemiesKilled == this.scene.killQuest){
+    				this.scene.questCompleteText.visible = true;
+    				console.log("Quest complete!");
+    			}
+			}
+			
 		}
 	}
 
