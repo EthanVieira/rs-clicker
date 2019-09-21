@@ -22,7 +22,6 @@ export class HealthBar {
         this.healthBar.fillRect(this.x, this.y, this.maxHealth+4, this.height+4);
         this.healthBar.fillStyle(0x00ff00);	// Health (green)
         this.healthBar.fillRect(this.x+2, this.y+2, this.maxHealth, this.height);
-        scene.add.existing(this.healthBar);
 	}
 	updateHealth(damage){
 		this.healthBar.clear();
@@ -36,7 +35,9 @@ export class HealthBar {
         this.healthBar.fillRect(this.x+2, this.y+2, this.maxHealth, this.height);
 
         // If dead, bring back to life
+        let wasDead = false;
         if (this.currentHealth <= 0){
+        	wasDead = true;
         	this.currentHealth = this.maxHealth;
         }
 
@@ -50,7 +51,7 @@ export class HealthBar {
         }
         
         this.healthBar.fillRect(this.x+2, this.y+2, this.currentHealth, this.height);
-        return (this.currentHealth == 0);
+        return (wasDead);
 	}
 
 }

@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants.js";
 import { Enemy } from "../enemy.js";
+import { AutoClicker } from "../autoClicker.js";
 
 export class Level1 extends Phaser.Scene{
 	width = 0;
@@ -9,6 +10,7 @@ export class Level1 extends Phaser.Scene{
 	goldText = '';
 	characterClass = '';
 	enemy;
+	autoClickers = [];
     constructor() {
         super({
             key: CONSTANTS.SCENES.LEVEL1
@@ -43,8 +45,7 @@ export class Level1 extends Phaser.Scene{
         this.height = this.cameras.main.height;
 
     	// Background
-        let background = this.add.image(0,0, 'lvl1-bg').setOrigin(0,0).setDepth(0);
-        background.setInteractive();
+        this.add.image(0,0, 'lvl1-bg').setOrigin(0,0).setDepth(0);
 
         // Class picture
         this.add.image(0, 0, this.characterClass).setOrigin(0,0).setDepth(1);
@@ -60,7 +61,24 @@ export class Level1 extends Phaser.Scene{
     		maxHealth: 20,
     		imageName: 'cow',
     		killGold: 5
-    	})
+    	});
+
+    	// Button text to test autoclickers
+    	let autoClickerButton = this.add.text(this.width/2, 40, '50 gold for autoclicker', {fill: 'red'}).setDepth(3);
+    	autoClickerButton.setInteractive();
+    	autoClickerButton.on("pointerup", ()=>{
+    		if (this.gold >= 50) {
+    			this.gold -= 50;
+
+    			let autoClicker = new AutoClicker({
+	        		scene: this,
+	        		dps: 5,
+	        		level: 1,
+	        		type: 'Hired Bowman'
+	        	});
+	        	this.autoClickers.push(autoClicker);
+    		}       	
+        });
     }
 	
 }
