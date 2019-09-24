@@ -52,6 +52,10 @@ export class Enemy {
 		// Lower health and check life
 		this.damageEnemy(hitValue);
 
+		// Log hit for stats
+		this.scene.updateClickedEnemyStat();
+		this.scene.updateClickDamageStat(hitValue);
+
 		// Hide hitsplat
 		let _this = this;	// Gross scope workaround
 		setTimeout(function(){

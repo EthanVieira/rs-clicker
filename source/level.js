@@ -18,6 +18,16 @@ export class Level extends Phaser.Scene{
 	enemy;
 	// Stats
 	enemiesKilled = 0;
+    timesClicked = 0;
+    damageByClicking = 0;
+    damageByAutoClick = 0;
+    autoClickDps = 0;
+    //Stats text
+    enemiesKilledText;
+    timesClickedText;
+    damageByClickingText;
+    damageByAutoClickText;
+    autoClickDpsText;
     // Level completion
 	killQuest = 0;
 	killQuestText = '';
@@ -84,13 +94,18 @@ export class Level extends Phaser.Scene{
     		if (this.gold >= 50) {
     			this.addGold(-50);
 
+                let dps = 5;
+                let level = 1;
+                let type = 'Hired Bowman';
+
     			let autoClicker = new AutoClicker({
 	        		scene: this,
-	        		dps: 5,
-	        		level: 1,
-	        		type: 'Hired Bowman'
+	        		dps: dps,
+	        		level: level,
+	        		type: type
 	        	});
 	        	this.autoClickers.push(autoClicker);
+                this.updateAutoClickerDPS(dps);
     		}       	
         });
 
@@ -98,6 +113,13 @@ export class Level extends Phaser.Scene{
         this.killQuestText = this.add.text(this.width/2, 100, this.enemiesKilled + "/" + this.killQuest + " " + this.enemy.name + "s killed", {fill: 'orange'}).setDepth(3);
         this.questCompleteText = this.add.text(this.width/2, 70, 'Quest complete!', {fill: 'orange'}).setDepth(3);
         this.questCompleteText.visible = false;
+
+        // Show stats
+        this.enemiesKilledText = this.add.text(20, 100, "Enemies killed: " + this.enemiesKilled, {fill: 'blue'}).setDepth(3);
+        this.timesClickedText = this.add.text(20, 150, "Times clicked: " + this.timesClicked, {fill: 'blue'}).setDepth(3);
+        this.damageByClickingText = this.add.text(20, 200, "Damage done by clicking: " + this.damageByClicking, {fill: 'blue'}).setDepth(3);
+        this.damageByAutoClickText = this.add.text(20, 250, "Damage done by autoclickers: " + this.damageByAutoClick, {fill: 'blue'}).setDepth(3);
+        this.autoClickDpsText = this.add.text(20, 300, "AutoClicker DPS: " + this.autoClickDps, {fill: 'blue'}).setDepth(3);
     }
     addGold(addedGold){
         this.gold += addedGold;
@@ -107,7 +129,7 @@ export class Level extends Phaser.Scene{
         // Update kill quest score
         if (this.enemiesKilled < this.killQuest) {
             this.enemiesKilled++;
-            this.killQuestText.text = this.enemiesKilled + "/" + this.killQuest + " " + this.enemy.enemyName + "s killed";
+            this.killQuestText.text = this.enemiesKilled + "/" + this.killQuest + " " + this.enemy.name + "s killed";
 
             // Check quest completion
             if (this.enemiesKilled == this.killQuest){
@@ -115,6 +137,23 @@ export class Level extends Phaser.Scene{
                 console.log("Quest complete!");
             }
         }
+        this.enemiesKilledText.text = "Enemies killed: " + this.enemiesKilled;
+    }
+    updateClickedEnemyStat(){
+        this.timesClicked++;
+        this.timesClickedText.text = "Times clicked: " + this.timesClicked;
+    }
+    updateClickDamageStat(damageDone){
+        this.damageByClicking += damageDone;
+        this.damageByClickingText.text = "Damage done by clicking: " + this.damageByClicking;
+    }
+    updateAutoClickDamageStat(damageDone){
+        this.damageByAutoClick += damageDone;
+        this.damageByAutoClickText.text = "Damage done by autoclickers: " + Math.floor(this.damageByAutoClick);
+    }
+    updateAutoClickerDPS(dps){
+        this.autoClickDps += dps;
+        this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
     }
 	
 }
