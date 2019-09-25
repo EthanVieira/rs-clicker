@@ -6,12 +6,12 @@ export class Lumbridge extends Level{
         super({
             key: CONSTANTS.SCENES.LUMBRIDGE,
             killQuest: 10,
-            background: { name: 'lvl1-bg', path: 'source/assets/lvl1bg.png' },
+            background: { name: 'lumbridge', path: 'source/assets/lumbridgeBackground.jpg' },
             enemy: {
                 name: 'cow', 
                 path: 'source/assets/sprites/cow.png',
                 maxHealth: 20,
-                killGold: 5
+                killGold: 5 
             }
         })
     }

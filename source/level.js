@@ -57,7 +57,7 @@ export class Level extends Phaser.Scene{
         this.load.image('red-hitsplat', 'source/assets/Red_Hitsplat.png');
 
 		// Class
-		this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/unarmed.jpg');
+		this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/unarmed.png');
         this.load.image(CONSTANTS.CLASS.WARRIOR, 'source/assets/iron_armor.png');
         this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/oak_bow.png');
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/blue_robe.jpg');
@@ -72,10 +72,10 @@ export class Level extends Phaser.Scene{
         this.add.image(0,0, this.background.name).setOrigin(0,0).setDepth(0);
 
         // Class picture
-        this.add.image(0, 0, this.characterClass).setOrigin(0,0).setDepth(1);
+        this.add.image(0, 350, this.characterClass).setOrigin(0,0).setDepth(1);
 
         // Gold
-        this.goldText = this.add.text(20, 20, 'Gold: ' + this.gold, {fill: 'gold'}).setDepth(3);
+        this.goldText = this.add.text(20, 20, 'Gold: ' + this.gold, {fill: 'gold', fontSize: '30px'}).setDepth(3);
     
     	// Create enemy
     	this.enemy = new Enemy({
@@ -88,7 +88,7 @@ export class Level extends Phaser.Scene{
     	});
 
     	// Button text to test autoclickers
-    	let autoClickerButton = this.add.text(this.width/2, 40, '50 gold for autoclicker', {fill: 'red'}).setDepth(3);
+    	let autoClickerButton = this.add.text(this.width/2, 40, '50 gold for autoclicker', {fill: 'black'}).setDepth(3);
     	autoClickerButton.setInteractive();
     	autoClickerButton.on("pointerup", ()=>{
     		if (this.gold >= 50) {
@@ -110,16 +110,17 @@ export class Level extends Phaser.Scene{
         });
 
         // Create kill quest
-        this.killQuestText = this.add.text(this.width/2, 100, this.enemiesKilled + "/" + this.killQuest + " " + this.enemy.name + "s killed", {fill: 'orange'}).setDepth(3);
+        this.killQuestText = this.add.text(this.width/2, 100, this.enemiesKilled + "/" + this.killQuest + " " + this.enemy.name + "s killed", {fill: 'black'}).setDepth(3);
         this.questCompleteText = this.add.text(this.width/2, 70, 'Quest complete!', {fill: 'orange'}).setDepth(3);
         this.questCompleteText.visible = false;
 
         // Show stats
-        this.enemiesKilledText = this.add.text(20, 100, "Enemies killed: " + this.enemiesKilled, {fill: 'blue'}).setDepth(3);
-        this.timesClickedText = this.add.text(20, 150, "Times clicked: " + this.timesClicked, {fill: 'blue'}).setDepth(3);
-        this.damageByClickingText = this.add.text(20, 200, "Damage done by clicking: " + this.damageByClicking, {fill: 'blue'}).setDepth(3);
-        this.damageByAutoClickText = this.add.text(20, 250, "Damage done by autoclickers: " + this.damageByAutoClick, {fill: 'blue'}).setDepth(3);
-        this.autoClickDpsText = this.add.text(20, 300, "AutoClicker DPS: " + this.autoClickDps, {fill: 'blue'}).setDepth(3);
+        let statColor = 'white';
+        this.enemiesKilledText = this.add.text(20, 100, "Enemies killed: " + this.enemiesKilled, {fill: statColor}).setDepth(3);
+        this.timesClickedText = this.add.text(20, 150, "Times clicked: " + this.timesClicked, {fill: statColor}).setDepth(3);
+        this.damageByClickingText = this.add.text(20, 200, "Damage done by clicking: " + this.damageByClicking, {fill: statColor}).setDepth(3);
+        this.damageByAutoClickText = this.add.text(20, 250, "Damage done by autoclickers: " + this.damageByAutoClick, {fill: statColor}).setDepth(3);
+        this.autoClickDpsText = this.add.text(20, 300, "AutoClicker DPS: " + this.autoClickDps, {fill: statColor}).setDepth(3);
     }
     addGold(addedGold){
         this.gold += addedGold;
