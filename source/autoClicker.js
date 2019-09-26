@@ -19,6 +19,7 @@ export class AutoClicker {
 	clickEnemy(){
 		let damagePerTick = this.dps * this.damageInterval;
 		this.scene.enemy.damageEnemy(damagePerTick);
+		this.scene.updateAutoClickDamageStat(damagePerTick);
 	}
 	getDps(){
 		return this.dps;
