@@ -8,8 +8,9 @@ import { CCScene }   from "./scenes/cc.js"
 import { Lumbridge }    from "./scenes/lumbridge.js"
 
 let game = new Phaser.Game({
-	width: 800,
-	height: 600,
+	width: 765,
+	height: 503,
+	scale: { autoCenter: Phaser.Scale.CENTER_BOTH },
 	scene:[
 		LoadScene, MenuScene, CCScene, Lumbridge
 	]

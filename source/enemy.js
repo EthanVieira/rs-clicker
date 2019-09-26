@@ -12,7 +12,7 @@ export class Enemy {
 	constructor(data){
 		// Add enemy
 		this.enemy = data.scene.add.image(data.x, data.y, data.name);
-        this.enemy.setOrigin(.5,0).setDepth(2).setScale(.5);
+        this.enemy.setOrigin(.5,0).setDepth(2).setScale(.4);
         this.enemy.setInteractive();
         this.enemy.on("pointerup", ()=>{
         	this.clickEnemy();
