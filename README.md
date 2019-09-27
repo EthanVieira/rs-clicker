@@ -3,7 +3,6 @@
 #### TODO
 
 Future:
-* Cookies save and reload state
 * New/existing play buttons, new prompts “are you sure” if cookies exist
 * Minimap allows you to navigate between maps
   * Could be new scene or pop up
@@ -23,6 +22,15 @@ In progress:
 * Make character creation screen - Will (character-creation branch)
 
 * Create initial level mechanics - Curtis (lumbridge branch)
+* Cookies save and reload state
+  * Current:
+    * Gold
+    * Class
+    * Misc stats
+  * Needed:
+    * Unlocked areas
+    * Autoclicker
+    * Other upgrades
 
 Potential ideas:
 * Enemies drop items that can be used for crafting
