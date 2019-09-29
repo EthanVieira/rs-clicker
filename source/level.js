@@ -10,22 +10,23 @@ export class Level extends Phaser.Scene{
     background;
     minimap;
     timeDelta = 0;
-    // Money
-	gold = 0;
-	goldText = '';
     // Character
-	characterClass = '';
+    characterData = {
+        gold: 0,
+        characterClass: '',
+        enemiesKilled: 0,
+        timesClicked: 0,
+        damageByClicking: 0,
+        damageByAutoClick: 0,
+        autoClickDps: 0
+    };
+    // Autoclickers
     autoClickers = [];
     // Enemy
-	enemy;
-    enemyObj;
-	// Stats
-	enemiesKilled = 0;
-    timesClicked = 0;
-    damageByClicking = 0;
-    damageByAutoClick = 0;
-    autoClickDps = 0;
-    //Stats text
+	enemySettings; // From constructor
+    enemy;
+    // Text
+    goldText = '';
     enemiesKilledText;
     timesClickedText;
     damageByClickingText;
@@ -44,18 +45,15 @@ export class Level extends Phaser.Scene{
         this.killQuest = data.killQuest;
         this.background = data.background;
         this.minimap = data.minimap;
-        this.enemy = data.enemy;
+        this.enemySettings = data.enemy;
     }
     init(characterData) {
         // Always receive character class
-        this.characterClass = characterData.characterClass;
+        this.characterData.characterClass = characterData.characterClass;
 
         // Receive cookies if they exist
         if (characterData.hasCookies){
-            this.gold = characterData.gold;
-            this.enemiesKilled = characterData.enemiesKilled;
-            this.timesClicked = characterData.timesClicked;
-            this.damageByClicking = characterData.damageByClicking;
+            this.characterData = characterData;
         }
     }
     preload(){
@@ -69,7 +67,7 @@ export class Level extends Phaser.Scene{
         this.load.image('overlay', 'source/assets/InterfaceNoChat.png');
 
 		// Enemy
-		this.load.image(this.enemy.name, this.enemy.path);
+		this.load.image(this.enemySettings.name, this.enemySettings.path);
         this.load.image('blue-hitsplat', 'source/assets/Blue_Hitsplat.png');
         this.load.image('red-hitsplat', 'source/assets/Red_Hitsplat.png');
 
@@ -80,7 +78,7 @@ export class Level extends Phaser.Scene{
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/blue_robe.jpg');
     }
     create(){
-    	console.log(this.characterClass);
+    	console.log(this.characterData.characterClass);
     	// Helper vars
     	this.width = this.cameras.main.width;
         this.height = this.cameras.main.height;
@@ -92,13 +90,7 @@ export class Level extends Phaser.Scene{
         this.minimap.obj = this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
         this.minimap.obj.setInteractive();
         this.minimap.obj.on("pointerup", ()=>{
-            this.scene.start(CONSTANTS.SCENES.MAP, {
-                characterClass: this.characterClass, 
-                gold: this.gold,
-                enemiesKilled: this.enemiesKilled,
-                timesClicked: this.timesClicked,
-                damageByClicking: this.damageByClicking
-            }); 
+            this.scene.start(CONSTANTS.SCENES.MAP, this.characterData); 
             console.log("Going to World Map");     
         })
 
@@ -106,26 +98,26 @@ export class Level extends Phaser.Scene{
         this.add.image(0,0, 'overlay').setOrigin(0,0).setDepth(1);
 
         // Class picture
-        this.add.image(0, 250, this.characterClass).setOrigin(0,0).setDepth(2);
+        this.add.image(0, 250, this.characterData.characterClass).setOrigin(0,0).setDepth(2);
 
         // Gold
-        this.goldText = this.add.text(20, 20, 'Gold: ' + this.gold, {fill: 'gold', fontSize: '30px'}).setDepth(3);
+        this.goldText = this.add.text(20, 20, 'Gold: ' + this.characterData.gold, {fill: 'gold', fontSize: '30px'}).setDepth(3);
     
     	// Create enemy
-    	this.enemyObj = new Enemy({
+    	this.enemy = new Enemy({
     		scene: this,
     		x: this.width/2-100,
     		y: this.height/2-115,
-    		maxHealth: this.enemy.maxHealth,
-    		name: this.enemy.name,
-    		killGold: this.enemy.killGold
+    		maxHealth: this.enemySettings.maxHealth,
+    		name: this.enemySettings.name,
+    		killGold: this.enemySettings.killGold
     	});
 
     	// Button text to test autoclickers
     	let autoClickerButton = this.add.text(530, 250, '50 gold for autoclicker', {fill: 'white'}).setDepth(3);
     	autoClickerButton.setInteractive();
     	autoClickerButton.on("pointerup", ()=>{
-    		if (this.gold >= 50) {
+    		if (this.characterData.gold >= 50) {
     			this.addGold(-50);
 
                 let dps = 5;
@@ -144,17 +136,17 @@ export class Level extends Phaser.Scene{
         });
 
         // Create kill quest
-        this.killQuestText = this.add.text(530, 270, this.enemiesKilled + "/" + this.killQuest + " " + this.enemy.name + "s killed", {fill: 'white'}).setDepth(3);
+        this.killQuestText = this.add.text(530, 270, this.characterData.enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed", {fill: 'white'}).setDepth(3);
         this.questCompleteText = this.add.text(530, 290, 'Quest complete!', {fill: 'white'}).setDepth(3);
         this.questCompleteText.visible = false;
 
         // Show stats
         let statColor = 'white';
-        this.enemiesKilledText = this.add.text(20, 60, "Enemies killed: " + this.enemiesKilled, {fill: statColor}).setDepth(3);
-        this.timesClickedText = this.add.text(20, 75, "Times clicked: " + this.timesClicked, {fill: statColor}).setDepth(3);
-        this.damageByClickingText = this.add.text(20, 90, "Damage done by clicking: " + this.damageByClicking, {fill: statColor}).setDepth(3);
-        this.damageByAutoClickText = this.add.text(20, 105, "Damage done by autoclickers: " + this.damageByAutoClick, {fill: statColor}).setDepth(3);
-        this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {fill: statColor}).setDepth(3);
+        this.enemiesKilledText = this.add.text(20, 60, "Enemies killed: " + this.characterData.enemiesKilled, {fill: statColor}).setDepth(3);
+        this.timesClickedText = this.add.text(20, 75, "Times clicked: " + this.characterData.timesClicked, {fill: statColor}).setDepth(3);
+        this.damageByClickingText = this.add.text(20, 90, "Damage done by clicking: " + this.characterData.damageByClicking, {fill: statColor}).setDepth(3);
+        this.damageByAutoClickText = this.add.text(20, 105, "Damage done by autoclickers: " + this.characterData.damageByAutoClick, {fill: statColor}).setDepth(3);
+        this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.characterData.autoClickDps, {fill: statColor}).setDepth(3);
     }
     update(time, delta){
         // Update cookies every second
@@ -175,11 +167,13 @@ export class Level extends Phaser.Scene{
 
         // Store all data
         let cookieArray = [ 
-            {name: "gold", value: this.gold},
-            {name: "characterClass", value: this.characterClass},
-            {name: "enemiesKilled", value: this.enemiesKilled},
-            {name: "timesClicked", value: this.timesClicked},
-            {name: "damageByClicking", value: this.damageByClicking},
+            {name: "gold", value: this.characterData.gold},
+            {name: "characterClass", value: this.characterData.characterClass},
+            {name: "enemiesKilled", value: this.characterData.enemiesKilled},
+            {name: "timesClicked", value: this.characterData.timesClicked},
+            {name: "damageByClicking", value: this.characterData.damageByClicking},
+            {name: "damageByAutoClick", value: this.characterData.damageByAutoClick},
+            {name: "autoClickDps", value: this.characterData.autoClickDps}
         ];
         //document.cookie = "";
         cookieArray.forEach((data) => {
@@ -188,38 +182,38 @@ export class Level extends Phaser.Scene{
 
     }
     addGold(addedGold){
-        this.gold += addedGold;
-        this.goldText.text = 'Gold: ' + this.gold;
+        this.characterData.gold += addedGold;
+        this.goldText.text = 'Gold: ' + this.characterData.gold;
     }
     enemyKilled(){
         // Update kill quest score
-        if (this.enemiesKilled < this.killQuest) {
-            this.enemiesKilled++;
-            this.killQuestText.text = this.enemiesKilled + "/" + this.killQuest + " " + this.enemy.name + "s killed";
+        if (this.characterData.enemiesKilled < this.killQuest) {
+            this.characterData.enemiesKilled++;
+            this.killQuestText.text = this.characterData.enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed";
 
             // Check quest completion
-            if (this.enemiesKilled == this.killQuest){
+            if (this.characterData.enemiesKilled == this.killQuest){
                 this.questCompleteText.visible = true;
                 console.log("Quest complete!");
             }
         }
-        this.enemiesKilledText.text = "Enemies killed: " + this.enemiesKilled;
+        this.enemiesKilledText.text = "Enemies killed: " + this.characterData.enemiesKilled;
     }
     updateClickedEnemyStat(){
-        this.timesClicked++;
-        this.timesClickedText.text = "Times clicked: " + this.timesClicked;
+        this.characterData.timesClicked++;
+        this.timesClickedText.text = "Times clicked: " + this.characterData.timesClicked;
     }
     updateClickDamageStat(damageDone){
-        this.damageByClicking += damageDone;
-        this.damageByClickingText.text = "Damage done by clicking: " + this.damageByClicking;
+        this.characterData.damageByClicking += damageDone;
+        this.damageByClickingText.text = "Damage done by clicking: " + this.characterData.damageByClicking;
     }
     updateAutoClickDamageStat(damageDone){
-        this.damageByAutoClick += damageDone;
-        this.damageByAutoClickText.text = "Damage done by autoclickers: " + Math.floor(this.damageByAutoClick);
+        this.characterData.damageByAutoClick += damageDone;
+        this.damageByAutoClickText.text = "Damage done by autoclickers: " + Math.floor(this.characterData.damageByAutoClick);
     }
     updateAutoClickerDPS(dps){
-        this.autoClickDps += dps;
-        this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
+        this.characterData.autoClickDps += dps;
+        this.autoClickDpsText.text = "AutoClicker DPS: " + this.characterData.autoClickDps;
     }
 	
 }

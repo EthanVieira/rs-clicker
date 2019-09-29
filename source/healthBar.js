@@ -24,9 +24,9 @@ export class HealthBar {
         this.healthBar.fillRect(this.x+2, this.y+2, this.maxHealth, this.height);
 	}
 	updateHealth(damage){
-		this.healthBar.clear();
+        this.healthBar.clear();
 
-		// Border (black)
+        // Border (black)
         this.healthBar.fillStyle(0x000000);
         this.healthBar.fillRect(this.x, this.y, this.maxHealth+4, this.height+4);
 
@@ -37,19 +37,19 @@ export class HealthBar {
         // If dead, bring back to life
         let wasDead = false;
         if (this.currentHealth <= 0){
-        	wasDead = true;
-        	this.currentHealth = this.maxHealth;
+            wasDead = true;
+            this.currentHealth = this.maxHealth;
         }
 
         // Make health red if below 1/3
-		this.currentHealth -= damage;
+        this.currentHealth -= damage;
         if (this.currentHealth < this.maxHealth/3){
-        	this.healthBar.fillStyle(0xff0000);
+            this.healthBar.fillStyle(0xff0000);
         }
         else{
-        	this.healthBar.fillStyle(0x00ff00);
+            this.healthBar.fillStyle(0x00ff00);
         }
-        
+
         this.healthBar.fillRect(this.x+2, this.y+2, this.currentHealth, this.height);
         return (wasDead);
 	}
