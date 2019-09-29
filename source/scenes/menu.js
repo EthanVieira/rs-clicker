@@ -11,7 +11,6 @@ export class MenuScene extends Phaser.Scene{
     }
     preload(){
 
-        // Load buttons here I guess since loading in LoadScene is currently busted
         // NEED:
         // Play 
         
