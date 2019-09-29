@@ -17,7 +17,7 @@ Future:
 In progress:
 * Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get gold
                   
-* Making menu look good - Ethan (Menu branch)
+* nothing atm - Ethan 
 
 * Make character creation screen - Will (character-creation branch)
 
