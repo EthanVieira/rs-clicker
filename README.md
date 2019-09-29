@@ -3,9 +3,9 @@
 #### TODO
 
 Future:
+* Need to create a consistent characterData object that contains subobjects so that we only have to send/receive it through init/scene transitions
+  * Ex: this.characterData = characterData vs this.gold = data.gold; this.enemiesKilled = data.enemiesKilled; etc.
 * New/existing play buttons, new prompts “are you sure” if cookies exist
-* Minimap allows you to navigate between maps
-  * Could be new scene or pop up
 * Make new maps/enemies (tutorial island)
 * Put stats into stats window
 * Put quests into quest window
@@ -22,6 +22,8 @@ In progress:
 * Make character creation screen - Will (character-creation branch)
 
 * Create initial level mechanics - Curtis (lumbridge branch)
+* Minimap allows you to navigate between maps
+  * Need to figure out how to keep labels with map when it's dragged
 * Cookies save and reload state
   * Current:
     * Gold
