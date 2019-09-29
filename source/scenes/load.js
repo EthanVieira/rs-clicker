@@ -97,9 +97,17 @@ export class LoadScene extends Phaser.Scene{
         this.load.image('chicken', 'source/assets/sprites/chicken.jpg');
  		this.load.image('lesser-demon', 'source/assets/sprites/Lesser_demon.png');
         
-        // Backgrounds
+        // Backgrounds/Logos
         this.load.image('menu-bg', 'source/assets/MenuBg.png');
+        this.load.image('menu', 'source/assets/menu.png');
+        this.load.image('rsc-logo', 'source/assets/rsclogo.png');
         this.load.image('lvl1-bg', 'source/assets/lvl1bg.png');
+
+        // Buttons
+        this.load.image('play-button', 'source/assets/playbutton.png');
+        this.load.image('settings-button', 'source/assets/settingsbutton.png');
+
+        // Audio
         
     }
     create(){
