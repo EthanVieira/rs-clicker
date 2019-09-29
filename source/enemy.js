@@ -34,7 +34,6 @@ export class Enemy {
 
 	    // Add health bar
         this.healthBar = new HealthBar(data.scene, data.x, data.y - 40, data.maxHealth);
-        console.log('creating new health bar', data);
 
         // Set other vars
         this.killGold = data.killGold;
