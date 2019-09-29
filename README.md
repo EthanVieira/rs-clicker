@@ -60,16 +60,6 @@ https://github.com/photonstorm/phaser3-examples
 http://labs.phaser.io/
 
 
-<<<<<<< HEAD
-
-#### TODO
-Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get gold
-                  
-Making menu look good - Ethan (Menu branch)
-
-
-=======
->>>>>>> 786dcecea933cc6362d36666de205d9a04052339
 #### Run Game with Python server:
 
 Python version 2.x:
