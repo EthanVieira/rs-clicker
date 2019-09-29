@@ -5,6 +5,7 @@
 import { LoadScene } from "./scenes/load.js"
 import { MenuScene } from "./scenes/menu.js"
 import { CCScene }   from "./scenes/cc.js"
+import { WorldMap } from "./scenes/worldMap.js"
 import { Lumbridge }    from "./scenes/lumbridge.js"
 
 let game = new Phaser.Game({
@@ -12,6 +13,6 @@ let game = new Phaser.Game({
 	height: 503,
 	scale: { autoCenter: Phaser.Scale.CENTER_BOTH },
 	scene:[
-		LoadScene, MenuScene, CCScene, Lumbridge
+		LoadScene, MenuScene, CCScene, WorldMap, Lumbridge
 	]
 });

@@ -9,6 +9,7 @@ export class Level extends Phaser.Scene{
 	height = 0;
     background;
     minimap;
+    timeDelta = 0;
     // Money
 	gold = 0;
 	goldText = '';
@@ -17,6 +18,7 @@ export class Level extends Phaser.Scene{
     autoClickers = [];
     // Enemy
 	enemy;
+    enemyObj;
 	// Stats
 	enemiesKilled = 0;
     timesClicked = 0;
@@ -45,8 +47,15 @@ export class Level extends Phaser.Scene{
         this.enemy = data.enemy;
     }
     init(characterData) {
-        if (characterData){
-        	this.characterClass = characterData.characterClass;
+        // Always receive character class
+        this.characterClass = characterData.characterClass;
+
+        // Receive cookies if they exist
+        if (characterData.hasCookies){
+            this.gold = characterData.gold;
+            this.enemiesKilled = characterData.enemiesKilled;
+            this.timesClicked = characterData.timesClicked;
+            this.damageByClicking = characterData.damageByClicking;
         }
     }
     preload(){
@@ -80,7 +89,18 @@ export class Level extends Phaser.Scene{
         this.add.image(0,0, this.background.name).setOrigin(0,0).setDepth(0);
 
         // Minimap
-        this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
+        this.minimap.obj = this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
+        this.minimap.obj.setInteractive();
+        this.minimap.obj.on("pointerup", ()=>{
+            this.scene.start(CONSTANTS.SCENES.MAP, {
+                characterClass: this.characterClass, 
+                gold: this.gold,
+                enemiesKilled: this.enemiesKilled,
+                timesClicked: this.timesClicked,
+                damageByClicking: this.damageByClicking
+            }); 
+            console.log("Going to World Map");     
+        })
 
         // Overlay
         this.add.image(0,0, 'overlay').setOrigin(0,0).setDepth(1);
@@ -92,7 +112,7 @@ export class Level extends Phaser.Scene{
         this.goldText = this.add.text(20, 20, 'Gold: ' + this.gold, {fill: 'gold', fontSize: '30px'}).setDepth(3);
     
     	// Create enemy
-    	this.enemy = new Enemy({
+    	this.enemyObj = new Enemy({
     		scene: this,
     		x: this.width/2-100,
     		y: this.height/2-115,
@@ -135,6 +155,37 @@ export class Level extends Phaser.Scene{
         this.damageByClickingText = this.add.text(20, 90, "Damage done by clicking: " + this.damageByClicking, {fill: statColor}).setDepth(3);
         this.damageByAutoClickText = this.add.text(20, 105, "Damage done by autoclickers: " + this.damageByAutoClick, {fill: statColor}).setDepth(3);
         this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {fill: statColor}).setDepth(3);
+    }
+    update(time, delta){
+        // Update cookies every second
+        if (this.timeDelta >= 1000) {
+            this.storeCookies();
+            this.timeDelta = 0;
+        }
+        else {
+            this.timeDelta += delta;
+        }
+    }
+    storeCookies(){
+        // Lasts for one year
+        let cookieExpirationDate = 365; 
+        let dateTime = new Date();
+        dateTime.setTime(dateTime.getTime() + (cookieExpirationDate*24*60*60*1000));
+        let expireString = 'expires=' + dateTime.toUTCString();
+
+        // Store all data
+        let cookieArray = [ 
+            {name: "gold", value: this.gold},
+            {name: "characterClass", value: this.characterClass},
+            {name: "enemiesKilled", value: this.enemiesKilled},
+            {name: "timesClicked", value: this.timesClicked},
+            {name: "damageByClicking", value: this.damageByClicking},
+        ];
+        //document.cookie = "";
+        cookieArray.forEach((data) => {
+            document.cookie = data.name + "=" + data.value + ";" + expireString + ";path=/;";
+        });
+
     }
     addGold(addedGold){
         this.gold += addedGold;
