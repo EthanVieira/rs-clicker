@@ -54,8 +54,8 @@ export class MenuScene extends Phaser.Scene{
 
         // Why isn't level one starting???
         playButton.on("pointerup", ()=>{
-            this.scene.start(CONSTANTS.SCENES.LEVEL1); 
-            console.log("oof");
+            this.scene.start(CONSTANTS.SCENES.CC); 
+            console.log("Going to Character Creation");
         })
 
     }

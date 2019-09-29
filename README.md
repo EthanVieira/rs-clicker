@@ -1,5 +1,43 @@
 # RS Clicker
 
+#### TODO
+
+Future:
+* New/existing play buttons, new prompts “are you sure” if cookies exist
+* Minimap allows you to navigate between maps
+  * Could be new scene or pop up
+* Make new maps/enemies (tutorial island)
+* Put stats into stats window
+* Put quests into quest window
+* Make shop window or use inventory for purchasing/upgrades
+* Scale damage based on purchases
+* Add sound
+* Add snazzy screenshots to Readme
+
+In progress:
+* Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get gold
+                  
+* Making menu look good - Ethan (Menu branch)
+
+* Make character creation screen - Will (character-creation branch)
+
+* Create initial level mechanics - Curtis (lumbridge branch)
+* Cookies save and reload state
+  * Current:
+    * Gold
+    * Class
+    * Misc stats
+  * Needed:
+    * Unlocked areas
+    * Autoclicker
+    * Other upgrades
+
+Potential ideas:
+* Enemies drop items that can be used for crafting
+* Remove character from bottom left and move to character page
+* Grey out unused buttons
+* Put zezima on the friends list
+
 #### Random resources
 
 https://www.youtube.com/playlist?list=PLitFP8FdScfHcJQ-kDmm0i6aOhinVO7ND
@@ -22,6 +60,7 @@ https://github.com/photonstorm/phaser3-examples
 http://labs.phaser.io/
 
 
+<<<<<<< HEAD
 
 #### TODO
 Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get gold
@@ -29,6 +68,8 @@ Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get g
 Making menu look good - Ethan (Menu branch)
 
 
+=======
+>>>>>>> 786dcecea933cc6362d36666de205d9a04052339
 #### Run Game with Python server:
 
 Python version 2.x:
@@ -45,4 +86,11 @@ http://192.168.1.2:8000
 or
 http://127.0.0.1:8000
 
+Previous ideas for class progression
 
+| Upgrades |            |              |                 |                |               |                |             |
+|-------------|------------|--------------|-----------------|----------------|---------------|----------------|-------------|
+| Spells      | Air Strike | Water Blast  | High Alc        | Earth Wave     | Blood Barrage | Ice Barrage    | Fire Surge  |
+| Weapons     | Dagger     | Sword        | Halberd         | Battle Axe     | Scimitar      |                |             |
+| Ranged      | Shortbow   | Oak Shortbow | Willow Shortbow | Maple Shortbow | Yew Shortbow  | Magic Shortbow | Crystal Bow |
+| Ores        | Bronze     | Iron         | Steel           | Mithril        | Adamant       | Rune           | Dragon      |
