@@ -3,6 +3,7 @@ export const CONSTANTS = {
         LOAD: "LOAD",
         MENU: "MENU",
         CC: "CC",
+        MAP: "MAP",
         LUMBRIDGE: "LUMBRIDGE"
     },
     CLASS: {

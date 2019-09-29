@@ -52,7 +52,6 @@ export class Level extends Phaser.Scene{
         // Receive cookies if they exist
         if (characterData.hasCookies){
             this.gold = characterData.gold;
-            this.characterClass = characterData.characterClass;
             this.enemiesKilled = characterData.enemiesKilled;
             this.timesClicked = characterData.timesClicked;
             this.damageByClicking = characterData.damageByClicking;
@@ -89,7 +88,18 @@ export class Level extends Phaser.Scene{
         this.add.image(0,0, this.background.name).setOrigin(0,0).setDepth(0);
 
         // Minimap
-        this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
+        this.minimap.obj = this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
+        this.minimap.obj.setInteractive();
+        this.minimap.obj.on("pointerup", ()=>{
+            this.scene.start(CONSTANTS.SCENES.MAP, {
+                characterClass: this.characterClass, 
+                gold: this.gold,
+                enemiesKilled: this.enemiesKilled,
+                timesClicked: this.timesClicked,
+                damageByClicking: this.damageByClicking
+            }); 
+            console.log("Going to World Map");     
+        })
 
         // Overlay
         this.add.image(0,0, 'overlay').setOrigin(0,0).setDepth(1);
