@@ -11,22 +11,21 @@ export class MenuScene extends Phaser.Scene{
         // receieve data from other scene that initialized this scene
     }
     preload(){
-        // Image won't show up unless i preload it here as well?? Why do I need to do this again
-        this.load.image('menu-bg', 'source/assets/MenuBg.png');
 
-        // Load buttons here I guess since loading in LoadScene is currently busted
         // NEED:
         // Play 
-        this.load.image('play-button', 'source/assets/playbutton.png');
+        
         // Settings
         // Stats
     }
     create(){
         // create the menu screen
         this.add.image(0, 0, 'menu-bg').setOrigin(0,0).setDepth(0);
+        this.add.image(400, 300, 'menu').setDepth(1);
+        this.add.image(400, 125, 'rsc-logo').setDepth(1);
 
-        // Buttons
-        let playButton = this.add.image(300, 300, "play-button").setDepth(1);
+        // Play
+        let playButton = this.add.image(485, 321, "play-button").setDepth(1);
         playButton.setInteractive();
         playButton.on("pointerup", ()=>{
             if (!this.levelData.characterClass) {
@@ -38,6 +37,9 @@ export class MenuScene extends Phaser.Scene{
                 console.log("Going to Lumbridge");
             }
         })
+
+        // Settings
+        let settingsButton = this.add.image(319, 321, "settings-button").setDepth(1);
 
         // Pull in previous data
         this.getCookies();

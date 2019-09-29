@@ -18,6 +18,7 @@ export class Level extends Phaser.Scene{
     autoClickers = [];
     // Enemy
 	enemy;
+    enemyObj;
 	// Stats
 	enemiesKilled = 0;
     timesClicked = 0;
@@ -111,7 +112,7 @@ export class Level extends Phaser.Scene{
         this.goldText = this.add.text(20, 20, 'Gold: ' + this.gold, {fill: 'gold', fontSize: '30px'}).setDepth(3);
     
     	// Create enemy
-    	this.enemy = new Enemy({
+    	this.enemyObj = new Enemy({
     		scene: this,
     		x: this.width/2-100,
     		y: this.height/2-115,
