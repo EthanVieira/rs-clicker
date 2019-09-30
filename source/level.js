@@ -18,6 +18,7 @@ export class Level extends Phaser.Scene{
         timesClicked: 0,
         damageByClicking: 0,
         damageByAutoClick: 0,
+        numberOfAutoClickers: 0
     };
     // Autoclickers
     autoClickers = [];
@@ -134,6 +135,7 @@ export class Level extends Phaser.Scene{
 	        		level: level,
 	        		type: type
 	        	});
+	        	this.characterData.numberOfAutoClickers++;
 	        	this.autoClickers.push(autoClicker);
                 this.updateAutoClickerDPS(dps);
     		}       	
@@ -153,14 +155,13 @@ export class Level extends Phaser.Scene{
         this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {fill: statColor}).setDepth(3);
     
         // Unpause autoclickers
-            for (let i = 0; i < this.autoClickers.length; i++) {
-                this.autoClickers[i].pause = false;
-            }
+        for (let i = 0; i < this.autoClickers.length; i++) {
+            this.autoClickers[i].pause = false;
+        }
        
         // Re-add autoclickers from cookies on first load
         if (this.characterData.hasCookies && this.autoClickers.length == 0){
             for (let i = 0; i < this.characterData.numberOfAutoClickers; i++) {
-                console.log('adding');
                 let dps = 5;
                 let level = 1;
                 let type = 'Hired Bowman';
@@ -193,20 +194,9 @@ export class Level extends Phaser.Scene{
         dateTime.setTime(dateTime.getTime() + (cookieExpirationDate*24*60*60*1000));
         let expireString = 'expires=' + dateTime.toUTCString();
 
-        // Store all data
-        let cookieArray = [ 
-            {name: "gold", value: this.characterData.gold},
-            {name: "characterClass", value: this.characterData.characterClass},
-            {name: "enemiesKilled", value: this.characterData.enemiesKilled},
-            {name: "timesClicked", value: this.characterData.timesClicked},
-            {name: "damageByClicking", value: this.characterData.damageByClicking},
-            {name: "damageByAutoClick", value: this.characterData.damageByAutoClick},
-            {name: "numberOfAutoClickers", value: this.autoClickers.length}
-        ];
-        //document.cookie = "";
-        cookieArray.forEach((data) => {
-            document.cookie = data.name + "=" + data.value + ";" + expireString + ";path=/;";
-        });
+        // Turn characterData into a json string and store it in a cookie
+        let jsonString = JSON.stringify(this.characterData);
+        document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
 
     }
     addGold(addedGold){
