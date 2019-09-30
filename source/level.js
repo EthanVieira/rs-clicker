@@ -18,10 +18,10 @@ export class Level extends Phaser.Scene{
         timesClicked: 0,
         damageByClicking: 0,
         damageByAutoClick: 0,
-        autoClickDps: 0
     };
     // Autoclickers
     autoClickers = [];
+    autoClickDps = 0;
     // Enemy
 	enemySettings; // From constructor
     enemy;
@@ -90,6 +90,10 @@ export class Level extends Phaser.Scene{
         this.minimap.obj = this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
         this.minimap.obj.setInteractive();
         this.minimap.obj.on("pointerup", ()=>{
+            // Pause autoclickers
+            for (let i = 0; i < this.autoClickers.length; i++) {
+                this.autoClickers[i].pause = true;
+            }
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData); 
             console.log("Going to World Map");     
         })
@@ -146,7 +150,31 @@ export class Level extends Phaser.Scene{
         this.timesClickedText = this.add.text(20, 75, "Times clicked: " + this.characterData.timesClicked, {fill: statColor}).setDepth(3);
         this.damageByClickingText = this.add.text(20, 90, "Damage done by clicking: " + this.characterData.damageByClicking, {fill: statColor}).setDepth(3);
         this.damageByAutoClickText = this.add.text(20, 105, "Damage done by autoclickers: " + this.characterData.damageByAutoClick, {fill: statColor}).setDepth(3);
-        this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.characterData.autoClickDps, {fill: statColor}).setDepth(3);
+        this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {fill: statColor}).setDepth(3);
+    
+        // Unpause autoclickers
+            for (let i = 0; i < this.autoClickers.length; i++) {
+                this.autoClickers[i].pause = false;
+            }
+       
+        // Re-add autoclickers from cookies on first load
+        if (this.characterData.hasCookies && this.autoClickers.length == 0){
+            for (let i = 0; i < this.characterData.numberOfAutoClickers; i++) {
+                console.log('adding');
+                let dps = 5;
+                let level = 1;
+                let type = 'Hired Bowman';
+
+                let autoClicker = new AutoClicker({
+                    scene: this,
+                    dps: dps,
+                    level: level,
+                    type: type
+                });
+                this.autoClickers.push(autoClicker);
+                this.updateAutoClickerDPS(dps);
+            }
+        }
     }
     update(time, delta){
         // Update cookies every second
@@ -173,7 +201,7 @@ export class Level extends Phaser.Scene{
             {name: "timesClicked", value: this.characterData.timesClicked},
             {name: "damageByClicking", value: this.characterData.damageByClicking},
             {name: "damageByAutoClick", value: this.characterData.damageByAutoClick},
-            {name: "autoClickDps", value: this.characterData.autoClickDps}
+            {name: "numberOfAutoClickers", value: this.autoClickers.length}
         ];
         //document.cookie = "";
         cookieArray.forEach((data) => {
@@ -212,8 +240,8 @@ export class Level extends Phaser.Scene{
         this.damageByAutoClickText.text = "Damage done by autoclickers: " + Math.floor(this.characterData.damageByAutoClick);
     }
     updateAutoClickerDPS(dps){
-        this.characterData.autoClickDps += dps;
-        this.autoClickDpsText.text = "AutoClicker DPS: " + this.characterData.autoClickDps;
+        this.autoClickDps += dps;
+        this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
     }
 	
 }
