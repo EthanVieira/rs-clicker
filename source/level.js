@@ -19,8 +19,10 @@ export class Level extends Phaser.Scene{
         damageByClicking: 0,
         damageByAutoClick: 0,
         numberOfAutoClickers: 0,
-        levelCompletions: {
-        	lumbridge: false
+        unlockedLevels: {
+        	tutorialIsland: true,
+        	lumbridge: true,
+        	varrock: false
         }
     };
     // Autoclickers
@@ -149,7 +151,7 @@ export class Level extends Phaser.Scene{
         this.questCompleteText = this.add.text(530, 290, 'Quest complete!', {fill: 'white'}).setDepth(3);
 
         // If level quest has already been completed
-        if (!this.characterData.levelCompletions.lumbridge) {
+        if (!this.characterData.unlockedLevels.lumbridge) {
         	this.questCompleteText.visible = false;
         }
 
@@ -223,7 +225,7 @@ export class Level extends Phaser.Scene{
                 // Store for cookies
                 switch(this.background.name) {
                 	case "lumbridge":
-                		this.characterData.levelCompletions.lumbridge = true;
+                		this.characterData.unlockedLevels.varrock = true;
                 		break;
                 }
                 console.log("Quest complete!");
