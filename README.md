@@ -2,9 +2,9 @@
 
 #### TODO
 
+[Trello board for tasks](https://trello.com/b/hJYfFDMr)
+
 Future:
-* Need to create a consistent characterData object that contains subobjects so that we only have to send/receive it through init/scene transitions
-  * Ex: this.characterData = characterData vs this.gold = data.gold; this.enemiesKilled = data.enemiesKilled; etc.
 * New/existing play buttons, new prompts “are you sure” if cookies exist
 * Make new maps/enemies (tutorial island)
 * Put stats into stats window
@@ -24,15 +24,6 @@ In progress:
 * Create initial level mechanics - Curtis (lumbridge branch)
 * Minimap allows you to navigate between maps
   * Need to figure out how to keep labels with map when it's dragged
-* Cookies save and reload state
-  * Current:
-    * Gold
-    * Class
-    * Misc stats
-  * Needed:
-    * Unlocked areas
-    * Autoclicker
-    * Other upgrades
 
 Potential ideas:
 * Enemies drop items that can be used for crafting

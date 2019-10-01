@@ -1,7 +1,7 @@
 import { CONSTANTS } from "../constants.js";
 
 export class MenuScene extends Phaser.Scene{
-    levelData = {};
+    characterData = {};
     constructor() {
         super({
             key: CONSTANTS.SCENES.MENU
@@ -28,12 +28,12 @@ export class MenuScene extends Phaser.Scene{
         let playButton = this.add.image(485, 321, "play-button").setDepth(1);
         playButton.setInteractive();
         playButton.on("pointerup", ()=>{
-            if (!this.levelData.characterClass) {
+            if (!this.characterData.characterClass) {
                 this.scene.start(CONSTANTS.SCENES.CC); 
                 console.log("Going to Character Creation");
             }
             else {
-                this.scene.start(CONSTANTS.SCENES.LUMBRIDGE, this.levelData); 
+                this.scene.start(CONSTANTS.SCENES.LUMBRIDGE, this.characterData); 
                 console.log("Going to Lumbridge");
             }
         })
@@ -45,30 +45,15 @@ export class MenuScene extends Phaser.Scene{
         this.getCookies();
     }
     getCookies(){
-        let cookieArray = ["gold", "characterClass", "enemiesKilled", "timesClicked", "damageByClicking"];
-
+        // Pull out first cookie
         let decodedCookies = decodeURIComponent(document.cookie).split(';');
-        for (let i = 0; i < decodedCookies.length; i++) {
-            let cookie = decodedCookies[i];
+        if (decodedCookies[0] != "") {
 
-            // Let level know we have cookies
-            this.levelData.hasCookies = true;
-
-            // Remove starting whitespace
-            while (cookie[0] == ' ') {
-                cookie = cookie.substring(1);
-            }
-
-            // Save cookie
-            if (cookie != "") {
-            	let cookieCrumbs = cookie.split('=');	// Split into (0)name|(1)value
-		        let tempValue = parseInt(cookieCrumbs[1]);
-		        if (tempValue) { // Int
-		        	eval("this.levelData." + cookieCrumbs[0] + "=" + tempValue);
-		        }
-		        else { // String
-		        	eval("this.levelData." + cookieCrumbs[0] + "='" + cookieCrumbs[1] + "'");
-		        }
+            // Split into (0)name|(1)value
+            let cookieCrumbs = decodedCookies[0].split('=');   
+            if (cookieCrumbs[0] == "characterData") {
+                this.characterData = JSON.parse(cookieCrumbs[1]);
+                this.characterData.hasCookies = true;
             }
         }
     }
