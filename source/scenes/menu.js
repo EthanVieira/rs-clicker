@@ -48,9 +48,13 @@ export class MenuScene extends Phaser.Scene{
         // Pull out first cookie
         let decodedCookies = decodeURIComponent(document.cookie).split(';');
         if (decodedCookies[0] != "") {
-            let cookieCrumbs = decodedCookies[0].split('=');   // Split into (0)name|(1)value
-            this.characterData = JSON.parse(cookieCrumbs[1]);
-            this.characterData.hasCookies = true;
+
+            // Split into (0)name|(1)value
+            let cookieCrumbs = decodedCookies[0].split('=');   
+            if (cookieCrumbs[0] == "characterData") {
+                this.characterData = JSON.parse(cookieCrumbs[1]);
+                this.characterData.hasCookies = true;
+            }
         }
     }
 }

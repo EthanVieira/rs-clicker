@@ -18,7 +18,10 @@ export class Level extends Phaser.Scene{
         timesClicked: 0,
         damageByClicking: 0,
         damageByAutoClick: 0,
-        numberOfAutoClickers: 0
+        numberOfAutoClickers: 0,
+        levelCompletions: {
+        	lumbridge: false
+        }
     };
     // Autoclickers
     autoClickers = [];
@@ -144,7 +147,11 @@ export class Level extends Phaser.Scene{
         // Create kill quest
         this.killQuestText = this.add.text(530, 270, this.characterData.enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed", {fill: 'white'}).setDepth(3);
         this.questCompleteText = this.add.text(530, 290, 'Quest complete!', {fill: 'white'}).setDepth(3);
-        this.questCompleteText.visible = false;
+
+        // If level quest has already been completed
+        if (!this.characterData.levelCompletions.lumbridge) {
+        	this.questCompleteText.visible = false;
+        }
 
         // Show stats
         let statColor = 'white';
@@ -212,6 +219,13 @@ export class Level extends Phaser.Scene{
             // Check quest completion
             if (this.characterData.enemiesKilled == this.killQuest){
                 this.questCompleteText.visible = true;
+
+                // Store for cookies
+                switch(this.background.name) {
+                	case "lumbridge":
+                		this.characterData.levelCompletions.lumbridge = true;
+                		break;
+                }
                 console.log("Quest complete!");
             }
         }
