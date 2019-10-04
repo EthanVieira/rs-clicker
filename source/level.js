@@ -7,29 +7,46 @@ export class Level extends Phaser.Scene{
     // General
 	width = 0;
 	height = 0;
-    background;
-    minimap;
+    background = {
+        name: '',
+        path: ''
+    }
+    minimap = {
+        name: '',
+        path: ''
+    }
     timeDelta = 0;
     // Character
     characterData = {
         gold: 0,
         characterClass: '',
-        enemiesKilled: 0,
+        totalEnemiesKilled: 0,
         timesClicked: 0,
         damageByClicking: 0,
         damageByAutoClick: 0,
         numberOfAutoClickers: 0,
-        unlockedLevels: {
-        	tutorialIsland: true,
-        	lumbridge: true,
-        	varrock: false
+        // Can be accessed with characterData[this.background.name].questCompleted, etc.
+        tutorialIsland: {
+            questCompleted: true,
+            enemiesKilled: 0
+        },
+        lumbridge: {
+            questCompleted: false,
+            enemiesKilled: 0
+        },
+        varrock: {
+            questCompleted: false,
+            enemiesKilled: 0
         }
     };
     // Autoclickers
     autoClickers = [];
     autoClickDps = 0;
     // Enemy
-	enemySettings; // From constructor
+	enemySettings = { // From constructor
+        name: '',
+        path: ''
+    } 
     enemy;
     // Text
     goldText = '';
@@ -147,17 +164,17 @@ export class Level extends Phaser.Scene{
         });
 
         // Create kill quest
-        this.killQuestText = this.add.text(530, 270, this.characterData.enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed", {fill: 'white'}).setDepth(3);
+        this.killQuestText = this.add.text(530, 270, this.characterData[this.background.name].enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed", {fill: 'white'}).setDepth(3);
         this.questCompleteText = this.add.text(530, 290, 'Quest complete!', {fill: 'white'}).setDepth(3);
 
         // If level quest has already been completed
-        if (!this.characterData.unlockedLevels.lumbridge) {
+        if (!this.characterData[this.background.name].questCompleted) {
         	this.questCompleteText.visible = false;
         }
 
         // Show stats
         let statColor = 'white';
-        this.enemiesKilledText = this.add.text(20, 60, "Enemies killed: " + this.characterData.enemiesKilled, {fill: statColor}).setDepth(3);
+        this.enemiesKilledText = this.add.text(20, 60, "Enemies killed: " + this.characterData.totalEnemiesKilled, {fill: statColor}).setDepth(3);
         this.timesClickedText = this.add.text(20, 75, "Times clicked: " + this.characterData.timesClicked, {fill: statColor}).setDepth(3);
         this.damageByClickingText = this.add.text(20, 90, "Damage done by clicking: " + this.characterData.damageByClicking, {fill: statColor}).setDepth(3);
         this.damageByAutoClickText = this.add.text(20, 105, "Damage done by autoclickers: " + this.characterData.damageByAutoClick, {fill: statColor}).setDepth(3);
@@ -197,6 +214,8 @@ export class Level extends Phaser.Scene{
         }
     }
     storeCookies(){
+        this.characterData.hasCookies = true;
+
         // Lasts for one year
         let cookieExpirationDate = 365; 
         let dateTime = new Date();
@@ -214,24 +233,19 @@ export class Level extends Phaser.Scene{
     }
     enemyKilled(){
         // Update kill quest score
-        if (this.characterData.enemiesKilled < this.killQuest) {
-            this.characterData.enemiesKilled++;
-            this.killQuestText.text = this.characterData.enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed";
+        if (this.characterData[this.background.name].enemiesKilled < this.killQuest) {
+            this.characterData.totalEnemiesKilled++;
+            this.characterData[this.background.name].enemiesKilled++;
+            this.killQuestText.text = this.characterData[this.background.name].enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed";
 
             // Check quest completion
-            if (this.characterData.enemiesKilled == this.killQuest){
+            if (this.characterData[this.background.name].enemiesKilled == this.killQuest){
                 this.questCompleteText.visible = true;
-
-                // Store for cookies
-                switch(this.background.name) {
-                	case "lumbridge":
-                		this.characterData.unlockedLevels.varrock = true;
-                		break;
-                }
+                this.characterData[this.background.name].questCompleted = true;
                 console.log("Quest complete!");
             }
         }
-        this.enemiesKilledText.text = "Enemies killed: " + this.characterData.enemiesKilled;
+        this.enemiesKilledText.text = "Enemies killed: " + this.characterData.totalEnemiesKilled;
     }
     updateClickedEnemyStat(){
         this.characterData.timesClicked++;

@@ -11,7 +11,7 @@ export class Lumbridge extends Level{
             enemy: {
                 name: 'cow', 
                 path: 'source/assets/sprites/cow.png',
-                maxHealth: 20,
+                maxHealth: 10,
                 killGold: 5 
             }
         })

@@ -4,6 +4,7 @@ export const CONSTANTS = {
         MENU: "MENU",
         CC: "CC",
         MAP: "MAP",
+        TUTORIALISLAND: "TUTORIALISLAND",
         LUMBRIDGE: "LUMBRIDGE"
     },
     CLASS: {
