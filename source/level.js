@@ -113,10 +113,11 @@ export class Level extends Phaser.Scene{
         this.minimap.obj = this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
         this.minimap.obj.setInteractive();
         this.minimap.obj.on("pointerup", ()=>{
-            // Pause autoclickers
+            // Release autoclickers to be garbage collected
             for (let i = 0; i < this.autoClickers.length; i++) {
-                this.autoClickers[i].pause = true;
+                this.autoClickers[i].release();
             }
+            this.autoClickers = [];
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData); 
             console.log("Going to World Map");     
         })
@@ -146,20 +147,7 @@ export class Level extends Phaser.Scene{
     	autoClickerButton.on("pointerup", ()=>{
     		if (this.characterData.gold >= 50) {
     			this.addGold(-50);
-
-                let dps = 5;
-                let level = 1;
-                let type = 'Hired Bowman';
-
-    			let autoClicker = new AutoClicker({
-	        		scene: this,
-	        		dps: dps,
-	        		level: level,
-	        		type: type
-	        	});
-	        	this.characterData.numberOfAutoClickers++;
-	        	this.autoClickers.push(autoClicker);
-                this.updateAutoClickerDPS(dps);
+                this.createAutoClicker({dps: 5, level: 1, type: 'Hired Bowman'});
     		}       	
         });
 
@@ -167,7 +155,7 @@ export class Level extends Phaser.Scene{
         this.killQuestText = this.add.text(530, 270, this.characterData[this.background.name].enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed", {fill: 'white'}).setDepth(3);
         this.questCompleteText = this.add.text(530, 290, 'Quest complete!', {fill: 'white'}).setDepth(3);
 
-        // If level quest has already been completed
+        // Hide text if level quest has not been completed
         if (!this.characterData[this.background.name].questCompleted) {
         	this.questCompleteText.visible = false;
         }
@@ -179,27 +167,15 @@ export class Level extends Phaser.Scene{
         this.damageByClickingText = this.add.text(20, 90, "Damage done by clicking: " + this.characterData.damageByClicking, {fill: statColor}).setDepth(3);
         this.damageByAutoClickText = this.add.text(20, 105, "Damage done by autoclickers: " + this.characterData.damageByAutoClick, {fill: statColor}).setDepth(3);
         this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {fill: statColor}).setDepth(3);
-    
-        // Unpause autoclickers
-        for (let i = 0; i < this.autoClickers.length; i++) {
-            this.autoClickers[i].pause = false;
-        }
        
         // Re-add autoclickers from cookies on first load
         if (this.characterData.hasCookies && this.autoClickers.length == 0){
-            for (let i = 0; i < this.characterData.numberOfAutoClickers; i++) {
-                let dps = 5;
-                let level = 1;
-                let type = 'Hired Bowman';
-
-                let autoClicker = new AutoClicker({
-                    scene: this,
-                    dps: dps,
-                    level: level,
-                    type: type
-                });
-                this.autoClickers.push(autoClicker);
-                this.updateAutoClickerDPS(dps);
+            let numAutoClickers = this.characterData.numberOfAutoClickers;
+            this.characterData.numberOfAutoClickers = 0;
+            this.autoClickDps = 0;
+            this.updateAutoClickerDPS(0);
+            for (let i = 0; i < numAutoClickers; i++) {
+                this.createAutoClicker({dps: 5, level: 1, type: 'Hired Bowman'});
             }
         }
     }
@@ -262,6 +238,17 @@ export class Level extends Phaser.Scene{
     updateAutoClickerDPS(dps){
         this.autoClickDps += dps;
         this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
+    }
+    createAutoClicker(data){
+        let autoClicker = new AutoClicker({
+            scene: this,
+            dps: data.dps,
+            level: data.level,
+            type: data.type
+        });
+        this.autoClickers.push(autoClicker);
+        this.updateAutoClickerDPS(data.dps);
+        this.characterData.numberOfAutoClickers++;
     }
 	
 }

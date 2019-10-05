@@ -10,7 +10,6 @@ export class WorldMap extends Phaser.Scene{
     init(characterData) {
     	// Carry along character data
     	this.characterData = characterData;
-        console.log(this.characterData.gold);
     }
     preload(){
     	// Background
