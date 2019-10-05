@@ -95,7 +95,7 @@ export class LoadScene extends Phaser.Scene{
 
         // Enemies
         this.load.image('chicken', 'source/assets/sprites/chicken.jpg');
- 		this.load.image('lesser-demon', 'source/assets/sprites/Lesser_demon.png');
+        this.load.image('lesser-demon', 'source/assets/sprites/Lesser_demon.png');
         
         // Backgrounds/Logos
         this.load.image('menu-bg', 'source/assets/MenuBg.png');

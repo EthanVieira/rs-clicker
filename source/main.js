@@ -10,10 +10,10 @@ import { TutorialIsland } from "./scenes/tutorialIsland.js"
 import { Lumbridge }    from "./scenes/lumbridge.js"
 
 let game = new Phaser.Game({
-	width: 765,
-	height: 503,
-	scale: { autoCenter: Phaser.Scale.CENTER_BOTH },
-	scene:[
-		LoadScene, MenuScene, CCScene, WorldMap, TutorialIsland, Lumbridge
-	]
+    width: 765,
+    height: 503,
+    scale: { autoCenter: Phaser.Scale.CENTER_BOTH },
+    scene:[
+        LoadScene, MenuScene, CCScene, WorldMap, TutorialIsland, Lumbridge
+    ]
 });

@@ -5,8 +5,8 @@ import { AutoClicker } from "./autoClicker.js";
 // Parent level class
 export class Level extends Phaser.Scene{
     // General
-	width = 0;
-	height = 0;
+    width = 0;
+    height = 0;
     background = {
         name: '',
         path: ''
@@ -43,7 +43,7 @@ export class Level extends Phaser.Scene{
     autoClickers = [];
     autoClickDps = 0;
     // Enemy
-	enemySettings = { // From constructor
+    enemySettings = { // From constructor
         name: '',
         path: ''
     } 
@@ -56,9 +56,9 @@ export class Level extends Phaser.Scene{
     damageByAutoClickText;
     autoClickDpsText;
     // Level completion
-	killQuest = 0;
-	killQuestText = '';
-	questCompleteText = '';
+    killQuest = 0;
+    killQuestText = '';
+    questCompleteText = '';
     constructor(data) {
         super({
             key: data.key
@@ -81,7 +81,7 @@ export class Level extends Phaser.Scene{
     }
     preload(){
         // Background
-		this.load.image(this.background.name, this.background.path);
+        this.load.image(this.background.name, this.background.path);
 
         // Minimap
         this.load.image(this.minimap.name, this.minimap.path);
@@ -89,24 +89,24 @@ export class Level extends Phaser.Scene{
         // Overlay
         this.load.image('overlay', 'source/assets/InterfaceNoChat.png');
 
-		// Enemy
-		this.load.image(this.enemySettings.name, this.enemySettings.path);
+        // Enemy
+        this.load.image(this.enemySettings.name, this.enemySettings.path);
         this.load.image('blue-hitsplat', 'source/assets/Blue_Hitsplat.png');
         this.load.image('red-hitsplat', 'source/assets/Red_Hitsplat.png');
 
-		// Class
-		this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/unarmed.png');
+        // Class
+        this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/unarmed.png');
         this.load.image(CONSTANTS.CLASS.WARRIOR, 'source/assets/iron_armor.png');
         this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/oak_bow.png');
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/blue_robe.jpg');
     }
     create(){
-    	console.log(this.characterData.characterClass);
-    	// Helper vars
-    	this.width = this.cameras.main.width;
+        console.log(this.characterData.characterClass);
+        // Helper vars
+        this.width = this.cameras.main.width;
         this.height = this.cameras.main.height;
 
-    	// Background
+        // Background
         this.add.image(0,0, this.background.name).setOrigin(0,0).setDepth(0);
 
         // Minimap
@@ -131,24 +131,24 @@ export class Level extends Phaser.Scene{
         // Gold
         this.goldText = this.add.text(20, 20, 'Gold: ' + this.characterData.gold, {fill: 'gold', fontSize: '30px'}).setDepth(3);
     
-    	// Create enemy
-    	this.enemy = new Enemy({
-    		scene: this,
-    		x: this.width/2-100,
-    		y: this.height/2-115,
-    		maxHealth: this.enemySettings.maxHealth,
-    		name: this.enemySettings.name,
-    		killGold: this.enemySettings.killGold
-    	});
+        // Create enemy
+        this.enemy = new Enemy({
+            scene: this,
+            x: this.width/2-100,
+            y: this.height/2-115,
+            maxHealth: this.enemySettings.maxHealth,
+            name: this.enemySettings.name,
+            killGold: this.enemySettings.killGold
+        });
 
-    	// Button text to test autoclickers
-    	let autoClickerButton = this.add.text(530, 250, '50 gold for autoclicker', {fill: 'white'}).setDepth(3);
-    	autoClickerButton.setInteractive();
-    	autoClickerButton.on("pointerup", ()=>{
-    		if (this.characterData.gold >= 50) {
-    			this.addGold(-50);
+        // Button text to test autoclickers
+        let autoClickerButton = this.add.text(530, 250, '50 gold for autoclicker', {fill: 'white'}).setDepth(3);
+        autoClickerButton.setInteractive();
+        autoClickerButton.on("pointerup", ()=>{
+            if (this.characterData.gold >= 50) {
+                this.addGold(-50);
                 this.createAutoClicker({dps: 5, level: 1, type: 'Hired Bowman'});
-    		}       	
+            }           
         });
 
         // Create kill quest
@@ -157,7 +157,7 @@ export class Level extends Phaser.Scene{
 
         // Hide text if level quest has not been completed
         if (!this.characterData[this.background.name].questCompleted) {
-        	this.questCompleteText.visible = false;
+            this.questCompleteText.visible = false;
         }
 
         // Show stats
@@ -250,5 +250,5 @@ export class Level extends Phaser.Scene{
         this.updateAutoClickerDPS(data.dps);
         this.characterData.numberOfAutoClickers++;
     }
-	
+    
 }

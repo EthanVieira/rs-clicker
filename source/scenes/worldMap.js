@@ -1,18 +1,18 @@
 import { CONSTANTS } from "../constants.js";
 
 export class WorldMap extends Phaser.Scene{
-	characterData = {};
+    characterData = {};
     constructor() {
         super({
             key: CONSTANTS.SCENES.MAP
         })
     }
     init(characterData) {
-    	// Carry along character data
-    	this.characterData = characterData;
+        // Carry along character data
+        this.characterData = characterData;
     }
     preload(){
-    	// Background
+        // Background
         this.load.image('world-map', 'source/assets/rs_world_map.png');
     }
     create(){
@@ -20,9 +20,9 @@ export class WorldMap extends Phaser.Scene{
         let map = this.add.image(0, 0, 'world-map').setOrigin(0,0).setDepth(0).setInteractive();
         this.input.setDraggable(map);
         this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-	        gameObject.x = dragX;
-	        gameObject.y = dragY;
-	    });
+            gameObject.x = dragX;
+            gameObject.y = dragY;
+        });
 
         // City text
         let tutorialIsland = this.add.text(600, 360, 'Tutorial Island', {fill: 'white', fontSize: '20px'}).setDepth(1);

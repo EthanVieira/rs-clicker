@@ -1,31 +1,31 @@
 export class HealthBar {
-	healthBar;
-	maxHealth = 0;
-	currentHealth = 0;
-	x = 0;
-	y = 0;
-	height = 0;
+    healthBar;
+    maxHealth = 0;
+    currentHealth = 0;
+    x = 0;
+    y = 0;
+    height = 0;
     width = 0;
-	constructor(scene, x, y, maxHealth){
-		// Offset coordinates based on width/height of health bar
+    constructor(scene, x, y, maxHealth){
+        // Offset coordinates based on width/height of health bar
         this.width = maxHealth + 20;
         this.height = 12;
-		this.x = x - 4 - (5*this.width/12);
-		this.y = y - this.height;
+        this.x = x - 4 - (5*this.width/12);
+        this.y = y - this.height;
 
-		// Get health
-		this.maxHealth = maxHealth;
-		this.currentHealth = maxHealth;
+        // Get health
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
 
-		// Construct health bar
-		this.healthBar = scene.add.graphics();
-		this.healthBar.setDepth(3);
+        // Construct health bar
+        this.healthBar = scene.add.graphics();
+        this.healthBar.setDepth(3);
         this.healthBar.fillStyle(0x000000); // Border (black)
         this.healthBar.fillRect(this.x, this.y, this.width+4, this.height+4);
-        this.healthBar.fillStyle(0x00ff00);	// Health (green)
+        this.healthBar.fillStyle(0x00ff00); // Health (green)
         this.healthBar.fillRect(this.x+2, this.y+2, this.width, this.height);
-	}
-	updateHealth(damage){
+    }
+    updateHealth(damage){
         this.healthBar.clear();
 
         // Border (black)
@@ -56,6 +56,6 @@ export class HealthBar {
 
         this.healthBar.fillRect(this.x+2, this.y+2, this.currentHealth * (this.width / this.maxHealth), this.height);
         return (wasDead);
-	}
+    }
 
 }
