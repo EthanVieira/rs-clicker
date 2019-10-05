@@ -5,6 +5,8 @@
 [Trello board for tasks](https://trello.com/b/hJYfFDMr)
 
 Future:
+* Get better pictures tutorial island, etc.
+* Add offset to better center enemies and health bars with different sizes
 * New/existing play buttons, new prompts “are you sure” if cookies exist
 * Make new maps/enemies (Varrock, etc.)
 * Clean up minimap
