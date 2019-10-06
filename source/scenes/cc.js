@@ -13,12 +13,12 @@ export class CCScene extends Phaser.Scene{
         // let scale = 1;
     }
     preload(){
-        this.load.image('default', 'source/assets/cc_default.png');
-        this.load.image('warrior', 'source/assets/cc_warrior.png');
-        this.load.image('ranger', 'source/assets/cc_ranger.png');
-        this.load.image('mage', 'source/assets/cc_mage.png');
+        this.load.image('default', 'source/assets/CC_Unarmed.png');
+        this.load.image('warrior', 'source/assets/CC_Warrior.png');
+        this.load.image('ranger', 'source/assets/CC_Ranger.png');
+        this.load.image('mage', 'source/assets/CC_Mage.png');
 
-        this.load.image('play-button', 'source/assets/playbutton.png');
+        this.load.image('play-button', 'source/assets/PlayButton.png');
         // TODO:
             // Settings
             // Stats
@@ -66,9 +66,8 @@ export class CCScene extends Phaser.Scene{
             characterClass = CONSTANTS.CLASS.RANGER;
         })
 
-        // Why isn't level one starting???
         acceptButton.on("pointerup", ()=>{
-            this.scene.start(CONSTANTS.SCENES.LUMBRIDGE, {characterClass}); 
+            this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, {characterClass}); 
             console.log("Going to Level 1");
         })
 

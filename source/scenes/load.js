@@ -10,7 +10,7 @@ export class LoadScene extends Phaser.Scene{
                     {
                         type: 'image',
                         key: 'lesser-demon',
-                        url: '/source/assets/sprites/Lesser_demon.png'
+                        url: '/source/assets/sprites/LesserDemon.png'
                     }
                 ]
             }
@@ -87,25 +87,25 @@ export class LoadScene extends Phaser.Scene{
         
         // Simulate lag
         for (let i = 0; i < 500; i++) {
-            this.load.image('chicken' + i, 'source/assets/sprites/chicken.jpg');
+            this.load.image('chicken' + i, 'source/assets/sprites/Chicken.jpg');
         }
 
         // Fonts
         //this.load.bitmapFont('rsfont', 'source/assets/fonts/runescape_uf.bmp');
 
         // Enemies
-        this.load.image('chicken', 'source/assets/sprites/chicken.jpg');
- 		this.load.image('lesser-demon', 'source/assets/sprites/Lesser_demon.png');
+        this.load.image('chicken', 'source/assets/sprites/Chicken.jpg');
+        this.load.image('lesser-demon', 'source/assets/sprites/LesserDemon.png');
         
         // Backgrounds/Logos
         this.load.image('menu-bg', 'source/assets/MenuBg.png');
-        this.load.image('menu', 'source/assets/menu.png');
-        this.load.image('rsc-logo', 'source/assets/rsclogo.png');
+        this.load.image('menu', 'source/assets/Menu.png');
+        this.load.image('rsc-logo', 'source/assets/RSCLogo.png');
         this.load.image('lvl1-bg', 'source/assets/lvl1bg.png');
 
         // Buttons
-        this.load.image('play-button', 'source/assets/playbutton.png');
-        this.load.image('settings-button', 'source/assets/settingsbutton.png');
+        this.load.image('play-button', 'source/assets/PlayButton.png');
+        this.load.image('settings-button', 'source/assets/SettingsButton.png');
 
         // Audio
         

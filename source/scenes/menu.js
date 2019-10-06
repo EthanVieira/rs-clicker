@@ -33,8 +33,8 @@ export class MenuScene extends Phaser.Scene{
                 console.log("Going to Character Creation");
             }
             else {
-                this.scene.start(CONSTANTS.SCENES.LUMBRIDGE, this.characterData); 
-                console.log("Going to Lumbridge");
+                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData); 
+                console.log("Going to Tutorial Island");
             }
         })
 
@@ -53,7 +53,6 @@ export class MenuScene extends Phaser.Scene{
             let cookieCrumbs = decodedCookies[0].split('=');   
             if (cookieCrumbs[0] == "characterData") {
                 this.characterData = JSON.parse(cookieCrumbs[1]);
-                this.characterData.hasCookies = true;
             }
         }
     }

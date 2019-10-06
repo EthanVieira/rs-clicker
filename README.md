@@ -5,8 +5,11 @@
 [Trello board for tasks](https://trello.com/b/hJYfFDMr)
 
 Future:
+* Get better pictures tutorial island, etc.
+* Add offset to better center enemies and health bars with different sizes
 * New/existing play buttons, new prompts “are you sure” if cookies exist
-* Make new maps/enemies (tutorial island)
+* Make new maps/enemies (Varrock, etc.)
+* Clean up minimap
 * Put stats into stats window
 * Put quests into quest window
 * Make shop window or use inventory for purchasing/upgrades
@@ -15,15 +18,13 @@ Future:
 * Add snazzy screenshots to Readme
 
 In progress:
-* Load -> Main Menu -> Game interface -> Certain areas to fight/train skills/get gold
                   
 * nothing atm - Ethan 
 
-* Make character creation screen - Will (character-creation branch)
+* nothing atm - Will
 
-* Create initial level mechanics - Curtis (lumbridge branch)
-* Minimap allows you to navigate between maps
-  * Need to figure out how to keep labels with map when it's dragged
+* Tutorial Island - Curtis
+
 
 Potential ideas:
 * Enemies drop items that can be used for crafting
