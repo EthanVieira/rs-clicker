@@ -13,7 +13,7 @@ export class WorldMap extends Phaser.Scene{
     }
     preload(){
         // Background
-        this.load.image('world-map', 'source/assets/rs_world_map.png');
+        this.load.image('world-map', 'source/assets/WorldMap.png');
     }
     create(){
         // Background
@@ -28,7 +28,7 @@ export class WorldMap extends Phaser.Scene{
         let tutorialIsland = this.add.text(600, 360, 'Tutorial Island', {fill: 'white', fontSize: '20px'}).setDepth(1);
         tutorialIsland.setInteractive();
         tutorialIsland.on('pointerup', ()=>{
-            this.scene.start(CONSTANTS.SCENES.TUTORIALISLAND, this.characterData); 
+            this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData); 
             console.log("Going to Tutorial Island");   
         })
 

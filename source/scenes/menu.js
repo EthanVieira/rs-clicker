@@ -33,7 +33,7 @@ export class MenuScene extends Phaser.Scene{
                 console.log("Going to Character Creation");
             }
             else {
-                this.scene.start(CONSTANTS.SCENES.TUTORIALISLAND, this.characterData); 
+                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData); 
                 console.log("Going to Tutorial Island");
             }
         })

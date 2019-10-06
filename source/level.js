@@ -27,7 +27,7 @@ export class Level extends Phaser.Scene{
         numberOfAutoClickers: 0,
         // Can be accessed with characterData[this.background.name].questCompleted, etc.
         tutorialIsland: {
-            questCompleted: true,
+            questCompleted: false,
             enemiesKilled: 0
         },
         lumbridge: {
@@ -91,14 +91,14 @@ export class Level extends Phaser.Scene{
 
         // Enemy
         this.load.image(this.enemySettings.name, this.enemySettings.path);
-        this.load.image('blue-hitsplat', 'source/assets/Blue_Hitsplat.png');
-        this.load.image('red-hitsplat', 'source/assets/Red_Hitsplat.png');
+        this.load.image('blue-hitsplat', 'source/assets/BlueHitsplat.png');
+        this.load.image('red-hitsplat', 'source/assets/RedHitsplat.png');
 
         // Class
-        this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/unarmed.png');
-        this.load.image(CONSTANTS.CLASS.WARRIOR, 'source/assets/iron_armor.png');
-        this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/oak_bow.png');
-        this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/blue_robe.jpg');
+        this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/sprites/Unarmed.png');
+        this.load.image(CONSTANTS.CLASS.WARRIOR, 'source/assets/sprites/Warrior.png');
+        this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/sprites/Ranger.png');
+        this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/sprites/Mage.jpg');
     }
     create(){
         console.log(this.characterData.characterClass);
