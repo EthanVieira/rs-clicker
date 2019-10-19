@@ -24,6 +24,7 @@ export class HealthBar {
         this.healthBar.fillRect(this.x, this.y, this.width+4, this.height+4);
         this.healthBar.fillStyle(0x00ff00); // Health (green)
         this.healthBar.fillRect(this.x+2, this.y+2, this.width, this.height);
+        this.healthBar.visible = false;
     }
     updateHealth(damage){
         this.healthBar.clear();
@@ -57,5 +58,10 @@ export class HealthBar {
         this.healthBar.fillRect(this.x+2, this.y+2, this.currentHealth * (this.width / this.maxHealth), this.height);
         return (wasDead);
     }
-
+    show() {
+        this.healthBar.visible = true;
+    }
+    hide() {
+        this.healthBar.visible = false;
+    }
 }

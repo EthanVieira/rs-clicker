@@ -8,12 +8,14 @@ export class TutorialIsland extends Level{
             killQuest: 10,
             background: { name: 'tutorialIsland', path: 'source/assets/TutorialIslandBackground.png' },
             minimap: { name: 'tutorialIslandMap', path: 'source/assets/TutorialIslandMap.png'},
-            enemy: {
-                name: 'rat', 
-                path: 'source/assets/sprites/GiantRat.png',
-                maxHealth: 5,
-                killGold: 1 
-            }
+            enemies: [
+                {
+                    name: 'rat', 
+                    path: 'source/assets/sprites/GiantRat.png',
+                    maxHealth: 5,
+                    killGold: 1 
+                }
+            ]
         })
     }
 }

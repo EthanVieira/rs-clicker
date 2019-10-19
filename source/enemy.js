@@ -14,8 +14,12 @@ export class Enemy {
         this.enemy = data.scene.add.image(data.x, data.y, data.name);
         this.enemy.setOrigin(.5,0).setDepth(2).setScale(.4);
         this.enemy.setInteractive();
+        this.enemy.visible = false;
         this.enemy.on("pointerup", ()=>{
-            this.clickEnemy();
+            // Check if it is the current enemy
+            if (this.enemy.visible) {
+                this.clickEnemy();
+            }
         });
         this.name = data.name;
 
@@ -74,8 +78,15 @@ export class Enemy {
             console.log(this.name + " killed, getting " + this.killGold + " extra gold");
 
             // Update quest and stats
-            this.scene.enemyKilled();
+            this.scene.enemyKilled(this.name);
         }
     }
-
+    show() {
+        this.enemy.visible = true;
+        this.healthBar.show();
+    }
+    hide() {
+        this.enemy.visible = false;
+        this.healthBar.hide();
+    }
 }

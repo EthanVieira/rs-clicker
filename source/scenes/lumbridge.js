@@ -8,12 +8,20 @@ export class Lumbridge extends Level{
             killQuest: 10,
             background: { name: 'lumbridge', path: 'source/assets/LumbridgeBackground.jpg' },
             minimap: { name: 'lumbridgeMap', path: 'source/assets/LumbridgeMap.png'},
-            enemy: {
-                name: 'cow', 
-                path: 'source/assets/sprites/cow.png',
-                maxHealth: 8,
-                killGold: 5 
-            }
+            enemies: [
+                {
+                    name: 'cow', 
+                    path: 'source/assets/sprites/cow.png',
+                    maxHealth: 8,
+                    killGold: 5 
+                },
+                {
+                    name: 'rat', 
+                    path: 'source/assets/sprites/GiantRat.png',
+                    maxHealth: 5,
+                    killGold: 1 
+                },
+            ]
         })
     }
 }
