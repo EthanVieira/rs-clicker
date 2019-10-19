@@ -1,58 +1,18 @@
 # RS Clicker
 
+![alt text](/source/assets/rsclogo.jpg "Swanky RS Clicker logo")
+
 #### TODO
 
 [Trello board for tasks](https://trello.com/b/hJYfFDMr)
 
-Future:
-* Get better pictures tutorial island, etc.
-* Add offset to better center enemies and health bars with different sizes
-* New/existing play buttons, new prompts “are you sure” if cookies exist
-* Make new maps/enemies (Varrock, etc.)
-* Clean up minimap
-* Put stats into stats window
-* Put quests into quest window
-* Make shop window or use inventory for purchasing/upgrades
-* Scale damage based on purchases
-* Add sound
-* Add snazzy screenshots to Readme
+Future ideas: See trello board
 
 In progress:
                   
 * quest window - Ethan 
-
 * nothing atm - Will
-
-* Tutorial Island - Curtis
-
-
-Potential ideas:
-* Enemies drop items that can be used for crafting
-* Remove character from bottom left and move to character page
-* Grey out unused buttons
-* Put zezima on the friends list
-
-#### Random resources
-
-https://www.youtube.com/playlist?list=PLitFP8FdScfHcJQ-kDmm0i6aOhinVO7ND
-
-https://gamedevacademy.org/phaser-tutorial-how-to-create-an-idle-clicker-game/ -- I think this is Phaser 2
-
-https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
-
-https://gamedevacademy.org/category/tutorials/phaser-tutorials/phaser-3-tutorials/
-
-https://gamedevacademy.org/free-ebook-how-to-create-a-game-with-phaser-3/
-
-https://photonstorm.github.io/phaser3-docs/index.html
-
-
-Repo of examples:
-https://github.com/photonstorm/phaser3-examples
-
-
-http://labs.phaser.io/
-
+* coming up with big brain ideas - Curtis
 
 #### Run Game with Python server:
 
@@ -78,3 +38,25 @@ Previous ideas for class progression
 | Weapons     | Dagger     | Sword        | Halberd         | Battle Axe     | Scimitar      |                |             |
 | Ranged      | Shortbow   | Oak Shortbow | Willow Shortbow | Maple Shortbow | Yew Shortbow  | Magic Shortbow | Crystal Bow |
 | Ores        | Bronze     | Iron         | Steel           | Mithril        | Adamant       | Rune           | Dragon      |
+
+#### Random resources
+
+https://www.youtube.com/playlist?list=PLitFP8FdScfHcJQ-kDmm0i6aOhinVO7ND
+
+https://gamedevacademy.org/phaser-tutorial-how-to-create-an-idle-clicker-game/ -- I think this is Phaser 2
+
+https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
+
+https://gamedevacademy.org/category/tutorials/phaser-tutorials/phaser-3-tutorials/
+
+https://gamedevacademy.org/free-ebook-how-to-create-a-game-with-phaser-3/
+
+https://photonstorm.github.io/phaser3-docs/index.html
+
+
+Repo of examples:
+https://github.com/photonstorm/phaser3-examples
+
+
+http://labs.phaser.io/
+
