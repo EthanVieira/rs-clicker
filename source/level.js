@@ -130,6 +130,7 @@ export class Level extends Phaser.Scene{
                 this.autoClickers[i].release();
             }
             this.autoClickers = [];
+            this.enemyObjects = [];
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData); 
             console.log("Going to World Map");     
         })
