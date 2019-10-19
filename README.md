@@ -19,7 +19,7 @@ Future:
 
 In progress:
                   
-* nothing atm - Ethan 
+* interface buttons - Ethan 
 
 * nothing atm - Will
 
