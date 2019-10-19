@@ -237,9 +237,9 @@ export class Level extends Phaser.Scene{
     }
 
     enemyKilled(name){
+        this.characterData.totalEnemiesKilled++;
         // Update kill quest score
         if (this.characterData[this.background.name].enemiesKilled[name] < this.killQuest) {
-            this.characterData.totalEnemiesKilled++;
             this.characterData[this.background.name].enemiesKilled[name]++;
 
             let questCompleted = true;
@@ -255,14 +255,13 @@ export class Level extends Phaser.Scene{
                 if (this.characterData[this.background.name].enemiesKilled[enemy.name] < this.killQuest) {
                     questCompleted = false;
                 }
+                // Set as complete if all passed on last index
+                else if (questCompleted && index == this.enemyMetadata.length - 1) {
+                    this.questCompleteText.visible = true;
+                    this.characterData[this.background.name].questCompleted = true;
+                    console.log("Quest complete!");
+                }
             });
-
-            // Check quest completion
-            if (questCompleted){
-                this.questCompleteText.visible = true;
-                this.characterData[this.background.name].questCompleted = true;
-                console.log("Quest complete!");
-            }
         }
         this.enemiesKilledText.text = "Enemies killed: " + this.characterData.totalEnemiesKilled;
     
