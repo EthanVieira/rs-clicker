@@ -2,7 +2,7 @@
 
 ![alt text](/source/assets/rsclogo.jpg "Swanky RS Clicker logo")
 
-#### TODO
+### TODO
 
 [Trello board for tasks](https://trello.com/b/hJYfFDMr)
 
@@ -14,7 +14,7 @@ In progress:
 * nothing atm - Will
 * coming up with big brain ideas - Curtis
 
-#### Run Game with Python server:
+### Run Game with Python server:
 
 Python version 2.x:
 
@@ -30,16 +30,7 @@ http://192.168.1.2:8000
 or
 http://127.0.0.1:8000
 
-Previous ideas for class progression
-
-| Upgrades |            |              |                 |                |               |                |             |
-|-------------|------------|--------------|-----------------|----------------|---------------|----------------|-------------|
-| Spells      | Air Strike | Water Blast  | High Alc        | Earth Wave     | Blood Barrage | Ice Barrage    | Fire Surge  |
-| Weapons     | Dagger     | Sword        | Halberd         | Battle Axe     | Scimitar      |                |             |
-| Ranged      | Shortbow   | Oak Shortbow | Willow Shortbow | Maple Shortbow | Yew Shortbow  | Magic Shortbow | Crystal Bow |
-| Ores        | Bronze     | Iron         | Steel           | Mithril        | Adamant       | Rune           | Dragon      |
-
-#### Random resources
+### Random resources
 
 https://www.youtube.com/playlist?list=PLitFP8FdScfHcJQ-kDmm0i6aOhinVO7ND
 
