@@ -9,6 +9,7 @@ export class Enemy {
     scene;
     killGold;
     name = '';
+
     constructor(data){
         // Add enemy
         this.enemy = data.scene.add.image(data.x, data.y, data.name);
@@ -43,6 +44,7 @@ export class Enemy {
         this.killGold = data.killGold;
         this.scene = data.scene;
     }
+
     clickEnemy(){
         // Display hit
         let hitValue = Math.floor( Math.random()*2 ); // Currently just 50-50 chance 0/1
@@ -68,6 +70,7 @@ export class Enemy {
             _this.hitsplatText.visible = false;
         }, 200);
     }
+
     damageEnemy(damage){
         // Lower health and check status
         let isDead = this.healthBar.updateHealth(damage);
@@ -81,10 +84,12 @@ export class Enemy {
             this.scene.enemyKilled(this.name);
         }
     }
+
     show() {
         this.enemy.visible = true;
         this.healthBar.show();
     }
+    
     hide() {
         this.enemy.visible = false;
         this.healthBar.hide();

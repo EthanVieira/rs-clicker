@@ -64,6 +64,7 @@ export class Level extends Phaser.Scene{
     killQuest = 0;
     killQuestText = '';
     questCompleteText = '';
+
     constructor(data) {
         super({
             key: data.key
@@ -76,6 +77,7 @@ export class Level extends Phaser.Scene{
         //this.enemySettings = data.enemy;
         this.enemyMetadata = data.enemies;
     }
+
     init(characterData) {
         // Always receive character class
         this.characterData.characterClass = characterData.characterClass;
@@ -85,6 +87,7 @@ export class Level extends Phaser.Scene{
             this.characterData = characterData;
         }
     }
+
     preload(){
         // Background
         this.load.image(this.background.name, this.background.path);
@@ -108,6 +111,7 @@ export class Level extends Phaser.Scene{
         this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/sprites/Ranger.png');
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/sprites/Mage.jpg');
     }
+
     create(){
         console.log(this.characterData.characterClass);
         // Helper vars
@@ -201,6 +205,7 @@ export class Level extends Phaser.Scene{
             }
         }
     }
+
     update(time, delta){
         // Update cookies every second
         if (this.timeDelta >= 1000) {
@@ -211,6 +216,7 @@ export class Level extends Phaser.Scene{
             this.timeDelta += delta;
         }
     }
+
     storeCookies(){
         this.characterData.hasCookies = true;
 
@@ -224,10 +230,12 @@ export class Level extends Phaser.Scene{
         let jsonString = JSON.stringify(this.characterData);
         document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
     }
+
     addGold(addedGold){
         this.characterData.gold += addedGold;
         this.goldText.text = 'Gold: ' + this.characterData.gold;
     }
+
     enemyKilled(name){
         // Update kill quest score
         if (this.characterData[this.background.name].enemiesKilled[name] < this.killQuest) {
@@ -261,22 +269,27 @@ export class Level extends Phaser.Scene{
         // Get new enemy
         this.showRandomEnemy();
     }
+
     updateClickedEnemyStat(){
         this.characterData.timesClicked++;
         this.timesClickedText.text = "Times clicked: " + this.characterData.timesClicked;
     }
+
     updateClickDamageStat(damageDone){
         this.characterData.damageByClicking += damageDone;
         this.damageByClickingText.text = "Damage done by clicking: " + this.characterData.damageByClicking;
     }
+
     updateAutoClickDamageStat(damageDone){
         this.characterData.damageByAutoClick += damageDone;
         this.damageByAutoClickText.text = "Damage done by autoclickers: " + Math.floor(this.characterData.damageByAutoClick);
     }
+
     updateAutoClickerDPS(dps){
         this.autoClickDps += dps;
         this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
     }
+
     createAutoClicker(data){
         let autoClicker = new AutoClicker({
             scene: this,
@@ -288,11 +301,13 @@ export class Level extends Phaser.Scene{
         this.updateAutoClickerDPS(data.dps);
         this.characterData.numberOfAutoClickers++;
     }
+
     showRandomEnemy() {
         this.enemyObjects[this.currentEnemyIndex].hide();
         this.currentEnemyIndex = Math.floor(Math.random() * this.enemyMetadata.length);
         this.enemyObjects[this.currentEnemyIndex].show();
     }
+    
     damageCurrentEnemy(damage) {
         this.enemyObjects[this.currentEnemyIndex].damageEnemy(damage);
     }

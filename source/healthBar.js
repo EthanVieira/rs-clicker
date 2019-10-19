@@ -6,6 +6,7 @@ export class HealthBar {
     y = 0;
     height = 0;
     width = 0;
+
     constructor(scene, x, y, maxHealth){
         // Offset coordinates based on width/height of health bar
         this.width = maxHealth + 20;
@@ -26,6 +27,7 @@ export class HealthBar {
         this.healthBar.fillRect(this.x+2, this.y+2, this.width, this.height);
         this.healthBar.visible = false;
     }
+
     updateHealth(damage){
         this.healthBar.clear();
 
@@ -58,9 +60,11 @@ export class HealthBar {
         this.healthBar.fillRect(this.x+2, this.y+2, this.currentHealth * (this.width / this.maxHealth), this.height);
         return (wasDead);
     }
+
     show() {
         this.healthBar.visible = true;
     }
+    
     hide() {
         this.healthBar.visible = false;
     }
