@@ -19,7 +19,7 @@ Future:
 
 In progress:
                   
-* interface buttons - Ethan 
+* quest window - Ethan 
 
 * nothing atm - Will
 
