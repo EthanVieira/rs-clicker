@@ -5,6 +5,7 @@ export class AutoClicker {
     type = '';
     damageInterval = 0;
     timer = {};
+
     constructor(data){
         console.log("Creating " + data.type + " autoclicker with " + data.dps + " dps");
         // Pull into local objects
@@ -17,17 +18,21 @@ export class AutoClicker {
         this.damageInterval = .1;
         this.timer = setInterval(this.clickEnemy.bind(this), this.damageInterval * 1000);
     }
+
     clickEnemy(){
         let damagePerTick = this.dps * this.damageInterval;
-        this.scene.enemy.damageEnemy(damagePerTick);
+        this.scene.damageCurrentEnemy(damagePerTick);
         this.scene.updateAutoClickDamageStat(damagePerTick);
     }
+
     release(){
         clearInterval(this.timer);
     }
+
     getDps(){
         return this.dps;
     }
+    
     getLevel(){
         return this.level;
     }

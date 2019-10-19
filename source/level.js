@@ -28,26 +28,31 @@ export class Level extends Phaser.Scene{
         // Can be accessed with characterData[this.background.name].questCompleted, etc.
         tutorialIsland: {
             questCompleted: false,
-            enemiesKilled: 0
+            enemiesKilled: {
+                rat: 0,
+            }
         },
         lumbridge: {
             questCompleted: false,
-            enemiesKilled: 0
+            enemiesKilled: {
+                cow: 0,
+                goblin: 0
+            }
         },
         varrock: {
             questCompleted: false,
-            enemiesKilled: 0
+            enemiesKilled: {
+                wizard: 0
+            }
         }
     };
     // Autoclickers
     autoClickers = [];
     autoClickDps = 0;
     // Enemy
-    enemySettings = { // From constructor
-        name: '',
-        path: ''
-    } 
-    enemy;
+    enemyMetadata = [];   // name, path, maxHealth, killGold
+    enemyObjects = [];
+    currentEnemyIndex = 0;
     // Text
     goldText = '';
     enemiesKilledText;
@@ -59,6 +64,7 @@ export class Level extends Phaser.Scene{
     killQuest = 0;
     killQuestText = '';
     questCompleteText = '';
+
     constructor(data) {
         super({
             key: data.key
@@ -68,8 +74,10 @@ export class Level extends Phaser.Scene{
         this.killQuest = data.killQuest;
         this.background = data.background;
         this.minimap = data.minimap;
-        this.enemySettings = data.enemy;
+        //this.enemySettings = data.enemy;
+        this.enemyMetadata = data.enemies;
     }
+
     init(characterData) {
         // Always receive character class
         this.characterData.characterClass = characterData.characterClass;
@@ -79,6 +87,7 @@ export class Level extends Phaser.Scene{
             this.characterData = characterData;
         }
     }
+
     preload(){
         // Background
         this.load.image(this.background.name, this.background.path);
@@ -90,7 +99,9 @@ export class Level extends Phaser.Scene{
         this.load.image('overlay', 'source/assets/InterfaceNoChat.png');
 
         // Enemy
-        this.load.image(this.enemySettings.name, this.enemySettings.path);
+        this.enemyMetadata.forEach((enemy) => {
+            this.load.image(enemy.name, enemy.path);
+        });
         this.load.image('blue-hitsplat', 'source/assets/BlueHitsplat.png');
         this.load.image('red-hitsplat', 'source/assets/RedHitsplat.png');
 
@@ -100,6 +111,7 @@ export class Level extends Phaser.Scene{
         this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/sprites/Ranger.png');
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/sprites/Mage.jpg');
     }
+
     create(){
         console.log(this.characterData.characterClass);
         // Helper vars
@@ -118,6 +130,7 @@ export class Level extends Phaser.Scene{
                 this.autoClickers[i].release();
             }
             this.autoClickers = [];
+            this.enemyObjects = [];
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData); 
             console.log("Going to World Map");     
         })
@@ -131,15 +144,22 @@ export class Level extends Phaser.Scene{
         // Gold
         this.goldText = this.add.text(20, 20, 'Gold: ' + this.characterData.gold, {fill: 'gold', fontSize: '30px'}).setDepth(3);
     
-        // Create enemy
-        this.enemy = new Enemy({
-            scene: this,
-            x: this.width/2-100,
-            y: this.height/2-115,
-            maxHealth: this.enemySettings.maxHealth,
-            name: this.enemySettings.name,
-            killGold: this.enemySettings.killGold
+        // Create enemies
+        this.enemyMetadata.forEach((enemy) => {
+            this.enemyObjects.push(
+                new Enemy({
+                    scene: this,
+                    x: this.width/2-100,
+                    y: this.height/2-115,
+                    maxHealth: enemy.maxHealth,
+                    name: enemy.name,
+                    killGold: enemy.killGold
+                })
+            );
         });
+
+        // Choose first displayed enemy
+        this.showRandomEnemy();
 
         // Button text to test autoclickers
         let autoClickerButton = this.add.text(530, 250, '50 gold for autoclicker', {fill: 'white'}).setDepth(3);
@@ -152,7 +172,14 @@ export class Level extends Phaser.Scene{
         });
 
         // Create kill quest
-        this.killQuestText = this.add.text(530, 270, this.characterData[this.background.name].enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed", {fill: 'white'}).setDepth(3);
+        this.killQuestText = this.add.text(530, 270, "", {fill: 'white'}).setDepth(3);
+        this.enemyMetadata.forEach((enemy, index) => {
+            this.killQuestText.text += this.characterData[this.background.name].enemiesKilled[enemy.name] + "/" + this.killQuest + " " + enemy.name + "s";
+            if (index + 1 < this.enemyMetadata.length) {
+                this.killQuestText.text += " & ";
+            }
+        });
+        
         this.questCompleteText = this.add.text(530, 290, 'Quest complete!', {fill: 'white'}).setDepth(3);
 
         // Hide text if level quest has not been completed
@@ -179,6 +206,7 @@ export class Level extends Phaser.Scene{
             }
         }
     }
+
     update(time, delta){
         // Update cookies every second
         if (this.timeDelta >= 1000) {
@@ -189,6 +217,7 @@ export class Level extends Phaser.Scene{
             this.timeDelta += delta;
         }
     }
+
     storeCookies(){
         this.characterData.hasCookies = true;
 
@@ -201,44 +230,66 @@ export class Level extends Phaser.Scene{
         // Turn characterData into a json string and store it in a cookie
         let jsonString = JSON.stringify(this.characterData);
         document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
-
     }
+
     addGold(addedGold){
         this.characterData.gold += addedGold;
         this.goldText.text = 'Gold: ' + this.characterData.gold;
     }
-    enemyKilled(){
-        // Update kill quest score
-        if (this.characterData[this.background.name].enemiesKilled < this.killQuest) {
-            this.characterData.totalEnemiesKilled++;
-            this.characterData[this.background.name].enemiesKilled++;
-            this.killQuestText.text = this.characterData[this.background.name].enemiesKilled + "/" + this.killQuest + " " + this.enemySettings.name + "s killed";
 
-            // Check quest completion
-            if (this.characterData[this.background.name].enemiesKilled == this.killQuest){
-                this.questCompleteText.visible = true;
-                this.characterData[this.background.name].questCompleted = true;
-                console.log("Quest complete!");
-            }
+    enemyKilled(name){
+        this.characterData.totalEnemiesKilled++;
+        // Update kill quest score
+        if (this.characterData[this.background.name].enemiesKilled[name] < this.killQuest) {
+            this.characterData[this.background.name].enemiesKilled[name]++;
+
+            let questCompleted = true;
+            this.killQuestText.text = "";
+            this.enemyMetadata.forEach((enemy, index) => {
+                // Update quest text
+                this.killQuestText.text += this.characterData[this.background.name].enemiesKilled[enemy.name] + "/" + this.killQuest + " " + enemy.name + "s";
+                if (index + 1 < this.enemyMetadata.length) {
+                    this.killQuestText.text += " & ";
+                }
+
+                // Check for quest completion
+                if (this.characterData[this.background.name].enemiesKilled[enemy.name] < this.killQuest) {
+                    questCompleted = false;
+                }
+                // Set as complete if all passed on last index
+                else if (questCompleted && index == this.enemyMetadata.length - 1) {
+                    this.questCompleteText.visible = true;
+                    this.characterData[this.background.name].questCompleted = true;
+                    console.log("Quest complete!");
+                }
+            });
         }
         this.enemiesKilledText.text = "Enemies killed: " + this.characterData.totalEnemiesKilled;
+    
+        // Get new enemy
+        this.showRandomEnemy();
     }
+
     updateClickedEnemyStat(){
         this.characterData.timesClicked++;
         this.timesClickedText.text = "Times clicked: " + this.characterData.timesClicked;
     }
+
     updateClickDamageStat(damageDone){
         this.characterData.damageByClicking += damageDone;
         this.damageByClickingText.text = "Damage done by clicking: " + this.characterData.damageByClicking;
     }
+
     updateAutoClickDamageStat(damageDone){
         this.characterData.damageByAutoClick += damageDone;
         this.damageByAutoClickText.text = "Damage done by autoclickers: " + Math.floor(this.characterData.damageByAutoClick);
     }
+
     updateAutoClickerDPS(dps){
         this.autoClickDps += dps;
         this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
     }
+
     createAutoClicker(data){
         let autoClicker = new AutoClicker({
             scene: this,
@@ -250,5 +301,14 @@ export class Level extends Phaser.Scene{
         this.updateAutoClickerDPS(data.dps);
         this.characterData.numberOfAutoClickers++;
     }
+
+    showRandomEnemy() {
+        this.enemyObjects[this.currentEnemyIndex].hide();
+        this.currentEnemyIndex = Math.floor(Math.random() * this.enemyMetadata.length);
+        this.enemyObjects[this.currentEnemyIndex].show();
+    }
     
+    damageCurrentEnemy(damage) {
+        this.enemyObjects[this.currentEnemyIndex].damageEnemy(damage);
+    }
 }
