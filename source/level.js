@@ -36,7 +36,7 @@ export class Level extends Phaser.Scene{
             questCompleted: false,
             enemiesKilled: {
                 cow: 0,
-                rat: 0
+                goblin: 0
             }
         },
         varrock: {

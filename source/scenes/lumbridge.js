@@ -16,10 +16,10 @@ export class Lumbridge extends Level{
                     killGold: 5 
                 },
                 {
-                    name: 'rat', 
-                    path: 'source/assets/sprites/GiantRat.png',
+                    name: 'goblin', 
+                    path: 'source/assets/sprites/Goblin.png',
                     maxHealth: 5,
-                    killGold: 1 
+                    killGold: 3 
                 },
             ]
         })
