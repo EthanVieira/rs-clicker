@@ -1,7 +1,6 @@
 import { CONSTANTS } from "./constants.js";
 import { Enemy } from "./enemy.js";
 import { AutoClicker } from "./autoClicker.js";
-
 // Parent level class
 export class Level extends Phaser.Scene{
     // General
@@ -14,6 +13,9 @@ export class Level extends Phaser.Scene{
     minimap = {
         name: '',
         path: ''
+    }
+    audio = {
+        bgm: ''
     }
     timeDelta = 0;
     // Character
@@ -76,6 +78,7 @@ export class Level extends Phaser.Scene{
         this.minimap = data.minimap;
         //this.enemySettings = data.enemy;
         this.enemyMetadata = data.enemies;
+        this.audio = data.audio;
     }
 
     init(characterData) {
@@ -114,6 +117,10 @@ export class Level extends Phaser.Scene{
 
     create(){
         console.log(this.characterData.characterClass);
+        // Play music
+        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        audioScene.playAudio(this.audio.bgm);
+
         // Helper vars
         this.width = this.cameras.main.width;
         this.height = this.cameras.main.height;
