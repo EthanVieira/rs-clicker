@@ -1,8 +1,7 @@
 import { CONSTANTS } from "./constants.js";
 
-export class AudioScene extends Phaser.Scene{
-    currentSong = {};
-    previousAudioButtons = [{}, {}, {}]
+export class Audio extends Phaser.Scene{
+    currentSong = {}
     constructor() {
         super({
             key: CONSTANTS.SCENES.AUDIO
@@ -32,16 +31,7 @@ export class AudioScene extends Phaser.Scene{
         this.currentSong.play(); 
     }
 
-    changeVolume(audioButton, volumeType, value) {
-        // Hide previously pressed button (this check is obj exists)
-        if (Object.keys(this.previousAudioButtons[volumeType]).length != 0) {
-            this.previousAudioButtons[volumeType].setAlpha(.1);
-        }
-        
-        // Replace previous button for this type
-        this.previousAudioButtons[volumeType] = audioButton;
-        audioButton.setAlpha(1);
-
+    changeVolume(volumeType, value) {
         switch(volumeType) {
             case 0: // BGM
                 // Set volume and show button

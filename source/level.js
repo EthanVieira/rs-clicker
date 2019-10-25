@@ -15,8 +15,15 @@ export class Level extends Phaser.Scene{
         name: '',
         path: ''
     }
+    inventory = {
+        button: {}
+    }
     audio = {
-        bgm: ''
+        bgm: '',
+        audioPage: {},
+        audioPageButton: {},
+        sliders: [],
+        audioButtons: []
     }
     timeDelta = 0;
     // Character
@@ -103,8 +110,12 @@ export class Level extends Phaser.Scene{
         // Overlay
         this.load.image('overlay', 'source/assets/InterfaceNoChat.png');
 
+        // Inventory icon
+        this.load.image('inventoryButton', 'source/assets/InventoryButton.png');
+
         // Audio panel
         this.load.image('audioSettings', 'source/assets/AudioSettings.png');
+        this.load.image('audioSettingsButton', 'source/assets/AudioSettingsButton.png');
         this.load.image('audioSlider', 'source/assets/audioSlider.png');
         this.load.image('audioButton', 'source/assets/AudioButton.png');
 
@@ -127,6 +138,11 @@ export class Level extends Phaser.Scene{
         // Play music
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
         audioScene.playAudio(this.audio.bgm);
+
+        // Initialize volume levels
+        audioScene.changeVolume(0, this.characterData.audio[0]);
+        audioScene.changeVolume(1, this.characterData.audio[1]);
+        audioScene.changeVolume(2, this.characterData.audio[2]);
 
         // Helper vars
         this.width = this.cameras.main.width;
@@ -152,34 +168,51 @@ export class Level extends Phaser.Scene{
         // Overlay
         this.add.image(0,0, 'overlay').setOrigin(0,0).setDepth(1);
 
+        // Inventory
+        this.inventory.button = this.add.image(626, 169, 'inventoryButton').setOrigin(0,0).setDepth(2);
+        this.inventory.button.setInteractive();
+        this.inventory.button.setAlpha(.1);
+        this.inventory.button.on("pointerup", () =>{
+            this.hideAllMenus();
+            this.inventory.button.setAlpha(.1);
+        })
+
         // Audio settings
         let audioWindowX = 550;
         let audioWindowY = 205;
-        let audioSettings = this.add.image(audioWindowX, audioWindowY, 'audioSettings').setOrigin(0,0).setDepth(1);
+        this.audio.audioPage = this.add.image(audioWindowX, audioWindowY, 'audioSettings').setOrigin(0,0).setDepth(1);
+        this.audio.audioPageButton = this.add.image(660, 465, 'audioSettingsButton').setOrigin(0,0).setDepth(2);
+        this.audio.audioPageButton.setInteractive();
+        this.audio.audioPageButton.on("pointerup", ()=>{
+            this.showAudioSettings(true);
+        })
 
         // Place sliders
         let barXOffset = 53;
-        this.add.image(audioWindowX + barXOffset, audioWindowY + 80, 'audioSlider').setOrigin(0,0).setDepth(2);
-        this.add.image(audioWindowX + barXOffset, audioWindowY + 125, 'audioSlider').setOrigin(0,0).setDepth(2);
-        this.add.image(audioWindowX + barXOffset, audioWindowY + 170, 'audioSlider').setOrigin(0,0).setDepth(2);
+        this.audio.sliders = [];
+        this.audio.sliders.push(this.add.image(audioWindowX + barXOffset, audioWindowY + 80, 'audioSlider').setOrigin(0,0).setDepth(2));
+        this.audio.sliders.push(this.add.image(audioWindowX + barXOffset, audioWindowY + 125, 'audioSlider').setOrigin(0,0).setDepth(2));
+        this.audio.sliders.push(this.add.image(audioWindowX + barXOffset, audioWindowY + 170, 'audioSlider').setOrigin(0,0).setDepth(2));
 
         // Set 5 buttons for each of the 3 sliders
+        this.audio.audioButtons = [];
         for (let volumeType = 0; volumeType < 3; volumeType++) {
+            let audioButtonRow = [];
             for (let buttonNum = 0; buttonNum < 5; buttonNum++) {
                 let audioButton = this.add.image(audioWindowX + barXOffset + 10 + (buttonNum * 22), audioWindowY + 80 + (volumeType * 45), 'audioButton').setOrigin(0,0).setDepth(3);
                 audioButton.setInteractive();
                 audioButton.setAlpha(.1);
+                audioButtonRow.push(audioButton);
                 audioButton.on("pointerup", ()=>{
-                    audioScene.changeVolume(audioButton, volumeType, buttonNum);
-                    this.characterData.audio[volumeType] = buttonNum;
+                    audioScene.changeVolume(volumeType, buttonNum);
+                    this.changeAudioButton(volumeType, buttonNum);
                 })
-
-                // Set initial position for each button based on cookies
-                if (this.characterData.audio[volumeType] == buttonNum) {
-                    audioScene.changeVolume(audioButton, volumeType, buttonNum);
-                }
             }
+            // Save 2d array of buttons (3 x 5)
+            this.audio.audioButtons.push(audioButtonRow);
         }
+        // Hide audio page on startup
+        this.showAudioSettings(false);
 
         // Class picture
         this.add.image(0, 250, this.characterData.characterClass).setOrigin(0,0).setDepth(2);
@@ -353,5 +386,52 @@ export class Level extends Phaser.Scene{
     
     damageCurrentEnemy(damage) {
         this.enemyObjects[this.currentEnemyIndex].damageEnemy(damage);
+    }
+
+    showAudioSettings(show) {
+        if (show) {
+            this.hideAllMenus();
+            // Show audio page
+            this.audio.audioPage.visible = true;
+            this.audio.audioPageButton.setAlpha(1);
+            this.audio.sliders.forEach((slider) => {
+                slider.visible = true;
+            })
+            this.audio.audioButtons.forEach((buttonRow) => {
+                buttonRow.forEach((button) => {
+                    button.visible = true;
+                })
+            })
+
+            // Show current volume buttons
+            this.characterData.audio.forEach((volume, volumeType) => {
+                this.audio.audioButtons[volumeType][volume].setAlpha(1);
+            })
+        }
+        else {
+            this.audio.audioPage.visible = false;
+            this.audio.audioPageButton.setAlpha(.1);
+            this.audio.sliders.forEach((slider) => {
+                slider.visible = false;
+            })
+            this.audio.audioButtons.forEach((buttonRow) => {
+                buttonRow.forEach((button) => {
+                    button.visible = false;
+                })
+            })
+        }
+    }
+
+    // Hide old button and show new one
+    changeAudioButton(volumeType, newButton) {
+        let previousVolume = this.characterData.audio[volumeType];
+        this.audio.audioButtons[volumeType][previousVolume].setAlpha(.1);
+        this.characterData.audio[volumeType] = newButton;
+        this.audio.audioButtons[volumeType][newButton].setAlpha(1);
+    }
+
+    hideAllMenus() {
+        this.showAudioSettings(false);
+        this.inventory.button.setAlpha(1); // Unselected inventory icon
     }
 }
