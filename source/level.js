@@ -45,6 +45,7 @@ export class Level extends Phaser.Scene{
                 wizard: 0
             }
         }
+        //TODO: Add currentLevel field to know which level to go back to when closing store / other interfaces 
     };
     // Autoclickers
     autoClickers = [];
@@ -102,10 +103,12 @@ export class Level extends Phaser.Scene{
         this.enemyMetadata.forEach((enemy) => {
             this.load.image(enemy.name, enemy.path);
         });
+
+        //Hitsplats
         this.load.image('blue-hitsplat', 'source/assets/BlueHitsplat.png');
         this.load.image('red-hitsplat', 'source/assets/RedHitsplat.png');
 
-        // Class
+        // Classes
         this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/sprites/Unarmed.png');
         this.load.image(CONSTANTS.CLASS.WARRIOR, 'source/assets/sprites/Warrior.png');
         this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/sprites/Ranger.png');
