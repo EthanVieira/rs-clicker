@@ -17,7 +17,7 @@ export class AudioScene extends Phaser.Scene{
     }
 
     create(){
-        // Don't pause BGM when focus changes
+        // Don't pause BGM when clicking off the window
         this.sound.pauseOnBlur = false; 
 
         // Run login screen on start

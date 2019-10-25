@@ -28,6 +28,7 @@ export class Level extends Phaser.Scene{
         damageByClicking: 0,
         damageByAutoClick: 0,
         numberOfAutoClickers: 0,
+        audio: [4, 4, 4],   // BGM, SFX, Environment
         // Can be accessed with characterData[this.background.name].questCompleted, etc.
         tutorialIsland: {
             questCompleted: false,
@@ -155,6 +156,8 @@ export class Level extends Phaser.Scene{
         let audioWindowX = 550;
         let audioWindowY = 205;
         let audioSettings = this.add.image(audioWindowX, audioWindowY, 'audioSettings').setOrigin(0,0).setDepth(1);
+
+        // Place sliders
         let barXOffset = 53;
         this.add.image(audioWindowX + barXOffset, audioWindowY + 80, 'audioSlider').setOrigin(0,0).setDepth(2);
         this.add.image(audioWindowX + barXOffset, audioWindowY + 125, 'audioSlider').setOrigin(0,0).setDepth(2);
@@ -167,11 +170,12 @@ export class Level extends Phaser.Scene{
                 audioButton.setInteractive();
                 audioButton.setAlpha(.1);
                 audioButton.on("pointerup", ()=>{
-                    audioScene.changeVolume(audioButton, volumeType, buttonNum);   
+                    audioScene.changeVolume(audioButton, volumeType, buttonNum);
+                    this.characterData.audio[volumeType] = buttonNum;
                 })
 
-                // Set initial button as loudest
-                if (buttonNum == 4) {
+                // Set initial position for each button based on cookies
+                if (this.characterData.audio[volumeType] == buttonNum) {
                     audioScene.changeVolume(audioButton, volumeType, buttonNum);
                 }
             }
