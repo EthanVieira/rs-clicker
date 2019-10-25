@@ -1,6 +1,7 @@
 import { CONSTANTS } from "./constants.js";
 import { Enemy } from "./enemy.js";
 import { AutoClicker } from "./autoClicker.js";
+
 // Parent level class
 export class Level extends Phaser.Scene{
     // General
@@ -101,6 +102,11 @@ export class Level extends Phaser.Scene{
         // Overlay
         this.load.image('overlay', 'source/assets/InterfaceNoChat.png');
 
+        // Audio panel
+        this.load.image('audioSettings', 'source/assets/AudioSettings.png');
+        this.load.image('audioSlider', 'source/assets/audioSlider.png');
+        this.load.image('audioButton', 'source/assets/AudioButton.png');
+
         // Enemy
         this.enemyMetadata.forEach((enemy) => {
             this.load.image(enemy.name, enemy.path);
@@ -144,6 +150,32 @@ export class Level extends Phaser.Scene{
 
         // Overlay
         this.add.image(0,0, 'overlay').setOrigin(0,0).setDepth(1);
+
+        // Audio settings
+        let audioWindowX = 550;
+        let audioWindowY = 205;
+        let audioSettings = this.add.image(audioWindowX, audioWindowY, 'audioSettings').setOrigin(0,0).setDepth(1);
+        let barXOffset = 53;
+        this.add.image(audioWindowX + barXOffset, audioWindowY + 80, 'audioSlider').setOrigin(0,0).setDepth(2);
+        this.add.image(audioWindowX + barXOffset, audioWindowY + 125, 'audioSlider').setOrigin(0,0).setDepth(2);
+        this.add.image(audioWindowX + barXOffset, audioWindowY + 170, 'audioSlider').setOrigin(0,0).setDepth(2);
+
+        // Set 5 buttons for each of the 3 sliders
+        for (let volumeType = 0; volumeType < 3; volumeType++) {
+            for (let buttonNum = 0; buttonNum < 5; buttonNum++) {
+                let audioButton = this.add.image(audioWindowX + barXOffset + 10 + (buttonNum * 22), audioWindowY + 80 + (volumeType * 45), 'audioButton').setOrigin(0,0).setDepth(3);
+                audioButton.setInteractive();
+                audioButton.setAlpha(.1);
+                audioButton.on("pointerup", ()=>{
+                    audioScene.changeVolume(audioButton, volumeType, buttonNum);   
+                })
+
+                // Set initial button as loudest
+                if (buttonNum == 4) {
+                    audioScene.changeVolume(audioButton, volumeType, buttonNum);
+                }
+            }
+        }
 
         // Class picture
         this.add.image(0, 250, this.characterData.characterClass).setOrigin(0,0).setDepth(2);

@@ -110,8 +110,6 @@ export class LoadScene extends Phaser.Scene{
     create(){
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO);
-        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-        //audioScene.playAudio('scapeMain');
 
         this.add.text(250, 300, "Welcome to RS Clicker!");
         this.add.text(250, 340, "Click the demon to continue.");
