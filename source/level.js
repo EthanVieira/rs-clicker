@@ -45,7 +45,6 @@ export class Level extends Phaser.Scene{
                 wizard: 0
             }
         }
-        //TODO: Add currentLevel field to know which level to go back to when closing store / other interfaces 
     };
     // Autoclickers
     autoClickers = [];
@@ -77,6 +76,8 @@ export class Level extends Phaser.Scene{
         this.minimap = data.minimap;
         //this.enemySettings = data.enemy;
         this.enemyMetadata = data.enemies;
+        // Store current level to return to after leaving shop
+        this.currentLevel = data.key;
     }
 
     init(characterData) {
@@ -104,7 +105,7 @@ export class Level extends Phaser.Scene{
             this.load.image(enemy.name, enemy.path);
         });
 
-        //Hitsplats
+        // Hitsplats
         this.load.image('blue-hitsplat', 'source/assets/BlueHitsplat.png');
         this.load.image('red-hitsplat', 'source/assets/RedHitsplat.png');
 
@@ -113,6 +114,7 @@ export class Level extends Phaser.Scene{
         this.load.image(CONSTANTS.CLASS.WARRIOR, 'source/assets/sprites/Warrior.png');
         this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/sprites/Ranger.png');
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/sprites/Mage.jpg');
+
     }
 
     create(){
@@ -136,6 +138,19 @@ export class Level extends Phaser.Scene{
             this.enemyObjects = [];
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData); 
             console.log("Going to World Map");     
+        })
+
+        this.shopButton = this.add.text(585, 475, 'Shop').setInteractive();
+        this.shopButton.on("pointerup", ()=>{
+            for (let i = 0; i < this.autoClickers.length; i++) {
+                this.autoClickers[i].release();
+            }
+            this.autoClickers = [];
+            this.enemyObjects = [];
+            // Pass in the current level to know which level to return to upon exiting the shop.
+            this.scene.start(CONSTANTS.SCENES.SHOP, [this.characterData, this.currentLevel]);
+            // TODO: Instead of starting a shop scene, just have a shop interface pop up w/o stopping game.
+            console.log("Going to Shop");
         })
 
         // Overlay
