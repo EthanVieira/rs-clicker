@@ -21,7 +21,8 @@ export class Lumbridge extends Level{
                     maxHealth: 5,
                     killGold: 3 
                 },
-            ]
+            ],
+            audio: {bgm: 'harmony'}
         })
     }
 }

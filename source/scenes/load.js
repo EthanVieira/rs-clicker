@@ -106,12 +106,10 @@ export class LoadScene extends Phaser.Scene{
         // Buttons
         this.load.image('play-button', 'source/assets/PlayButton.png');
         this.load.image('settings-button', 'source/assets/SettingsButton.png');
-
-        // Audio
-        
     }
     create(){
-        // this is where you make game objects
+        // Launch audio scene in parallel
+        this.scene.launch(CONSTANTS.SCENES.AUDIO);
 
         this.add.text(250, 300, "Welcome to RS Clicker!");
         this.add.text(250, 340, "Click the demon to continue.");
@@ -123,7 +121,6 @@ export class LoadScene extends Phaser.Scene{
         lesserDemonSprite.on("pointerup", ()=>{
             this.scene.start(CONSTANTS.SCENES.MENU);
         })
-
         
         //
         /*

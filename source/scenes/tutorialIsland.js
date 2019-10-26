@@ -15,7 +15,8 @@ export class TutorialIsland extends Level{
                     maxHealth: 5,
                     killGold: 1 
                 }
-            ]
+            ],
+            audio: {bgm: 'newbieMelody'}
         })
     }
 }

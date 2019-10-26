@@ -1,6 +1,7 @@
 export const CONSTANTS = {
     SCENES: {
         LOAD: "LOAD",
+        AUDIO: "AUDIO",
         MENU: "MENU",
         CC: "CC",
         MAP: "MAP",
