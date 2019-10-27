@@ -54,13 +54,13 @@ export class Shop extends Phaser.Scene{
     loadItems(characterData) {
         switch(characterData.characterClass) {
             case 'WARRIOR':
-                loadMelee(characterData);
+                this.loadMelee(characterData);
                 break;
             case 'RANGER':
-                loadRanged(characterData);
+                this.loadRanged(characterData);
                 break;
             case 'MAGE':
-                loadMagic(characterData);
+                this.loadMagic(characterData);
                 break;
             default:
                 console.log("No Class Selected.");   
