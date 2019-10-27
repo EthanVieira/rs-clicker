@@ -42,6 +42,7 @@ export class Shop extends Phaser.Scene{
             console.log("Going back to", this.currentLevel);
         })
 
+        this.loadItems(this.characterData);
     }
 
     update(){
@@ -53,6 +54,20 @@ export class Shop extends Phaser.Scene{
 
 
     loadItems(characterData) {
+        switch(characterData.characterClass) {
+            case 'WARRIOR':
+                console.log("Loading MELEE Items");
+                load
+                break;
+            case 'MAGE':
+                console.log("Loading Mage Items");
+                break;
+            case 'RANGER':
+                console.log("Loading Ranged Items");
+                break;
+            default:
+                console.log("No Class Selected.");   
+        }
         // TODO: Load items based on character level / class (once the character has levels)
 
     }

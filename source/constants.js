@@ -14,76 +14,85 @@ export const CONSTANTS = {
     	MAGE: "MAGE",
     	RANGER: "RANGER"
     },
-    // Materials Used for Smithing
+    // Materials used for smithing and their cost multipliers
     SMITHINGMAT: {
-        BRONZE: "BRONZE",
-        IRON: "IRON",
-        STEEL: "STEEL",
-        MITHRIL: "MITHRIL",
-        ADAMANT: "ADAMANT",
-        RUNE: "RUNE",
-        DRAGON: "DRAGON"
-    },
-    // Items Made from Smithing
-    SMITHINGITEM: {
-        // Tools
-        AXE: "AXE",
-        PICKAXE: "PICKAXE",
-        // Melee Weapons
-        DAGGER: "DAGGER",
-        MACE: "MACE",
-        SCIMITAR: "SCIMITAR",
-        LONGSWORD: "LONGSWORD",
-        WARHAMMER: "WARHAMMER",
-        BATTLEAXE: "BATTLEAXE",
-        TWOHAND: "TWOHAND",
-        HALBERD: "HALBERD",
-        SPEAR: "SPEAR",
-        CLAWS: "CLAWS",  
-        // Ranged Weapons
-        CROSSBOW: "CROSSBOW",
-        KNIFE: "KNIFE",
-        DART: "DART",
-        THROWNAXE: "THROWNAXE",
+        BRONZE: ["BRONZE", 1.0],
+        IRON: ["IRON", 1.5],
+        STEEL: ["STEEL", 2.0],
+        MITHRIL: ["MITHRIL", 5.0],
+        ADAMANT: ["ADAMANT", 10.0],
+        RUNE: ["RUNE", 20.0],
+        DRAGON: ["DRAGON", 50.0]
     },
     // Materials Used for Fletching
     FLETCHINGMAT: {
-        OAK: "OAK",
-        WILLOW: "WILLOW",
-        MAPLE: "MAPLE",
-        YEW: "YEW",
-        MAGIC: "MAGIC"
+        OAK: ["OAK", 1.0],
+        WILLOW: ["WILLOW", 2.0],
+        MAPLE: ["MAPLE", 5.0],
+        YEW: ["YEW", 10.0],
+        MAGIC: ["MAGIC", 25.0]
     },
-    // Weapons Made from Fletching
-    FLETCHINGITEM: {
-        SHORTBOW: "SHORTBOW",
-        LONGBOW: "LONGBOW",
-        COMPBOW: "COMPBOW",
+    // Tools made from normal smithing materials (bronze -> iron -> steel -> ...)
+    TOOLS: {
+        // Tools
+        AXE: ["AXE", 100],
+        PICKAXE: ["PICKAXE", 100]
     },
-    // Items that are not crafted from traditional smithing or fletching materials
-    SPECIALITEM: {
-        // TOOLS
-        // MELEE WEAPONS
-        MAUL: "MAUL",
-        // RANGED WEAPONS
-        CHINCHOMPA: "CHINCHOMPA",
-        DARKBOW: "DARKBOW",
-        BALLISTA: "BALLISTA",
-        BLOWPIPE: "BLOWPIPE",
-        // Magic Weapons
-        STAFF: "STAFF",
-        AIRSTAFF: "AIRSTAFF",
-        EARTHSTAFF: "EARTHSTAFF",
-        FIRESTAFF: "FIRESTAFF",
-        WATERSTAFF: "WATERSTAFF",
-        BATTLESTAFF: "BATTLESTAFF",
-        MYSTICSTAFF: "MYSTICSTAFF",
-        ANCIENTSTAFF: "ANCIENTSTAFF",
-        GUTHIXSTAFF: "GUTHIXSTAFF",
-        SARADOMINSTAFF: "SARADOMINSTAFF",
-        ZAMORAKSTAFF: "ZAMORAKSTAFF",
-        LUNARSTAFF: "LUNARSTAFF",
-        AHRIMSTAFF: "AHRIMSTAFF",
-        TRIDENT: "TRIDENT",
+    MELEEITEM: {
+        // Melee items made from normal smithing materials (bronze -> iron -> steel -> ...)
+        MELEESMITHINGITEM: {
+            DAGGER: ["DAGGER", 50],
+            LONGSWORD: ["LONGSWORD", 200],
+            SCIMITAR: ["SCIMITAR", 500],
+            // WARHAMMER: ["WARHAMMER", 1000],
+            // BATTLEAXE: ["BATTLEAXE", 1500],
+            // HALBERD: ["HALBERD", 2000],
+            // SPEAR: ["SPEAR", 3000],
+            // CLAWS: ["CLAWS", 4000],
+            // TWOHAND: ["TWOHAND", 5000]
+        },
+        // Melee items not made from normal smithing/fletching materials (godwars items, slayer items, etc.)
+        MELEESPECIALITEM: {
+            MAUL: "MAUL"
+        }
+    },
+    RANGEDITEM: {  
+        // Ranged items made from normal smithing materials (bronze -> iron -> steel -> ...)
+        RANGEDSMITHINGITEM: {
+            CROSSBOW: ["CROSSBOW", 5000],
+            KNIFE: ["KNIFE", 10],
+            DART: ["DART", 10],
+            THROWNAXE: ["THROWNAXE", 25]
+        },
+        // Ranged items made from normal fletching materials (oak -> willow -> maple -> ...)
+        RANGEDFLETCHINGITEM: {
+            SHORTBOW: ["SHORTBOW", 100],
+            LONGBOW: ["LONGBOW", 100],
+            COMPBOW: ["COMPBOW", 1000]
+        },
+        // Ranged items not made from normal smithing/fletching materials (godwars items, slayer items, etc.)
+        RANGEDSPECIALITEM: {
+            CHINCHOMPA: ["CHINCHOMPA", 100],
+            DARKBOW: ["DARKBOW", 100000],
+            LIGHTBALLISTA: ["LIGHTBALLISTA", 100000],
+            HEAVYBALLISTA: ["HEAVYBALLISTA", 500000],
+            BLOWPIPE: ["BLOWPIPE", 100000]
+        }
+    },
+    MAGICITEM: {
+        STAFF: ["STAFF", 100],
+        AIRSTAFF: ["AIRSTAFF", 250],
+        EARTHSTAFF: ["EARTHSTAFF", 250],
+        FIRESTAFF: ["FIRESTAFF", 250],
+        WATERSTAFF: ["WATERSTAFF", 250],
+        BATTLESTAFF: ["BATTLESTAFF", 1000],
+        MYSTICSTAFF: ["MYSTICSTAFF", 5000],
+        ANCIENTSTAFF: ["ANCIENTSTAFF", 10000],
+        GUTHIXSTAFF: ["GUTHIXSTAFF", 25000],
+        SARADOMINSTAFF: ["SARADOMINSTAFF", 25000],
+        ZAMORAKSTAFF: ["ZAMORAKSTAFF", 25000],
+        LUNARSTAFF: ["LUNARSTAFF", 40000],
+        AHRIMSTAFF: ["AHRIMSTAFF", 100000],
+        TRIDENT: ["TRIDENT", 150000]
     }
 }

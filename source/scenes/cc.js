@@ -67,8 +67,11 @@ export class CCScene extends Phaser.Scene{
         })
 
         acceptButton.on("pointerup", ()=>{
-            this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, {characterClass}); 
-            console.log("Going to Level 1");
+            // Start the first level if a class has been selected.
+            if(characterClass != CONSTANTS.CLASS.UNARMED) {
+                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, {characterClass}); 
+                console.log("Going to Level 1");
+            }
         })
 
     }
