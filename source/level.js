@@ -35,7 +35,6 @@ export class Level extends Phaser.Scene{
         damageByClicking: 0,
         damageByAutoClick: 0,
         numberOfAutoClickers: 0,
-<<<<<<< HEAD
         skills: {
             woodcutting: 1,
             mining: 1,
@@ -46,9 +45,7 @@ export class Level extends Phaser.Scene{
             ranged: 1,
             magic: 1
         }, 
-=======
         audio: [4, 4, 4],   // BGM, SFX, Environment
->>>>>>> c09de1699dea94495607d249b41b43eb747a8516
         // Can be accessed with characterData[this.background.name].questCompleted, etc.
         tutorialIsland: {
             questCompleted: false,
@@ -100,12 +97,9 @@ export class Level extends Phaser.Scene{
         this.minimap = data.minimap;
         //this.enemySettings = data.enemy;
         this.enemyMetadata = data.enemies;
-<<<<<<< HEAD
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
-=======
         this.audio = data.audio;
->>>>>>> c09de1699dea94495607d249b41b43eb747a8516
     }
 
     init(characterData) {
