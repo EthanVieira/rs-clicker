@@ -1,3 +1,8 @@
+// TODO: Display items over the blank interface, along with their cost
+// TODO: Each item needs to be a clickable image, and clicking adds the item to player inventory.
+// TODO: Load images that are available to the player (based on levels)
+// TODO: Show price of each item below the item, and gray out items that are too expensive
+
 import { CONSTANTS } from "../constants.js";
 
 export class Shop extends Phaser.Scene{
@@ -17,24 +22,18 @@ export class Shop extends Phaser.Scene{
     preload(){
         // Background
         this.load.image('shop', 'source/assets/shopInterface.png');
-
-        // Items
-        // TODO: Load images that are available to the player (based on levels)
-        // TODO: Show price of each item below the item, and gray out items that are too expensive
     }
 
     create(){
         // Background
         this.shop = this.add.image(0, 0, 'shop').setOrigin(0,0).setDepth(0).setInteractive();
 
-        // Items
-        // TODO: Display items over the blank interface, along with their cost
-        // TODO: Each item needs to be a clickable image, and clicking adds the item to player inventory.
-
         // Available Gold
+        // TODO: Move this to line up with the gold icon
         this.goldText = this.add.text(20, 13, 'Gold: ' + this.characterData.gold, {fill: 'white', fontSize: '28px'}).setDepth(3);
 
         // Exit
+        // TODO: Make this text invisible
         this.exitButton = this.add.text(500, 0, 'exit').setInteractive();
         this.exitButton.on("pointerup", ()=>{
             // Pass in the current level to know which level to return to upon exiting the shop.
@@ -42,7 +41,7 @@ export class Shop extends Phaser.Scene{
             console.log("Going back to", this.currentLevel);
         })
 
-        this.loadItems(this.characterData);
+        this.shopItems = this.loadItems(this.characterData);
     }
 
     update(){
@@ -52,24 +51,37 @@ export class Shop extends Phaser.Scene{
         }
     }
 
-
     loadItems(characterData) {
         switch(characterData.characterClass) {
             case 'WARRIOR':
-                console.log("Loading MELEE Items");
-                load
-                break;
-            case 'MAGE':
-                console.log("Loading Mage Items");
+                loadMelee(characterData);
                 break;
             case 'RANGER':
-                console.log("Loading Ranged Items");
+                loadRanged(characterData);
+                break;
+            case 'MAGE':
+                loadMagic(characterData);
                 break;
             default:
                 console.log("No Class Selected.");   
         }
-        // TODO: Load items based on character level / class (once the character has levels)
+    }
 
+    loadMelee(characterData) {
+        // TODO
+        // Start by selecting all of the smithing classes the character has unlocked (according to att lvl)
+        // Then, select all of the melee items from this category and calculate price
+        // Create item object for each item, storing price / image location 
+        // Add each item object to shopItems array
+        console.log("Loading Melee Items");
+    }
+
+    loadRanged(characterData) {
+        console.log("Loading Ranged Items");
+    }
+
+    loadMagic(characterData) {
+        console.log("Loading Mage Items");
     }
 
     updateGold() {

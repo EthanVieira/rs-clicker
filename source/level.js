@@ -25,6 +25,16 @@ export class Level extends Phaser.Scene{
         damageByClicking: 0,
         damageByAutoClick: 0,
         numberOfAutoClickers: 0,
+        skills: {
+            woodcutting: 1,
+            mining: 1,
+            attack: 1,
+            strength: 1,
+            defense: 1,
+            hitpoints: 10,
+            ranged: 1,
+            magic: 1
+        }, 
         // Can be accessed with characterData[this.background.name].questCompleted, etc.
         tutorialIsland: {
             questCompleted: false,
@@ -87,6 +97,22 @@ export class Level extends Phaser.Scene{
         // Receive cookies if they exist
         if (characterData.hasCookies){
             this.characterData = characterData;
+        }
+        // Otherwise, initialize character based on starting class
+        else {
+            switch(this.characterData.characterClass) {
+                case("WARRIOR"):
+                    this.characterData.skills.attack = 5;
+                    this.characterData.skills.strength = 5;
+                    this.characterData.skills.defense = 5;
+                    break;
+                case("RANGER"):
+                    this.characterData.skills.ranged = 10;
+                    break;
+                case("MAGE"):
+                    this.characterData.skills.magic = 10;
+                    break;
+            }
         }
     }
 
