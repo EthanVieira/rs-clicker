@@ -10,7 +10,7 @@ Future ideas: See trello board
 
 In progress:
                   
-* quest window - Ethan 
+* coming up with even bigger and brainier ideas - Ethan 
 * nothing atm - Will
 * coming up with big brain ideas - Curtis
 
