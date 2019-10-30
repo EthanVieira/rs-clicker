@@ -29,11 +29,11 @@ export class Shop extends Phaser.Scene{
         this.shop = this.add.image(0, 0, 'shop').setOrigin(0,0).setDepth(0).setInteractive();
 
         // Available Gold
-        // TODO: Move this to line up with the gold icon
+        // @TODO: Move this to line up with the gold icon
         this.goldText = this.add.text(20, 13, 'Gold: ' + this.characterData.gold, {fill: 'white', fontSize: '28px'}).setDepth(3);
 
         // Exit
-        // TODO: Make this text invisible
+        // @TODO: Make this text invisible
         this.exitButton = this.add.text(500, 0, 'exit').setInteractive();
         this.exitButton.on("pointerup", ()=>{
             // Pass in the current level to know which level to return to upon exiting the shop.
@@ -41,26 +41,28 @@ export class Shop extends Phaser.Scene{
             console.log("Going back to", this.currentLevel);
         })
 
-        // TODO: Add buttons to switch between weapons, armor, tools, and consumables
+        // @TODO: Add buttons to switch between weapons, tools, and consumables
+        //this.weaponsButton = ...
         //this.toolsButton = ...
         //this.consumablesButton = ...
 
-        // By default, load the array of available weapons objects 
-        this.shopItems = this.loadItems("WEAPONS", this.characterData);
+        // Load the 2D array of available item objects (weapons by default)
+        this.shopItems = this.loadItems(this.characterData);
 
         // Display the items in the shop as interactive images
         this.displayItems();
     }
 
-    update(){
-        if(this.itemBought) {
-            updateGold();
-            updateShop();
-        }
-    }
+    // @TODO: Update the shop to display current gold and which items you can afford
+    // update(){
+    //     if(this.itemBought) {
+    //         updateGold();
+    //         updateShop();
+    //     }
+    // }
 
-    // TODO: Add armor as a potential item type? 
-    loadItems(itemType, characterData) {
+    // @TODO: Add armor as a potential item type? 
+    loadItems(itemType="WEAPONS", characterData) {
         switch(itemType) {
             case "WEAPONS":
                 this.loadWeapons(this.characterData);
@@ -79,37 +81,65 @@ export class Shop extends Phaser.Scene{
     // Load weapons based on the character's levels
     loadWeapons(characterData) {
         console.log("Loading Weapons");
-        var items = [];
-        // Start by selecting all of the smithing classes the character has unlocked (according to att lvl)
-        var bestMaterial;
-        for(var material in CONSTANTS.SMITHINGMAT) {
-            // Break once the character's attack level is not high enough to use a weapon tier
-            if(material[2] > characterLevel)
-                break;
-            bestMaterial = material;
-        } 
-        console.log(bestMaterial);
-        // Load shop with melee items of the best smithing material
-        for(var type in CONSTANTS.MELEEWEAPON.SMITHINGITEM) {
-            items.append(new item(bestMaterial, type)); 
-        }
-        return items;
+        var items = [[]];
+        var weaponTypes = [CONSTANTS.MELEEWEAPON, CONSTANTS.RANGEDWEAPON, CONSTANTS.MAGICWEAPON];
 
+        // Load weapons for each part of the combat triangle
+        for(weaponType in weaponTypes) {
+            // Determine which skill (attack/ranged/magic) is required for this weapon type
+            var requiredSkill;
+            if(weaponType == CONSTANTS.MELEEWEAPON)
+                requiredSkill = characterData.skills.attack;
+            else if(weaponType == CONSTANTS.RANGEDWEAPON)
+                requiredSkill = characterData.skills.ranged;
+            else
+                requiredSkill = characterData.skills.magic;
+
+            var tempList = [];
+            for(weapon in weaponType) {  
+                var matType = CONSTANTS[weapon[2]];
+                var bestMat = this.getBestMat(requiredSkill, matType);
+                // Load the current weapon with the best possible material (e.g. dragon dagger)
+                tempList.append(new item(bestMat, weapon));
+            }
+            // Store each class of weapon in its own row (melee on first row, ranged on second, magic on third)
+            items.push(tempList);
+        }
     }
 
-    // TODO
+    // @TODO
     loadTools(characterData) {}
+
+    // @TODO
     loadConsumables(characterData) {}
 
+    // @TODO
     displayItems() {
-
+        // For each row in items, load all of the items side-by-side with price
+        // Make sure spacing and prices show up cleanly
     }
 
+    // @TODO
     updateGold() {
-
+        // If an item was bought, update the available gold and re-set the "itemBought" flag
     }
 
+    // @TODO
     updateShop() {
-
+        // Check if an item was bought?
     }
+
+    //====== Helper Functions ======
+
+    // Determine the best material type available for a character given their levels (e.g. 5 attack = steel weapons)
+    getBestMat(level, matType) {
+        var bestMat;
+        for(mat in matType) {
+            if(mat[2] > level)
+                break;
+            bestMat = mat;
+        }
+        return bestMat;
+    }
+
 }

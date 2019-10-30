@@ -36,28 +36,28 @@ export const CONSTANTS = {
     },
     // Melee weapons [name, base_cost, material_type]
     MELEEWEAPON: {
-        DAGGER: ["DAGGER", 50, "SMITHING"],
-        LONGSWORD: ["LONGSWORD", 200, "SMITHING"],
-        SCIMITAR: ["SCIMITAR", 500, "SMITHING"],
-        // WARHAMMER: ["WARHAMMER", 1000, "SMITHING"],
-        // BATTLEAXE: ["BATTLEAXE", 1500, "SMITHING"],
-        // HALBERD: ["HALBERD", 2000, "SMITHING"],
-        // SPEAR: ["SPEAR", 3000, "SMITHING"],
-        // CLAWS: ["CLAWS", 4000, "SMITHING"],
-        // TWOHAND: ["TWOHAND", 5000, "SMITHING"]
+        DAGGER: ["DAGGER", 50, "SMITHINGMAT"],
+        LONGSWORD: ["LONGSWORD", 200, "SMITHINGMAT"],
+        SCIMITAR: ["SCIMITAR", 500, "SMITHINGMAT"],
+        // WARHAMMER: ["WARHAMMER", 1000, "SMITHINGMAT"],
+        // BATTLEAXE: ["BATTLEAXE", 1500, "SMITHINGMAT"],
+        // HALBERD: ["HALBERD", 2000, "SMITHINGMAT"],
+        // SPEAR: ["SPEAR", 3000, "SMITHINGMAT"],
+        // CLAWS: ["CLAWS", 4000, "SMITHINGMAT"],
+        // TWOHAND: ["TWOHAND", 5000, "SMITHINGMAT"]
         // MAUL: ["MAUL", 15000, "SPECIAL"]
     },
     // Ranged weapons [name, base_cost, material_type]
     RANGEDWEAPON: {  
         // Ranged weapons made from normal fletching materials:
-        SHORTBOW: ["SHORTBOW", 100, "FLETCHING"],
-        LONGBOW: ["LONGBOW", 100, "FLETCHING"],
-        COMPBOW: ["COMPBOW", 1000, "FLETCHING"],
+        SHORTBOW: ["SHORTBOW", 100, "FLETCHINGMAT"],
+        LONGBOW: ["LONGBOW", 100, "FLETCHINGMAT"],
+        // COMPBOW: ["COMPBOW", 1000, "FLETCHINGMAT"],
         // Ranged weapons made from normal smithing materials:
-        // CROSSBOW: ["CROSSBOW", 5000, "SMITHING"],
-        // KNIFE: ["KNIFE", 10, "SMITHING"],
-        // DART: ["DART", 10, "SMITHING"],
-        // THROWNAXE: ["THROWNAXE", 25, "SMITHING"],
+        CROSSBOW: ["CROSSBOW", 5000, "SMITHINGMAT"],
+        // KNIFE: ["KNIFE", 10, "SMITHINGMAT"],
+        // DART: ["DART", 10, "SMITHINGMAT"],
+        // THROWNAXE: ["THROWNAXE", 25, "SMITHINGMAT"],
         // Ranged items from godwars, slayer, etc: [name, base_cost]
         // CHINCHOMPA: ["CHINCHOMPA", 100, "SPECIAL"],
         // DARKBOW: ["DARKBOW", 100000, "SPECIAL"],

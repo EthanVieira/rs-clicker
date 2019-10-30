@@ -11,7 +11,7 @@ Future ideas: See trello board
 In progress:
                   
 * coming up with even bigger and brainier ideas - Ethan 
-* nothing atm - Will
+* creating big brain item shop - Will
 * coming up with big brain ideas - Curtis
 
 ### Run Game with Python server:

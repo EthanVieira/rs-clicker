@@ -1,6 +1,6 @@
 export class Item {
     constructor(material, type) {
-        this.material = material;
+        this.material = CONSTANTS[material];
         this.type = type;
         this.cost = material[1] * type[1];
         // TODO: Set damage for each material / weapon type
