@@ -15,95 +15,77 @@ export const CONSTANTS = {
     	MAGE: "MAGE",
     	RANGER: "RANGER"
     },
-    // Materials used for Smithing: [name, required_level, cost]
+    // Materials used for Smithing: [name, cost_multiplier, required_level]
     SMITHINGMAT: {
-        BRONZE: ["BRONZE", 1, 1.0],
-        IRON: ["IRON", 5, 1.5],
-        STEEL: ["STEEL", 10, 2.0],
-        MITHRIL: ["MITHRIL", 20, 5.0],
-        ADAMANT: ["ADAMANT", 30, 10.0],
-        RUNE: ["RUNE", 40, 20.0],
-        DRAGON: ["DRAGON", 60, 50.0]
+        BRONZE: ["BRONZE", 1.0, 1],
+        IRON: ["IRON", 1.5, 5],
+        STEEL: ["STEEL", 2.0, 10],
+        MITHRIL: ["MITHRIL", 5.0, 20],
+        ADAMANT: ["ADAMANT", 10.0, 30],
+        RUNE: ["RUNE", 20.0, 40],
+        DRAGON: ["DRAGON", 50.0, 60]
     },
-    // Materials Used for Fletching: [name, required_level, cost_multiplier]
+    // Materials used for Fletching: [name, cost_multiplier, required_level]
     FLETCHINGMAT: {
-        NORMAL: ["NORMAL", 1, 1.0],
-        OAK: ["OAK", 10, 1.5],
-        WILLOW: ["WILLOW", 20, 2.0],
-        MAPLE: ["MAPLE", 30, 5.0],
-        YEW: ["YEW", 40, 10.0],
-        MAGIC: ["MAGIC", 50, 25.0]
+        NORMAL: ["NORMAL", 1.0, 1],
+        OAK: ["OAK", 1.5, 10],
+        WILLOW: ["WILLOW", 2.0, 20],
+        MAPLE: ["MAPLE", 5.0, 30],
+        YEW: ["YEW", 10.0, 40],
+        MAGIC: ["MAGIC", 25.0, 50]
     },
-    // Tools made from normal smithing materials: [name, base_cost]
+    // Melee weapons [name, base_cost, material_type]
+    MELEEWEAPON: {
+        DAGGER: ["DAGGER", 50, "SMITHING"],
+        LONGSWORD: ["LONGSWORD", 200, "SMITHING"],
+        SCIMITAR: ["SCIMITAR", 500, "SMITHING"],
+        // WARHAMMER: ["WARHAMMER", 1000, "SMITHING"],
+        // BATTLEAXE: ["BATTLEAXE", 1500, "SMITHING"],
+        // HALBERD: ["HALBERD", 2000, "SMITHING"],
+        // SPEAR: ["SPEAR", 3000, "SMITHING"],
+        // CLAWS: ["CLAWS", 4000, "SMITHING"],
+        // TWOHAND: ["TWOHAND", 5000, "SMITHING"]
+        // MAUL: ["MAUL", 15000, "SPECIAL"]
+    },
+    // Ranged weapons [name, base_cost, material_type]
+    RANGEDWEAPON: {  
+        // Ranged weapons made from normal fletching materials:
+        SHORTBOW: ["SHORTBOW", 100, "FLETCHING"],
+        LONGBOW: ["LONGBOW", 100, "FLETCHING"],
+        COMPBOW: ["COMPBOW", 1000, "FLETCHING"],
+        // Ranged weapons made from normal smithing materials:
+        // CROSSBOW: ["CROSSBOW", 5000, "SMITHING"],
+        // KNIFE: ["KNIFE", 10, "SMITHING"],
+        // DART: ["DART", 10, "SMITHING"],
+        // THROWNAXE: ["THROWNAXE", 25, "SMITHING"],
+        // Ranged items from godwars, slayer, etc: [name, base_cost]
+        // CHINCHOMPA: ["CHINCHOMPA", 100, "SPECIAL"],
+        // DARKBOW: ["DARKBOW", 100000, "SPECIAL"],
+        // LIGHTBALLISTA: ["LIGHTBALLISTA", 100000, "SPECIAL"],
+        // HEAVYBALLISTA: ["HEAVYBALLISTA", 500000, "SPECIAL"],
+        // BLOWPIPE: ["BLOWPIPE", 100000, "SPECIAL"]
+    },
+    MAGICWEAPON: {
+        // Magic items from godwars, slayer, etc: [name, base_cost]
+        // STAFF: ["STAFF", 100, "SPECIAL"],
+        // AIRSTAFF: ["AIRSTAFF", 250, "SPECIAL"],
+        // EARTHSTAFF: ["EARTHSTAFF", 250, "SPECIAL"],
+        // FIRESTAFF: ["FIRESTAFF", 250, "SPECIAL"],
+        // WATERSTAFF: ["WATERSTAFF", 250, "SPECIAL"],
+        // BATTLESTAFF: ["BATTLESTAFF", 1000, "SPECIAL"],
+        // MYSTICSTAFF: ["MYSTICSTAFF", 5000, "SPECIAL"],
+        // ANCIENTSTAFF: ["ANCIENTSTAFF", 10000, "SPECIAL"],
+        // GUTHIXSTAFF: ["GUTHIXSTAFF", 25000, "SPECIAL"],
+        // SARADOMINSTAFF: ["SARADOMINSTAFF", 25000, "SPECIAL"],
+        // ZAMORAKSTAFF: ["ZAMORAKSTAFF", 25000, "SPECIAL"],
+        // LUNARSTAFF: ["LUNARSTAFF", 40000, "SPECIAL"],
+        // AHRIMSTAFF: ["AHRIMSTAFF", 100000, "SPECIAL"],
+        // TRIDENT: ["TRIDENT", 150000, "SPECIAL"]
+    },
+    // Tools [name, base_cost]
     TOOLS: {
-        // Tools
         AXE: ["AXE", 100],
         PICKAXE: ["PICKAXE", 100]
     },
-    MELEEITEM: {
-        // Melee items made from normal smithing materials: [name, base_cost]
-        MELEESMITHINGITEM: {
-            DAGGER: ["DAGGER", 50],
-            LONGSWORD: ["LONGSWORD", 200],
-            SCIMITAR: ["SCIMITAR", 500],
-            // WARHAMMER: ["WARHAMMER", 1000],
-            // BATTLEAXE: ["BATTLEAXE", 1500],
-            // HALBERD: ["HALBERD", 2000],
-            // SPEAR: ["SPEAR", 3000],
-            // CLAWS: ["CLAWS", 4000],
-            // TWOHAND: ["TWOHAND", 5000]
-        },
-        // Melee items made from normal fletching materials: [name, base_cost] (NONE CURRENTLY)
-        MELEEFLETCHINGITEM: {},
-        // Melee items from godwars, slayer, etc: [name, base_cost]
-        MELEESPECIALITEM: {
-            MAUL: ["MAUL", 15000]
-        }
-    },
-    RANGEDITEM: {  
-        // Ranged items made from normal smithing materials: [name, base_cost]
-        RANGEDSMITHINGITEM: {
-            CROSSBOW: ["CROSSBOW", 5000],
-            KNIFE: ["KNIFE", 10],
-            DART: ["DART", 10],
-            THROWNAXE: ["THROWNAXE", 25]
-        },
-        // Ranged items made from normal fletching materials: [name, base_cost]
-        RANGEDFLETCHINGITEM: {
-            SHORTBOW: ["SHORTBOW", 100],
-            LONGBOW: ["LONGBOW", 100],
-            COMPBOW: ["COMPBOW", 1000]
-        },
-        // Ranged items from godwars, slayer, etc: [name, base_cost]
-        RANGEDSPECIALITEM: {
-            CHINCHOMPA: ["CHINCHOMPA", 100],
-            DARKBOW: ["DARKBOW", 100000],
-            LIGHTBALLISTA: ["LIGHTBALLISTA", 100000],
-            HEAVYBALLISTA: ["HEAVYBALLISTA", 500000],
-            BLOWPIPE: ["BLOWPIPE", 100000]
-        }
-    },
-    MAGICITEM: {
-        // Magic items made from normal smithing materials: [name, base_cost] (NONE CURRENTLY)
-        MAGICSMITHINGITEM: {},
-        // Magic items made from normal fletching materials: [name, base_cost] (NONE CURRENTLY)
-        MAGICFLETCHINGITEM: {},
-        // Magic items from godwars, slayer, etc: [name, base_cost]
-        MAGICSPECIALITEM: {
-            STAFF: ["STAFF", 100],
-            AIRSTAFF: ["AIRSTAFF", 250],
-            EARTHSTAFF: ["EARTHSTAFF", 250],
-            FIRESTAFF: ["FIRESTAFF", 250],
-            WATERSTAFF: ["WATERSTAFF", 250],
-            BATTLESTAFF: ["BATTLESTAFF", 1000],
-            MYSTICSTAFF: ["MYSTICSTAFF", 5000],
-            ANCIENTSTAFF: ["ANCIENTSTAFF", 10000],
-            GUTHIXSTAFF: ["GUTHIXSTAFF", 25000],
-            SARADOMINSTAFF: ["SARADOMINSTAFF", 25000],
-            ZAMORAKSTAFF: ["ZAMORAKSTAFF", 25000],
-            LUNARSTAFF: ["LUNARSTAFF", 40000],
-            AHRIMSTAFF: ["AHRIMSTAFF", 100000],
-            TRIDENT: ["TRIDENT", 150000]
-        },
-    }
+    CONSUMABLES: {}
 }
