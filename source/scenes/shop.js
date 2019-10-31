@@ -21,6 +21,7 @@ export class Shop extends Phaser.Scene{
         this.currentLevel = data[1];
         this.shopItems = [];
         this.shopIcons = [];
+        this.displayIndex = 0;
         this.itemBought = false;
     }
 
@@ -56,9 +57,13 @@ export class Shop extends Phaser.Scene{
         console.log(this.shopItems);
 
         // Display the items in the shop as interactive images
-        this.displayIndex = 0;
-        this.displayItems();
-        console.log(this.shopIcons);
+        this.loadingText = this.add.text(200, 200, 'Loading...', {fill: 'white', fontSize: '28px'}).setDepth(3);
+        this.loadImages();  
+        
+        // @TODO: Fix this dirty hack
+        // Loader getting hung when opening the shop for the 2nd time, works fine on 1st, 3rd, 4th, ...
+        this.load.once('start', this.displayItems, this);
+        this.load.once('complete', this.displayItems, this);
     }
 
     // @TODO: Update the shop to display current gold and which items you can afford
@@ -117,10 +122,10 @@ export class Shop extends Phaser.Scene{
         console.log("Loading Consumables");
     }
 
-    displayItems() {
-        console.log("Current Display Index: ", this.displayIndex);
+    // Load images dynamically to avoid having to preload every item image.
+    loadImages() {
         var item = this.shopItems[this.displayIndex++];
-        console.log("First Item to Display: ", item);
+        console.log("Loading Image: ", item.name);
         this.displayX = item.x;
         this.displayY = item.y;
 
@@ -129,6 +134,29 @@ export class Shop extends Phaser.Scene{
         this.load.on('filecomplete', addNextImage, this);
         this.load.image(item.name);
         this.load.start();
+    }
+
+    // Display the loaded images in the shop
+    displayItems() {
+        // @TODO Remove this check, only in place because of the display hack that calls this function twice
+        if(this.shopIcons.length == this.shopItems.length)
+            return;
+            
+        console.log("Done Loading Images");
+        this.loadingText.visible = false;
+        // Create icons for all of the loaded images
+        for(let i = 0; i < this.shopItems.length; i++) {
+            var item = this.shopItems[i];
+            console.log("Displaying Item: ", item.name);
+            var curIcon = this.add.image(item.x, item.y, item.name).setInteractive();
+            curIcon.scale = .3;
+            // @TODO Add a real click-listener function that actually buys the item
+            curIcon.on("pointerup", ()=>{
+                console.log("Clicked Item: ", item.name);
+            })
+            this.shopIcons.push(curIcon);
+        }
+        console.log("Shop Icons: ", this.shopIcons);
     }
 
     // @TODO
@@ -160,20 +188,14 @@ export class Shop extends Phaser.Scene{
 
 // Event listener for dynamically loading all of the images in the shopItems list.
 function addNextImage(key) {
-    console.log("Adding Next Item to Display");
-    var curIcon = this.add.image(this.displayX, this.displayY, key).setInteractive();
-    curIcon.scale = .3;
-    // @TODO Add a real click-listener function that actually buys the item
-    curIcon.on("pointerup", ()=>{
-        console.log("Clicked Item: ", key);
-    })
-    this.shopIcons.push(curIcon);
-
     var nextItem = this.shopItems[this.displayIndex++];
 
     if(nextItem) {
-        this.displayX = nextItem.x;
-        this.displayY = nextItem.y;
+        console.log("Loading Image: ", nextItem.name);
         this.load.image(nextItem.name);
     }
+}
+
+function test(key) {
+    console.log("STARTED LOADING IMAGES");
 }

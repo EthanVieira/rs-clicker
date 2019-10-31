@@ -9,6 +9,5 @@ export class Item {
         this.skill = item.skill;
         // @TODO: Set damage for each material / weapon type
         this.damage = 1;
-        this.image = "source\\assets\\items\\" + this.name + ".png";
     }
 }
