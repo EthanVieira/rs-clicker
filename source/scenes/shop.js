@@ -4,6 +4,8 @@
 // TODO: Show price of each item below the item, and gray out items that are too expensive
 
 import { CONSTANTS } from "../constants.js";
+import { MATERIALS } from "../materials.js";
+import { ITEMS } from "../items.js";
 import { Item } from "../item.js";
 
 export class Shop extends Phaser.Scene{
@@ -83,33 +85,17 @@ export class Shop extends Phaser.Scene{
     // Load weapons based on the character's levels
     loadWeapons(characterData) {
         console.log("Loading Weapons");
-        var items = [[]];
-        var weaponTypes = [CONSTANTS.MELEEWEAPON, CONSTANTS.RANGEDWEAPON/*, CONSTANTS.MAGICWEAPON*/];
-
-        // Load weapons for each part of the combat triangle
-        for(let i = 0; i < weaponTypes.length; i++) {
-            var weaponType = weaponTypes[i];
+        var items = [];
+        var meleeWeapons = [], rangedWeapons = [], magicWeapons = [];
+        for(var key in ITEMS.WEAPONS) {
+            console.log("Current Weapon: ", key);
+            // Store the dictionary entry for this specific weapon
+            var weaponData = ITEMS.WEAPONS[key];
             // Determine which skill (attack/ranged/magic) is required for this weapon type
-            var requiredSkill;
-            if(weaponType == CONSTANTS.MELEEWEAPON)
-                requiredSkill = characterData.skills.attack;
-            else if(weaponType == CONSTANTS.RANGEDWEAPON)
-                requiredSkill = characterData.skills.ranged;
-            else
-                requiredSkill = characterData.skills.magic;
-
-            // Store each item for this row of the shop in tempList
-            var tempList = [];
-            for(var weapon in weaponType) {
-                // weaponData stores [name, base_cost, material_type (smithing/fletching)]
-                var weaponData = weaponType[weapon];  
-                var matType = CONSTANTS[weaponData[2]];
-                var bestMat = this.getBestMat(requiredSkill, matType);
-                // Load the current weapon with the best possible material (e.g. dragon dagger)
-                tempList.push(new Item(bestMat, weaponData));
-            }
-            // Store each class of weapon in its own row (melee on first row, ranged on second, magic on third)
-            items[i] = tempList;
+            var requiredSkill = characterData.skills[weaponData.skill];
+            // Load the current weapon with the best possible material (e.g. dragon dagger)
+            var bestMat = this.getBestMat(requiredSkill, weaponData.material);
+            items.push(new Item(bestMat, weaponData));
         }
         this.shopItems = items;
     }
@@ -139,13 +125,15 @@ export class Shop extends Phaser.Scene{
     //====== Helper Functions ======
 
     // Determine the best material type available for a character given their levels (e.g. 5 attack = steel weapons)
-    getBestMat(level, matType) {
+    getBestMat(reqLevel, matType) {
         var bestMat;
         console.log("Mat Type: ", matType);
-        for(var mat in matType) {
-            var matData = matType[mat];
-            console.log("Mat: ", matData);
-            if(matData[2] > level)
+        // Looping over values of this material type (e.g. SMITHINGMAT: Bronze, Iron, Steel, ...)
+        for(var mat in MATERIALS[matType]) {
+            // No dict.values() in Javascript, so this is a workaround. 
+            var matData = MATERIALS[matType][mat];
+            console.log("Mat Data: ", matData);
+            if(matData.level > reqLevel)
                 break;
             bestMat = matData;
         }
