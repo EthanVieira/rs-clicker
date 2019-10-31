@@ -54,7 +54,6 @@ export class Shop extends Phaser.Scene{
 
         // Load the array of available item objects (weapons by default)
         this.loadItems("WEAPONS", this.characterData);
-        console.log(this.shopItems);
 
         // Display the items in the shop as interactive images
         this.loadingText = this.add.text(200, 200, 'Loading...', {fill: 'white', fontSize: '28px'}).setDepth(3);
@@ -141,22 +140,27 @@ export class Shop extends Phaser.Scene{
         // @TODO Remove this check, only in place because of the display hack that calls this function twice
         if(this.shopIcons.length == this.shopItems.length)
             return;
-            
+
         console.log("Done Loading Images");
         this.loadingText.visible = false;
         // Create icons for all of the loaded images
         for(let i = 0; i < this.shopItems.length; i++) {
             var item = this.shopItems[i];
             console.log("Displaying Item: ", item.name);
-            var curIcon = this.add.image(item.x, item.y, item.name).setInteractive();
-            curIcon.scale = .3;
+            var tempIcon = this.add.image(item.x, item.y, item.name).setInteractive();
+            tempIcon.scale = .3;
             // @TODO Add a real click-listener function that actually buys the item
-            curIcon.on("pointerup", ()=>{
-                console.log("Clicked Item: ", item.name);
+            tempIcon.on("pointerup", ()=>{
+                this.buyItem(this.shopItems[i]);
             })
-            this.shopIcons.push(curIcon);
+            this.shopIcons.push(tempIcon);
         }
-        console.log("Shop Icons: ", this.shopIcons);
+        console.log("# Items: ", this.shopItems.length);
+    }
+
+    // @TODO
+    buyItem(item) {
+        console.log("Buying Item:", item.name);
     }
 
     // @TODO
@@ -194,8 +198,4 @@ function addNextImage(key) {
         console.log("Loading Image: ", nextItem.name);
         this.load.image(nextItem.name);
     }
-}
-
-function test(key) {
-    console.log("STARTED LOADING IMAGES");
 }
