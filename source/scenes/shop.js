@@ -19,6 +19,8 @@ export class Shop extends Phaser.Scene{
         // Carry along character data
         this.characterData = data[0];
         this.currentLevel = data[1];
+        this.shopItems = [];
+        this.shopIcons = [];
         this.itemBought = false;
     }
 
@@ -49,12 +51,14 @@ export class Shop extends Phaser.Scene{
         //this.toolsButton = ...
         //this.consumablesButton = ...
 
-        // Load the 2D array of available item objects (weapons by default)
+        // Load the array of available item objects (weapons by default)
         this.loadItems("WEAPONS", this.characterData);
         console.log(this.shopItems);
 
         // Display the items in the shop as interactive images
+        this.displayIndex = 0;
         this.displayItems();
+        console.log(this.shopIcons);
     }
 
     // @TODO: Update the shop to display current gold and which items you can afford
@@ -85,31 +89,46 @@ export class Shop extends Phaser.Scene{
     // Load weapons based on the character's levels
     loadWeapons(characterData) {
         console.log("Loading Weapons");
-        var items = [];
-        var meleeWeapons = [], rangedWeapons = [], magicWeapons = [];
-        for(var key in ITEMS.WEAPONS) {
-            console.log("Current Weapon: ", key);
-            // Store the dictionary entry for this specific weapon
-            var weaponData = ITEMS.WEAPONS[key];
-            // Determine which skill (attack/ranged/magic) is required for this weapon type
-            var requiredSkill = characterData.skills[weaponData.skill];
+        // Store the (x,y) coordinates for each image in the shop display
+        var imageX = {"attack": 100, "ranged": 100, "magic": 100};
+        var imageY = {"attack": 100, "ranged": 200, "magic": 300};
+        for(var weapon in ITEMS.WEAPONS) {
+            var weaponData = ITEMS.WEAPONS[weapon];
+            var requiredSkill = weaponData.skill;
+            var requiredLevel = characterData.skills[requiredSkill];
             // Load the current weapon with the best possible material (e.g. dragon dagger)
-            var bestMat = this.getBestMat(requiredSkill, weaponData.material);
-            items.push(new Item(bestMat, weaponData));
+            var bestMat = this.getBestMat(requiredLevel, weaponData.material);
+            // Determine the corect (x,y) coordinate for the image to be displayed in the shop
+            var x = imageX[requiredSkill];
+            var y = imageY[requiredSkill];
+            // Increment the x location for the next item of this type
+            imageX[requiredSkill] += 100;
+            this.shopItems.push(new Item(bestMat, weaponData, x, y));
         }
-        this.shopItems = items;
     }
 
     // @TODO
-    loadTools(characterData) {}
+    loadTools(characterData) {
+        console.log("Loading Tools");
+    }
 
     // @TODO
-    loadConsumables(characterData) {}
+    loadConsumables(characterData) {
+        console.log("Loading Consumables");
+    }
 
-    // @TODO
     displayItems() {
-        // For each row in items, load all of the items side-by-side with price
-        // Make sure spacing and prices show up cleanly
+        console.log("Current Display Index: ", this.displayIndex);
+        var item = this.shopItems[this.displayIndex++];
+        console.log("First Item to Display: ", item);
+        this.displayX = item.x;
+        this.displayY = item.y;
+
+        // http://labs.phaser.io/edit.html?src=src/loader/loader%20events/start%20loader%20manually.js
+        this.load.setPath('source/assets/items/');
+        this.load.on('filecomplete', addNextImage, this);
+        this.load.image(item.name);
+        this.load.start();
     }
 
     // @TODO
@@ -127,17 +146,34 @@ export class Shop extends Phaser.Scene{
     // Determine the best material type available for a character given their levels (e.g. 5 attack = steel weapons)
     getBestMat(reqLevel, matType) {
         var bestMat;
-        console.log("Mat Type: ", matType);
         // Looping over values of this material type (e.g. SMITHINGMAT: Bronze, Iron, Steel, ...)
         for(var mat in MATERIALS[matType]) {
             // No dict.values() in Javascript, so this is a workaround. 
             var matData = MATERIALS[matType][mat];
-            console.log("Mat Data: ", matData);
             if(matData.level > reqLevel)
                 break;
             bestMat = matData;
         }
         return bestMat;
     }
+}
 
+// Event listener for dynamically loading all of the images in the shopItems list.
+function addNextImage(key) {
+    console.log("Adding Next Item to Display");
+    var curIcon = this.add.image(this.displayX, this.displayY, key).setInteractive();
+    curIcon.scale = .3;
+    // @TODO Add a real click-listener function that actually buys the item
+    curIcon.on("pointerup", ()=>{
+        console.log("Clicked Item: ", key);
+    })
+    this.shopIcons.push(curIcon);
+
+    var nextItem = this.shopItems[this.displayIndex++];
+
+    if(nextItem) {
+        this.displayX = nextItem.x;
+        this.displayY = nextItem.y;
+        this.load.image(nextItem.name);
+    }
 }
