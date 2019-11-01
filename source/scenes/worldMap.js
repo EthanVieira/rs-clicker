@@ -35,7 +35,7 @@ export class WorldMap extends Phaser.Scene{
         let lumbridge = this.add.text(600, 390, 'Lumbridge', {fill: 'white', fontSize: '20px'}).setDepth(1);
         lumbridge.setInteractive();
         lumbridge.on('pointerup', ()=>{
-            if (this.characterData.tutorialIsland.questCompleted) {
+            if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
                 this.scene.start(CONSTANTS.SCENES.LUMBRIDGE, this.characterData); 
                 console.log("Going to Lumbridge");   
             }
