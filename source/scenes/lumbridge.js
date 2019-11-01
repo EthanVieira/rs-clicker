@@ -1,7 +1,7 @@
 import { CONSTANTS } from "../constants.js";
-import { Level } from "../level.js";
+import { enemyLevel } from "../enemyLevel.js";
 
-export class Lumbridge extends Level{
+export class Lumbridge extends enemyLevel{
     constructor() {
         super({
             key: CONSTANTS.SCENES.LUMBRIDGE,

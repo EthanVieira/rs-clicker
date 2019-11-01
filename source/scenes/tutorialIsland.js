@@ -1,7 +1,7 @@
 import { CONSTANTS } from "../constants.js";
-import { Level } from "../level.js";
+import { enemyLevel } from "../enemyLevel.js";
 
-export class TutorialIsland extends Level{
+export class TutorialIsland extends enemyLevel{
     constructor() {
         super({
             key: CONSTANTS.SCENES.TUTORIAL_ISLAND,
