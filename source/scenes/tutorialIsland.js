@@ -8,7 +8,7 @@ export class TutorialIsland extends enemyLevel{
             killQuest: 10,
             background: { name: 'tutorialIsland', path: 'source/assets/TutorialIslandBackground.png' },
             minimap: { name: 'tutorialIslandMap', path: 'source/assets/TutorialIslandMap.png'},
-            enemies: [
+            clickObjects: [
                 {
                     name: 'rat', 
                     path: 'source/assets/sprites/GiantRat.png',

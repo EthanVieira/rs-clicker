@@ -24,6 +24,10 @@ export class Level extends Phaser.Scene{
         audioButtons: []
     }
     timeDelta = 0;
+    // Click object: enemy, tree, etc.
+    clickObjects = [];
+    clickObjectMetaData = [];
+    currentClickObjectIndex = 0;
     // Character
     characterData = {
         gold: 0,
@@ -43,7 +47,7 @@ export class Level extends Phaser.Scene{
             ranged: 1,
             magic: 1
         }, 
-        audio: [4, 4, 4],   // BGM, SFX, Environment
+        audio: [2, 2, 2],   // BGM, SFX, Environment
         // Can be accessed with characterData[this.currentLevel].questCompleted, etc.
         TUTORIAL_ISLAND: {
             questCompleted: false,
@@ -80,6 +84,7 @@ export class Level extends Phaser.Scene{
         this.background = data.background;
         this.minimap = data.minimap;
         this.audio = data.audio;
+        this.clickObjectMetaData = data.clickObjects;
 
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
@@ -120,6 +125,11 @@ export class Level extends Phaser.Scene{
 
         // Overlay
         this.load.image('overlay', 'source/assets/InterfaceNoChat.png');
+
+        // Click object (target)
+        this.clickObjectMetaData.forEach((target) => {
+            this.load.image(target.name, target.path);
+        });
 
         // Inventory icon
         this.load.image('inventoryButton', 'source/assets/InventoryButton.png');
@@ -168,6 +178,7 @@ export class Level extends Phaser.Scene{
             console.log("Going to World Map");     
         })
 
+        // Shop
         this.shopButton = this.add.text(585, 475, 'Shop').setInteractive();
         this.shopButton.on("pointerup", ()=>{
             // Release autoclickers to be garbage collected
@@ -242,6 +253,9 @@ export class Level extends Phaser.Scene{
 
         // Call create function for inherited class
         this.childCreate();
+
+        // Display click object
+        this.showRandomClickObject();
     }
 
     update(time, delta){
@@ -334,5 +348,30 @@ export class Level extends Phaser.Scene{
     hideAllMenus() {
         this.showAudioSettings(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
+    }
+
+    showRandomClickObject() {
+        this.clickObjects[this.currentClickObjectIndex].hide();
+        this.currentClickObjectIndex = Math.floor(Math.random() * this.clickObjectMetaData.length);
+        this.clickObjects[this.currentClickObjectIndex].show();
+    }
+
+    updateAutoClickerDPS(dps){
+        this.autoClickDps += dps;
+        this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
+    }
+
+    // Used by autoclicker
+    clickCurrentTarget(damage) {
+        this.clickObjects[this.currentClickObjectIndex].damageEnemy(damage);
+    }
+
+    // Need to clear data before changing scenes
+    clearAutoClickers() {
+        for (let i = 0; i < this.autoClickers.length; i++) {
+            this.autoClickers[i].release();
+        }
+        this.autoClickers = [];
+        this.clickObjects = [];
     }
 }

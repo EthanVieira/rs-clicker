@@ -8,7 +8,7 @@ export class Lumbridge extends enemyLevel{
             killQuest: 10,
             background: { name: 'lumbridge', path: 'source/assets/LumbridgeBackground.jpg' },
             minimap: { name: 'lumbridgeMap', path: 'source/assets/LumbridgeMap.png'},
-            enemies: [
+            clickObjects: [
                 {
                     name: 'cow', 
                     path: 'source/assets/sprites/cow.png',

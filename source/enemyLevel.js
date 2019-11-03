@@ -1,14 +1,10 @@
 import { Level } from "./level.js";
 import { CONSTANTS } from "./constants.js";
-import { Enemy } from "./enemy.js";
 import { AutoClicker } from "./autoClicker.js";
+import { Enemy } from "./enemy.js";
 
 // Parent level class
 export class enemyLevel extends Level{
-    // Enemy
-    enemyMetadata = [];   // name, path, maxHealth, killGold
-    enemyObjects = [];
-    currentEnemyIndex = 0;
 
     // Autoclickers
     autoClickers = [];
@@ -23,7 +19,6 @@ export class enemyLevel extends Level{
     constructor(data) {
         super(data);
 
-        this.enemyMetadata = data.enemies;
         this.killQuest = data.killQuest;
     }
 
@@ -31,33 +26,14 @@ export class enemyLevel extends Level{
         // Hitsplats
         this.load.image('blue-hitsplat', 'source/assets/BlueHitsplat.png');
         this.load.image('red-hitsplat', 'source/assets/RedHitsplat.png');
-
-        // Enemy
-        this.enemyMetadata.forEach((enemy) => {
-            this.load.image(enemy.name, enemy.path);
-        });
     }
 
     childCreate() {
-        // Create enemies
-        this.enemyMetadata.forEach((enemy) => {
-            this.enemyObjects.push(
-                new Enemy({
-                    scene: this,
-                    x: this.width/2-100,
-                    y: this.height/2-115,
-                    maxHealth: enemy.maxHealth,
-                    name: enemy.name,
-                    killGold: enemy.killGold
-                })
-            );
-        });
-
         // Create kill quest
         this.killQuestText = this.add.text(530, 270, "", {fill: 'white'}).setDepth(3);
-        this.enemyMetadata.forEach((enemy, index) => {
+        this.clickObjectMetaData.forEach((enemy, index) => {
             this.killQuestText.text += this.characterData[this.currentLevel].enemiesKilled[enemy.name] + "/" + this.killQuest + " " + enemy.name + "s";
-            if (index + 1 < this.enemyMetadata.length) {
+            if (index + 1 < this.clickObjectMetaData.length) {
                 this.killQuestText.text += " & ";
             }
         });
@@ -79,6 +55,20 @@ export class enemyLevel extends Level{
             }           
         });
 
+        // Create click objects
+        this.clickObjectMetaData.forEach((clickObject) => {
+            this.clickObjects.push(
+                new Enemy({
+                    scene: this,
+                    x: this.width/2-100,
+                    y: this.height/2-115,
+                    maxHealth: clickObject.maxHealth,
+                    name: clickObject.name,
+                    killGold: clickObject.killGold
+                })
+            );
+        });
+
         // Show stats
         let statColor = 'white';
         this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {fill: statColor}).setDepth(3);
@@ -93,19 +83,6 @@ export class enemyLevel extends Level{
                 this.createAutoClicker({dps: 5, level: 1, type: 'Hired Bowman'});
             }
         }
-
-        // Choose first displayed enemy
-        this.showRandomEnemy();
-    }
-
-    showRandomEnemy() {
-        this.enemyObjects[this.currentEnemyIndex].hide();
-        this.currentEnemyIndex = Math.floor(Math.random() * this.enemyMetadata.length);
-        this.enemyObjects[this.currentEnemyIndex].show();
-    }
-
-    damageCurrentEnemy(damage) {
-        this.enemyObjects[this.currentEnemyIndex].damageEnemy(damage);
     }
 
     enemyKilled(name){
@@ -116,10 +93,10 @@ export class enemyLevel extends Level{
 
             let questCompleted = true;
             this.killQuestText.text = "";
-            this.enemyMetadata.forEach((enemy, index) => {
+            this.clickObjectMetaData.forEach((enemy, index) => {
                 // Update quest text
                 this.killQuestText.text += this.characterData[this.currentLevel].enemiesKilled[enemy.name] + "/" + this.killQuest + " " + enemy.name + "s";
-                if (index + 1 < this.enemyMetadata.length) {
+                if (index + 1 < this.clickObjectMetaData.length) {
                     this.killQuestText.text += " & ";
                 }
 
@@ -128,7 +105,7 @@ export class enemyLevel extends Level{
                     questCompleted = false;
                 }
                 // Set as complete if all passed on last index
-                else if (questCompleted && index == this.enemyMetadata.length - 1) {
+                else if (questCompleted && index == this.clickObjectMetaData.length - 1) {
                     this.questCompleteText.visible = true;
                     this.characterData[this.currentLevel].questCompleted = true;
                     console.log("Quest complete!");
@@ -138,7 +115,7 @@ export class enemyLevel extends Level{
         this.enemiesKilledText.text = "Enemies killed: " + this.characterData.totalEnemiesKilled;
     
         // Get new enemy
-        this.showRandomEnemy();
+        this.showRandomClickObject();
     }
 
     createAutoClicker(data){
@@ -146,24 +123,11 @@ export class enemyLevel extends Level{
             scene: this,
             dps: data.dps,
             level: data.level,
-            type: data.type
+            type: data.type,
+
         });
         this.autoClickers.push(autoClicker);
         this.updateAutoClickerDPS(data.dps);
         this.characterData.numberOfAutoClickers++;
-    }
-
-    updateAutoClickerDPS(dps){
-        this.autoClickDps += dps;
-        this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
-    }
-
-    // Need to clear data before changing scenes
-    clearAutoClickers() {
-        for (let i = 0; i < this.autoClickers.length; i++) {
-            this.autoClickers[i].release();
-        }
-        this.autoClickers = [];
-        this.enemyObjects = [];
     }
 }
