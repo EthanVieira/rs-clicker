@@ -19,9 +19,6 @@ export class CCScene extends Phaser.Scene{
         this.load.image('mage', 'source/assets/CC_Mage.png');
 
         this.load.image('play-button', 'source/assets/PlayButton.png');
-        // TODO:
-            // Settings
-            // Stats
     }
     create(){
         let characterClass = CONSTANTS.CLASS.UNARMED;
