@@ -35,6 +35,17 @@ export class Level extends Phaser.Scene{
         damageByClicking: 0,
         damageByAutoClick: 0,
         numberOfAutoClickers: 0,
+        skills: {
+            woodcutting: 1,
+            mining: 1,
+            attack: 1,
+            strength: 1,
+            defense: 1,
+            hitpoints: 10,
+            ranged: 1,
+            magic: 1,
+            herblore: 1
+        }, 
         audio: [4, 4, 4],   // BGM, SFX, Environment
         // Can be accessed with characterData[this.background.name].questCompleted, etc.
         tutorialIsland: {
@@ -87,6 +98,8 @@ export class Level extends Phaser.Scene{
         this.minimap = data.minimap;
         //this.enemySettings = data.enemy;
         this.enemyMetadata = data.enemies;
+        // Store current level to return to after leaving shop
+        this.currentLevel = data.key;
         this.audio = data.audio;
     }
 
@@ -97,6 +110,22 @@ export class Level extends Phaser.Scene{
         // Receive cookies if they exist
         if (characterData.hasCookies){
             this.characterData = characterData;
+        }
+        // Otherwise, initialize character based on starting class
+        else {
+            switch(this.characterData.characterClass) {
+                case("WARRIOR"):
+                    this.characterData.skills.attack = 5;
+                    this.characterData.skills.strength = 5;
+                    this.characterData.skills.defense = 5;
+                    break;
+                case("RANGER"):
+                    this.characterData.skills.ranged = 10;
+                    break;
+                case("MAGE"):
+                    this.characterData.skills.magic = 10;
+                    break;
+            }
         }
     }
 
@@ -123,14 +152,17 @@ export class Level extends Phaser.Scene{
         this.enemyMetadata.forEach((enemy) => {
             this.load.image(enemy.name, enemy.path);
         });
+
+        // Hitsplats
         this.load.image('blue-hitsplat', 'source/assets/BlueHitsplat.png');
         this.load.image('red-hitsplat', 'source/assets/RedHitsplat.png');
 
-        // Class
+        // Classes
         this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/sprites/Unarmed.png');
         this.load.image(CONSTANTS.CLASS.WARRIOR, 'source/assets/sprites/Warrior.png');
         this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/sprites/Ranger.png');
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/sprites/Mage.jpg');
+
     }
 
     create(){
@@ -163,6 +195,19 @@ export class Level extends Phaser.Scene{
             this.enemyObjects = [];
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData); 
             console.log("Going to World Map");     
+        })
+
+        this.shopButton = this.add.text(585, 475, 'Shop').setInteractive();
+        this.shopButton.on("pointerup", ()=>{
+            for (let i = 0; i < this.autoClickers.length; i++) {
+                this.autoClickers[i].release();
+            }
+            this.autoClickers = [];
+            this.enemyObjects = [];
+            // Pass in the current level to know which level to return to upon exiting the shop.
+            this.scene.start(CONSTANTS.SCENES.SHOP, [this.characterData, this.currentLevel]);
+            // TODO: Instead of starting a shop scene, just have a shop interface pop up w/o stopping game.
+            console.log("Going to Shop");
         })
 
         // Overlay
