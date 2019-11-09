@@ -78,13 +78,13 @@ export const ITEMS = {
             name: "Axe",
             cost: 100,
             material: "SMITHINGMATS",
-            skill: "Woodcutting"
+            skill: "woodcutting"
         }, 
         PICKAXE: {
             name: "Pickaxe", 
             cost: 100, 
             material: "SMITHINGMATS",
-            skill: "Mining"
+            skill: "mining"
         }
     },
     CONSUMABLES: {}

@@ -45,7 +45,8 @@ export class Level extends Phaser.Scene{
             defense: 1,
             hitpoints: 10,
             ranged: 1,
-            magic: 1
+            magic: 1,
+            herblore: 1
         }, 
         audio: [2, 2, 2],   // BGM, SFX, Environment
         // Can be accessed with characterData[this.currentLevel].questCompleted, etc.
