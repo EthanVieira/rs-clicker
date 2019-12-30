@@ -1,21 +1,27 @@
 import { CONSTANTS } from "./constants.js";
+import { Resource } from "./Resource.js";
 
 // Parent level class
 export class Level extends Phaser.Scene{
     // General
     width = 0;
     height = 0;
+    timeDelta = 0;
+
     background = {
         name: '',
         path: ''
     }
+
     minimap = {
         name: '',
         path: ''
     }
+
     inventory = {
         button: {}
     }
+
     audio = {
         bgm: '',
         audioPage: {},
@@ -23,11 +29,17 @@ export class Level extends Phaser.Scene{
         sliders: [],
         audioButtons: []
     }
-    timeDelta = 0;
+
     // Click object: enemy, tree, etc.
     clickObjects = [];
     clickObjectMetaData = [];
     currentClickObjectIndex = 0;
+    levelType = '';
+
+    // Autoclickers
+    autoClickers = [];
+    autoClickDps = 0;
+
     // Character
     characterData = {
         gold: 0,
@@ -70,11 +82,13 @@ export class Level extends Phaser.Scene{
             }
         }
     };
+
     // Text
     goldText = '';
     enemiesKilledText;
     timesClickedText;
     damageByClickingText;
+    autoClickDpsText;
 
     constructor(data) {
         super({
@@ -148,7 +162,9 @@ export class Level extends Phaser.Scene{
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/sprites/Mage.jpg');
 
         // Call preload function for inherited class
-        this.childPreload();
+        if (this.levelType != '') {
+        	this.childPreload();
+    	}
     }
 
     create(){
@@ -168,6 +184,22 @@ export class Level extends Phaser.Scene{
 
         // Background
         this.add.image(0,0, this.background.name).setOrigin(0,0).setDepth(0);
+
+        // Create click objects
+        if (this.levelType != CONSTANTS.LEVEL_TYPE.ENEMY) {
+	        this.clickObjectMetaData.forEach((clickObject) => {
+	            this.clickObjects.push(
+	                new Resource({
+	                    scene: this,
+	                    x: this.width/2-100,
+	                    y: this.height/2-150,
+	                    neededClicks: clickObject.neededClicks,
+	                    name: clickObject.name,
+	                    resourceType: clickObject.resourceType
+	                })
+	            );
+	        });
+	    }
 
         // Minimap
         this.minimap.obj = this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
@@ -253,7 +285,9 @@ export class Level extends Phaser.Scene{
         this.damageByAutoClickText = this.add.text(20, 105, "Damage done by autoclickers: " + this.characterData.damageByAutoClick, {fill: statColor}).setDepth(3);
 
         // Call create function for inherited class
-        this.childCreate();
+        if (this.levelType != '') {
+        	this.childCreate();
+        }
 
         // Display click object
         this.showRandomClickObject();

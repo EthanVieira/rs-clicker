@@ -19,5 +19,9 @@ export const CONSTANTS = {
     RESOURCES: {
         WOOD: "WOOD",
         ORE: "ORE",
-    }
+    },
+    LEVEL_TYPE: {
+        ENEMY: "ENEMY",
+        RESOURCE: "RESOURCE",
+    },
 }

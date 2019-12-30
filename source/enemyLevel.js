@@ -6,11 +6,6 @@ import { Enemy } from "./enemy.js";
 // Parent level class
 export class enemyLevel extends Level{
 
-    // Autoclickers
-    autoClickers = [];
-    autoClickDps = 0;
-    autoClickDpsText;
-
     // Level completion
     killQuest = 0;
     killQuestText = '';
@@ -20,6 +15,7 @@ export class enemyLevel extends Level{
         super(data);
 
         this.killQuest = data.killQuest;
+        this.levelType = CONSTANTS.LEVEL_TYPE.ENEMY;
     }
 
     childPreload() {

@@ -33,8 +33,9 @@ export class Resource {
         // Increase progress and check completion
         let completed = this.progressBar.updateProgress(1);
         if (completed) {
-            console.log('completed');
-            this.scene.resourceCompleted();
+            console.log('Got', this.resourceType);
+            // TODO: put resource in inventory, add XP
+            this.scene.showRandomClickObject();
         }
     }
 
