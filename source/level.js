@@ -1,23 +1,27 @@
 import { CONSTANTS } from "./constants.js";
-import { Enemy } from "./enemy.js";
-import { AutoClicker } from "./autoClicker.js";
+import { Resource } from "./Resource.js";
 
 // Parent level class
 export class Level extends Phaser.Scene{
     // General
     width = 0;
     height = 0;
+    timeDelta = 0;
+
     background = {
         name: '',
         path: ''
     }
+
     minimap = {
         name: '',
         path: ''
     }
+
     inventory = {
         button: {}
     }
+
     audio = {
         bgm: '',
         audioPage: {},
@@ -25,7 +29,17 @@ export class Level extends Phaser.Scene{
         sliders: [],
         audioButtons: []
     }
-    timeDelta = 0;
+
+    // Click object: enemy, tree, etc.
+    clickObjects = [];
+    clickObjectMetaData = [];
+    currentClickObjectIndex = 0;
+    levelType = '';
+
+    // Autoclickers
+    autoClickers = [];
+    autoClickDps = 0;
+
     // Character
     characterData = {
         gold: 0,
@@ -46,46 +60,35 @@ export class Level extends Phaser.Scene{
             magic: 1,
             herblore: 1
         }, 
-        audio: [4, 4, 4],   // BGM, SFX, Environment
-        // Can be accessed with characterData[this.background.name].questCompleted, etc.
-        tutorialIsland: {
+        audio: [2, 2, 2],   // BGM, SFX, Environment
+        // Can be accessed with characterData[this.currentLevel].questCompleted, etc.
+        TUTORIAL_ISLAND: {
             questCompleted: false,
             enemiesKilled: {
                 rat: 0,
             }
         },
-        lumbridge: {
+        LUMBRIDGE: {
             questCompleted: false,
             enemiesKilled: {
                 cow: 0,
                 goblin: 0
             }
         },
-        varrock: {
+        VARROCK: {
             questCompleted: false,
             enemiesKilled: {
                 wizard: 0
             }
         }
     };
-    // Autoclickers
-    autoClickers = [];
-    autoClickDps = 0;
-    // Enemy
-    enemyMetadata = [];   // name, path, maxHealth, killGold
-    enemyObjects = [];
-    currentEnemyIndex = 0;
+
     // Text
     goldText = '';
     enemiesKilledText;
     timesClickedText;
     damageByClickingText;
-    damageByAutoClickText;
     autoClickDpsText;
-    // Level completion
-    killQuest = 0;
-    killQuestText = '';
-    questCompleteText = '';
 
     constructor(data) {
         super({
@@ -93,14 +96,13 @@ export class Level extends Phaser.Scene{
         })
 
         // Get data from child class
-        this.killQuest = data.killQuest;
         this.background = data.background;
         this.minimap = data.minimap;
-        //this.enemySettings = data.enemy;
-        this.enemyMetadata = data.enemies;
+        this.audio = data.audio;
+        this.clickObjectMetaData = data.clickObjects;
+
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
-        this.audio = data.audio;
     }
 
     init(characterData) {
@@ -139,6 +141,11 @@ export class Level extends Phaser.Scene{
         // Overlay
         this.load.image('overlay', 'source/assets/InterfaceNoChat.png');
 
+        // Click object (target)
+        this.clickObjectMetaData.forEach((target) => {
+            this.load.image(target.name, target.path);
+        });
+
         // Inventory icon
         this.load.image('inventoryButton', 'source/assets/InventoryButton.png');
 
@@ -148,21 +155,16 @@ export class Level extends Phaser.Scene{
         this.load.image('audioSlider', 'source/assets/audioSlider.png');
         this.load.image('audioButton', 'source/assets/AudioButton.png');
 
-        // Enemy
-        this.enemyMetadata.forEach((enemy) => {
-            this.load.image(enemy.name, enemy.path);
-        });
-
-        // Hitsplats
-        this.load.image('blue-hitsplat', 'source/assets/BlueHitsplat.png');
-        this.load.image('red-hitsplat', 'source/assets/RedHitsplat.png');
-
         // Classes
         this.load.image(CONSTANTS.CLASS.UNARMED, 'source/assets/sprites/Unarmed.png');
         this.load.image(CONSTANTS.CLASS.WARRIOR, 'source/assets/sprites/Warrior.png');
         this.load.image(CONSTANTS.CLASS.RANGER, 'source/assets/sprites/Ranger.png');
         this.load.image(CONSTANTS.CLASS.MAGE, 'source/assets/sprites/Mage.jpg');
 
+        // Call preload function for inherited class
+        if (this.levelType != '') {
+        	this.childPreload();
+    	}
     }
 
     create(){
@@ -183,27 +185,37 @@ export class Level extends Phaser.Scene{
         // Background
         this.add.image(0,0, this.background.name).setOrigin(0,0).setDepth(0);
 
+        // Create click objects
+        if (this.levelType != CONSTANTS.LEVEL_TYPE.ENEMY) {
+	        this.clickObjectMetaData.forEach((clickObject) => {
+	            this.clickObjects.push(
+	                new Resource({
+	                    scene: this,
+	                    x: this.width/2-100,
+	                    y: this.height/2-150,
+	                    neededClicks: clickObject.neededClicks,
+	                    name: clickObject.name,
+	                    resourceType: clickObject.resourceType
+	                })
+	            );
+	        });
+	    }
+
         // Minimap
         this.minimap.obj = this.add.image(526,0, this.minimap.name).setOrigin(0,0).setDepth(0);
         this.minimap.obj.setInteractive();
         this.minimap.obj.on("pointerup", ()=>{
             // Release autoclickers to be garbage collected
-            for (let i = 0; i < this.autoClickers.length; i++) {
-                this.autoClickers[i].release();
-            }
-            this.autoClickers = [];
-            this.enemyObjects = [];
+            this.clearAutoClickers();
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData); 
             console.log("Going to World Map");     
         })
 
+        // Shop
         this.shopButton = this.add.text(585, 475, 'Shop').setInteractive();
         this.shopButton.on("pointerup", ()=>{
-            for (let i = 0; i < this.autoClickers.length; i++) {
-                this.autoClickers[i].release();
-            }
-            this.autoClickers = [];
-            this.enemyObjects = [];
+            // Release autoclickers to be garbage collected
+            this.clearAutoClickers();
             // Pass in the current level to know which level to return to upon exiting the shop.
             this.scene.start(CONSTANTS.SCENES.SHOP, [this.characterData, this.currentLevel]);
             // TODO: Instead of starting a shop scene, just have a shop interface pop up w/o stopping game.
@@ -264,49 +276,6 @@ export class Level extends Phaser.Scene{
 
         // Gold
         this.goldText = this.add.text(20, 20, 'Gold: ' + this.characterData.gold, {fill: 'gold', fontSize: '30px'}).setDepth(3);
-    
-        // Create enemies
-        this.enemyMetadata.forEach((enemy) => {
-            this.enemyObjects.push(
-                new Enemy({
-                    scene: this,
-                    x: this.width/2-100,
-                    y: this.height/2-115,
-                    maxHealth: enemy.maxHealth,
-                    name: enemy.name,
-                    killGold: enemy.killGold
-                })
-            );
-        });
-
-        // Choose first displayed enemy
-        this.showRandomEnemy();
-
-        // Button text to test autoclickers
-        let autoClickerButton = this.add.text(530, 250, '50 gold for autoclicker', {fill: 'white'}).setDepth(3);
-        autoClickerButton.setInteractive();
-        autoClickerButton.on("pointerup", ()=>{
-            if (this.characterData.gold >= 50) {
-                this.addGold(-50);
-                this.createAutoClicker({dps: 5, level: 1, type: 'Hired Bowman'});
-            }           
-        });
-
-        // Create kill quest
-        this.killQuestText = this.add.text(530, 270, "", {fill: 'white'}).setDepth(3);
-        this.enemyMetadata.forEach((enemy, index) => {
-            this.killQuestText.text += this.characterData[this.background.name].enemiesKilled[enemy.name] + "/" + this.killQuest + " " + enemy.name + "s";
-            if (index + 1 < this.enemyMetadata.length) {
-                this.killQuestText.text += " & ";
-            }
-        });
-        
-        this.questCompleteText = this.add.text(530, 290, 'Quest complete!', {fill: 'white'}).setDepth(3);
-
-        // Hide text if level quest has not been completed
-        if (!this.characterData[this.background.name].questCompleted) {
-            this.questCompleteText.visible = false;
-        }
 
         // Show stats
         let statColor = 'white';
@@ -314,18 +283,14 @@ export class Level extends Phaser.Scene{
         this.timesClickedText = this.add.text(20, 75, "Times clicked: " + this.characterData.timesClicked, {fill: statColor}).setDepth(3);
         this.damageByClickingText = this.add.text(20, 90, "Damage done by clicking: " + this.characterData.damageByClicking, {fill: statColor}).setDepth(3);
         this.damageByAutoClickText = this.add.text(20, 105, "Damage done by autoclickers: " + this.characterData.damageByAutoClick, {fill: statColor}).setDepth(3);
-        this.autoClickDpsText = this.add.text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {fill: statColor}).setDepth(3);
-       
-        // Re-add autoclickers from cookies on first load
-        if (this.characterData.hasCookies && this.autoClickers.length == 0){
-            let numAutoClickers = this.characterData.numberOfAutoClickers;
-            this.characterData.numberOfAutoClickers = 0;
-            this.autoClickDps = 0;
-            this.updateAutoClickerDPS(0);
-            for (let i = 0; i < numAutoClickers; i++) {
-                this.createAutoClicker({dps: 5, level: 1, type: 'Hired Bowman'});
-            }
+
+        // Call create function for inherited class
+        if (this.levelType != '') {
+        	this.childCreate();
         }
+
+        // Display click object
+        this.showRandomClickObject();
     }
 
     update(time, delta){
@@ -358,39 +323,6 @@ export class Level extends Phaser.Scene{
         this.goldText.text = 'Gold: ' + this.characterData.gold;
     }
 
-    enemyKilled(name){
-        this.characterData.totalEnemiesKilled++;
-        // Update kill quest score
-        if (this.characterData[this.background.name].enemiesKilled[name] < this.killQuest) {
-            this.characterData[this.background.name].enemiesKilled[name]++;
-
-            let questCompleted = true;
-            this.killQuestText.text = "";
-            this.enemyMetadata.forEach((enemy, index) => {
-                // Update quest text
-                this.killQuestText.text += this.characterData[this.background.name].enemiesKilled[enemy.name] + "/" + this.killQuest + " " + enemy.name + "s";
-                if (index + 1 < this.enemyMetadata.length) {
-                    this.killQuestText.text += " & ";
-                }
-
-                // Check for quest completion
-                if (this.characterData[this.background.name].enemiesKilled[enemy.name] < this.killQuest) {
-                    questCompleted = false;
-                }
-                // Set as complete if all passed on last index
-                else if (questCompleted && index == this.enemyMetadata.length - 1) {
-                    this.questCompleteText.visible = true;
-                    this.characterData[this.background.name].questCompleted = true;
-                    console.log("Quest complete!");
-                }
-            });
-        }
-        this.enemiesKilledText.text = "Enemies killed: " + this.characterData.totalEnemiesKilled;
-    
-        // Get new enemy
-        this.showRandomEnemy();
-    }
-
     updateClickedEnemyStat(){
         this.characterData.timesClicked++;
         this.timesClickedText.text = "Times clicked: " + this.characterData.timesClicked;
@@ -404,33 +336,6 @@ export class Level extends Phaser.Scene{
     updateAutoClickDamageStat(damageDone){
         this.characterData.damageByAutoClick += damageDone;
         this.damageByAutoClickText.text = "Damage done by autoclickers: " + Math.floor(this.characterData.damageByAutoClick);
-    }
-
-    updateAutoClickerDPS(dps){
-        this.autoClickDps += dps;
-        this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
-    }
-
-    createAutoClicker(data){
-        let autoClicker = new AutoClicker({
-            scene: this,
-            dps: data.dps,
-            level: data.level,
-            type: data.type
-        });
-        this.autoClickers.push(autoClicker);
-        this.updateAutoClickerDPS(data.dps);
-        this.characterData.numberOfAutoClickers++;
-    }
-
-    showRandomEnemy() {
-        this.enemyObjects[this.currentEnemyIndex].hide();
-        this.currentEnemyIndex = Math.floor(Math.random() * this.enemyMetadata.length);
-        this.enemyObjects[this.currentEnemyIndex].show();
-    }
-    
-    damageCurrentEnemy(damage) {
-        this.enemyObjects[this.currentEnemyIndex].damageEnemy(damage);
     }
 
     showAudioSettings(show) {
@@ -478,5 +383,30 @@ export class Level extends Phaser.Scene{
     hideAllMenus() {
         this.showAudioSettings(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
+    }
+
+    showRandomClickObject() {
+        this.clickObjects[this.currentClickObjectIndex].hide();
+        this.currentClickObjectIndex = Math.floor(Math.random() * this.clickObjectMetaData.length);
+        this.clickObjects[this.currentClickObjectIndex].show();
+    }
+
+    updateAutoClickerDPS(dps){
+        this.autoClickDps += dps;
+        this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
+    }
+
+    // Used by autoclicker
+    clickCurrentTarget(damage) {
+        this.clickObjects[this.currentClickObjectIndex].damageEnemy(damage);
+    }
+
+    // Need to clear data before changing scenes
+    clearAutoClickers() {
+        for (let i = 0; i < this.autoClickers.length; i++) {
+            this.autoClickers[i].release();
+        }
+        this.autoClickers = [];
+        this.clickObjects = [];
     }
 }

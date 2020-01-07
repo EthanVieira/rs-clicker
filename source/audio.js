@@ -3,7 +3,7 @@ import { CONSTANTS } from "./constants.js";
 export class Audio extends Phaser.Scene{
     currentSong = {}
     audioLoaded = false;
-    currentVolume = 4;
+    currentVolume = 0;
     currentSongName = 'scapeMain';
     constructor() {
         super({

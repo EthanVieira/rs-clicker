@@ -10,12 +10,13 @@ import { WorldMap } from "./scenes/worldMap.js"
 import { Shop } from "./scenes/shop.js"
 import { TutorialIsland } from "./scenes/tutorialIsland.js"
 import { Lumbridge }    from "./scenes/lumbridge.js"
+import { LumbridgeTree }    from "./scenes/lumbridgeTrees.js"
 
 let game = new Phaser.Game({
     width: 765,
     height: 503,
     scale: { autoCenter: Phaser.Scale.CENTER_BOTH },
     scene:[
-        LoadScene, Audio, MenuScene, CCScene, WorldMap, Shop, TutorialIsland, Lumbridge
+        LoadScene, Audio, MenuScene, CCScene, WorldMap, Shop, TutorialIsland, Lumbridge, LumbridgeTree
     ]
 });

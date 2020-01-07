@@ -16,12 +16,12 @@ export class AutoClicker {
 
         // Damage every .1 second
         this.damageInterval = .1;
-        this.timer = setInterval(this.clickEnemy.bind(this), this.damageInterval * 1000);
+        this.timer = setInterval(this.clickTarget.bind(this), this.damageInterval * 1000);
     }
 
-    clickEnemy(){
+    clickTarget(){
         let damagePerTick = this.dps * this.damageInterval;
-        this.scene.damageCurrentEnemy(damagePerTick);
+        this.scene.clickCurrentTarget(damagePerTick);
         this.scene.updateAutoClickDamageStat(damagePerTick);
     }
 

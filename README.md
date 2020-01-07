@@ -6,13 +6,13 @@
 
 [Trello board for tasks](https://trello.com/b/hJYfFDMr)
 
-Future ideas: See trello board
+[Google doc for future ideas](https://docs.google.com/document/d/14aIu6_-7gJhgkLuyItdyquUk115mISjRNwYPJmxmUm0/edit?usp=sharing)
 
 In progress:
                   
 * coming up with even bigger and brainier ideas - Ethan 
 * creating big brain item shop - Will
-* coming up with big brain ideas - Curtis
+* looking for his lost axe head - Curtis
 
 ### Run Game with Python server:
 
