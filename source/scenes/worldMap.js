@@ -26,9 +26,8 @@ export class WorldMap extends Phaser.Scene{
         // Background
         let map = this.add.image(0, 0, 'world-map').setOrigin(0,0).setDepth(0);
 
-        // Text
-        let fillColor = 'yellow';
         // Color links if they haven't been unlocked yet
+        let fillColor = 'yellow';
         if (!this.characterData.TUTORIAL_ISLAND.questCompleted) {
             fillColor = 'white';
         }
@@ -43,6 +42,7 @@ export class WorldMap extends Phaser.Scene{
             console.log("Going to Tutorial Island");   
         })
 
+        // Lumbridge
         const lumbridgeX = 1400;
         const lumbridgeY = 815;
         let lumbridge = this.add.text(lumbridgeX, lumbridgeY, 'Lumbridge', {fill: fillColor, fontSize: '20px', style: 'bold'}).setDepth(1);
@@ -57,7 +57,7 @@ export class WorldMap extends Phaser.Scene{
             }
         })
 
-        // Trees
+        // Lumbridge Trees
         const lumbridgeTreesX = 1280;
         const lumbridgeTreesY = 800;
         let lumbridgeTrees = this.add.text(lumbridgeTreesX, lumbridgeTreesY, 'Lumbridge\nTrees', {fill: fillColor, fontSize: '20px', style: 'bold'}).setDepth(1);
