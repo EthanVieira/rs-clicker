@@ -16,12 +16,12 @@ export class WorldMap extends Phaser.Scene{
         this.load.image('world-map', 'source/assets/WorldMap.png');
     }
     create(){
-    	let mapCenterX = -1000;
-    	let mapCenterY = -600;
-    	const mapWidth = 2161;
-    	const mapHeight = 1166;
-    	const screenWidth = 765;
-    	const screenHeight = 503;
+        let mapCenterX = -1000;
+        let mapCenterY = -600;
+        const mapWidth = 2161;
+        const mapHeight = 1166;
+        const screenWidth = 765;
+        const screenHeight = 503;
 
         // Background
         let map = this.add.image(0, 0, 'world-map').setOrigin(0,0).setDepth(0);
@@ -63,11 +63,11 @@ export class WorldMap extends Phaser.Scene{
         let lumbridgeTrees = this.add.text(lumbridgeTreesX, lumbridgeTreesY, 'Lumbridge\nTrees', {fill: fillColor, fontSize: '20px', style: 'bold'}).setDepth(1);
         lumbridgeTrees.setInteractive();
         lumbridgeTrees.on('pointerup', ()=>{
-        	if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
-	            this.scene.start(CONSTANTS.SCENES.LUMBRIDGE_TREES, this.characterData); 
-	            console.log("Going to Lumbridge Trees");  
-	        }
-	        else {
+            if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
+                this.scene.start(CONSTANTS.SCENES.LUMBRIDGE_TREES, this.characterData); 
+                console.log("Going to Lumbridge Trees");  
+            }
+            else {
                 console.log("Lumbridge not unlocked yet");
             }
         })
@@ -81,14 +81,14 @@ export class WorldMap extends Phaser.Scene{
 
         // Setup drag limits
         container.setInteractive(new Phaser.Geom.Rectangle(0, 0, mapWidth, mapHeight), Phaser.Geom.Rectangle.Contains); // Use size of map image
-		this.input.setDraggable(container);
+        this.input.setDraggable(container);
         this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-        	if (mapWidth - screenWidth + dragX > 0 && dragX < 0) {
-				gameObject.x = dragX;
-        	}
+            if (mapWidth - screenWidth + dragX > 0 && dragX < 0) {
+                gameObject.x = dragX;
+            }
             if (mapHeight - screenHeight + dragY > 0 && dragY < 0) {
-				gameObject.y = dragY;
-        	}
+                gameObject.y = dragY;
+            }
         });
     }
 }
