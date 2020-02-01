@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../constants.js";
+import { CONSTANTS, SCREEN, MAP } from "../constants.js";
 
 export class WorldMap extends Phaser.Scene{
     characterData = {};
@@ -17,22 +17,24 @@ export class WorldMap extends Phaser.Scene{
     }
     create(){
         // Background
-        let map = this.add.image(0, 0, 'world-map').setOrigin(0,0).setDepth(0).setInteractive();
-        this.input.setDraggable(map);
-        this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-            gameObject.x = dragX;
-            gameObject.y = dragY;
-        });
+        let map = this.add.image(0, 0, 'world-map').setOrigin(0,0).setDepth(0);
 
-        // City text
-        let tutorialIsland = this.add.text(600, 360, 'Tutorial Island', {fill: 'white', fontSize: '20px'}).setDepth(1);
+        // Color links if they haven't been unlocked yet
+        let fontStyle = MAP.UNLOCKED_FONT;
+        if (!this.characterData.TUTORIAL_ISLAND.questCompleted) {
+            fontStyle = MAP.LOCKED_FONT;
+        }
+
+        // Tutorial Island
+        let tutorialIsland = this.add.text(MAP.TUTORIAL_ISLAND.X, MAP.TUTORIAL_ISLAND.Y, 'Tutorial Island', MAP.UNLOCKED_FONT).setDepth(1);
         tutorialIsland.setInteractive();
         tutorialIsland.on('pointerup', ()=>{
             this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData); 
             console.log("Going to Tutorial Island");   
         })
 
-        let lumbridge = this.add.text(600, 390, 'Lumbridge', {fill: 'white', fontSize: '20px'}).setDepth(1);
+        // Lumbridge
+        let lumbridge = this.add.text(MAP.LUMBRIDGE.X, MAP.LUMBRIDGE.Y, 'Lumbridge', fontStyle).setDepth(1);
         lumbridge.setInteractive();
         lumbridge.on('pointerup', ()=>{
             if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
@@ -44,13 +46,37 @@ export class WorldMap extends Phaser.Scene{
             }
         })
 
-        // Trees
-        let lumbridgeTrees = this.add.text(600, 420, 'Lumbridge Trees', {fill: 'white', fontSize: '20px'}).setDepth(1);
+        // Lumbridge Trees
+        let lumbridgeTrees = this.add.text(MAP.LUMBRIDGE_TREES.X, MAP.LUMBRIDGE_TREES.Y, 'Lumbridge\nTrees', fontStyle).setDepth(1);
         lumbridgeTrees.setInteractive();
         lumbridgeTrees.on('pointerup', ()=>{
-            this.scene.start(CONSTANTS.SCENES.LUMBRIDGE_TREES, this.characterData); 
-            console.log("Going to Lumbridge Trees");   
+            if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
+                this.scene.start(CONSTANTS.SCENES.LUMBRIDGE_TREES, this.characterData); 
+                console.log("Going to Lumbridge Trees");  
+            }
+            else {
+                console.log("Lumbridge not unlocked yet");
+            }
         })
+
+        // Group objects together
+        let container = this.add.container(MAP.CENTER_X, MAP.CENTER_Y);
+        container.add(map);
+        container.add(tutorialIsland);
+        container.add(lumbridge);
+        container.add(lumbridgeTrees);
+
+        // Setup drag limits
+        container.setInteractive(new Phaser.Geom.Rectangle(0, 0, MAP.WIDTH, MAP.HEIGHT), Phaser.Geom.Rectangle.Contains); // Use size of map image
+        this.input.setDraggable(container);
+        this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+            if (MAP.WIDTH - SCREEN.WIDTH + dragX > 0 && dragX < 0) {
+                gameObject.x = dragX;
+            }
+            if (MAP.HEIGHT - SCREEN.HEIGHT + dragY > 0 && dragY < 0) {
+                gameObject.y = dragY;
+            }
+        });
     }
 }
 
