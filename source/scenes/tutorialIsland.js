@@ -6,7 +6,7 @@ export class TutorialIsland extends enemyLevel{
         super({
             key: CONSTANTS.SCENES.TUTORIAL_ISLAND,
             killQuest: 10,
-            background: { name: 'tutorialIsland', path: 'source/assets/TutorialIslandBackground.png' },
+            background: { name: 'tutorialIsland', path: 'source/assets/TutorialIslandBackground.png'},
             minimap: { name: 'tutorialIslandMap', path: 'source/assets/TutorialIslandMap.png'},
             clickObjects: [
                 {
