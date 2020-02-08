@@ -1,6 +1,6 @@
 # RS Clicker
 
-![alt text](/src/assets/logos/RSCLogo.png "Swanky RS Clicker logo")
+![alt text](/src/assets/logos/RSCLogo.jpg "Swanky RS Clicker logo")
 
 ### TODO
 
@@ -20,7 +20,7 @@ Python version 3.x:
 
 Then open a browser and access it via:
 
-http://192.168.1.2:8000 
+http://192.168.1.2:8000
 or
 http://127.0.0.1:8000
 
@@ -38,10 +38,7 @@ https://gamedevacademy.org/free-ebook-how-to-create-a-game-with-phaser-3/
 
 https://photonstorm.github.io/phaser3-docs/index.html
 
-
 Repo of examples:
 https://github.com/photonstorm/phaser3-examples
 
-
 http://labs.phaser.io/
-
