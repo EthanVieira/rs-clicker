@@ -34,8 +34,6 @@ https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
 
 https://gamedevacademy.org/category/tutorials/phaser-tutorials/phaser-3-tutorials/
 
-https://gamedevacademy.org/free-ebook-how-to-create-a-game-with-phaser-3/
-
 https://photonstorm.github.io/phaser3-docs/index.html
 
 Repo of examples:
