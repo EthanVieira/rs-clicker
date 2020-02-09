@@ -12,18 +12,18 @@ import { LumbridgeTreeScene } from "./scenes/lumbridge-trees.js";
 import { SCREEN } from "./constants/constants.js";
 
 let game = new Phaser.Game({
-  width: SCREEN.WIDTH,
-  height: SCREEN.HEIGHT,
-  scale: { autoCenter: Phaser.Scale.CENTER_BOTH },
-  scene: [
-    LoadScene,
-    AudioScene,
-    MainMenuScene,
-    CharacterCreationScene,
-    WorldMapScene,
-    ShopScene,
-    TutorialIslandScene,
-    LumbridgeScene,
-    LumbridgeTreeScene
-  ]
+    width: SCREEN.WIDTH,
+    height: SCREEN.HEIGHT,
+    scale: { autoCenter: Phaser.Scale.CENTER_BOTH },
+    scene: [
+        LoadScene,
+        AudioScene,
+        MainMenuScene,
+        CharacterCreationScene,
+        WorldMapScene,
+        ShopScene,
+        TutorialIslandScene,
+        LumbridgeScene,
+        LumbridgeTreeScene
+    ]
 });
