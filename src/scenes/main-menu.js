@@ -14,7 +14,12 @@ export class MainMenuScene extends Phaser.Scene {
         });
     }
 
-    init() {}
+    init(characterData) {
+        // Receive save data if it exists
+        if (characterData.hasCookies) {
+            this.characterData = characterData;
+        }
+    }
 
     preload() {
         this.load.image("settings", "src/assets/ui/SettingsPanel.png");
@@ -71,18 +76,18 @@ export class MainMenuScene extends Phaser.Scene {
             // Prevent play while settings are open
             if (this.settingsOpen) {
                 this.toggleSettings(false);
-            } else {
+            } 
+            else {
                 if (!this.characterData.characterClass) {
                     this.scene.start(CONSTANTS.SCENES.CHARACTER_CREATION);
                     console.log("Going to Character Creation");
                 }
-                // TODO: Load the last location the player was at
                 else {
                     this.scene.start(
-                        CONSTANTS.SCENES.TUTORIAL_ISLAND,
+                        this.characterData.currentLevel,
                         this.characterData
                     );
-                    console.log("Going to Tutorial Island");
+                    console.log("Going to", this.characterData.currentLevel);
                 }
             }
         });
