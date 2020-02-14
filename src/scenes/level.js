@@ -236,6 +236,7 @@ export class LevelScene extends Phaser.Scene {
             .setInteractive();
         exitButton.on("pointerup", () => {
             this.clearAutoClickers();
+            audioScene.playAudio("scape-main");
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
         });
 
