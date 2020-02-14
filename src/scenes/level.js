@@ -22,6 +22,11 @@ export class LevelScene extends Phaser.Scene {
         button: {}
     };
 
+    skills = {
+        button: {},
+        panel: {}
+    };
+
     audio = {
         bgm: "",
         audioPage: {},
@@ -110,6 +115,13 @@ export class LevelScene extends Phaser.Scene {
         this.load.image(
             "inventory-button",
             "src/assets/ui/buttons/InventoryButton.png"
+        );
+
+        // Skills panel
+        this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
+        this.load.image(
+            "skills-button",
+            "src/assets/ui/buttons/SkillsButton.png"
         );
 
         // Audio panel
@@ -223,7 +235,7 @@ export class LevelScene extends Phaser.Scene {
 
         // Inventory
         this.inventory.button = this.add
-            .image(626, 169, "inventory-button")
+            .image(626, 168, "inventory-button")
             .setOrigin(0, 0)
             .setDepth(2);
         this.inventory.button.setInteractive();
@@ -232,6 +244,22 @@ export class LevelScene extends Phaser.Scene {
             this.hideAllMenus();
             this.inventory.button.setAlpha(0.1);
         });
+
+        // Skills
+        this.skills.panel = this.add
+            .image(548, 208, "skills-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+        this.skills.button = this.add
+            .image(560, 168, "skills-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive();
+        this.skills.button.on("pointerup", () => {
+            this.showSkills(true);
+        });
+        // Hide skills page on startup
+        this.showSkills(false);
 
         // Audio settings
         let audioWindowX = 550;
@@ -415,9 +443,24 @@ export class LevelScene extends Phaser.Scene {
             Math.floor(this.characterData.damageByAutoClick);
     }
 
+    showSkills(show) {
+        if (show) {
+            this.hideAllMenus();
+
+            // Show skills panel
+            this.skills.panel.visible = true;
+            this.skills.button.setAlpha(1);
+        } 
+        else {
+            this.skills.panel.visible = false;
+            this.skills.button.setAlpha(0.1);
+        }
+    }
+
     showAudioSettings(show) {
         if (show) {
             this.hideAllMenus();
+
             // Show audio page
             this.audio.audioPage.visible = true;
             this.audio.audioPageButton.setAlpha(1);
@@ -434,7 +477,8 @@ export class LevelScene extends Phaser.Scene {
             this.characterData.audio.forEach((volume, volumeType) => {
                 this.audio.audioButtons[volumeType][volume].setAlpha(1);
             });
-        } else {
+        } 
+        else {
             this.audio.audioPage.visible = false;
             this.audio.audioPageButton.setAlpha(0.1);
             this.audio.sliders.forEach(slider => {
@@ -458,6 +502,7 @@ export class LevelScene extends Phaser.Scene {
 
     hideAllMenus() {
         this.showAudioSettings(false);
+        this.showSkills(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
     }
 
