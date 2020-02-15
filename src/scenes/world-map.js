@@ -14,6 +14,9 @@ export class WorldMapScene extends Phaser.Scene {
     preload() {
         // Background
         this.load.image("world-map", "src/assets/maps/WorldMap.png");
+
+        // Exit button
+        this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
     }
     create() {
         // Background
@@ -21,6 +24,16 @@ export class WorldMapScene extends Phaser.Scene {
             .image(0, 0, "world-map")
             .setOrigin(0, 0)
             .setDepth(0);
+
+        // Exit button
+        let exitButton = this.add
+            .image(SCREEN.WIDTH - 30, 0, "exit-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive();
+        exitButton.on("pointerup", () => {
+            this.scene.start(this.characterData.currentLevel, this.characterData);
+        });
 
         // Color links if they haven't been unlocked yet
         let fontStyle = MAP.UNLOCKED_FONT;

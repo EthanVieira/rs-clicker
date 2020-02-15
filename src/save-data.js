@@ -1,6 +1,7 @@
 export var saveData = {
     gold: 0,
     characterClass: "",
+    currentLevel: "",
     totalEnemiesKilled: 0,
     timesClicked: 0,
     damageByClicking: 0,

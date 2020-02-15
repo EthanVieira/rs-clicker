@@ -106,6 +106,9 @@ export class LevelScene extends Phaser.Scene {
         // Overlay
         this.load.image("overlay", "src/assets/ui/InterfaceNoChat.png");
 
+        // Exit button
+        this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
+
         // Click object (target)
         this.clickObjectMetaData.forEach(target => {
             this.load.image(target.name, target.path);
@@ -165,6 +168,10 @@ export class LevelScene extends Phaser.Scene {
 
     create() {
         console.log(this.characterData.characterClass);
+
+        // Set current level
+        this.characterData.currentLevel = this.currentLevel;
+
         // Play music
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
         audioScene.playAudio(this.audio.bgm);
@@ -232,6 +239,18 @@ export class LevelScene extends Phaser.Scene {
             .image(0, 0, "overlay")
             .setOrigin(0, 0)
             .setDepth(1);
+
+        // Exit button
+        let exitButton = this.add
+            .image(this.width - 30, 0, "exit-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive();
+        exitButton.on("pointerup", () => {
+            this.clearAutoClickers();
+            audioScene.playAudio("scape-main");
+            this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
+        });
 
         // Inventory
         this.inventory.button = this.add
