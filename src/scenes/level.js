@@ -55,6 +55,12 @@ export class LevelScene extends Phaser.Scene {
     damageByClickingText;
     autoClickDpsText;
 
+    // Skill text
+    attackText;
+    rangedText;
+    magicText;
+    totalLevelText;
+
     constructor(data) {
         super({
             key: data.key
@@ -280,6 +286,20 @@ export class LevelScene extends Phaser.Scene {
         // Hide skills page on startup
         this.showSkills(false);
 
+        // Skills text
+        this.attackText = this.add
+            .text(585, 215, "", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.rangedText = this.add
+            .text(585, 310, "", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.magicText = this.add
+            .text(585, 375, "", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+
         // Audio settings
         let audioWindowX = 550;
         let audioWindowY = 205;
@@ -450,9 +470,25 @@ export class LevelScene extends Phaser.Scene {
     }
 
     updateClickDamageStat(damageDone) {
+        // Increase click damage
         this.characterData.damageByClicking += damageDone;
         this.damageByClickingText.text =
             "Damage done by clicking: " + this.characterData.damageByClicking;
+
+        // Increase attack XP
+        switch(this.characterData.characterClass) {
+            case CONSTANTS.CLASS.MAGE:
+                this.characterData.skills.magic += damageDone;
+                break;
+            case CONSTANTS.CLASS.RANGER:
+                this.characterData.skills.ranged += damageDone;
+                break;
+            case CONSTANTS.CLASS.WARRIOR:
+                this.characterData.skills.attack += damageDone;
+                break;
+        }
+
+        this.updateSkillsText();
     }
 
     updateAutoClickDamageStat(damageDone) {
@@ -550,5 +586,29 @@ export class LevelScene extends Phaser.Scene {
         }
         this.autoClickers = [];
         this.clickObjects = [];
+    }
+
+    updateSkillsText() {
+        // Attack
+        let level = this.calcLevel(this.characterData.skills.attack, 1);
+        this.attackText.text = level;
+
+        // Ranged
+        level = this.calcLevel(this.characterData.skills.ranged, 1);
+        this.rangedText.text = level;
+
+        // Magic
+        level = this.calcLevel(this.characterData.skills.magic, 1);
+        this.magicText.text = level;
+    }
+
+    calcLevel(xp, lv) {
+        let currLvXp = 75*(Math.pow(1.104, lv-1));
+        if (xp > currLvXp) {
+            return (this.calcLevel(xp - currLvXp, lv+1));
+        }
+        else {
+            return lv;
+        }
     }
 }
