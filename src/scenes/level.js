@@ -57,8 +57,11 @@ export class LevelScene extends Phaser.Scene {
 
     // Skill text
     attackText;
+    attackBottomText;
     rangedText;
+    rangedBottomText;
     magicText;
+    magicBottomText;
     totalLevelText;
 
     constructor(data) {
@@ -283,22 +286,39 @@ export class LevelScene extends Phaser.Scene {
         this.skills.button.on("pointerup", () => {
             this.showSkills(true);
         });
-        // Hide skills page on startup
-        this.showSkills(false);
 
         // Skills text
         this.attackText = this.add
-            .text(585, 215, "", {fontSize: "12px"})
+            .text(585, 220, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.attackBottomText = this.add
+            .text(600, 230, "1", {fontSize: "12px"})
             .setOrigin(.5)
             .setDepth(2);
         this.rangedText = this.add
-            .text(585, 310, "", {fontSize: "12px"})
+            .text(585, 310, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.rangedBottomText = this.add
+            .text(600, 320, "1", {fontSize: "12px"})
             .setOrigin(.5)
             .setDepth(2);
         this.magicText = this.add
-            .text(585, 375, "", {fontSize: "12px"})
+            .text(585, 375, "1", {fontSize: "12px"})
             .setOrigin(.5)
             .setDepth(2);
+        this.magicBottomText = this.add
+            .text(600, 385, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.totalLevelText = this.add
+            .text(705, 450, "3", {fontSize: "12px", fill: "yellow"})
+            .setOrigin(.5)
+            .setDepth(2);
+
+        // Hide skills page on startup
+        this.showSkills(false);
 
         // Audio settings
         let audioWindowX = 550;
@@ -501,15 +521,21 @@ export class LevelScene extends Phaser.Scene {
     showSkills(show) {
         if (show) {
             this.hideAllMenus();
-
-            // Show skills panel
-            this.skills.panel.visible = true;
             this.skills.button.setAlpha(1);
         } 
         else {
-            this.skills.panel.visible = false;
             this.skills.button.setAlpha(0.1);
         }
+
+        // Show panel and all skill text
+        this.skills.panel.visible = show;
+        this.attackText.visible = show;
+        this.attackBottomText.visible = show;
+        this.rangedText.visible = show;
+        this.rangedBottomText.visible = show;
+        this.magicText.visible = show;
+        this.magicBottomText.visible = show;
+        this.totalLevelText.visible = show;
     }
 
     showAudioSettings(show) {
@@ -589,21 +615,31 @@ export class LevelScene extends Phaser.Scene {
     }
 
     updateSkillsText() {
+        let totalLevel = 0;
+
         // Attack
-        let level = this.calcLevel(this.characterData.skills.attack, 1);
+        let level = this.calcLevel(this.characterData.skills.attack);
         this.attackText.text = level;
+        this.attackBottomText.text = level;
+        totalLevel += level;
 
         // Ranged
-        level = this.calcLevel(this.characterData.skills.ranged, 1);
+        level = this.calcLevel(this.characterData.skills.ranged);
         this.rangedText.text = level;
+        this.rangedBottomText.text = level;
+        totalLevel += level;
 
         // Magic
-        level = this.calcLevel(this.characterData.skills.magic, 1);
+        level = this.calcLevel(this.characterData.skills.magic);
         this.magicText.text = level;
+        this.magicBottomText.text = level;
+        totalLevel += level;
+
+        this.totalLevelText.text = totalLevel;
     }
 
-    calcLevel(xp, lv) {
-        let currLvXp = 75*(Math.pow(1.104, lv-1));
+    calcLevel(xp, lv = 1) {
+        let currLvXp = 75*(Math.pow(1.104, lv));
         if (xp > currLvXp) {
             return (this.calcLevel(xp - currLvXp, lv+1));
         }

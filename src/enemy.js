@@ -1,4 +1,5 @@
 import { HealthBar } from "./ui/health-bar.js";
+import { CONSTANTS } from "./constants/constants.js";
 
 export class Enemy {
     healthBar;
@@ -62,8 +63,12 @@ export class Enemy {
     }
 
     clickEnemy() {
+        // Get damage based on level
+        let damageLevel = this.scene.getDamageLevel();
+
         // Display hit
-        let hitValue = Math.floor(Math.random() * 2); // Currently just 50-50 chance 0/1
+        let hitValue = Math.floor(Math.random() * (damageLevel + 1));
+        console.log(damageLevel, hitValue);
         this.hitsplatText.text = hitValue;
         hitValue == 0
             ? (this.blueHitsplat.visible = true)
