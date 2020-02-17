@@ -145,7 +145,7 @@ export class LevelScene extends Phaser.Scene {
         );
         this.load.image(
             CONSTANTS.CLASS.MAGE,
-            "src/assets/sprites/PlayerMage.jpg"
+            "src/assets/sprites/PlayerMage.png"
         );
 
         // Call preload function for inherited class
@@ -330,10 +330,19 @@ export class LevelScene extends Phaser.Scene {
         this.showAudioSettings(false);
 
         // Class picture
-        this.add
+        let classPicture = this.add
             .image(0, 250, this.characterData.characterClass)
             .setOrigin(0, 0)
             .setDepth(2);
+
+        // Fix class images that are not the same dimensions
+        if (this.characterData.characterClass == CONSTANTS.CLASS.RANGER) {
+            classPicture.setScale(.3);
+            classPicture.y = 195;
+        }
+        else if (this.characterData.characterClass == CONSTANTS.CLASS.MAGE) {
+            classPicture.y = 230;
+        }
 
         // Gold
         this.goldText = this.add
