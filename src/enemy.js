@@ -1,5 +1,4 @@
 import { HealthBar } from "./ui/health-bar.js";
-import { CONSTANTS } from "./constants/constants.js";
 
 export class Enemy {
     healthBar;

@@ -63,6 +63,8 @@ export class LevelScene extends Phaser.Scene {
     magicText;
     magicBottomText;
     totalLevelText;
+    woodcuttingText;
+    woodcuttingBottomText;
 
     constructor(data) {
         super({
@@ -316,8 +318,17 @@ export class LevelScene extends Phaser.Scene {
             .text(705, 450, "3", {fontSize: "12px", fill: "yellow"})
             .setOrigin(.5)
             .setDepth(2);
+        this.woodcuttingText = this.add
+            .text(710, 375, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.woodcuttingBottomText = this.add
+            .text(725, 385, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
 
-        // Hide skills page on startup
+        // Set and hide skills page on startup
+        this.updateSkillsText();
         this.showSkills(false);
 
         // Audio settings
@@ -536,6 +547,8 @@ export class LevelScene extends Phaser.Scene {
         this.magicText.visible = show;
         this.magicBottomText.visible = show;
         this.totalLevelText.visible = show;
+        this.woodcuttingText.visible = show;
+        this.woodcuttingBottomText.visible = show;
     }
 
     showAudioSettings(show) {
@@ -633,6 +646,12 @@ export class LevelScene extends Phaser.Scene {
         level = this.calcLevel(this.characterData.skills.magic);
         this.magicText.text = level;
         this.magicBottomText.text = level;
+        totalLevel += level;
+
+        // Woodcutting
+        level = this.calcLevel(this.characterData.skills.woodcutting);
+        this.woodcuttingText.text = level;
+        this.woodcuttingBottomText.text = level;
         totalLevel += level;
 
         this.totalLevelText.text = totalLevel;
