@@ -40,22 +40,23 @@ export class Resource {
     }
 
     clickTarget() {
-        // Get current resource level
+        // Get current resource level and add xp
         let curXp = 0;
-        switch (this.name) {
+        switch (this.resourceType) {
             case CONSTANTS.RESOURCES.WOOD:
                 curXp = this.scene.characterData.skills.woodcutting;
+                console.log(curXp);
+                this.scene.characterData.skills.woodcutting++;
             break;
 
         }
-        let amountCompleted = this.scene.calcLevel(this.scene.characterData.skills.woodcutting);
+        let curLv = this.scene.calcLevel(curXp);
 
         // Increase xp
-        this.scene.characterData.skills.woodcutting++;
         this.scene.updateSkillsText();
 
         // Increase progress and check completion
-        let completed = this.progressBar.updateProgress(amountCompleted);
+        let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
             console.log("Got", this.resourceType);
             // TODO: put resource in inventory
