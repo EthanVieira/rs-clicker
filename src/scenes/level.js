@@ -197,7 +197,7 @@ export class LevelScene extends Phaser.Scene {
 
         // Minimap
         this.minimap.obj = this.add
-            .image(526, 0, this.minimap.name)
+            .image(570, 0, this.minimap.name)
             .setOrigin(0, 0)
             .setDepth(0);
         this.minimap.obj.setInteractive();
