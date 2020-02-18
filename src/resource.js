@@ -45,7 +45,6 @@ export class Resource {
         switch (this.resourceType) {
             case CONSTANTS.RESOURCES.WOOD:
                 curXp = this.scene.characterData.skills.woodcutting;
-                console.log(curXp);
                 this.scene.characterData.skills.woodcutting++;
             break;
 
