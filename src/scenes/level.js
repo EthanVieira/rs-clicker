@@ -658,9 +658,9 @@ export class LevelScene extends Phaser.Scene {
     }
 
     calcLevel(xp, lv = 1) {
-        let currLvXp = 75*(Math.pow(1.104, lv));
-        if (xp > currLvXp) {
-            return (this.calcLevel(xp - currLvXp, lv+1));
+        let curLvXp = Math.floor(.25*(lv + 300*Math.pow(2, lv/7)));
+        if (xp > curLvXp) {
+            return (this.calcLevel(xp - curLvXp, lv+1));
         }
         else {
             return lv;

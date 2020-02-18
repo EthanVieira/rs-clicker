@@ -67,7 +67,6 @@ export class Enemy {
 
         // Display hit
         let hitValue = Math.floor(Math.random() * (damageLevel + 1));
-        console.log(damageLevel, hitValue);
         this.hitsplatText.text = hitValue;
         hitValue == 0
             ? (this.blueHitsplat.visible = true)
