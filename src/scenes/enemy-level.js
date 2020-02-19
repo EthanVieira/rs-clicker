@@ -168,4 +168,18 @@ export class EnemyLevelScene extends LevelScene {
         this.updateAutoClickerDPS(data.dps);
         this.characterData.numberOfAutoClickers++;
     }
+
+    getDamageLevel() {
+        switch(this.characterData.characterClass) {
+            case CONSTANTS.CLASS.MAGE:
+                return this.calcLevel(this.characterData.skills.magic);
+                break;
+            case CONSTANTS.CLASS.RANGER:
+                return this.calcLevel(this.characterData.skills.ranged);
+                break;
+            case CONSTANTS.CLASS.WARRIOR:
+                return this.calcLevel(this.characterData.skills.attack);
+                break;
+        }
+    }
 }
