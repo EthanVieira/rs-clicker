@@ -22,6 +22,11 @@ export class LevelScene extends Phaser.Scene {
         button: {}
     };
 
+    skills = {
+        button: {},
+        panel: {}
+    };
+
     audio = {
         bgm: "",
         audioPage: {},
@@ -49,6 +54,17 @@ export class LevelScene extends Phaser.Scene {
     timesClickedText;
     damageByClickingText;
     autoClickDpsText;
+
+    // Skill text
+    attackText;
+    attackBottomText;
+    rangedText;
+    rangedBottomText;
+    magicText;
+    magicBottomText;
+    totalLevelText;
+    woodcuttingText;
+    woodcuttingBottomText;
 
     constructor(data) {
         super({
@@ -113,6 +129,13 @@ export class LevelScene extends Phaser.Scene {
         this.load.image(
             "inventory-button",
             "src/assets/ui/buttons/InventoryButton.png"
+        );
+
+        // Skills panel
+        this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
+        this.load.image(
+            "skills-button",
+            "src/assets/ui/buttons/SkillsButton.png"
         );
 
         // Audio panel
@@ -242,7 +265,7 @@ export class LevelScene extends Phaser.Scene {
 
         // Inventory
         this.inventory.button = this.add
-            .image(626, 169, "inventory-button")
+            .image(626, 168, "inventory-button")
             .setOrigin(0, 0)
             .setDepth(2);
         this.inventory.button.setInteractive();
@@ -251,6 +274,62 @@ export class LevelScene extends Phaser.Scene {
             this.hideAllMenus();
             this.inventory.button.setAlpha(0.1);
         });
+
+        // Skills
+        this.skills.panel = this.add
+            .image(548, 208, "skills-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+        this.skills.button = this.add
+            .image(560, 168, "skills-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive();
+        this.skills.button.on("pointerup", () => {
+            this.showSkills(true);
+        });
+
+        // Skills text
+        this.attackText = this.add
+            .text(585, 220, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.attackBottomText = this.add
+            .text(600, 230, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.rangedText = this.add
+            .text(585, 310, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.rangedBottomText = this.add
+            .text(600, 320, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.magicText = this.add
+            .text(585, 375, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.magicBottomText = this.add
+            .text(600, 385, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.totalLevelText = this.add
+            .text(705, 450, "3", {fontSize: "12px", fill: "yellow"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.woodcuttingText = this.add
+            .text(710, 375, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+        this.woodcuttingBottomText = this.add
+            .text(725, 385, "1", {fontSize: "12px"})
+            .setOrigin(.5)
+            .setDepth(2);
+
+        // Set and hide skills page on startup
+        this.updateSkillsText();
+        this.showSkills(false);
 
         // Audio settings
         let audioWindowX = 550;
@@ -422,9 +501,25 @@ export class LevelScene extends Phaser.Scene {
     }
 
     updateClickDamageStat(damageDone) {
+        // Increase click damage
         this.characterData.damageByClicking += damageDone;
         this.damageByClickingText.text =
             "Damage done by clicking: " + this.characterData.damageByClicking;
+
+        // Increase attack XP
+        switch(this.characterData.characterClass) {
+            case CONSTANTS.CLASS.MAGE:
+                this.characterData.skills.magic += damageDone;
+                break;
+            case CONSTANTS.CLASS.RANGER:
+                this.characterData.skills.ranged += damageDone;
+                break;
+            case CONSTANTS.CLASS.WARRIOR:
+                this.characterData.skills.attack += damageDone;
+                break;
+        }
+
+        this.updateSkillsText();
     }
 
     updateAutoClickDamageStat(damageDone) {
@@ -434,9 +529,32 @@ export class LevelScene extends Phaser.Scene {
             Math.floor(this.characterData.damageByAutoClick);
     }
 
+    showSkills(show) {
+        if (show) {
+            this.hideAllMenus();
+            this.skills.button.setAlpha(1);
+        } 
+        else {
+            this.skills.button.setAlpha(0.1);
+        }
+
+        // Show panel and all skill text
+        this.skills.panel.visible = show;
+        this.attackText.visible = show;
+        this.attackBottomText.visible = show;
+        this.rangedText.visible = show;
+        this.rangedBottomText.visible = show;
+        this.magicText.visible = show;
+        this.magicBottomText.visible = show;
+        this.totalLevelText.visible = show;
+        this.woodcuttingText.visible = show;
+        this.woodcuttingBottomText.visible = show;
+    }
+
     showAudioSettings(show) {
         if (show) {
             this.hideAllMenus();
+
             // Show audio page
             this.audio.audioPage.visible = true;
             this.audio.audioPageButton.setAlpha(1);
@@ -453,7 +571,8 @@ export class LevelScene extends Phaser.Scene {
             this.characterData.audio.forEach((volume, volumeType) => {
                 this.audio.audioButtons[volumeType][volume].setAlpha(1);
             });
-        } else {
+        } 
+        else {
             this.audio.audioPage.visible = false;
             this.audio.audioPageButton.setAlpha(0.1);
             this.audio.sliders.forEach(slider => {
@@ -477,6 +596,7 @@ export class LevelScene extends Phaser.Scene {
 
     hideAllMenus() {
         this.showAudioSettings(false);
+        this.showSkills(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
     }
 
@@ -505,5 +625,45 @@ export class LevelScene extends Phaser.Scene {
         }
         this.autoClickers = [];
         this.clickObjects = [];
+    }
+
+    updateSkillsText() {
+        let totalLevel = 0;
+
+        // Attack
+        let level = this.calcLevel(this.characterData.skills.attack);
+        this.attackText.text = level;
+        this.attackBottomText.text = level;
+        totalLevel += level;
+
+        // Ranged
+        level = this.calcLevel(this.characterData.skills.ranged);
+        this.rangedText.text = level;
+        this.rangedBottomText.text = level;
+        totalLevel += level;
+
+        // Magic
+        level = this.calcLevel(this.characterData.skills.magic);
+        this.magicText.text = level;
+        this.magicBottomText.text = level;
+        totalLevel += level;
+
+        // Woodcutting
+        level = this.calcLevel(this.characterData.skills.woodcutting);
+        this.woodcuttingText.text = level;
+        this.woodcuttingBottomText.text = level;
+        totalLevel += level;
+
+        this.totalLevelText.text = totalLevel;
+    }
+
+    calcLevel(xp, lv = 1) {
+        let curLvXp = Math.floor(.25*(lv + 300*Math.pow(2, lv/7)));
+        if (xp > curLvXp) {
+            return (this.calcLevel(xp - curLvXp, lv+1));
+        }
+        else {
+            return lv;
+        }
     }
 }

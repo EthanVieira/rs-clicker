@@ -8,15 +8,11 @@ export var saveData = {
     damageByAutoClick: 0,
     numberOfAutoClickers: 0,
     skills: {
-        woodcutting: 1,
-        mining: 1,
-        attack: 1,
-        strength: 1,
-        defense: 1,
-        hitpoints: 10,
-        ranged: 1,
-        magic: 1,
-        herblore: 1
+        attack: 0,
+        ranged: 0,
+        magic: 0,
+        health: 10,
+        woodcutting: 0,
     },
     audio: [2, 2, 2], // BGM, SFX, Environment
     // Can be accessed with characterData[this.currentLevel].questCompleted, etc.

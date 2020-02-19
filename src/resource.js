@@ -1,6 +1,8 @@
 import { ProgressBar } from "./ui/progress-bar.js";
+import { CONSTANTS } from "./constants/constants.js";
 
 export class Resource {
+    scene;
     progressBar;
     skill;
     resource;
@@ -38,11 +40,25 @@ export class Resource {
     }
 
     clickTarget() {
+        // Get current resource level and add xp
+        let curXp = 0;
+        switch (this.resourceType) {
+            case CONSTANTS.RESOURCES.WOOD:
+                curXp = this.scene.characterData.skills.woodcutting;
+                this.scene.characterData.skills.woodcutting++;
+            break;
+
+        }
+        let curLv = this.scene.calcLevel(curXp);
+
+        // Increase xp
+        this.scene.updateSkillsText();
+
         // Increase progress and check completion
-        let completed = this.progressBar.updateProgress(1);
+        let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
             console.log("Got", this.resourceType);
-            // TODO: put resource in inventory, add XP
+            // TODO: put resource in inventory
             this.scene.showRandomClickObject();
         }
     }
