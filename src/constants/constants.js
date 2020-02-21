@@ -8,7 +8,8 @@ export const CONSTANTS = {
         SHOP: "SHOP",
         TUTORIAL_ISLAND: "TUTORIAL_ISLAND",
         LUMBRIDGE: "LUMBRIDGE",
-        LUMBRIDGE_TREES: "LUMBRIDGE_TREES"
+        LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
+        VARROCK: "VARROCK",
     },
     CLASS: {
         UNARMED: "UNARMED",
