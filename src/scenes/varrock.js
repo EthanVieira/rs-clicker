@@ -11,12 +11,12 @@ export class VarrockScene extends EnemyLevelScene {
                 path: "src/assets/backgrounds/VarrockBackground.png"
             },
             minimap: {
-                name: "varrock-map",
+                name: "varrock_map",
                 path: "src/assets/maps/VarrockMap.png"
             },
             clickObjects: [
                 {
-                    name: "dark-wizard",
+                    name: "dark_wizard",
                     path: "src/assets/sprites/DarkWizard.png",
                     maxHealth: 12,
                     killGold: 10

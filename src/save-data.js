@@ -32,7 +32,7 @@ export var saveData = {
     VARROCK: {
         questCompleted: false,
         enemiesKilled: {
-            wizard: 0
+            dark_wizard: 0
         }
     }
 };

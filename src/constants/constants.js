@@ -52,6 +52,10 @@ export const MAP = {
         X: 2220,
         Y: 2210
     },
+    VARROCK: {
+        X: 2325,
+        Y: 1565
+    },
     UNLOCKED_FONT: {
         fill: "white",
         fontSize: "20px",
