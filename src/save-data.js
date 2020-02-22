@@ -1,4 +1,4 @@
-export var saveData = {
+export const saveData = {
     gold: 0,
     characterClass: "",
     currentLevel: "",

@@ -45,8 +45,8 @@ export class LevelScene extends Phaser.Scene {
     autoClickers = [];
     autoClickDps = 0;
 
-    // Character
-    characterData = saveData;
+    // Character (deep copy)
+    characterData = JSON.parse(JSON.stringify(saveData));
 
     // Text
     goldText = "";
@@ -82,16 +82,15 @@ export class LevelScene extends Phaser.Scene {
     }
 
     init(characterData) {
-        // Always receive character class
-        this.characterData.characterClass = characterData.characterClass;
-
         // Receive cookies if they exist
         if (characterData.hasCookies) {
             this.characterData = characterData;
         }
         // Otherwise, initialize character based on starting class
         else {
-            switch (this.characterData.characterClass) {
+            // Reset data
+            this.characterData = JSON.parse(JSON.stringify(saveData));
+            switch (characterData.characterClass) {
                 case "WARRIOR":
                     this.characterData.skills.attack = 5;
                     this.characterData.skills.strength = 5;
@@ -105,6 +104,9 @@ export class LevelScene extends Phaser.Scene {
                     break;
             }
         }
+
+        // Always receive character class
+        this.characterData.characterClass = characterData.characterClass;
     }
 
     preload() {
