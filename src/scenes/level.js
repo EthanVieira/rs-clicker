@@ -18,23 +18,6 @@ export class LevelScene extends Phaser.Scene {
         path: ""
     };
 
-    inventory = {
-        button: {}
-    };
-
-    skills = {
-        button: {},
-        panel: {}
-    };
-
-    audio = {
-        bgm: "",
-        audioPage: {},
-        audioPageButton: {},
-        sliders: [],
-        audioButtons: []
-    };
-
     // Click object: enemy, tree, etc.
     clickObjects = [];
     clickObjectMetaData = [];
@@ -48,23 +31,15 @@ export class LevelScene extends Phaser.Scene {
     // Character
     characterData = saveData;
 
+    // Dashboard for inventory, etc.
+    dashboard;
+
     // Text
     goldText = "";
     enemiesKilledText;
     timesClickedText;
     damageByClickingText;
     autoClickDpsText;
-
-    // Skill text
-    attackText;
-    attackBottomText;
-    rangedText;
-    rangedBottomText;
-    magicText;
-    magicBottomText;
-    totalLevelText;
-    woodcuttingText;
-    woodcuttingBottomText;
 
     constructor(data) {
         super({
@@ -124,34 +99,6 @@ export class LevelScene extends Phaser.Scene {
         this.clickObjectMetaData.forEach(target => {
             this.load.image(target.name, target.path);
         });
-
-        // Inventory icon
-        this.load.image(
-            "inventory-button",
-            "src/assets/ui/buttons/InventoryButton.png"
-        );
-
-        // Skills panel
-        this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
-        this.load.image(
-            "skills-button",
-            "src/assets/ui/buttons/SkillsButton.png"
-        );
-
-        // Audio panel
-        this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
-        this.load.image(
-            "audio-settings-button",
-            "src/assets/ui/buttons/AudioSettingsButton.png"
-        );
-        this.load.image(
-            "audio-slider",
-            "src/assets/ui/buttons/audioSlider.png"
-        );
-        this.load.image(
-            "audio-button",
-            "src/assets/ui/buttons/AudioButton.png"
-        );
 
         // Classes
         this.load.image(
@@ -227,22 +174,9 @@ export class LevelScene extends Phaser.Scene {
         this.minimap.obj.on("pointerup", () => {
             // Release autoclickers to be garbage collected
             this.clearAutoClickers();
+            this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData);
             console.log("Going to World Map");
-        });
-
-        // Shop
-        this.shopButton = this.add.text(585, 475, "Shop").setInteractive();
-        this.shopButton.on("pointerup", () => {
-            // Release autoclickers to be garbage collected
-            this.clearAutoClickers();
-            // Pass in the current level to know which level to return to upon exiting the shop.
-            this.scene.start(CONSTANTS.SCENES.SHOP, [
-                this.characterData,
-                this.currentLevel
-            ]);
-            // TODO: Instead of starting a shop scene, just have a shop interface pop up w/o stopping game.
-            console.log("Going to Shop");
         });
 
         // Overlay
@@ -260,153 +194,9 @@ export class LevelScene extends Phaser.Scene {
         exitButton.on("pointerup", () => {
             this.clearAutoClickers();
             audioScene.playAudio("scape-main");
+            this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
         });
-
-        // Inventory
-        this.inventory.button = this.add
-            .image(626, 168, "inventory-button")
-            .setOrigin(0, 0)
-            .setDepth(2);
-        this.inventory.button.setInteractive();
-        this.inventory.button.setAlpha(0.1);
-        this.inventory.button.on("pointerup", () => {
-            this.hideAllMenus();
-            this.inventory.button.setAlpha(0.1);
-        });
-
-        // Skills
-        this.skills.panel = this.add
-            .image(548, 208, "skills-panel")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.skills.button = this.add
-            .image(560, 168, "skills-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive();
-        this.skills.button.on("pointerup", () => {
-            this.showSkills(true);
-        });
-
-        // Skills text
-        this.attackText = this.add
-            .text(585, 220, "1", {fontSize: "12px"})
-            .setOrigin(.5)
-            .setDepth(2);
-        this.attackBottomText = this.add
-            .text(600, 230, "1", {fontSize: "12px"})
-            .setOrigin(.5)
-            .setDepth(2);
-        this.rangedText = this.add
-            .text(585, 310, "1", {fontSize: "12px"})
-            .setOrigin(.5)
-            .setDepth(2);
-        this.rangedBottomText = this.add
-            .text(600, 320, "1", {fontSize: "12px"})
-            .setOrigin(.5)
-            .setDepth(2);
-        this.magicText = this.add
-            .text(585, 375, "1", {fontSize: "12px"})
-            .setOrigin(.5)
-            .setDepth(2);
-        this.magicBottomText = this.add
-            .text(600, 385, "1", {fontSize: "12px"})
-            .setOrigin(.5)
-            .setDepth(2);
-        this.totalLevelText = this.add
-            .text(705, 450, "3", {fontSize: "12px", fill: "yellow"})
-            .setOrigin(.5)
-            .setDepth(2);
-        this.woodcuttingText = this.add
-            .text(710, 375, "1", {fontSize: "12px"})
-            .setOrigin(.5)
-            .setDepth(2);
-        this.woodcuttingBottomText = this.add
-            .text(725, 385, "1", {fontSize: "12px"})
-            .setOrigin(.5)
-            .setDepth(2);
-
-        // Set and hide skills page on startup
-        this.updateSkillsText();
-        this.showSkills(false);
-
-        // Audio settings
-        let audioWindowX = 550;
-        let audioWindowY = 205;
-        this.audio.audioPage = this.add
-            .image(audioWindowX, audioWindowY, "audio-settings")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.audio.audioPageButton = this.add
-            .image(660, 465, "audio-settings-button")
-            .setOrigin(0, 0)
-            .setDepth(2);
-        this.audio.audioPageButton.setInteractive();
-        this.audio.audioPageButton.on("pointerup", () => {
-            this.showAudioSettings(true);
-        });
-
-        // Place sliders
-        let barXOffset = 53;
-        this.audio.sliders = [];
-        this.audio.sliders.push(
-            this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 80,
-                    "audio-slider"
-                )
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-        this.audio.sliders.push(
-            this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 125,
-                    "audio-slider"
-                )
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-        this.audio.sliders.push(
-            this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 170,
-                    "audio-slider"
-                )
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-
-        // Set 5 buttons for each of the 3 sliders
-        this.audio.audioButtons = [];
-        for (let volumeType = 0; volumeType < 3; volumeType++) {
-            let audioButtonRow = [];
-            for (let buttonNum = 0; buttonNum < 5; buttonNum++) {
-                let audioButton = this.add
-                    .image(
-                        audioWindowX + barXOffset + 10 + buttonNum * 22,
-                        audioWindowY + 80 + volumeType * 45,
-                        "audio-button"
-                    )
-                    .setOrigin(0, 0)
-                    .setDepth(3);
-                audioButton.setInteractive();
-                audioButton.setAlpha(0.1);
-                audioButtonRow.push(audioButton);
-                audioButton.on("pointerup", () => {
-                    audioScene.changeVolume(volumeType, buttonNum);
-                    this.changeAudioButton(volumeType, buttonNum);
-                });
-            }
-            // Save 2d array of buttons (3 x 5)
-            this.audio.audioButtons.push(audioButtonRow);
-        }
-        // Hide audio page on startup
-        this.showAudioSettings(false);
 
         // Class picture
         this.add
@@ -455,6 +245,10 @@ export class LevelScene extends Phaser.Scene {
                 { fill: statColor }
             )
             .setDepth(3);
+
+        // Launch dashboard scene in parallel
+        this.scene.run(CONSTANTS.SCENES.DASHBOARD, this.characterData);
+        this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
 
         // Call create function for inherited class
         if (this.levelType != "") {
@@ -519,7 +313,7 @@ export class LevelScene extends Phaser.Scene {
                 break;
         }
 
-        this.updateSkillsText();
+        this.dashboard.updateSkillsText();
     }
 
     updateAutoClickDamageStat(damageDone) {
@@ -527,77 +321,6 @@ export class LevelScene extends Phaser.Scene {
         this.damageByAutoClickText.text =
             "Damage done by autoclickers: " +
             Math.floor(this.characterData.damageByAutoClick);
-    }
-
-    showSkills(show) {
-        if (show) {
-            this.hideAllMenus();
-            this.skills.button.setAlpha(1);
-        } 
-        else {
-            this.skills.button.setAlpha(0.1);
-        }
-
-        // Show panel and all skill text
-        this.skills.panel.visible = show;
-        this.attackText.visible = show;
-        this.attackBottomText.visible = show;
-        this.rangedText.visible = show;
-        this.rangedBottomText.visible = show;
-        this.magicText.visible = show;
-        this.magicBottomText.visible = show;
-        this.totalLevelText.visible = show;
-        this.woodcuttingText.visible = show;
-        this.woodcuttingBottomText.visible = show;
-    }
-
-    showAudioSettings(show) {
-        if (show) {
-            this.hideAllMenus();
-
-            // Show audio page
-            this.audio.audioPage.visible = true;
-            this.audio.audioPageButton.setAlpha(1);
-            this.audio.sliders.forEach(slider => {
-                slider.visible = true;
-            });
-            this.audio.audioButtons.forEach(buttonRow => {
-                buttonRow.forEach(button => {
-                    button.visible = true;
-                });
-            });
-
-            // Show current volume buttons
-            this.characterData.audio.forEach((volume, volumeType) => {
-                this.audio.audioButtons[volumeType][volume].setAlpha(1);
-            });
-        } 
-        else {
-            this.audio.audioPage.visible = false;
-            this.audio.audioPageButton.setAlpha(0.1);
-            this.audio.sliders.forEach(slider => {
-                slider.visible = false;
-            });
-            this.audio.audioButtons.forEach(buttonRow => {
-                buttonRow.forEach(button => {
-                    button.visible = false;
-                });
-            });
-        }
-    }
-
-    // Hide old button and show new one
-    changeAudioButton(volumeType, newButton) {
-        let previousVolume = this.characterData.audio[volumeType];
-        this.audio.audioButtons[volumeType][previousVolume].setAlpha(0.1);
-        this.characterData.audio[volumeType] = newButton;
-        this.audio.audioButtons[volumeType][newButton].setAlpha(1);
-    }
-
-    hideAllMenus() {
-        this.showAudioSettings(false);
-        this.showSkills(false);
-        this.inventory.button.setAlpha(1); // Unselected inventory icon
     }
 
     showRandomClickObject() {
@@ -625,45 +348,5 @@ export class LevelScene extends Phaser.Scene {
         }
         this.autoClickers = [];
         this.clickObjects = [];
-    }
-
-    updateSkillsText() {
-        let totalLevel = 0;
-
-        // Attack
-        let level = this.calcLevel(this.characterData.skills.attack);
-        this.attackText.text = level;
-        this.attackBottomText.text = level;
-        totalLevel += level;
-
-        // Ranged
-        level = this.calcLevel(this.characterData.skills.ranged);
-        this.rangedText.text = level;
-        this.rangedBottomText.text = level;
-        totalLevel += level;
-
-        // Magic
-        level = this.calcLevel(this.characterData.skills.magic);
-        this.magicText.text = level;
-        this.magicBottomText.text = level;
-        totalLevel += level;
-
-        // Woodcutting
-        level = this.calcLevel(this.characterData.skills.woodcutting);
-        this.woodcuttingText.text = level;
-        this.woodcuttingBottomText.text = level;
-        totalLevel += level;
-
-        this.totalLevelText.text = totalLevel;
-    }
-
-    calcLevel(xp, lv = 1) {
-        let curLvXp = Math.floor(.25*(lv + 300*Math.pow(2, lv/7)));
-        if (xp > curLvXp) {
-            return (this.calcLevel(xp - curLvXp, lv+1));
-        }
-        else {
-            return lv;
-        }
     }
 }

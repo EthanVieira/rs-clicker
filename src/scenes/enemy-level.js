@@ -1,5 +1,5 @@
 import { LevelScene } from "./level.js";
-import { CONSTANTS } from "../constants/constants.js";
+import { CONSTANTS, calcLevel } from "../constants/constants.js";
 import { AutoClicker } from "../auto-clicker.js";
 import { Enemy } from "../enemy.js";
 
@@ -172,13 +172,13 @@ export class EnemyLevelScene extends LevelScene {
     getDamageLevel() {
         switch(this.characterData.characterClass) {
             case CONSTANTS.CLASS.MAGE:
-                return this.calcLevel(this.characterData.skills.magic);
+                return calcLevel(this.characterData.skills.magic);
                 break;
             case CONSTANTS.CLASS.RANGER:
-                return this.calcLevel(this.characterData.skills.ranged);
+                return calcLevel(this.characterData.skills.ranged);
                 break;
             case CONSTANTS.CLASS.WARRIOR:
-                return this.calcLevel(this.characterData.skills.attack);
+                return calcLevel(this.characterData.skills.attack);
                 break;
         }
     }
