@@ -1,4 +1,4 @@
-export const saveData = {
+export const defaultData = {
     gold: 0,
     characterClass: "",
     currentLevel: "",
@@ -32,7 +32,8 @@ export const saveData = {
     VARROCK: {
         questCompleted: false,
         enemiesKilled: {
-            dark_wizard: 0
+            dark_wizard: 0,
+            guard: 0
         }
     }
 };

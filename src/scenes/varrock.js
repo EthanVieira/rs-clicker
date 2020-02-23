@@ -20,6 +20,12 @@ export class VarrockScene extends EnemyLevelScene {
                     path: "src/assets/sprites/DarkWizard.png",
                     maxHealth: 12,
                     killGold: 10
+                },
+                {
+                    name: "guard",
+                    path: "src/assets/sprites/VarrockGuard.png",
+                    maxHealth: 22,
+                    killGold: 15
                 }
             ],
             audio: { bgm: "expanse" }
