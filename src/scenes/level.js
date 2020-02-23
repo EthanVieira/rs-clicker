@@ -420,7 +420,8 @@ export class LevelScene extends Phaser.Scene {
             classPicture.y = 195;
         }
         else if (this.characterData.characterClass == CONSTANTS.CLASS.MAGE) {
-            classPicture.y = 230;
+            classPicture.setScale(.5);
+            classPicture.y = 175;
         }
 
         // Gold
