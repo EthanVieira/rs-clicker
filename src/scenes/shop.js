@@ -285,8 +285,9 @@ export class ShopScene extends Phaser.Scene {
         for (let mat in MATERIALS[matType]) {
             // No dict.values() in Javascript, so this is a workaround.
             let matData = MATERIALS[matType][mat];
-            if (matData.level > reqLevel) break;
             bestMat = matData;
+            if (matData.level >= reqLevel) break;
+            
         }
         return bestMat;
     }

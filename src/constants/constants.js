@@ -73,10 +73,10 @@ export const MAP = {
     }
 };
 
-export function calcLevel(xp, lv = 1) {
+export const calcLevel = function(xp, lv = 1) {
     let curLvXp = Math.floor(.25*(lv + 300*Math.pow(2, lv/7)));
     if (xp > curLvXp) {
-        return (this.calcLevel(xp - curLvXp, lv+1));
+        return (calcLevel(xp - curLvXp, lv+1));
     }
     else {
         return lv;

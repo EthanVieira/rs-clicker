@@ -118,6 +118,13 @@ export class Dashboard extends Phaser.Scene {
             .setAlpha(0.1)
             .on("pointerup", () => {
                 this.hideAllMenus();
+
+                // If enemy-level, repopulate quest text
+                if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
+                    this.currentScene.showQuestText(true);
+                    this.currentScene.showAutoClickerButton(true);
+                }
+
                 this.inventory.button.setAlpha(0.1);
             });
 
@@ -325,6 +332,12 @@ export class Dashboard extends Phaser.Scene {
         this.showAudioSettings(false);
         this.showSkills(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
+
+        // If enemy-level, hide quest text
+        if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
+            this.currentScene.showQuestText(false);
+            this.currentScene.showAutoClickerButton(false);
+        }
     }
 
     updateSkillsText() {
