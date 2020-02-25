@@ -263,8 +263,8 @@ export class Dashboard extends Phaser.Scene {
         this.showAudioSettings(false);
     }
 
-    showSkills(show) {
-        if (show) {
+    showSkills(isVisible) {
+        if (isVisible) {
             this.hideAllMenus();
             this.skills.button.setAlpha(1);
         } 
@@ -273,20 +273,20 @@ export class Dashboard extends Phaser.Scene {
         }
 
         // Show panel and all skill text
-        this.skills.panel.visible = show;
-        this.attackText.visible = show;
-        this.attackBottomText.visible = show;
-        this.rangedText.visible = show;
-        this.rangedBottomText.visible = show;
-        this.magicText.visible = show;
-        this.magicBottomText.visible = show;
-        this.totalLevelText.visible = show;
-        this.woodcuttingText.visible = show;
-        this.woodcuttingBottomText.visible = show;
+        this.skills.panel.visible = isVisible;
+        this.attackText.visible = isVisible;
+        this.attackBottomText.visible = isVisible;
+        this.rangedText.visible = isVisible;
+        this.rangedBottomText.visible = isVisible;
+        this.magicText.visible = isVisible;
+        this.magicBottomText.visible = isVisible;
+        this.totalLevelText.visible = isVisible;
+        this.woodcuttingText.visible = isVisible;
+        this.woodcuttingBottomText.visible = isVisible;
     }
 
-    showAudioSettings(show) {
-        if (show) {
+    showAudioSettings(isVisible) {
+        if (isVisible) {
             this.hideAllMenus();
 
             // Show audio page

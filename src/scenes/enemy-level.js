@@ -189,16 +189,16 @@ export class EnemyLevelScene extends LevelScene {
     }
 
     // Show/hide text
-    showQuestText(show) {
-        this.killQuestText.visible = show;
+    showQuestText(isVisible) {
+        this.killQuestText.visible = isVisible;
 
          // Show/hide text if level quest has been completed
         if (this.characterData[this.currentLevel].questCompleted) {
-            this.questCompleteText.visible = show;
+            this.questCompleteText.visible = isVisible;
         }
     }
 
-    showAutoClickerButton(show) {
-        this.autoClickerButton.visible = show;
+    showAutoClickerButton(isVisible) {
+        this.autoClickerButton.visible = isVisible;
     }
 }
