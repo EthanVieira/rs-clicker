@@ -10,6 +10,7 @@ import { TutorialIslandScene } from "./scenes/tutorial-island.js";
 import { LumbridgeScene } from "./scenes/lumbridge.js";
 import { LumbridgeTreeScene } from "./scenes/lumbridge-trees.js";
 import { VarrockScene } from "./scenes/varrock.js";
+import { Dashboard } from "./ui/dashboard.js";
 import { SCREEN } from "./constants/constants.js";
 
 let game = new Phaser.Game({
@@ -26,6 +27,7 @@ let game = new Phaser.Game({
         TutorialIslandScene,
         LumbridgeScene,
         LumbridgeTreeScene,
-        VarrockScene
+        VarrockScene,
+        Dashboard
     ]
 });

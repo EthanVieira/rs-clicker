@@ -1,5 +1,5 @@
 import { ProgressBar } from "./ui/progress-bar.js";
-import { CONSTANTS } from "./constants/constants.js";
+import { CONSTANTS, calcLevel } from "./constants/constants.js";
 
 export class Resource {
     scene;
@@ -49,10 +49,10 @@ export class Resource {
             break;
 
         }
-        let curLv = this.scene.calcLevel(curXp);
+        let curLv = calcLevel(curXp);
 
         // Increase xp
-        this.scene.updateSkillsText();
+        this.scene.dashboard.updateSkillsText();
 
         // Increase progress and check completion
         let completed = this.progressBar.updateProgress(curLv);

@@ -4,6 +4,7 @@ export const CONSTANTS = {
         AUDIO: "AUDIO",
         MAIN_MENU: "MAIN_MENU",
         CHARACTER_CREATION: "CHARACTER_CREATION",
+        DASHBOARD: "DASHBOARD",
         MAP: "MAP",
         SHOP: "SHOP",
         TUTORIAL_ISLAND: "TUTORIAL_ISLAND",
@@ -76,3 +77,13 @@ export const MAP = {
         backgroundColor: "grey"
     }
 };
+
+export const calcLevel = function(xp, lv = 1) {
+    let curLvXp = Math.floor(.25*(lv + 300*Math.pow(2, lv/7)));
+    if (xp > curLvXp) {
+        return (calcLevel(xp - curLvXp, lv+1));
+    }
+    else {
+        return lv;
+    }
+}

@@ -13,6 +13,7 @@ export const defaultData = {
         magic: 0,
         health: 10,
         woodcutting: 0,
+        mining: 0,
     },
     audio: [2, 2, 2], // BGM, SFX, Environment
     // Can be accessed with characterData[this.currentLevel].questCompleted, etc.

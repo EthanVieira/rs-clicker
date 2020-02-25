@@ -1,13 +1,14 @@
 import { LevelScene } from "./level.js";
-import { CONSTANTS } from "../constants/constants.js";
+import { CONSTANTS, calcLevel } from "../constants/constants.js";
 import { AutoClicker } from "../auto-clicker.js";
 import { Enemy } from "../enemy.js";
 
 export class EnemyLevelScene extends LevelScene {
     // Level completion
     killQuest = 0;
-    killQuestText = "";
-    questCompleteText = "";
+    killQuestText;
+    questCompleteText;
+    autoClickerButton;
 
     constructor(data) {
         super(data);
@@ -39,20 +40,20 @@ export class EnemyLevelScene extends LevelScene {
         }
 
         // Button text to test autoclickers
-        let autoClickerButton = this.add
+        this.autoClickerButton = this.add
             .text(530, 250, "50 gold for autoclicker", { fill: "white" })
-            .setDepth(3);
-        autoClickerButton.setInteractive();
-        autoClickerButton.on("pointerup", () => {
-            if (this.characterData.gold >= 50) {
-                this.addGold(-50);
-                this.createAutoClicker({
-                    dps: 5,
-                    level: 1,
-                    type: "Hired Bowman"
-                });
-            }
-        });
+            .setDepth(3)
+            .setInteractive()
+            .on("pointerup", () => {
+                if (this.characterData.gold >= 50) {
+                    this.addGold(-50);
+                    this.createAutoClicker({
+                        dps: 5,
+                        level: 1,
+                        type: "Hired Bowman"
+                    });
+                }
+            });
 
         // Create click objects
         this.clickObjectMetaData.forEach(clickObject => {
@@ -117,7 +118,11 @@ export class EnemyLevelScene extends LevelScene {
                     questCompleted &&
                     index == this.clickObjectMetaData.length - 1
                 ) {
-                    this.questCompleteText.visible = true;
+                    // Check if other menus are on top
+                    if (this.killQuestText.visible) {
+                        this.questCompleteText.visible = true;
+                    }
+                    
                     this.characterData[this.currentLevel].questCompleted = true;
                     console.log("Quest complete!");
                 }
@@ -145,15 +150,29 @@ export class EnemyLevelScene extends LevelScene {
     getDamageLevel() {
         switch(this.characterData.characterClass) {
             case CONSTANTS.CLASS.MAGE:
-                return this.calcLevel(this.characterData.skills.magic);
+                return calcLevel(this.characterData.skills.magic);
                 break;
             case CONSTANTS.CLASS.RANGER:
-                return this.calcLevel(this.characterData.skills.ranged);
+                return calcLevel(this.characterData.skills.ranged);
                 break;
             case CONSTANTS.CLASS.WARRIOR:
-                return this.calcLevel(this.characterData.skills.attack);
+                return calcLevel(this.characterData.skills.attack);
                 break;
         }
+    }
+
+    // Show/hide text
+    showQuestText(isVisible) {
+        this.killQuestText.visible = isVisible;
+
+         // Show/hide text if level quest has been completed
+        if (this.characterData[this.currentLevel].questCompleted) {
+            this.questCompleteText.visible = isVisible;
+        }
+    }
+
+    showAutoClickerButton(isVisible) {
+        this.autoClickerButton.visible = isVisible;
     }
 
     // X/Y Thing1s & A/B Thing2s
