@@ -55,7 +55,7 @@ export class Resource {
         this.scene.dashboard.updateSkillsText();
 
         // Increase progress and check completion
-        let completed = this.progressBar.updateProgress(curLv);q
+        let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
             console.log("Got", this.resourceType);
             // TODO: put resource in inventory
