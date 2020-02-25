@@ -28,20 +28,7 @@ export class EnemyLevelScene extends LevelScene {
         this.killQuestText = this.add
             .text(530, 270, "", { fill: "white" })
             .setDepth(3);
-        this.clickObjectMetaData.forEach((enemy, index) => {
-            this.killQuestText.text +=
-                this.characterData[this.currentLevel].enemiesKilled[
-                    enemy.name
-                ] +
-                "/" +
-                this.killQuest +
-                " " +
-                enemy.name +
-                "s";
-            if (index + 1 < this.clickObjectMetaData.length) {
-                this.killQuestText.text += " & ";
-            }
-        });
+        this.updateKillQuestText();
 
         this.questCompleteText = this.add
             .text(530, 290, "Quest complete!", { fill: "white" })
@@ -114,24 +101,10 @@ export class EnemyLevelScene extends LevelScene {
             this.killQuest
         ) {
             this.characterData[this.currentLevel].enemiesKilled[name]++;
+            this.updateKillQuestText();
 
             let questCompleted = true;
-            this.killQuestText.text = "";
             this.clickObjectMetaData.forEach((enemy, index) => {
-                // Update quest text
-                this.killQuestText.text +=
-                    this.characterData[this.currentLevel].enemiesKilled[
-                        enemy.name
-                    ] +
-                    "/" +
-                    this.killQuest +
-                    " " +
-                    enemy.name +
-                    "s";
-                if (index + 1 < this.clickObjectMetaData.length) {
-                    this.killQuestText.text += " & ";
-                }
-
                 // Check for quest completion
                 if (
                     this.characterData[this.currentLevel].enemiesKilled[
@@ -200,5 +173,36 @@ export class EnemyLevelScene extends LevelScene {
 
     showAutoClickerButton(isVisible) {
         this.autoClickerButton.visible = isVisible;
+    }
+
+    // X/Y Thing1s & A/B Thing2s
+    updateKillQuestText() {
+        this.killQuestText.text = "";
+        this.clickObjectMetaData.forEach((enemy, index) => {
+
+            // Reformat name
+            let name = enemy.name;
+
+            // Replace underscore with a space
+            name = name.replace("_", " ");
+
+            // Capitalize the first letters
+            name = name.replace(/\b\w/g, c => c.toUpperCase());
+
+            // Add text
+            this.killQuestText.text +=
+                this.characterData[this.currentLevel].
+                    enemiesKilled[enemy.name] +
+                "/" +
+                this.killQuest +
+                " " +
+                name +
+                "s";
+
+            // Check to see if there are multiple enemies
+            if (index + 1 < this.clickObjectMetaData.length) {
+                this.killQuestText.text += " & ";
+            }
+        });
     }
 }

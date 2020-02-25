@@ -1,6 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { Resource } from "../resource.js";
-import { saveData } from "../save-data.js";
+import { defaultData } from "../default-data.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -29,7 +29,7 @@ export class LevelScene extends Phaser.Scene {
     autoClickDps = 0;
 
     // Character
-    characterData = saveData;
+    characterData;
 
     // Dashboard for inventory, etc.
     dashboard;
@@ -57,16 +57,15 @@ export class LevelScene extends Phaser.Scene {
     }
 
     init(characterData) {
-        // Always receive character class
-        this.characterData.characterClass = characterData.characterClass;
-
         // Receive cookies if they exist
         if (characterData.hasCookies) {
             this.characterData = characterData;
         }
         // Otherwise, initialize character based on starting class
         else {
-            switch (this.characterData.characterClass) {
+            // Reset data (deep copy)
+            this.characterData = JSON.parse(JSON.stringify(defaultData));
+            switch (characterData.characterClass) {
                 case "WARRIOR":
                     this.characterData.skills.attack = 5;
                     this.characterData.skills.strength = 5;
@@ -80,6 +79,9 @@ export class LevelScene extends Phaser.Scene {
                     break;
             }
         }
+
+        // Always receive character class
+        this.characterData.characterClass = characterData.characterClass;
     }
 
     preload() {
@@ -115,7 +117,7 @@ export class LevelScene extends Phaser.Scene {
         );
         this.load.image(
             CONSTANTS.CLASS.MAGE,
-            "src/assets/sprites/PlayerMage.jpg"
+            "src/assets/sprites/PlayerMage.png"
         );
 
         // Call preload function for inherited class
@@ -167,7 +169,7 @@ export class LevelScene extends Phaser.Scene {
 
         // Minimap
         this.minimap.obj = this.add
-            .image(526, 0, this.minimap.name)
+            .image(570, 0, this.minimap.name)
             .setOrigin(0, 0)
             .setDepth(0);
         this.minimap.obj.setInteractive();
@@ -199,10 +201,20 @@ export class LevelScene extends Phaser.Scene {
         });
 
         // Class picture
-        this.add
+        let classPicture = this.add
             .image(0, 250, this.characterData.characterClass)
             .setOrigin(0, 0)
             .setDepth(2);
+
+        // Fix class images that are not the same dimensions
+        if (this.characterData.characterClass == CONSTANTS.CLASS.RANGER) {
+            classPicture.setScale(.3);
+            classPicture.y = 195;
+        }
+        else if (this.characterData.characterClass == CONSTANTS.CLASS.MAGE) {
+            classPicture.setScale(.5);
+            classPicture.y = 175;
+        }
 
         // Gold
         this.goldText = this.add

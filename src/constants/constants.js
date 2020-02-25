@@ -9,7 +9,8 @@ export const CONSTANTS = {
         SHOP: "SHOP",
         TUTORIAL_ISLAND: "TUTORIAL_ISLAND",
         LUMBRIDGE: "LUMBRIDGE",
-        LUMBRIDGE_TREES: "LUMBRIDGE_TREES"
+        LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
+        VARROCK: "VARROCK",
     },
     CLASS: {
         UNARMED: "UNARMED",
@@ -51,6 +52,10 @@ export const MAP = {
     LUMBRIDGE_TREES: {
         X: 2220,
         Y: 2210
+    },
+    VARROCK: {
+        X: 2325,
+        Y: 1565
     },
     UNLOCKED_FONT: {
         fill: "white",
