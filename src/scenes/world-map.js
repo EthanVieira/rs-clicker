@@ -30,10 +30,13 @@ export class WorldMapScene extends Phaser.Scene {
             .image(SCREEN.WIDTH - 30, 0, "exit-button")
             .setOrigin(0, 0)
             .setDepth(2)
-            .setInteractive();
-        exitButton.on("pointerup", () => {
-            this.scene.start(this.characterData.currentLevel, this.characterData);
-        });
+            .setInteractive()
+            .on("pointerup", () => {
+                this.scene.start(
+                    this.characterData.currentLevel, 
+                    this.characterData
+                );
+            });
 
         // Color links if they haven't been unlocked yet
         let fontStyle = MAP.UNLOCKED_FONT;
@@ -49,32 +52,33 @@ export class WorldMapScene extends Phaser.Scene {
                 "Tutorial Island",
                 MAP.UNLOCKED_FONT
             )
-            .setDepth(1);
-        tutorialIsland.setInteractive();
-        tutorialIsland.on("pointerup", () => {
-            this.scene.start(
-                CONSTANTS.SCENES.TUTORIAL_ISLAND,
-                this.characterData
-            );
-            console.log("Going to Tutorial Island");
-        });
+            .setDepth(1)
+            .setInteractive()
+            .on("pointerup", () => {
+                this.scene.start(
+                    CONSTANTS.SCENES.TUTORIAL_ISLAND,
+                    this.characterData
+                );
+                console.log("Going to Tutorial Island");
+            });
 
         // Lumbridge
         let lumbridge = this.add
             .text(MAP.LUMBRIDGE.X, MAP.LUMBRIDGE.Y, "Lumbridge", fontStyle)
-            .setDepth(1);
-        lumbridge.setInteractive();
-        lumbridge.on("pointerup", () => {
-            if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
-                this.scene.start(
-                    CONSTANTS.SCENES.LUMBRIDGE,
-                    this.characterData
-                );
-                console.log("Going to Lumbridge");
-            } else {
-                console.log("Lumbridge not unlocked yet");
-            }
-        });
+            .setDepth(1)
+            .setInteractive()
+            .on("pointerup", () => {
+                if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
+                    this.scene.start(
+                        CONSTANTS.SCENES.LUMBRIDGE,
+                        this.characterData
+                    );
+                    console.log("Going to Lumbridge");
+                } 
+                else {
+                    console.log("Lumbridge not unlocked yet");
+                }
+            });
 
         // Lumbridge Trees
         let lumbridgeTrees = this.add
@@ -84,32 +88,75 @@ export class WorldMapScene extends Phaser.Scene {
                 "Lumbridge\nTrees",
                 fontStyle
             )
-            .setDepth(1);
-        lumbridgeTrees.setInteractive();
-        lumbridgeTrees.on("pointerup", () => {
-            if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
-                this.scene.start(
-                    CONSTANTS.SCENES.LUMBRIDGE_TREES,
-                    this.characterData
-                );
-                console.log("Going to Lumbridge Trees");
-            } else {
-                console.log("Lumbridge not unlocked yet");
-            }
-        });
+            .setDepth(1)
+            .setInteractive()
+            .on("pointerup", () => {
+                if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
+                    this.scene.start(
+                        CONSTANTS.SCENES.LUMBRIDGE_TREES,
+                        this.characterData
+                    );
+                    console.log("Going to Lumbridge Trees");
+                } 
+                else {
+                    console.log("Lumbridge not unlocked yet");
+                }
+            });
+
+        // Color link if they haven't been unlocked yet
+        if (!this.characterData.LUMBRIDGE.questCompleted) {
+            fontStyle = MAP.LOCKED_FONT;
+        }
+
+        // Varrock
+        let varrock = this.add
+            .text(
+                MAP.VARROCK.X,
+                MAP.VARROCK.Y,
+                "Varrock",
+                fontStyle
+            )
+            .setDepth(1)
+            .setInteractive()
+            .on("pointerup", () => {
+                if(this.characterData.LUMBRIDGE.questCompleted) {
+                    this.scene.start(
+                        CONSTANTS.SCENES.VARROCK,
+                        this.characterData
+                    );
+                    console.log("Going to Varrock");
+                }
+                else {
+                    console.log("Varrock not unlocked yet");
+                }
+            });
+
+
+        // Determine map starting location
+        let startX = MAP.CENTER_X;
+        let startY = MAP.CENTER_Y;
+        
+        // Tutorial Island and Lumbridge use default starting location
+        switch(this.characterData.currentLevel) {
+            case CONSTANTS.SCENES.VARROCK:
+                startX = (SCREEN.WIDTH / 2) - MAP.VARROCK.X;
+                startY = (SCREEN.HEIGHT / 2) - MAP.VARROCK.Y;
+                break;
+        }
 
         // Group objects together
-        let container = this.add.container(MAP.CENTER_X, MAP.CENTER_Y);
+        let container = this.add.container(startX, startY);
         container.add(map);
         container.add(tutorialIsland);
         container.add(lumbridge);
         container.add(lumbridgeTrees);
+        container.add(varrock);
 
         // Setup drag limits
         container.setInteractive(
             new Phaser.Geom.Rectangle(0, 0, MAP.WIDTH, MAP.HEIGHT),
             Phaser.Geom.Rectangle.Contains
-        ); // Use size of map image
+        );
         this.input.setDraggable(container);
         this.input.on("drag", function(pointer, gameObject, dragX, dragY) {
             if (MAP.WIDTH - SCREEN.WIDTH + dragX > 0 && dragX < 0) {

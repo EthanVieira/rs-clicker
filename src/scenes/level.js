@@ -1,6 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { Resource } from "../resource.js";
-import { saveData } from "../save-data.js";
+import { defaultData } from "../default-data.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -46,7 +46,7 @@ export class LevelScene extends Phaser.Scene {
     autoClickDps = 0;
 
     // Character
-    characterData = saveData;
+    characterData;
 
     // Text
     goldText = "";
@@ -82,16 +82,15 @@ export class LevelScene extends Phaser.Scene {
     }
 
     init(characterData) {
-        // Always receive character class
-        this.characterData.characterClass = characterData.characterClass;
-
         // Receive cookies if they exist
         if (characterData.hasCookies) {
             this.characterData = characterData;
         }
         // Otherwise, initialize character based on starting class
         else {
-            switch (this.characterData.characterClass) {
+            // Reset data (deep copy)
+            this.characterData = JSON.parse(JSON.stringify(defaultData));
+            switch (characterData.characterClass) {
                 case "WARRIOR":
                     this.characterData.skills.attack = 5;
                     this.characterData.skills.strength = 5;
@@ -105,6 +104,9 @@ export class LevelScene extends Phaser.Scene {
                     break;
             }
         }
+
+        // Always receive character class
+        this.characterData.characterClass = characterData.characterClass;
     }
 
     preload() {
