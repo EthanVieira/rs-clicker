@@ -16,7 +16,10 @@ import { SCREEN } from "./constants/constants.js";
 let game = new Phaser.Game({
     width: SCREEN.WIDTH,
     height: SCREEN.HEIGHT,
-    scale: { autoCenter: Phaser.Scale.CENTER_BOTH },
+    scale: { 
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        parent: "game"
+    },
     scene: [
         LoadScene,
         AudioScene,

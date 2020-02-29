@@ -37,25 +37,25 @@ export const SCREEN = {
 };
 
 export const MAP = {
-    CENTER_X: -1820,
-    CENTER_Y: -2170,
-    WIDTH: 3298,
-    HEIGHT: 3285,
+    CENTER_X: -1520,
+    CENTER_Y: -2970,
+    WIDTH: 4001,
+    HEIGHT: 4431,
     TUTORIAL_ISLAND: {
-        X: 1940,
-        Y: 2620
+        X: 2500,
+        Y: 3570
     },
     LUMBRIDGE: {
-        X: 2400,
-        Y: 2215
+        X: 3000,
+        Y: 3075
     },
     LUMBRIDGE_TREES: {
-        X: 2220,
-        Y: 2210
+        X: 2820,
+        Y: 3075
     },
     VARROCK: {
-        X: 2325,
-        Y: 1565
+        X: 2980,
+        Y: 2210
     },
     UNLOCKED_FONT: {
         fill: "white",

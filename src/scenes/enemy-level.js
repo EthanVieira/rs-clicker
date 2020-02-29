@@ -7,7 +7,7 @@ export class EnemyLevelScene extends LevelScene {
     // Level completion
     killQuest = 0;
     killQuestText;
-    questCompleteText;
+    // questCompleteText;
     autoClickerButton;
 
     constructor(data) {
@@ -101,7 +101,6 @@ export class EnemyLevelScene extends LevelScene {
             this.killQuest
         ) {
             this.characterData[this.currentLevel].enemiesKilled[name]++;
-            this.updateKillQuestText();
 
             let questCompleted = true;
             this.clickObjectMetaData.forEach((enemy, index) => {
@@ -118,16 +117,14 @@ export class EnemyLevelScene extends LevelScene {
                     questCompleted &&
                     index == this.clickObjectMetaData.length - 1
                 ) {
-                    // Check if other menus are on top
-                    if (this.killQuestText.visible) {
-                        this.questCompleteText.visible = true;
-                    }
-                    
                     this.characterData[this.currentLevel].questCompleted = true;
                     console.log("Quest complete!");
                 }
             });
         }
+
+        // Update text
+        this.updateKillQuestText();
         this.enemiesKilledText.text =
             "Enemies killed: " + this.characterData.totalEnemiesKilled;
 
@@ -164,11 +161,6 @@ export class EnemyLevelScene extends LevelScene {
     // Show/hide text
     showQuestText(isVisible) {
         this.killQuestText.visible = isVisible;
-
-         // Show/hide text if level quest has been completed
-        if (this.characterData[this.currentLevel].questCompleted) {
-            this.questCompleteText.visible = isVisible;
-        }
     }
 
     showAutoClickerButton(isVisible) {
@@ -201,8 +193,13 @@ export class EnemyLevelScene extends LevelScene {
 
             // Check to see if there are multiple enemies
             if (index + 1 < this.clickObjectMetaData.length) {
-                this.killQuestText.text += " & ";
+                this.killQuestText.text += "\n";
             }
         });
+
+        // Add quest complete text
+        if (this.characterData[this.currentLevel].questCompleted) {
+            this.killQuestText.text += "\n\nQuest Complete!";
+        }
     }
 }

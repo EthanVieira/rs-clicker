@@ -2,6 +2,9 @@ import { CONSTANTS, SCREEN, MAP } from "../constants/constants.js";
 
 export class WorldMapScene extends Phaser.Scene {
     characterData = {};
+    currentHeight = 0;
+    currentWidth = 0;
+    exitButton;
     constructor() {
         super({
             key: CONSTANTS.SCENES.MAP
@@ -19,6 +22,9 @@ export class WorldMapScene extends Phaser.Scene {
         this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
     }
     create() {
+        // Get current width/height without scrollbars
+        this.currentWidth = window.innerWidth - 10;
+        this.currentHeight = window.innerHeight - 10;
         // Background
         let map = this.add
             .image(0, 0, "world-map")
@@ -26,8 +32,8 @@ export class WorldMapScene extends Phaser.Scene {
             .setDepth(0);
 
         // Exit button
-        let exitButton = this.add
-            .image(SCREEN.WIDTH - 30, 0, "exit-button")
+        this.exitButton = this.add
+            .image(this.currentWidth - 30, 0, "exit-button")
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive()
@@ -139,8 +145,8 @@ export class WorldMapScene extends Phaser.Scene {
         // Tutorial Island and Lumbridge use default starting location
         switch(this.characterData.currentLevel) {
             case CONSTANTS.SCENES.VARROCK:
-                startX = (SCREEN.WIDTH / 2) - MAP.VARROCK.X;
-                startY = (SCREEN.HEIGHT / 2) - MAP.VARROCK.Y;
+                startX = (this.currentWidth / 2) - MAP.VARROCK.X;
+                startY = (this.currentHeight / 2) - MAP.VARROCK.Y;
                 break;
         }
 
@@ -158,13 +164,34 @@ export class WorldMapScene extends Phaser.Scene {
             Phaser.Geom.Rectangle.Contains
         );
         this.input.setDraggable(container);
+        let _this = this;
         this.input.on("drag", function(pointer, gameObject, dragX, dragY) {
-            if (MAP.WIDTH - SCREEN.WIDTH + dragX > 0 && dragX < 0) {
+            if (MAP.WIDTH - _this.currentWidth + dragX > 0 && dragX < 0) {
                 gameObject.x = dragX;
             }
-            if (MAP.HEIGHT - SCREEN.HEIGHT + dragY > 0 && dragY < 0) {
+            if (MAP.HEIGHT - _this.currentHeight + dragY > 0 && dragY < 0) {
                 gameObject.y = dragY;
             }
         });
+
+        // Resize to full screen
+        this.scale.resize(this.currentWidth, this.currentHeight);
+
+        // When exiting the scene
+        this.events.on('shutdown', () => {
+            this.scale.resize(SCREEN.WIDTH, SCREEN.HEIGHT);
+        });
+    }
+
+    // Handle window size changes
+    update() {
+        if (window.innerWidth - 10 != this.currentWidth ||
+            window.innerHeight - 10 != this.currentHeight) {
+
+            this.currentWidth = window.innerWidth - 10;
+            this.currentHeight = window.innerHeight - 10;
+            this.scale.resize(this.currentWidth, this.currentHeight);
+            this.exitButton.x = this.currentWidth - 30;
+        }
     }
 }
