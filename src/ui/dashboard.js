@@ -41,8 +41,7 @@ export class Dashboard extends Phaser.Scene {
     woodcuttingText;
     woodcuttingBottomText;
 
-    // TODO: Quests text probably
-    // Tutorial Island quests
+    // TODO: Quests text probably for each enemy
     killQuestText;
 
     constructor() {
@@ -285,7 +284,6 @@ export class Dashboard extends Phaser.Scene {
             .text(555, 256, "", { fill: "white" })
             .setDepth(3);
 
-        
         this.quests.button.on("pointerup", () => {
             this.showQuests(true);
         });

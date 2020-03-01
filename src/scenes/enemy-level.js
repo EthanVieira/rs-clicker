@@ -25,7 +25,7 @@ export class EnemyLevelScene extends LevelScene {
         // Button text to test autoclickers
         this.autoClickerButton = this.add
             .text(530, 250, "50 gold for autoclicker", { fill: "white" })
-            .setDepth(20)
+            .setDepth(3)
             .setInteractive()
             .on("pointerup", () => {
                 if (this.characterData.gold >= 50) {
