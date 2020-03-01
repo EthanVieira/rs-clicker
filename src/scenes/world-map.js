@@ -137,6 +137,34 @@ export class WorldMapScene extends Phaser.Scene {
                 }
             });
 
+        // Color link if they haven't been unlocked yet
+        if (!this.characterData.VARROCK.questCompleted) {
+            fontStyle = MAP.LOCKED_FONT;
+        }
+
+        // Barbarian Village
+        let barbarianVillage = this.add
+            .text(
+                MAP.BARBARIAN_VILLAGE.X,
+                MAP.BARBARIAN_VILLAGE.Y,
+                "Barbarian Village",
+                fontStyle
+            )
+            .setDepth(1)
+            .setInteractive()
+            .on("pointerup", () => {
+                if(this.characterData.VARROCK.questCompleted) {
+                    this.scene.start(
+                        CONSTANTS.SCENES.BARBARIAN_VILLAGE,
+                        this.characterData
+                    );
+                    console.log("Going to Barbarian Village");
+                }
+                else {
+                    console.log("Barbarian Village not unlocked yet");
+                }
+            });
+
 
         // Determine map starting location
         let startX = MAP.CENTER_X;
@@ -157,6 +185,7 @@ export class WorldMapScene extends Phaser.Scene {
         container.add(lumbridge);
         container.add(lumbridgeTrees);
         container.add(varrock);
+        container.add(barbarianVillage);
 
         // Setup drag limits
         container.setInteractive(

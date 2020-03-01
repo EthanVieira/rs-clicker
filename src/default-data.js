@@ -36,5 +36,12 @@ export const defaultData = {
             dark_wizard: 0,
             guard: 0
         }
+    },
+    BARBARIAN_VILLAGE: {
+        questCompleted: false,
+        enemiesKilled: {
+            male_barbarian: 0,
+            female_barbarian: 0
+        }
     }
 };

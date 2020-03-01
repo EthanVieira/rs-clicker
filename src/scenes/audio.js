@@ -20,6 +20,7 @@ export class AudioScene extends Phaser.Scene {
         );
         this.load.audio("harmony", "src/assets/audio/bgm/Harmony.ogg");
         this.load.audio("expanse", "src/assets/audio/bgm/Expanse.mp3");
+        this.load.audio("barbarianism", "src/assets/audio/bgm/Barbarianism.ogg");
 
         this.load.on("complete", () => {
             this.currentSong = this.sound.add(this.currentSongName);

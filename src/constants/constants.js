@@ -11,6 +11,7 @@ export const CONSTANTS = {
         LUMBRIDGE: "LUMBRIDGE",
         LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
         VARROCK: "VARROCK",
+        BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE"
     },
     CLASS: {
         UNARMED: "UNARMED",
@@ -56,6 +57,10 @@ export const MAP = {
     VARROCK: {
         X: 2980,
         Y: 2210
+    },
+    BARBARIAN_VILLAGE: {
+        X: 2400,
+        Y: 2250
     },
     UNLOCKED_FONT: {
         fill: "white",

@@ -85,7 +85,7 @@ export class CharacterCreationScene extends Phaser.Scene {
         acceptButton.on("pointerup", () => {
             // Start the first level if a class has been selected.
             if (characterClass != CONSTANTS.CLASS.UNARMED) {
-                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, {
+                this.scene.start(CONSTANTS.SCENES.BARBARIAN_VILLAGE, {
                     characterClass
                 });
                 console.log("Going to Tutorial Island");
