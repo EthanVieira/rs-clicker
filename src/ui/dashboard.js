@@ -93,17 +93,11 @@ export class Dashboard extends Phaser.Scene {
             .setAlpha(.1)
             .setInteractive()
             .on("pointerup", () => {
-                // Release autoclickers to be garbage collected
-                this.currentScene.clearAutoClickers();
-                
                 // Pass in the current level to know which level to return to upon exiting the shop.
                 this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
                     this.characterData,
                     this.characterData.currentLevel
                 ]);
-
-                // Stop dashboard
-                this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
 
                 // TODO: Instead of starting a shop scene, just have a shop interface pop up w/o stopping game.
                 console.log("Going to Shop");
