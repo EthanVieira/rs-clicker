@@ -137,18 +137,37 @@ export class WorldMapScene extends Phaser.Scene {
                 }
             });
 
-
-        // Determine map starting location
-        let startX = MAP.CENTER_X;
-        let startY = MAP.CENTER_Y;
-        
-        // Tutorial Island and Lumbridge use default starting location
-        switch(this.characterData.currentLevel) {
-            case CONSTANTS.SCENES.VARROCK:
-                startX = (this.currentWidth / 2) - MAP.VARROCK.X;
-                startY = (this.currentHeight / 2) - MAP.VARROCK.Y;
-                break;
+        // Color link if they haven't been unlocked yet
+        if (!this.characterData.VARROCK.questCompleted) {
+            fontStyle = MAP.LOCKED_FONT;
         }
+
+        // Barbarian Village
+        let barbarianVillage = this.add
+            .text(
+                MAP.BARBARIAN_VILLAGE.X,
+                MAP.BARBARIAN_VILLAGE.Y,
+                "Barbarian Village",
+                fontStyle
+            )
+            .setDepth(1)
+            .setInteractive()
+            .on("pointerup", () => {
+                if(this.characterData.VARROCK.questCompleted) {
+                    this.scene.start(
+                        CONSTANTS.SCENES.BARBARIAN_VILLAGE,
+                        this.characterData
+                    );
+                    console.log("Going to Barbarian Village");
+                }
+                else {
+                    console.log("Barbarian Village not unlocked yet");
+                }
+            });
+
+
+        // Tutorial Island and Lumbridge use default starting location, others are centered
+        const {startX, startY} = this.setMapLocation();
 
         // Group objects together
         let container = this.add.container(startX, startY);
@@ -157,6 +176,7 @@ export class WorldMapScene extends Phaser.Scene {
         container.add(lumbridge);
         container.add(lumbridgeTrees);
         container.add(varrock);
+        container.add(barbarianVillage);
 
         // Setup drag limits
         container.setInteractive(
@@ -193,5 +213,32 @@ export class WorldMapScene extends Phaser.Scene {
             this.scale.resize(this.currentWidth, this.currentHeight);
             this.exitButton.x = this.currentWidth - 30;
         }
+    }
+
+    // Center map and make sure it isn't off screen
+    setMapLocation() {
+        // Center around current level
+        let startX = (this.currentWidth / 2) - MAP[this.characterData.currentLevel].X;
+        let startY = (this.currentHeight / 2) - MAP[this.characterData.currentLevel].Y;
+
+        // Check if map is off screen
+        // Right
+        if (startX < this.currentWidth - MAP.WIDTH) {
+            startX = this.currentWidth - MAP.WIDTH;
+        }
+        // Left
+        else if (startX > 0) {
+            startX = 0;
+        }
+        // Bottom
+        if (startY < this.currentHeight - MAP.HEIGHT) {
+            startY = this.currentHeight - MAP.HEIGHT;
+        }
+        // Top
+        else if (startY > 0) {
+            startY = 0;
+        }
+
+        return ({startX, startY});
     }
 }

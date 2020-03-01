@@ -174,9 +174,6 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(0);
         this.minimap.obj.setInteractive();
         this.minimap.obj.on("pointerup", () => {
-            // Release autoclickers to be garbage collected
-            this.clearAutoClickers();
-            this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.start(CONSTANTS.SCENES.MAP, this.characterData);
             console.log("Going to World Map");
         });
@@ -194,9 +191,7 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive();
         exitButton.on("pointerup", () => {
-            this.clearAutoClickers();
             audioScene.playAudio("scape-main");
-            this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
         });
 
@@ -269,6 +264,14 @@ export class LevelScene extends Phaser.Scene {
 
         // Display click object
         this.showRandomClickObject();
+
+        // Scene destructor
+        this.events.on('shutdown', () => {
+            // Release autoclickers to be garbage collected
+            this.clearAutoClickers();
+            // Hide dashboard
+            this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
+        });
     }
 
     update(time, delta) {
