@@ -38,8 +38,6 @@ export const SCREEN = {
 };
 
 export const MAP = {
-    CENTER_X: -1520,
-    CENTER_Y: -2970,
     WIDTH: 4001,
     HEIGHT: 4431,
     TUTORIAL_ISLAND: {

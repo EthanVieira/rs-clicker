@@ -7,7 +7,6 @@ export class EnemyLevelScene extends LevelScene {
     // Level completion
     killQuest = 0;
     killQuestText;
-    // questCompleteText;
     autoClickerButton;
 
     constructor(data) {
@@ -29,15 +28,6 @@ export class EnemyLevelScene extends LevelScene {
             .text(530, 270, "", { fill: "white" })
             .setDepth(3);
         this.updateKillQuestText();
-
-        this.questCompleteText = this.add
-            .text(530, 290, "Quest complete!", { fill: "white" })
-            .setDepth(3);
-
-        // Hide text if level quest has not been completed
-        if (!this.characterData[this.currentLevel].questCompleted) {
-            this.questCompleteText.visible = false;
-        }
 
         // Button text to test autoclickers
         this.autoClickerButton = this.add

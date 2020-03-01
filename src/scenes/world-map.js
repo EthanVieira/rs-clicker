@@ -166,17 +166,8 @@ export class WorldMapScene extends Phaser.Scene {
             });
 
 
-        // Determine map starting location
-        let startX = MAP.CENTER_X;
-        let startY = MAP.CENTER_Y;
-        
-        // Tutorial Island and Lumbridge use default starting location
-        switch(this.characterData.currentLevel) {
-            case CONSTANTS.SCENES.VARROCK:
-                startX = (this.currentWidth / 2) - MAP.VARROCK.X;
-                startY = (this.currentHeight / 2) - MAP.VARROCK.Y;
-                break;
-        }
+        // Tutorial Island and Lumbridge use default starting location, others are centered
+        const {startX, startY} = this.setMapLocation();
 
         // Group objects together
         let container = this.add.container(startX, startY);
@@ -222,5 +213,32 @@ export class WorldMapScene extends Phaser.Scene {
             this.scale.resize(this.currentWidth, this.currentHeight);
             this.exitButton.x = this.currentWidth - 30;
         }
+    }
+
+    // Center map and make sure it isn't off screen
+    setMapLocation() {
+        // Center around current level
+        let startX = (this.currentWidth / 2) - MAP[this.characterData.currentLevel].X;
+        let startY = (this.currentHeight / 2) - MAP[this.characterData.currentLevel].Y;
+
+        // Check if map is off screen
+        // Right
+        if (startX < this.currentWidth - MAP.WIDTH) {
+            startX = this.currentWidth - MAP.WIDTH;
+        }
+        // Left
+        else if (startX > 0) {
+            startX = 0;
+        }
+        // Bottom
+        if (startY < this.currentHeight - MAP.HEIGHT) {
+            startY = this.currentHeight - MAP.HEIGHT;
+        }
+        // Top
+        else if (startY > 0) {
+            startY = 0;
+        }
+
+        return ({startX, startY});
     }
 }
