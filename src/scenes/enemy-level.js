@@ -6,7 +6,6 @@ import { Enemy } from "../enemy.js";
 export class EnemyLevelScene extends LevelScene {
     // Level completion
     killQuest = 0;
-    killQuestText;
     autoClickerButton;
 
     constructor(data) {
@@ -23,12 +22,6 @@ export class EnemyLevelScene extends LevelScene {
     }
 
     childCreate() {
-        // Create kill quest
-        this.killQuestText = this.add
-            .text(530, 270, "", { fill: "white" })
-            .setDepth(3);
-        this.updateKillQuestText();
-
         // Button text to test autoclickers
         this.autoClickerButton = this.add
             .text(530, 250, "50 gold for autoclicker", { fill: "white" })
@@ -114,7 +107,7 @@ export class EnemyLevelScene extends LevelScene {
         }
 
         // Update text
-        this.updateKillQuestText();
+        this.dashboard.updateKillQuestText();
         this.enemiesKilledText.text =
             "Enemies killed: " + this.characterData.totalEnemiesKilled;
 
@@ -148,48 +141,7 @@ export class EnemyLevelScene extends LevelScene {
         }
     }
 
-    // Show/hide text
-    showQuestText(isVisible) {
-        this.killQuestText.visible = isVisible;
-    }
-
     showAutoClickerButton(isVisible) {
         this.autoClickerButton.visible = isVisible;
-    }
-
-    // X/Y Thing1s & A/B Thing2s
-    updateKillQuestText() {
-        this.killQuestText.text = "";
-        this.clickObjectMetaData.forEach((enemy, index) => {
-
-            // Reformat name
-            let name = enemy.name;
-
-            // Replace underscore with a space
-            name = name.replace("_", " ");
-
-            // Capitalize the first letters
-            name = name.replace(/\b\w/g, c => c.toUpperCase());
-
-            // Add text
-            this.killQuestText.text +=
-                this.characterData[this.currentLevel].
-                    enemiesKilled[enemy.name] +
-                "/" +
-                this.killQuest +
-                " " +
-                name +
-                "s";
-
-            // Check to see if there are multiple enemies
-            if (index + 1 < this.clickObjectMetaData.length) {
-                this.killQuestText.text += "\n";
-            }
-        });
-
-        // Add quest complete text
-        if (this.characterData[this.currentLevel].questCompleted) {
-            this.killQuestText.text += "\n\nQuest Complete!";
-        }
     }
 }

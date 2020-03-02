@@ -1,7 +1,6 @@
 import { CONSTANTS, calcLevel } from "../constants/constants.js";
 
 export class Dashboard extends Phaser.Scene {
-
     currentScene;
 
     currentLevel = "";
@@ -23,6 +22,11 @@ export class Dashboard extends Phaser.Scene {
         audioButtons: []
     };
 
+    quests = {
+        button: {},
+        panel: {}
+    };
+
     // Save data
     characterData;
 
@@ -37,10 +41,11 @@ export class Dashboard extends Phaser.Scene {
     woodcuttingText;
     woodcuttingBottomText;
 
+    // TODO: Quests text probably for each enemy
+    killQuestText;
+
     constructor() {
-        super({
-            key: CONSTANTS.SCENES.DASHBOARD
-        });
+        super({ key: CONSTANTS.SCENES.DASHBOARD });
     }
 
     init(characterData) {
@@ -78,10 +83,16 @@ export class Dashboard extends Phaser.Scene {
             "audio-button",
             "src/assets/ui/buttons/AudioButton.png"
         );
+
+        // Quests panel
+        this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
+        this.load.image(
+            "quests-button",
+            "src/assets/ui/buttons/QuestsButton.png"
+        );
     }
 
     create() {
-
         // Get audio scene
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
 
@@ -89,8 +100,9 @@ export class Dashboard extends Phaser.Scene {
         this.currentScene = this.scene.get(this.characterData.currentLevel);
 
         // Shop
-        this.add.text(585, 475, "Shop")
-            .setAlpha(.1)
+        this.add
+            .text(585, 475, "Shop")
+            .setAlpha(0.1)
             .setInteractive()
             .on("pointerup", () => {
                 // Pass in the current level to know which level to return to upon exiting the shop.
@@ -115,7 +127,6 @@ export class Dashboard extends Phaser.Scene {
 
                 // If enemy-level, repopulate quest text
                 if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-                    this.currentScene.showQuestText(true);
                     this.currentScene.showAutoClickerButton(true);
                 }
 
@@ -138,40 +149,40 @@ export class Dashboard extends Phaser.Scene {
 
         // Skills text
         this.attackText = this.add
-            .text(585, 220, "1", {fontSize: "12px"})
-            .setOrigin(.5)
+            .text(585, 220, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
             .setDepth(2);
         this.attackBottomText = this.add
-            .text(600, 230, "1", {fontSize: "12px"})
-            .setOrigin(.5)
+            .text(600, 230, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
             .setDepth(2);
         this.rangedText = this.add
-            .text(585, 310, "1", {fontSize: "12px"})
-            .setOrigin(.5)
+            .text(585, 310, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
             .setDepth(2);
         this.rangedBottomText = this.add
-            .text(600, 320, "1", {fontSize: "12px"})
-            .setOrigin(.5)
+            .text(600, 320, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
             .setDepth(2);
         this.magicText = this.add
-            .text(585, 375, "1", {fontSize: "12px"})
-            .setOrigin(.5)
+            .text(585, 375, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
             .setDepth(2);
         this.magicBottomText = this.add
-            .text(600, 385, "1", {fontSize: "12px"})
-            .setOrigin(.5)
+            .text(600, 385, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
             .setDepth(2);
         this.totalLevelText = this.add
-            .text(705, 450, "3", {fontSize: "12px", fill: "yellow"})
-            .setOrigin(.5)
+            .text(705, 450, "3", { fontSize: "12px", fill: "yellow" })
+            .setOrigin(0.5)
             .setDepth(2);
         this.woodcuttingText = this.add
-            .text(710, 375, "1", {fontSize: "12px"})
-            .setOrigin(.5)
+            .text(710, 375, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
             .setDepth(2);
         this.woodcuttingBottomText = this.add
-            .text(725, 385, "1", {fontSize: "12px"})
-            .setOrigin(.5)
+            .text(725, 385, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
             .setDepth(2);
 
         // Set and hide skills page on startup
@@ -255,14 +266,38 @@ export class Dashboard extends Phaser.Scene {
         }
         // Hide audio page on startup
         this.showAudioSettings(false);
+
+        // Quests
+        this.quests.panel = this.add
+            .image(548, 208, "quests-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+        this.quests.button = this.add
+            .image(592, 168, "quests-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive();
+
+        // Quest text
+        // TODO: show all quests
+        this.killQuestText = this.add
+            .text(555, 256, "", { fill: "white" })
+            .setDepth(3);
+
+        this.quests.button.on("pointerup", () => {
+            this.showQuests(true);
+        });
+
+        // Set and hide quests on startup
+        this.updateKillQuestText();
+        this.showQuests(false);
     }
 
     showSkills(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
             this.skills.button.setAlpha(1);
-        } 
-        else {
+        } else {
             this.skills.button.setAlpha(0.1);
         }
 
@@ -299,8 +334,7 @@ export class Dashboard extends Phaser.Scene {
             this.characterData.audio.forEach((volume, volumeType) => {
                 this.audio.audioButtons[volumeType][volume].setAlpha(1);
             });
-        } 
-        else {
+        } else {
             this.audio.audioPage.visible = false;
             this.audio.audioPageButton.setAlpha(0.1);
             this.audio.sliders.forEach(slider => {
@@ -314,6 +348,19 @@ export class Dashboard extends Phaser.Scene {
         }
     }
 
+    showQuests(isVisible) {
+        if (isVisible) {
+            this.hideAllMenus();
+            this.quests.button.setAlpha(1);
+        } else {
+            this.quests.button.setAlpha(0.1);
+        }
+
+        // Show panel and quest text
+        this.quests.panel.visible = isVisible;
+        this.killQuestText.visible = isVisible;
+    }
+
     // Hide old button and show new one
     changeAudioButton(volumeType, newButton) {
         let previousVolume = this.characterData.audio[volumeType];
@@ -325,11 +372,10 @@ export class Dashboard extends Phaser.Scene {
     hideAllMenus() {
         this.showAudioSettings(false);
         this.showSkills(false);
+        this.showQuests(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
 
-        // If enemy-level, hide quest text
         if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-            this.currentScene.showQuestText(false);
             this.currentScene.showAutoClickerButton(false);
         }
     }
@@ -362,5 +408,42 @@ export class Dashboard extends Phaser.Scene {
         totalLevel += level;
 
         this.totalLevelText.text = totalLevel;
+    }
+
+    updateKillQuestText() {
+        this.killQuestText.text = "";
+        this.currentScene.clickObjectMetaData.forEach((enemy, index) => {
+            // Reformat name
+            let name = enemy.name;
+
+            // Replace underscore with a space
+            name = name.replace("_", " ");
+
+            // Capitalize the first letters
+            name = name.replace(/\b\w/g, c => c.toUpperCase());
+
+            // Add text
+            // TODO: Since there are currently no quests for tree levels those 
+            // will show up as undefined/undefined
+            this.killQuestText.text +=
+                this.characterData[this.currentScene.currentLevel].enemiesKilled[
+                    enemy.name
+                ] +
+                "/" +
+                this.currentScene.killQuest +
+                " " +
+                name +
+                "s";
+
+            // Check to see if there are multiple enemies
+            if (index + 1 < this.currentScene.clickObjectMetaData.length) {
+                this.killQuestText.text += "\n";
+            }
+        });
+
+        // Add quest complete text
+        if (this.characterData[this.currentScene.currentLevel].questCompleted) {
+            this.killQuestText.text += "\n\nQuest Complete!";
+        }
     }
 }
