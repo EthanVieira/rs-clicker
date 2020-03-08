@@ -7,6 +7,7 @@ export const defaultData = {
     damageByClicking: 0,
     damageByAutoClick: 0,
     numberOfAutoClickers: 0,
+    inventory: [],
     skills: {
         attack: 0,
         ranged: 0,

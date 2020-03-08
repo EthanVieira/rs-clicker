@@ -58,7 +58,11 @@ export class Resource {
         let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
             console.log("Got", this.resourceType);
-            // TODO: put resource in inventory
+            // Put resource in inventory
+            if (this.scene.characterData.inventory.length < 28) {
+                this.scene.characterData.inventory.push(this.resourceType);
+            }
+            this.scene.dashboard.updateInventory();
             this.scene.showRandomClickObject();
         }
     }

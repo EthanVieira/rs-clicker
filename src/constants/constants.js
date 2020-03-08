@@ -27,6 +27,12 @@ export const CONSTANTS = {
         ENEMY: "ENEMY",
         RESOURCE: "RESOURCE"
     },
+    PANEL: {
+        INVENTORY: "INVENTORY",
+        SKILLS: "SKILLS",
+        QUESTS: "QUESTS",
+        SETTINGS: "SETTINGS"
+    },
     UTILS: {
         MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000
     }

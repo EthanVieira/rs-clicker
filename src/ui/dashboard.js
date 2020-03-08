@@ -5,8 +5,11 @@ export class Dashboard extends Phaser.Scene {
 
     currentLevel = "";
 
+    currentPanel = "";
+
     inventory = {
-        button: {}
+        button: {},
+        items: []
     };
 
     skills = {
@@ -129,9 +132,16 @@ export class Dashboard extends Phaser.Scene {
                 if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
                     this.currentScene.showAutoClickerButton(true);
                 }
+                else {
+                    this.showInventory(true);
+                }
 
                 this.inventory.button.setAlpha(0.1);
             });
+
+        // Update and show inventory on startup
+        this.updateInventory();
+        this.showInventory(true);
 
         // Skills
         this.skills.panel = this.add
@@ -297,6 +307,7 @@ export class Dashboard extends Phaser.Scene {
         if (isVisible) {
             this.hideAllMenus();
             this.skills.button.setAlpha(1);
+            this.currentPanel = CONSTANTS.PANEL.SKILLS;
         } else {
             this.skills.button.setAlpha(0.1);
         }
@@ -317,41 +328,33 @@ export class Dashboard extends Phaser.Scene {
     showAudioSettings(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
-
-            // Show audio page
-            this.audio.audioPage.visible = true;
-            this.audio.audioPageButton.setAlpha(1);
-            this.audio.sliders.forEach(slider => {
-                slider.visible = true;
-            });
-            this.audio.audioButtons.forEach(buttonRow => {
-                buttonRow.forEach(button => {
-                    button.visible = true;
-                });
-            });
+            this.currentPanel = CONSTANTS.PANEL.SETTINGS;
 
             // Show current volume buttons
             this.characterData.audio.forEach((volume, volumeType) => {
                 this.audio.audioButtons[volumeType][volume].setAlpha(1);
             });
         } else {
-            this.audio.audioPage.visible = false;
             this.audio.audioPageButton.setAlpha(0.1);
-            this.audio.sliders.forEach(slider => {
-                slider.visible = false;
-            });
-            this.audio.audioButtons.forEach(buttonRow => {
-                buttonRow.forEach(button => {
-                    button.visible = false;
-                });
-            });
         }
+
+        this.audio.audioPage.visible = isVisible;
+        this.audio.sliders.forEach(slider => {
+            slider.visible = isVisible;
+        });
+        this.audio.audioButtons.forEach(buttonRow => {
+            buttonRow.forEach(button => {
+                button.visible = isVisible;
+            });
+        });
     }
 
     showQuests(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
             this.quests.button.setAlpha(1);
+            this.currentPanel = CONSTANTS.PANEL.QUESTS;
+
         } else {
             this.quests.button.setAlpha(0.1);
         }
@@ -373,6 +376,7 @@ export class Dashboard extends Phaser.Scene {
         this.showAudioSettings(false);
         this.showSkills(false);
         this.showQuests(false);
+        this.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
 
         if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
@@ -445,5 +449,35 @@ export class Dashboard extends Phaser.Scene {
         if (this.characterData[this.currentScene.currentLevel].questCompleted) {
             this.killQuestText.text += "\n\nQuest Complete!";
         }
+    }
+
+    updateInventory() {
+        // Empty inventory images
+        this.inventory.items = [];
+
+        // Add items from save data
+        this.characterData.inventory.forEach((item, index) => {
+            let column = index % 4;
+            let row = Math.floor(index / 4);
+
+            let resourceImage = this.add.image(570 + (column * 45), 225 + (row * 35), item).setDepth(3);
+            resourceImage.setScale(.2);
+
+            // Hide if inventory is not selected
+            if (this.currentPanel != CONSTANTS.PANEL.INVENTORY) {
+                resourceImage.visible = false;
+            }
+
+            this.inventory.items.push(resourceImage);
+        });
+    }
+
+    showInventory(isVisible) {
+        if (isVisible) {
+            this.currentPanel = CONSTANTS.PANEL.INVENTORY;
+        }
+        this.inventory.items.forEach((item) => {
+            item.visible = isVisible;
+        });
     }
 }

@@ -111,6 +111,9 @@ export class LoadScene extends Phaser.Scene {
             "settings-button",
             "src/assets/ui/buttons/SettingsButton.png"
         );
+
+        // Resources
+        this.load.image(CONSTANTS.RESOURCES.WOOD, "src/assets/items/resources/Logs.png");
     }
     create() {
         // Launch audio scene in parallel
