@@ -1,4 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
+import { MATERIALS } from "../constants/materials.js";
+import { ITEMS } from "../constants/items.js";
 
 export class LoadScene extends Phaser.Scene {
     constructor() {
@@ -16,9 +18,7 @@ export class LoadScene extends Phaser.Scene {
             }
         });
     }
-    init() {
-        // this is where you receive data from other scenes or instantiate plugins
-    }
+    
     preload() {
         this.add.image(750, 600, "lesser-demon");
 
@@ -85,7 +85,7 @@ export class LoadScene extends Phaser.Scene {
         });
 
         // Simulate lag
-        for (let i = 0; i < 500; i++) {
+        for (let i = 0; i < 100; i++) {
             this.load.image("chicken" + i, "src/assets/sprites/Chicken.jpg");
         }
 
@@ -114,7 +114,18 @@ export class LoadScene extends Phaser.Scene {
 
         // Resources
         this.load.image(CONSTANTS.RESOURCES.WOOD, "src/assets/items/resources/Logs.png");
+
+        // Load all items
+        let path = "src/assets/items/";
+        Object.entries(ITEMS).forEach(([parent, parentObj]) => {    // Loop through types of items 
+            Object.entries(parentObj).forEach(([item, itemObj]) => {    // Loop through items
+                Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => { // Load all types
+                    this.load.image(matObj.name + itemObj.name, path + matObj.name + itemObj.name + ".png");
+                });
+            });
+        });
     }
+
     create() {
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO);
@@ -138,9 +149,5 @@ export class LoadScene extends Phaser.Scene {
             Use add to start dynamically
             this.scene.add(...)
         */
-    }
-    update() {
-        // this is the update loop
-        // dont need this for load scene
     }
 }

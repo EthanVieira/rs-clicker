@@ -206,31 +206,7 @@ export class ShopScene extends Phaser.Scene {
             imageX[requiredSkill] += 100;
             this.shopItems.push(new Item(bestMat, itemData, x, y));
         }
-        // Load the images for the corresponding shop items
-        this.loadImages();
-
-        // Display the items when they're done loading
-        this.load.once("complete", this.displayItems, this);
-    }
-
-    // Load images dynamically to avoid having to preload every item image.
-    loadImages() {
-        // TODO: Eventually remove this hack to avoid the loader getting hung on the 2nd loading attempt.
-        if (this.loadCount == 1) {
-            this.displayItems();
-            return;
-        }
-
-        let item = this.shopItems[this.displayIndex++];
-        console.log("Loading Image: ", item.name);
-        this.displayX = item.x;
-        this.displayY = item.y;
-
-        // http://labs.phaser.io/edit.html?src=src/loader/loader%20events/start%20loader%20manually.js
-        this.load.setPath("src/assets/items/");
-        this.load.on("filecomplete", addNextImage, this);
-        this.load.image(item.name);
-        this.load.start();
+        this.displayItems();
     }
 
     // Display the loaded images in the shop
@@ -290,15 +266,5 @@ export class ShopScene extends Phaser.Scene {
             
         }
         return bestMat;
-    }
-}
-
-// Event listener for dynamically loading all of the images in the shopItems list.
-function addNextImage(key) {
-    let nextItem = this.shopItems[this.displayIndex++];
-
-    if (nextItem) {
-        console.log("Loading Image: ", nextItem.name);
-        this.load.image(nextItem.name);
     }
 }
