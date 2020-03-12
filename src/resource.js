@@ -46,8 +46,7 @@ export class Resource {
             case CONSTANTS.RESOURCES.WOOD:
                 curXp = this.scene.characterData.skills.woodcutting;
                 this.scene.characterData.skills.woodcutting++;
-            break;
-
+                break;
         }
         let curLv = calcLevel(curXp);
 
@@ -58,11 +57,7 @@ export class Resource {
         let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
             console.log("Got", this.resourceType);
-            // Put resource in inventory
-            if (this.scene.characterData.inventory.length < 28) {
-                this.scene.characterData.inventory.push(this.resourceType);
-            }
-            this.scene.dashboard.updateInventory();
+            this.scene.dashboard.addToInventory(this.resourceType);
             this.scene.showRandomClickObject();
         }
     }

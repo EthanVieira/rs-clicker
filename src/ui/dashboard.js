@@ -2,9 +2,7 @@ import { CONSTANTS, calcLevel } from "../constants/constants.js";
 
 export class Dashboard extends Phaser.Scene {
     currentScene;
-
     currentLevel = "";
-
     currentPanel = "";
 
     inventory = {
@@ -29,6 +27,8 @@ export class Dashboard extends Phaser.Scene {
         button: {},
         panel: {}
     };
+
+    rightClickMenu;
 
     // Save data
     characterData;
@@ -60,17 +60,11 @@ export class Dashboard extends Phaser.Scene {
 
     preload() {
         // Inventory icon
-        this.load.image(
-            "inventory-button",
-            "src/assets/ui/buttons/InventoryButton.png"
-        );
+        this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
 
         // Skills panel
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
-        this.load.image(
-            "skills-button",
-            "src/assets/ui/buttons/SkillsButton.png"
-        );
+        this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
 
         // Audio panel
         this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
@@ -78,21 +72,15 @@ export class Dashboard extends Phaser.Scene {
             "audio-settings-button",
             "src/assets/ui/buttons/AudioSettingsButton.png"
         );
-        this.load.image(
-            "audio-slider",
-            "src/assets/ui/buttons/audioSlider.png"
-        );
-        this.load.image(
-            "audio-button",
-            "src/assets/ui/buttons/AudioButton.png"
-        );
+        this.load.image("audio-slider", "src/assets/ui/buttons/audioSlider.png");
+        this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
 
         // Quests panel
         this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
-        this.load.image(
-            "quests-button",
-            "src/assets/ui/buttons/QuestsButton.png"
-        );
+        this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
+
+        // Right click menu
+        this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
     }
 
     create() {
@@ -101,6 +89,9 @@ export class Dashboard extends Phaser.Scene {
 
         // Get current scene
         this.currentScene = this.scene.get(this.characterData.currentLevel);
+
+        // Disable right click popup
+        this.input.mouse.disableContextMenu();
 
         // Shop
         this.add
@@ -131,8 +122,7 @@ export class Dashboard extends Phaser.Scene {
                 // If enemy-level, repopulate quest text
                 if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
                     this.currentScene.showAutoClickerButton(true);
-                }
-                else {
+                } else {
                     this.showInventory(true);
                 }
 
@@ -140,7 +130,9 @@ export class Dashboard extends Phaser.Scene {
             });
 
         // Update and show inventory on startup
-        this.updateInventory();
+        this.characterData.inventory.forEach((item, index) => {
+            this.addToInventory(item);
+        });
         this.showInventory(true);
 
         // Skills
@@ -220,31 +212,19 @@ export class Dashboard extends Phaser.Scene {
         this.audio.sliders = [];
         this.audio.sliders.push(
             this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 80,
-                    "audio-slider"
-                )
+                .image(audioWindowX + barXOffset, audioWindowY + 80, "audio-slider")
                 .setOrigin(0, 0)
                 .setDepth(2)
         );
         this.audio.sliders.push(
             this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 125,
-                    "audio-slider"
-                )
+                .image(audioWindowX + barXOffset, audioWindowY + 125, "audio-slider")
                 .setOrigin(0, 0)
                 .setDepth(2)
         );
         this.audio.sliders.push(
             this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 170,
-                    "audio-slider"
-                )
+                .image(audioWindowX + barXOffset, audioWindowY + 170, "audio-slider")
                 .setOrigin(0, 0)
                 .setDepth(2)
         );
@@ -290,9 +270,7 @@ export class Dashboard extends Phaser.Scene {
 
         // Quest text
         // TODO: show all quests
-        this.killQuestText = this.add
-            .text(555, 256, "", { fill: "white" })
-            .setDepth(3);
+        this.killQuestText = this.add.text(555, 256, "", { fill: "white" }).setDepth(3);
 
         this.quests.button.on("pointerup", () => {
             this.showQuests(true);
@@ -354,7 +332,6 @@ export class Dashboard extends Phaser.Scene {
             this.hideAllMenus();
             this.quests.button.setAlpha(1);
             this.currentPanel = CONSTANTS.PANEL.QUESTS;
-
         } else {
             this.quests.button.setAlpha(0.1);
         }
@@ -427,7 +404,7 @@ export class Dashboard extends Phaser.Scene {
             name = name.replace(/\b\w/g, c => c.toUpperCase());
 
             // Add text
-            // TODO: Since there are currently no quests for tree levels those 
+            // TODO: Since there are currently no quests for tree levels those
             // will show up as undefined/undefined
             this.killQuestText.text +=
                 this.characterData[this.currentScene.currentLevel].enemiesKilled[
@@ -451,17 +428,32 @@ export class Dashboard extends Phaser.Scene {
         }
     }
 
-    updateInventory() {
-        // Empty inventory images
-        this.inventory.items = [];
+    addToInventory(item) {
+        // Add inventory image if not yet loaded
+        if (this.inventory.items.length < 28) {
+            // Add resource to inventory if not full
+            if (this.characterData.inventory.length < 28) {
+                this.characterData.inventory.push(item);
+            }
 
-        // Add items from save data
-        this.characterData.inventory.forEach((item, index) => {
+            // Add item images
+            let index = this.inventory.items.length;
             let column = index % 4;
             let row = Math.floor(index / 4);
+            let x = 570 + column * 45;
+            let y = 225 + row * 35;
 
-            let resourceImage = this.add.image(570 + (column * 45), 225 + (row * 35), item).setDepth(3);
-            resourceImage.setScale(.2);
+            let resourceImage = this.add
+                .image(x, y, item)
+                .setDepth(3)
+                .setScale(0.2)
+                .setInteractive()
+                .on("pointerdown", pointer => {
+                    if (pointer.rightButtonDown()) {
+                        this.makeRightClickMenu(x, y);
+                    }
+                })
+                
 
             // Hide if inventory is not selected
             if (this.currentPanel != CONSTANTS.PANEL.INVENTORY) {
@@ -469,15 +461,32 @@ export class Dashboard extends Phaser.Scene {
             }
 
             this.inventory.items.push(resourceImage);
-        });
+        } else {
+            console.log("Inventory full");
+        }
     }
 
     showInventory(isVisible) {
         if (isVisible) {
             this.currentPanel = CONSTANTS.PANEL.INVENTORY;
         }
-        this.inventory.items.forEach((item) => {
+        this.inventory.items.forEach(item => {
             item.visible = isVisible;
         });
     }
+
+    makeRightClickMenu(x, y) {
+        // Show right click menu
+        if (this.rightClickMenu) {
+            this.rightClickMenu.destroy();
+        }
+        this.rightClickMenu = this.add
+            .image(x, y, "right-click-menu")
+            .setDepth(4)
+            .setInteractive()
+            .on("pointerout", pointer => {
+                this.rightClickMenu.destroy();
+            });
+    }
+    
 }

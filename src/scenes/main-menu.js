@@ -76,26 +76,19 @@ export class MainMenuScene extends Phaser.Scene {
             // Prevent play while settings are open
             if (this.settingsOpen) {
                 this.toggleSettings(false);
-            } 
-            else {
+            } else {
                 if (!this.characterData.characterClass) {
                     this.scene.start(CONSTANTS.SCENES.CHARACTER_CREATION);
                     console.log("Going to Character Creation");
-                }
-                else {
-                    this.scene.start(
-                        this.characterData.currentLevel,
-                        this.characterData
-                    );
+                } else {
+                    this.scene.start(this.characterData.currentLevel, this.characterData);
                     console.log("Going to", this.characterData.currentLevel);
                 }
             }
         });
 
         // Settings button
-        let settingsButton = this.add
-            .image(319, 321, "settings-button")
-            .setDepth(1);
+        let settingsButton = this.add.image(319, 321, "settings-button").setDepth(1);
         settingsButton.setInteractive();
         settingsButton.on("pointerup", () => {
             if (this.settingsOpen) {

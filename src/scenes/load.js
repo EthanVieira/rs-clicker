@@ -18,7 +18,7 @@ export class LoadScene extends Phaser.Scene {
             }
         });
     }
-    
+
     preload() {
         this.add.image(750, 600, "lesser-demon");
 
@@ -85,7 +85,7 @@ export class LoadScene extends Phaser.Scene {
         });
 
         // Simulate lag
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 50; i++) {
             this.load.image("chicken" + i, "src/assets/sprites/Chicken.jpg");
         }
 
@@ -98,29 +98,29 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("lesser-demon", "src/assets/sprites/LesserDemon.png");
 
         // Backgrounds/Logos
-        this.load.image(
-            "main-menu-bg",
-            "src/assets/backgrounds/MainMenuBg.png"
-        );
+        this.load.image("main-menu-bg", "src/assets/backgrounds/MainMenuBg.png");
         this.load.image("main-menu", "src/assets/ui/MainMenu.png");
         this.load.image("rsc-logo", "src/assets/logos/RSCLogo.png");
 
         // Buttons
         this.load.image("play-button", "src/assets/ui/buttons/PlayButton.png");
-        this.load.image(
-            "settings-button",
-            "src/assets/ui/buttons/SettingsButton.png"
-        );
+        this.load.image("settings-button", "src/assets/ui/buttons/SettingsButton.png");
 
         // Resources
         this.load.image(CONSTANTS.RESOURCES.WOOD, "src/assets/items/resources/Logs.png");
 
         // Load all items
         let path = "src/assets/items/";
-        Object.entries(ITEMS).forEach(([parent, parentObj]) => {    // Loop through types of items 
-            Object.entries(parentObj).forEach(([item, itemObj]) => {    // Loop through items
-                Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => { // Load all types
-                    this.load.image(matObj.name + itemObj.name, path + matObj.name + itemObj.name + ".png");
+        Object.entries(ITEMS).forEach(([parent, parentObj]) => {
+            // Loop through types of items
+            Object.entries(parentObj).forEach(([item, itemObj]) => {
+                // Loop through items
+                Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
+                    // Load all types
+                    this.load.image(
+                        matObj.name + itemObj.name,
+                        path + matObj.name + itemObj.name + ".png"
+                    );
                 });
             });
         });

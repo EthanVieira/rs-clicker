@@ -38,10 +38,7 @@ export class WorldMapScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive()
             .on("pointerup", () => {
-                this.scene.start(
-                    this.characterData.currentLevel, 
-                    this.characterData
-                );
+                this.scene.start(this.characterData.currentLevel, this.characterData);
             });
 
         // Color links if they haven't been unlocked yet
@@ -61,10 +58,7 @@ export class WorldMapScene extends Phaser.Scene {
             .setDepth(1)
             .setInteractive()
             .on("pointerup", () => {
-                this.scene.start(
-                    CONSTANTS.SCENES.TUTORIAL_ISLAND,
-                    this.characterData
-                );
+                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData);
                 console.log("Going to Tutorial Island");
             });
 
@@ -75,13 +69,9 @@ export class WorldMapScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerup", () => {
                 if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
-                    this.scene.start(
-                        CONSTANTS.SCENES.LUMBRIDGE,
-                        this.characterData
-                    );
+                    this.scene.start(CONSTANTS.SCENES.LUMBRIDGE, this.characterData);
                     console.log("Going to Lumbridge");
-                } 
-                else {
+                } else {
                     console.log("Lumbridge not unlocked yet");
                 }
             });
@@ -103,8 +93,7 @@ export class WorldMapScene extends Phaser.Scene {
                         this.characterData
                     );
                     console.log("Going to Lumbridge Trees");
-                } 
-                else {
+                } else {
                     console.log("Lumbridge not unlocked yet");
                 }
             });
@@ -116,23 +105,14 @@ export class WorldMapScene extends Phaser.Scene {
 
         // Varrock
         let varrock = this.add
-            .text(
-                MAP.VARROCK.X,
-                MAP.VARROCK.Y,
-                "Varrock",
-                fontStyle
-            )
+            .text(MAP.VARROCK.X, MAP.VARROCK.Y, "Varrock", fontStyle)
             .setDepth(1)
             .setInteractive()
             .on("pointerup", () => {
-                if(this.characterData.LUMBRIDGE.questCompleted) {
-                    this.scene.start(
-                        CONSTANTS.SCENES.VARROCK,
-                        this.characterData
-                    );
+                if (this.characterData.LUMBRIDGE.questCompleted) {
+                    this.scene.start(CONSTANTS.SCENES.VARROCK, this.characterData);
                     console.log("Going to Varrock");
-                }
-                else {
+                } else {
                     console.log("Varrock not unlocked yet");
                 }
             });
@@ -153,21 +133,19 @@ export class WorldMapScene extends Phaser.Scene {
             .setDepth(1)
             .setInteractive()
             .on("pointerup", () => {
-                if(this.characterData.VARROCK.questCompleted) {
+                if (this.characterData.VARROCK.questCompleted) {
                     this.scene.start(
                         CONSTANTS.SCENES.BARBARIAN_VILLAGE,
                         this.characterData
                     );
                     console.log("Going to Barbarian Village");
-                }
-                else {
+                } else {
                     console.log("Barbarian Village not unlocked yet");
                 }
             });
 
-
         // Tutorial Island and Lumbridge use default starting location, others are centered
-        const {startX, startY} = this.setMapLocation();
+        const { startX, startY } = this.setMapLocation();
 
         // Group objects together
         let container = this.add.container(startX, startY);
@@ -198,16 +176,17 @@ export class WorldMapScene extends Phaser.Scene {
         this.scale.resize(this.currentWidth, this.currentHeight);
 
         // When exiting the scene
-        this.events.on('shutdown', () => {
+        this.events.on("shutdown", () => {
             this.scale.resize(SCREEN.WIDTH, SCREEN.HEIGHT);
         });
     }
 
     // Handle window size changes
     update() {
-        if (window.innerWidth - 10 != this.currentWidth ||
-            window.innerHeight - 10 != this.currentHeight) {
-
+        if (
+            window.innerWidth - 10 != this.currentWidth ||
+            window.innerHeight - 10 != this.currentHeight
+        ) {
             this.currentWidth = window.innerWidth - 10;
             this.currentHeight = window.innerHeight - 10;
             this.scale.resize(this.currentWidth, this.currentHeight);
@@ -218,8 +197,8 @@ export class WorldMapScene extends Phaser.Scene {
     // Center map and make sure it isn't off screen
     setMapLocation() {
         // Center around current level
-        let startX = (this.currentWidth / 2) - MAP[this.characterData.currentLevel].X;
-        let startY = (this.currentHeight / 2) - MAP[this.characterData.currentLevel].Y;
+        let startX = this.currentWidth / 2 - MAP[this.characterData.currentLevel].X;
+        let startY = this.currentHeight / 2 - MAP[this.characterData.currentLevel].Y;
 
         // Check if map is off screen
         // Right
@@ -239,6 +218,6 @@ export class WorldMapScene extends Phaser.Scene {
             startY = 0;
         }
 
-        return ({startX, startY});
+        return { startX, startY };
     }
 }

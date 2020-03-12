@@ -49,12 +49,7 @@ export class Enemy {
         this.hitsplatText.visible = false;
 
         // Add health bar
-        this.healthBar = new HealthBar(
-            data.scene,
-            data.x,
-            data.y - 40,
-            data.maxHealth
-        );
+        this.healthBar = new HealthBar(data.scene, data.x, data.y - 40, data.maxHealth);
 
         // Set other vars
         this.killGold = data.killGold;
@@ -99,9 +94,7 @@ export class Enemy {
         if (isDead) {
             // Give extra gold if unit is killed
             this.scene.addGold(this.killGold);
-            console.log(
-                this.name + " killed, getting " + this.killGold + " extra gold"
-            );
+            console.log(this.name + " killed, getting " + this.killGold + " extra gold");
 
             // Update quest and stats
             this.scene.enemyKilled(this.name);

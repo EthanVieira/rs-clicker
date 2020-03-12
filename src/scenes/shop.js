@@ -88,10 +88,6 @@ export class ShopScene extends Phaser.Scene {
         this.consumablesButton.on("pointerup", () => {
             this.loadShop("CONSUMABLES");
         });
-
-        // TODO: Remove
-        // This is a hack to get around image loading getting hung on the second loading attempt.
-        this.loadCount = 0;
     }
 
     // TODO: Update the shop to display current gold and which items you can afford
@@ -112,7 +108,7 @@ export class ShopScene extends Phaser.Scene {
         // Displays cash stack
         this.displayGold(this.characterData.gold);
 
-        // Loads items into shopItems, dynamically loads images for the items, and displays items on screen
+        // Loads items into shopItems and displays items on screen
         this.loadItems(type, this.characterData.skills);
     }
 
@@ -175,7 +171,6 @@ export class ShopScene extends Phaser.Scene {
             case "WEAPONS":
                 imageX = { attack: 100, ranged: 100, magic: 100 };
                 imageY = { attack: 100, ranged: 200, magic: 300 };
-                this.loadCount++;
                 break;
             // Tools organized with all tools on one row
             case "TOOLS":
@@ -211,16 +206,12 @@ export class ShopScene extends Phaser.Scene {
 
     // Display the loaded images in the shop
     displayItems() {
-        console.log("Done Loading Images");
-
         this.loadingText.visible = false;
         // Create icons for all of the loaded images
         for (let i = 0; i < this.shopItems.length; i++) {
             let item = this.shopItems[i];
             console.log("Displaying Item: ", item.name);
-            let tempIcon = this.add
-                .image(item.x, item.y, item.name)
-                .setInteractive();
+            let tempIcon = this.add.image(item.x, item.y, item.name).setInteractive();
             tempIcon.scale = 0.25;
             tempIcon.on("pointerup", () => {
                 this.buyItem(this.shopItems[i]);
@@ -263,7 +254,6 @@ export class ShopScene extends Phaser.Scene {
             let matData = MATERIALS[matType][mat];
             bestMat = matData;
             if (matData.level >= reqLevel) break;
-            
         }
         return bestMat;
     }
