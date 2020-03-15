@@ -84,11 +84,6 @@ export class LoadScene extends Phaser.Scene {
             //assetText.destroy();
         });
 
-        // Simulate lag
-        for (let i = 0; i < 50; i++) {
-            this.load.image("chicken" + i, "src/assets/sprites/Chicken.jpg");
-        }
-
         //TODO: Get RS Font working
         // Fonts
         //this.load.bitmapFont('rsfont', 'src/assets/fonts/runescape_uf.bmp');

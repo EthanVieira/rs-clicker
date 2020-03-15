@@ -1,4 +1,5 @@
-import { CONSTANTS, calcLevel } from "../constants/constants.js";
+import { CONSTANTS, FONTS, calcLevel } from "../constants/constants.js";
+import { Inventory } from "./inventory.js";
 
 export class Dashboard extends Phaser.Scene {
     currentScene;
@@ -7,7 +8,7 @@ export class Dashboard extends Phaser.Scene {
 
     inventory = {
         button: {},
-        items: []
+        obj: {}
     };
 
     skills = {
@@ -27,8 +28,6 @@ export class Dashboard extends Phaser.Scene {
         button: {},
         panel: {}
     };
-
-    rightClickMenu;
 
     // Save data
     characterData;
@@ -98,7 +97,7 @@ export class Dashboard extends Phaser.Scene {
             .text(585, 475, "Shop")
             .setAlpha(0.1)
             .setInteractive()
-            .on("pointerup", () => {
+            .on("pointerdown", () => {
                 // Pass in the current level to know which level to return to upon exiting the shop.
                 this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
                     this.characterData,
@@ -116,24 +115,20 @@ export class Dashboard extends Phaser.Scene {
             .setDepth(2)
             .setInteractive()
             .setAlpha(0.1)
-            .on("pointerup", () => {
+            .on("pointerdown", () => {
                 this.hideAllMenus();
 
                 // If enemy-level, repopulate quest text
                 if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
                     this.currentScene.showAutoClickerButton(true);
                 } else {
-                    this.showInventory(true);
+                    this.inventory.obj.showInventory(true);
                 }
 
                 this.inventory.button.setAlpha(0.1);
             });
-
-        // Update and show inventory on startup
-        this.characterData.inventory.forEach((item, index) => {
-            this.addToInventory(item);
-        });
-        this.showInventory(true);
+        this.inventory.obj = new Inventory(this, this.characterData.inventory);
+        this.inventory.obj.showInventory(true);
 
         // Skills
         this.skills.panel = this.add
@@ -145,7 +140,7 @@ export class Dashboard extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive();
-        this.skills.button.on("pointerup", () => {
+        this.skills.button.on("pointerdown", () => {
             this.showSkills(true);
         });
 
@@ -203,7 +198,7 @@ export class Dashboard extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive()
-            .on("pointerup", () => {
+            .on("pointerdown", () => {
                 this.showAudioSettings(true);
             });
 
@@ -244,7 +239,7 @@ export class Dashboard extends Phaser.Scene {
                     .setDepth(3)
                     .setInteractive()
                     .setAlpha(0.1)
-                    .on("pointerup", () => {
+                    .on("pointerdown", () => {
                         audioScene.changeVolume(volumeType, buttonNum);
                         this.changeAudioButton(volumeType, buttonNum);
                     });
@@ -272,7 +267,7 @@ export class Dashboard extends Phaser.Scene {
         // TODO: show all quests
         this.killQuestText = this.add.text(555, 256, "", { fill: "white" }).setDepth(3);
 
-        this.quests.button.on("pointerup", () => {
+        this.quests.button.on("pointerdown", () => {
             this.showQuests(true);
         });
 
@@ -353,7 +348,7 @@ export class Dashboard extends Phaser.Scene {
         this.showAudioSettings(false);
         this.showSkills(false);
         this.showQuests(false);
-        this.showInventory(false);
+        this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
 
         if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
@@ -427,66 +422,4 @@ export class Dashboard extends Phaser.Scene {
             this.killQuestText.text += "\n\nQuest Complete!";
         }
     }
-
-    addToInventory(item) {
-        // Add inventory image if not yet loaded
-        if (this.inventory.items.length < 28) {
-            // Add resource to inventory if not full
-            if (this.characterData.inventory.length < 28) {
-                this.characterData.inventory.push(item);
-            }
-
-            // Add item images
-            let index = this.inventory.items.length;
-            let column = index % 4;
-            let row = Math.floor(index / 4);
-            let x = 570 + column * 45;
-            let y = 225 + row * 35;
-
-            let resourceImage = this.add
-                .image(x, y, item)
-                .setDepth(3)
-                .setScale(0.2)
-                .setInteractive()
-                .on("pointerdown", pointer => {
-                    if (pointer.rightButtonDown()) {
-                        this.makeRightClickMenu(x, y);
-                    }
-                })
-                
-
-            // Hide if inventory is not selected
-            if (this.currentPanel != CONSTANTS.PANEL.INVENTORY) {
-                resourceImage.visible = false;
-            }
-
-            this.inventory.items.push(resourceImage);
-        } else {
-            console.log("Inventory full");
-        }
-    }
-
-    showInventory(isVisible) {
-        if (isVisible) {
-            this.currentPanel = CONSTANTS.PANEL.INVENTORY;
-        }
-        this.inventory.items.forEach(item => {
-            item.visible = isVisible;
-        });
-    }
-
-    makeRightClickMenu(x, y) {
-        // Show right click menu
-        if (this.rightClickMenu) {
-            this.rightClickMenu.destroy();
-        }
-        this.rightClickMenu = this.add
-            .image(x, y, "right-click-menu")
-            .setDepth(4)
-            .setInteractive()
-            .on("pointerout", pointer => {
-                this.rightClickMenu.destroy();
-            });
-    }
-    
 }

@@ -57,7 +57,7 @@ export class Resource {
         let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
             console.log("Got", this.resourceType);
-            this.scene.dashboard.addToInventory(this.resourceType);
+            this.scene.dashboard.inventory.obj.addToInventory(this.resourceType);
             this.scene.showRandomClickObject();
         }
     }

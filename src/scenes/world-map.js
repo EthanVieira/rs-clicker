@@ -1,4 +1,4 @@
-import { CONSTANTS, SCREEN, MAP } from "../constants/constants.js";
+import { CONSTANTS, SCREEN, MAP, FONTS } from "../constants/constants.js";
 
 export class WorldMapScene extends Phaser.Scene {
     characterData = {};
@@ -42,9 +42,9 @@ export class WorldMapScene extends Phaser.Scene {
             });
 
         // Color links if they haven't been unlocked yet
-        let fontStyle = MAP.UNLOCKED_FONT;
+        let fontStyle = FONTS.UNLOCKED_FONT;
         if (!this.characterData.TUTORIAL_ISLAND.questCompleted) {
-            fontStyle = MAP.LOCKED_FONT;
+            fontStyle = FONTS.LOCKED_FONT;
         }
 
         // Tutorial Island
@@ -53,7 +53,7 @@ export class WorldMapScene extends Phaser.Scene {
                 MAP.TUTORIAL_ISLAND.X,
                 MAP.TUTORIAL_ISLAND.Y,
                 "Tutorial Island",
-                MAP.UNLOCKED_FONT
+                FONTS.UNLOCKED_FONT
             )
             .setDepth(1)
             .setInteractive()
@@ -100,7 +100,7 @@ export class WorldMapScene extends Phaser.Scene {
 
         // Color link if they haven't been unlocked yet
         if (!this.characterData.LUMBRIDGE.questCompleted) {
-            fontStyle = MAP.LOCKED_FONT;
+            fontStyle = FONTS.LOCKED_FONT;
         }
 
         // Varrock
@@ -119,7 +119,7 @@ export class WorldMapScene extends Phaser.Scene {
 
         // Color link if they haven't been unlocked yet
         if (!this.characterData.VARROCK.questCompleted) {
-            fontStyle = MAP.LOCKED_FONT;
+            fontStyle = FONTS.LOCKED_FONT;
         }
 
         // Barbarian Village

@@ -65,7 +65,10 @@ export const MAP = {
     BARBARIAN_VILLAGE: {
         X: 2400,
         Y: 2250
-    },
+    }
+};
+
+export const FONTS = {
     UNLOCKED_FONT: {
         fill: "white",
         fontSize: "20px",
@@ -84,8 +87,16 @@ export const MAP = {
         fontSize: "20px",
         style: "bold",
         backgroundColor: "grey"
-    }
-};
+    },
+    OPTIONS_MENU: {
+        fill: "white",
+        fontSize: "12px",
+    },
+    ITEM_NAME: {
+        fill: "orange",
+        fontSize: "12px"
+    },
+}
 
 export const calcLevel = function(xp, lv = 1) {
     let curLvXp = Math.floor(0.25 * (lv + 300 * Math.pow(2, lv / 7)));
