@@ -5,6 +5,7 @@ export class Inventory {
     menu;
     playerItems = []; // Text save data
     inventory = []; // Images
+    curSelectedItemIndex = -1;
 
     constructor(scene, inventory) {
         this.scene = scene;
@@ -49,6 +50,9 @@ export class Inventory {
                 .on("pointerdown", pointer => {
                     if (pointer.rightButtonDown()) {
                         this.createRightClickMenu(x, y, item, index);
+                    }
+                    else {
+                        this.useItem(index);
                     }
                 });
 
@@ -118,7 +122,7 @@ export class Inventory {
                 Phaser.Geom.Rectangle.Contains
             )
             .on("pointerdown", () => {
-                console.log("use");
+                this.useItem(index);
                 this.menu.destroy();
             });
         let dropContainer = this.scene.add
@@ -165,6 +169,25 @@ export class Inventory {
         this.playerItems[index] = "";
         this.inventory[index].destroy();
         this.inventory[index] = {};
+    }
+
+    useItem(index) {
+        // Same item clicked twice, reset
+        if (index == this.curSelectedItemIndex) {
+            this.inventory[index].setAlpha(1);
+            this.curSelectedItemIndex = -1;
+        }
+        // Reset previously used item
+        else {
+            // Use this ugly method to see if obj is empty
+            if (this.curSelectedItemIndex >= 0 && Object.keys(this.inventory[this.curSelectedItemIndex]).length) {
+                this.inventory[this.curSelectedItemIndex].setAlpha(1);
+            }
+
+            // Set new item as semi-transparent
+            this.inventory[index].setAlpha(.5);
+            this.curSelectedItemIndex = index;
+        }
     }
 
     showInventory(isVisible) {
