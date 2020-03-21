@@ -47,7 +47,8 @@ export class EnemyLevelScene extends LevelScene {
                     y: this.height / 2 - 115,
                     maxHealth: clickObject.maxHealth,
                     name: clickObject.name,
-                    killGold: clickObject.killGold
+                    killGold: clickObject.killGold,
+                    drops: clickObject.drops
                 })
             );
         });

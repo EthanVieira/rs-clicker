@@ -19,13 +19,15 @@ export class LumbridgeScene extends EnemyLevelScene {
                     name: "cow",
                     path: "src/assets/sprites/Cow.png",
                     maxHealth: 8,
-                    killGold: 5
+                    killGold: 5,
+                    drops: [{name: "bones", rate: .5}]
                 },
                 {
                     name: "goblin",
                     path: "src/assets/sprites/Goblin.png",
                     maxHealth: 5,
-                    killGold: 3
+                    killGold: 3,
+                    drops: [{name: "bones", rate: .5}]
                 }
             ],
             audio: { bgm: "harmony" }

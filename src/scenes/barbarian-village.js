@@ -19,13 +19,15 @@ export class BarbarianVillageScene extends EnemyLevelScene {
                     name: "male_barbarian",
                     path: "src/assets/sprites/MaleBarbarian.png",
                     maxHealth: 20,
-                    killGold: 20
+                    killGold: 20,
+                    drops: [{name: "bones", rate: .5}]
                 },
                 {
                     name: "female_barbarian",
                     path: "src/assets/sprites/FemaleBarbarian.png",
                     maxHealth: 20,
-                    killGold: 20
+                    killGold: 20,
+                    drops: [{name: "bones", rate: .5}]
                 }
             ],
             audio: { bgm: "barbarianism" }

@@ -19,13 +19,15 @@ export class VarrockScene extends EnemyLevelScene {
                     name: "dark_wizard",
                     path: "src/assets/sprites/DarkWizard.png",
                     maxHealth: 12,
-                    killGold: 10
+                    killGold: 10,
+                    drops: [{name: "bones", rate: .5}]
                 },
                 {
                     name: "guard",
                     path: "src/assets/sprites/Guard.png",
                     maxHealth: 22,
-                    killGold: 15
+                    killGold: 15,
+                    drops: [{name: "bones", rate: .5}]
                 }
             ],
             audio: { bgm: "expanse" }

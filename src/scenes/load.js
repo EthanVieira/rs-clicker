@@ -104,8 +104,12 @@ export class LoadScene extends Phaser.Scene {
         // Resources
         this.load.image(CONSTANTS.RESOURCES.WOOD, "src/assets/items/resources/Logs.png");
 
-        // Load all items
-        let path = "src/assets/items/";
+        // Other item sprites
+        this.load.image("bones", "src/assets/items/other/Bones.png");
+
+        // Load all weapons
+        // TODO: make object organization better so loading is faster
+        let path = "src/assets/items/weapons/";
         Object.entries(ITEMS).forEach(([parent, parentObj]) => {
             // Loop through types of items
             Object.entries(parentObj).forEach(([item, itemObj]) => {
