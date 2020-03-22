@@ -1,4 +1,5 @@
 import { HealthBar } from "./ui/health-bar.js";
+import { Bones } from "./ui/itemTypes.js";
 
 export class Enemy {
     healthBar;
@@ -101,8 +102,13 @@ export class Enemy {
             // Calculate item drops
             this.drops.forEach(item => {
                 if (item.rate > Math.random()) {
-                    console.log("Dropping", item.name);
-                    this.scene.dashboard.inventory.obj.addToInventory(item.name);
+                    console.log(this.name, "dropped", item.name);
+                    let droppedItem = new Bones({
+                        name: item.name,
+                        examineText: "Some old bones",
+                        prayerXp: 5
+                    }, this.scene.dashboard);
+                    this.scene.dashboard.inventory.obj.addToInventory(droppedItem);
                 }
             });
 

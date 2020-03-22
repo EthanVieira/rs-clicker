@@ -121,10 +121,9 @@ export class Dashboard extends Phaser.Scene {
                 // If enemy-level, repopulate quest text
                 if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
                     this.currentScene.showAutoClickerButton(true);
-                } else {
-                    this.inventory.obj.showInventory(true);
                 }
 
+                this.inventory.obj.showInventory(true);
                 this.inventory.button.setAlpha(0.1);
             });
         this.inventory.obj = new Inventory(this, this.characterData.inventory);
@@ -350,10 +349,6 @@ export class Dashboard extends Phaser.Scene {
         this.showQuests(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
-
-        if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-            this.currentScene.showAutoClickerButton(false);
-        }
     }
 
     updateSkillsText() {

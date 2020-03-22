@@ -1,5 +1,6 @@
 import { ProgressBar } from "./ui/progress-bar.js";
-import { CONSTANTS, calcLevel } from "./constants/constants.js";
+import { CONSTANTS, calcLevel } from "./constants/constants.js"; 
+import { Logs } from "./ui/itemTypes.js";
 
 export class Resource {
     scene;
@@ -57,7 +58,11 @@ export class Resource {
         let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
             console.log("Got", this.resourceType);
-            this.scene.dashboard.inventory.obj.addToInventory(this.resourceType);
+            let droppedResource = new Logs({
+                name: "logs",
+                examineText: "Normal logs"
+            }, this.scene.dashboard);
+            this.scene.dashboard.inventory.obj.addToInventory(droppedResource);
             this.scene.showRandomClickObject();
         }
     }

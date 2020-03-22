@@ -1,4 +1,5 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
+import { Logs, Bones } from "./itemTypes.js";
 
 export class Inventory {
     scene;
@@ -13,7 +14,23 @@ export class Inventory {
 
         // Update and show inventory on startup
         for (let index = 0; index < this.playerItems.length; index++) {
-            this.addToInventory(this.playerItems[index]);
+            let itemObj = {};
+            switch(this.playerItems[index]) {
+                case "logs":
+                    itemObj = new Logs({
+                        name: "logs",
+                        examineText: "Normal logs"
+                    }, this.scene);
+                    break;
+                case "bones":
+                    itemObj = new Bones({
+                        name: "bones",
+                        examineText: "Some old bones",
+                        prayerXp: 5
+                    }, this.scene);
+                    break;
+            }
+            this.addToInventory(itemObj);
         }
     }
 
@@ -21,18 +38,18 @@ export class Inventory {
         let index = await this.checkForEmptySlot();
 
         // Add items
-        if (item != "" && this.inventory.length < 28) {
+        if (item.name != "" && (this.inventory.length < 28 || index >= 0)) {
             // Repopulate on startup
             if (this.playerItems.length > this.inventory.length) {
                 index = this.inventory.length;
             }
             // Add items into first empty slot
             else if (index >= 0) {
-                this.playerItems[index] = item;
+                this.playerItems[index] = item.name;
             }
             // Add new item to end
             else if (this.playerItems.length == this.inventory.length) {
-                this.playerItems.push(item);
+                this.playerItems.push(item.name);
                 index = this.inventory.length;
             }
 
@@ -41,30 +58,17 @@ export class Inventory {
             let row = Math.floor(index / 4);
             let x = 570 + column * 45;
             let y = 225 + row * 35;
-
-            let itemImage = this.scene.add
-                .image(x, y, item)
-                .setDepth(3)
-                .setScale(0.2)
-                .setInteractive()
-                .on("pointerdown", pointer => {
-                    if (pointer.rightButtonDown()) {
-                        this.createRightClickMenu(x, y, item, index);
-                    }
-                    else {
-                        this.useItem(index);
-                    }
-                });
+            item.addToInventory(x, y, index);
 
             // Hide if inventory is not selected
             if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
-                itemImage.visible = false;
+                item.show(false);
             }
 
-            this.inventory[index] = itemImage;
+            this.inventory[index] = item;
         }
         // Add blank
-        else if (item == "") {
+        else if (item.name == "") {
             this.inventory.push({});
         } else {
             console.log("Inventory is full");
@@ -99,93 +103,70 @@ export class Inventory {
 
         // Add text options
         // Have to use two separate texts per option for different clors
-        let useText = this.scene.add.text(x - 48, y - 30, "Use", FONTS.OPTIONS_MENU);
-        let useItem = this.scene.add.text(x + 10, y - 30, item, FONTS.ITEM_NAME);
-        let dropText = this.scene.add.text(x - 48, y - 15, "Drop", FONTS.OPTIONS_MENU);
-        let dropItem = this.scene.add.text(x + 10, y - 15, item, FONTS.ITEM_NAME);
-        let examineText = this.scene.add.text(x - 48, y, "Examine", FONTS.OPTIONS_MENU);
-        let examineItem = this.scene.add.text(x + 10, y, item, FONTS.ITEM_NAME);
+        let options = [menuBox];
+        let optionsY = y -45;
+
+        // Generate dynamic list of actions (use, wield, bury, etc.)
+        item.actions.forEach(action => {
+            optionsY += 15;
+            let itemText = this.scene.add.text(x + 10, optionsY, item.name, FONTS.ITEM_NAME);
+            let actionText = this.scene.add.text(x - 48, optionsY, action, FONTS.OPTIONS_MENU)
+                .setInteractive()
+                .setDepth(5)
+                .on("pointerdown", () => {
+                    item[action]();
+                    this.menu.destroy();
+                });
+
+            options.push(actionText);
+            options.push(itemText);
+        });
+
+        // All items have drop, examine, cancel
+        let dropItem = this.scene.add.text(x + 10, optionsY + 15, item.name, FONTS.ITEM_NAME);
+        let dropText = this.scene.add.text(x - 48, optionsY + 15, "Drop", FONTS.OPTIONS_MENU)
+            .setInteractive()
+            .on("pointerdown", () => {
+                    item.drop();
+                    this.menu.destroy();
+                });
+        options.push(dropItem);
+        options.push(dropText);
+            
+        let examineItem = this.scene.add.text(x + 10, optionsY + 30, item.name, FONTS.ITEM_NAME);
+        let examineText = this.scene.add.text(x - 48, optionsY + 30, "Examine", FONTS.OPTIONS_MENU)
+            .setInteractive()
+            .on("pointerdown", () => {
+                item.examine();
+                this.menu.destroy();
+            });
+        options.push(examineItem);
+        options.push(examineText);
+
         let cancelText = this.scene.add
-            .text(x - 48, y + 15, "Cancel", FONTS.OPTIONS_MENU)
+            .text(x - 48, optionsY + 45, "Cancel", FONTS.OPTIONS_MENU)
             .setInteractive()
             .on("pointerdown", () => {
                 console.log("cancel");
                 this.menu.destroy();
             });
-
-        // Group option text and item name
-        // Containers put handler for events on text and item name together
-        let useContainer = this.scene.add
-            .container(0, 0, [useText, useItem])
-            .setInteractive(
-                new Phaser.Geom.Rectangle(useText.x, useText.y, menuBox.width - 20, 12),
-                Phaser.Geom.Rectangle.Contains
-            )
-            .on("pointerdown", () => {
-                this.useItem(index);
-                this.menu.destroy();
-            });
-        let dropContainer = this.scene.add
-            .container(0, 0, [dropText, dropItem])
-            .setInteractive(
-                new Phaser.Geom.Rectangle(dropText.x, dropText.y, menuBox.width - 20, 12),
-                Phaser.Geom.Rectangle.Contains
-            )
-            .on("pointerdown", () => {
-                console.log("drop");
-                this.dropItem(index, item);
-                this.menu.destroy();
-            });
-        let examineContainer = this.scene.add
-            .container(0, 0, [examineText, examineItem])
-            .setInteractive(
-                new Phaser.Geom.Rectangle(
-                    examineText.x,
-                    examineText.y,
-                    menuBox.width - 20,
-                    12
-                ),
-                Phaser.Geom.Rectangle.Contains
-            )
-            .on("pointerdown", () => {
-                console.log("examine", item);
-                this.menu.destroy();
-            });
+        options.push(cancelText);
 
         // Group objects together
         this.menu = this.scene.add
-            .container(0, 0, [
-                menuBox,
-                useContainer,
-                dropContainer,
-                examineContainer,
-                cancelText
-            ])
+            .container(0, 0, options)
             .setDepth(5);
     }
 
-    dropItem(index, item) {
-        // Remove item
-        this.playerItems[index] = "";
-        this.inventory[index].destroy();
-        this.inventory[index] = {};
-    }
-
-    useItem(index) {
-        // Same item clicked twice, reset
+    highlightItem(index) {
         if (index == this.curSelectedItemIndex) {
-            this.inventory[index].setAlpha(1);
             this.curSelectedItemIndex = -1;
         }
-        // Reset previously used item
         else {
             // Use this ugly method to see if obj is empty
             if (this.curSelectedItemIndex >= 0 && Object.keys(this.inventory[this.curSelectedItemIndex]).length) {
-                this.inventory[this.curSelectedItemIndex].setAlpha(1);
+                this.inventory[this.curSelectedItemIndex].highlightItem();
             }
-
-            // Set new item as semi-transparent
-            this.inventory[index].setAlpha(.5);
             this.curSelectedItemIndex = index;
         }
     }
@@ -195,7 +176,7 @@ export class Inventory {
             this.scene.currentPanel = CONSTANTS.PANEL.INVENTORY;
         }
         this.inventory.forEach(item => {
-            item.visible = isVisible;
+            item.show(isVisible);
         });
     }
 }

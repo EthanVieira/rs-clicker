@@ -102,7 +102,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("settings-button", "src/assets/ui/buttons/SettingsButton.png");
 
         // Resources
-        this.load.image(CONSTANTS.RESOURCES.WOOD, "src/assets/items/resources/Logs.png");
+        this.load.image("logs", "src/assets/items/resources/Logs.png");
 
         // Other item sprites
         this.load.image("bones", "src/assets/items/other/Bones.png");
