@@ -1,10 +1,12 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { Logs, Bones } from "./itemTypes.js";
+import { getItemClass } from "./itemTypes.js";
+import { ITEMS } from "../constants/items.js";
+import { MATERIALS } from "../constants/materials.js";
 
 export class Inventory {
     scene;
     menu;
-    playerItems = []; // Text save data
+    playerItems = []; // Pointer to cookies, store item name/material
     inventory = []; // Images
     curSelectedItemIndex = -1;
 
@@ -13,43 +15,41 @@ export class Inventory {
         this.playerItems = inventory;
 
         // Update and show inventory on startup
-        for (let index = 0; index < this.playerItems.length; index++) {
-            let itemObj = {};
-            switch(this.playerItems[index]) {
-                case "logs":
-                    itemObj = new Logs({
-                        name: "logs",
-                        examineText: "Normal logs"
-                    }, this.scene);
-                    break;
-                case "bones":
-                    itemObj = new Bones({
-                        name: "bones",
-                        examineText: "Some old bones",
-                        prayerXp: 5
-                    }, this.scene);
-                    break;
+        this.playerItems.forEach(item => {
+            // Add blanks
+            if (!Object.keys(item).length) {
+                this.addToInventory({});
             }
-            this.addToInventory(itemObj);
-        }
+            // Add items
+            else {
+                let itemObj = getItemClass(item.name, item.material, this.scene);
+                this.addToInventory(itemObj);
+            }
+        });
     }
 
     async addToInventory(item) {
         let index = await this.checkForEmptySlot();
 
         // Add items
-        if (item.name != "" && (this.inventory.length < 28 || index >= 0)) {
+        if (Object.keys(item).length && (this.inventory.length < 28 || index >= 0)) {
             // Repopulate on startup
             if (this.playerItems.length > this.inventory.length) {
                 index = this.inventory.length;
             }
             // Add items into first empty slot
             else if (index >= 0) {
-                this.playerItems[index] = item.name;
+                this.playerItems[index] = {
+                    name: item.item, 
+                    material: item.material
+                };
             }
             // Add new item to end
             else if (this.playerItems.length == this.inventory.length) {
-                this.playerItems.push(item.name);
+                this.playerItems.push({
+                    name: item.item, 
+                    material: item.material
+                }); 
                 index = this.inventory.length;
             }
 
@@ -66,9 +66,7 @@ export class Inventory {
             }
 
             this.inventory[index] = item;
-        }
-        // Add blank
-        else if (item.name == "") {
+        } else if (this.inventory.length < 28) {
             this.inventory.push({});
         } else {
             console.log("Inventory is full");
@@ -77,7 +75,7 @@ export class Inventory {
 
     async checkForEmptySlot() {
         for (let index = 0; index < this.playerItems.length; index++) {
-            if (this.playerItems[index] == "") {
+            if (!Object.keys(this.playerItems[index]).length) {
                 return index;
             }
         }
@@ -176,7 +174,9 @@ export class Inventory {
             this.scene.currentPanel = CONSTANTS.PANEL.INVENTORY;
         }
         this.inventory.forEach(item => {
-            item.show(isVisible);
+            if (Object.keys(item).length) {
+                item.show(isVisible);
+            }
         });
     }
 }

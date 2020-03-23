@@ -1,6 +1,7 @@
 import { ProgressBar } from "./ui/progress-bar.js";
 import { CONSTANTS, calcLevel } from "./constants/constants.js"; 
 import { Logs } from "./ui/itemTypes.js";
+import { getItemClass } from "./ui/itemTypes.js";
 
 export class Resource {
     scene;
@@ -8,7 +9,7 @@ export class Resource {
     skill;
     resource;
     name = "";
-    resourceType = "";
+    drops = [];
 
     constructor(data) {
         // Add skill object
@@ -36,15 +37,15 @@ export class Resource {
         );
 
         // Set other vars
+        this.drops = data.drops;
         this.scene = data.scene;
-        this.resourceType = data.resourceType;
     }
 
     clickTarget() {
         // Get current resource level and add xp
         let curXp = 0;
-        switch (this.resourceType) {
-            case CONSTANTS.RESOURCES.WOOD:
+        switch (this.drops[0].item) {
+            case "Logs":
                 curXp = this.scene.characterData.skills.woodcutting;
                 this.scene.characterData.skills.woodcutting++;
                 break;
@@ -57,11 +58,8 @@ export class Resource {
         // Increase progress and check completion
         let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
-            console.log("Got", this.resourceType);
-            let droppedResource = new Logs({
-                name: "logs",
-                examineText: "Normal logs"
-            }, this.scene.dashboard);
+            console.log("Got", this.drops[0].material, this.drops[0].item);
+            let droppedResource = getItemClass(this.drops[0].item, this.drops[0].material, this.scene.dashboard);
             this.scene.dashboard.inventory.obj.addToInventory(droppedResource);
             this.scene.showRandomClickObject();
         }

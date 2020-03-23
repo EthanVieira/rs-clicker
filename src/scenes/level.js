@@ -149,7 +149,7 @@ export class LevelScene extends Phaser.Scene {
                         y: this.height / 2 - 150,
                         neededClicks: clickObject.neededClicks,
                         name: clickObject.name,
-                        resourceType: clickObject.resourceType
+                        drops: clickObject.drops
                     })
                 );
             });

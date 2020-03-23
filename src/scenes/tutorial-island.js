@@ -20,7 +20,7 @@ export class TutorialIslandScene extends EnemyLevelScene {
                     path: "src/assets/sprites/GiantRat.png",
                     maxHealth: 5,
                     killGold: 1,
-                    drops: [{name: "bones", rate: .5}]
+                    drops: [{item: "Bones", material: "Normal", rate: .5}]
                 }
             ],
             audio: { bgm: "newbie-melody" }

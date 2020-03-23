@@ -102,25 +102,33 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("settings-button", "src/assets/ui/buttons/SettingsButton.png");
 
         // Resources
-        this.load.image("logs", "src/assets/items/resources/Logs.png");
+        this.load.image("Logs", "src/assets/items/resources/Logs.png");
 
         // Other item sprites
-        this.load.image("bones", "src/assets/items/other/Bones.png");
+        this.load.image("Bones", "src/assets/items/other/Bones.png");
 
         // Load all weapons
-        // TODO: make object organization better so loading is faster
         let path = "src/assets/items/weapons/";
-        Object.entries(ITEMS).forEach(([parent, parentObj]) => {
-            // Loop through types of items
-            Object.entries(parentObj).forEach(([item, itemObj]) => {
-                // Loop through items
-                Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
-                    // Load all types
-                    this.load.image(
-                        matObj.name + itemObj.name,
-                        path + matObj.name + itemObj.name + ".png"
-                    );
-                });
+        Object.entries(ITEMS.Weapon).forEach(([item, itemObj]) => {
+            // Loop through materials
+            Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
+                // Load all types
+                this.load.image(
+                    matObj.name + itemObj.name,
+                    path + matObj.name + itemObj.name + ".png"
+                );
+            });
+        });
+
+        // Load all tools
+        Object.entries(ITEMS.Tool).forEach(([item, itemObj]) => {
+            // Loop through materials
+            Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
+                // Load all types
+                this.load.image(
+                    matObj.name + itemObj.name,
+                    path + matObj.name + itemObj.name + ".png"
+                );
             });
         });
     }

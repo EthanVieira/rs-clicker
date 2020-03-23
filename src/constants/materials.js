@@ -1,73 +1,87 @@
 export const MATERIALS = {
     // Materials used for Smithing: [name, cost_multiplier, required_level]
-    SMITHINGMATS: {
-        BRONZE: {
+    ORE: {
+        Bronze: {
             name: "Bronze",
             cost_mult: 1.0,
             level: 1
         },
-        IRON: {
+        Iron: {
             name: "Iron",
             cost_mult: 1.5,
             level: 5
         },
-        STEEL: {
+        Steel: {
             name: "Steel",
             cost_mult: 2.0,
             level: 10
         },
-        MITHRIL: {
+        Mithril: {
             name: "Mithril",
             cost_mult: 5.0,
             level: 20
         },
-        ADAMANT: {
+        Adamant: {
             name: "Adamant",
             cost_mult: 10.0,
             level: 30
         },
-        RUNE: {
+        Rune: {
             name: "Rune",
             cost_mult: 20.0,
             level: 40
         },
-        DRAGON: {
+        Dragon: {
             name: "Dragon",
             cost_mult: 50.0,
             level: 60
         }
     },
     // Materials used for Fletching: [name, cost_multiplier, required_level]
-    FLETCHINGMATS: {
-        NORMAL: {
+    WOOD: {
+        Normal: {
             name: "Normal",
+            hideName: true,
             cost_mult: 1.0,
             level: 1
         },
-        OAK: {
+        Oak: {
             name: "Oak",
             cost_mult: 1.5,
             level: 10
         },
-        WILLOW: {
+        Willow: {
             name: "Willow",
             cost_mult: 2.0,
             level: 20
         },
-        MAPLE: {
+        Maple: {
             name: "Maple",
             cost_mult: 5.0,
             level: 30
         },
-        YEW: {
+        Yew: {
             name: "Yew",
             cost_mult: 10.0,
             level: 40
         },
-        MAGIC: {
+        Magic: {
             name: "Magic",
             cost_mult: 25.0,
             level: 50
+        }
+    },
+    BONE: {
+        Normal: {
+            name: "Normal",
+            hideName: true,
+            cost_mult: 1.0,
+            prayerXp: 5,
+        },
+        Big: {
+            name: "Big",
+            cost_mult: 10,
+            prayerXp: 15
         }
     }
 };
