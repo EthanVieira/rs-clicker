@@ -1,7 +1,5 @@
 import { ProgressBar } from "./ui/progress-bar.js";
 import { CONSTANTS, calcLevel } from "./constants/constants.js"; 
-import { Logs } from "./ui/itemTypes.js";
-import { getItemClass } from "./ui/itemTypes.js";
 
 export class Resource {
     scene;
@@ -58,8 +56,8 @@ export class Resource {
         // Increase progress and check completion
         let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
-            console.log("Got", this.drops[0].material, this.drops[0].item);
-            let droppedResource = getItemClass(this.drops[0].item, this.drops[0].material, this.scene.dashboard);
+            let droppedResource = new this.drops[0].item(this.scene.dashboard);
+            console.log("Got", droppedResource.name);
             this.scene.dashboard.inventory.obj.addToInventory(droppedResource);
             this.scene.showRandomClickObject();
         }

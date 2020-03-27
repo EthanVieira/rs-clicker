@@ -70,18 +70,5 @@ export const MATERIALS = {
             cost_mult: 25.0,
             level: 50
         }
-    },
-    BONE: {
-        Normal: {
-            name: "Normal",
-            hideName: true,
-            cost_mult: 1.0,
-            prayerXp: 5,
-        },
-        Big: {
-            name: "Big",
-            cost_mult: 10,
-            prayerXp: 15
-        }
     }
 };

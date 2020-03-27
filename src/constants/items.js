@@ -95,17 +95,5 @@ export const ITEMS = {
             examineText: "Used for mining"
         }
     },
-    Logs: {
-    	name: "Logs",
-    	cost: 5,
-    	material: "WOOD",
-    	examineText: "A number of wooden logs"
-    },
-    Bones: {
-    	name: "Bones",
-    	cost: 5,
-    	material: "BONE",
-    	examineText: "Bones are for burying!"
-    },
     Consumable: {}
 };

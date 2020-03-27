@@ -1,7 +1,5 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { getItemClass } from "./itemTypes.js";
-import { ITEMS } from "../constants/items.js";
-import { MATERIALS } from "../constants/materials.js";
+import { getItemClass } from "../items/item.js";
 
 export class Inventory {
     scene;
