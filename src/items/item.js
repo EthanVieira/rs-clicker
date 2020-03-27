@@ -1,16 +1,15 @@
 import { itemManifest } from "./item-manifest.js";
 
 export async function getItemClass(itemName, material, scene) {
-    // console.log(itemName + material);
-	let path = itemManifest[material + itemName].classPath;
-	let itemClass = await import(path);
+    let path = itemManifest[material + itemName].classPath;
+    let itemClass = await import(path);
 
     return new itemClass.default(scene);
 }
 
 export class Item {
-	// Text data
-	name = "";
+    // Text data
+    name = "";
     item = "";
     material = "";
     examineText = "";
