@@ -1,7 +1,8 @@
 import { itemManifest } from "./item-manifest.js";
 
 export async function getItemClass(itemName, material, scene) {
-	let path = itemManifest[itemName + material].classPath;
+    // console.log(itemName + material);
+	let path = itemManifest[material + itemName].classPath;
 	let itemClass = await import(path);
 
     return new itemClass.default(scene);
@@ -26,7 +27,11 @@ export class Item {
 
     // Others
     cost = 0;
-    actions = [];
+    actions = [
+        {text: "Use", func: "use"},
+        {text: "Drop", func: "drop"},
+        {text: "Examine", func: "examine"}
+    ];
 
     addToInventory(x, y, index) {
         this.x = x;
@@ -36,7 +41,6 @@ export class Item {
         this.sprite = this.scene.add
             .image(x, y, this.name)
             .setDepth(4)
-            .setScale(0.2)
             .setInteractive()
             .on("pointerdown", pointer => {
                 if (pointer.rightButtonDown()) {

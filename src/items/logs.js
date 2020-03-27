@@ -1,8 +1,6 @@
 import { Item } from "./item.js";
 
 export default class Logs extends Item {
-    actions = ["use"];
-
     constructor() {
         super();
     }

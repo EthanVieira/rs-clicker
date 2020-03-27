@@ -2,10 +2,11 @@ import { Item } from "./item.js";
 
 export default class Bones extends Item {
     prayerXp = 0;
-    actions = ["bury", "use"];
 
     constructor() {
         super();
+        // Add to front of actions array
+        this.actions.unshift({text: "Bury", func: "bury"})
     }
 
     leftClick() {

@@ -36,7 +36,7 @@ export const ITEMS = {
             cost: 100,
             material: "WOOD",
             skill: "ranged",
-            examineText: "Short but affective"
+            examineText: "Short but effective"
         },
         Longbow: {
             name: "Longbow",
