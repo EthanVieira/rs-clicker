@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { EnemyLevelScene } from "./enemy-level.js";
+import NormalBones from "../items/bones/normal-bones.js";
 
 export class LumbridgeScene extends EnemyLevelScene {
     constructor() {
@@ -19,13 +20,15 @@ export class LumbridgeScene extends EnemyLevelScene {
                     name: "cow",
                     path: "src/assets/sprites/Cow.png",
                     maxHealth: 8,
-                    killGold: 5
+                    killGold: 5,
+                    drops: [{item: NormalBones, rate: .5}]
                 },
                 {
                     name: "goblin",
                     path: "src/assets/sprites/Goblin.png",
                     maxHealth: 5,
-                    killGold: 3
+                    killGold: 3,
+                    drops: [{item: NormalBones, rate: .5}]
                 }
             ],
             audio: { bgm: "harmony" }

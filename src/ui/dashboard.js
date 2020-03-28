@@ -1,12 +1,14 @@
-import { CONSTANTS, calcLevel } from "../constants/constants.js";
+import { CONSTANTS, FONTS, calcLevel } from "../constants/constants.js";
+import { Inventory } from "./inventory.js";
 
 export class Dashboard extends Phaser.Scene {
     currentScene;
-
     currentLevel = "";
+    currentPanel = "";
 
     inventory = {
-        button: {}
+        button: {},
+        obj: {}
     };
 
     skills = {
@@ -57,17 +59,11 @@ export class Dashboard extends Phaser.Scene {
 
     preload() {
         // Inventory icon
-        this.load.image(
-            "inventory-button",
-            "src/assets/ui/buttons/InventoryButton.png"
-        );
+        this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
 
         // Skills panel
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
-        this.load.image(
-            "skills-button",
-            "src/assets/ui/buttons/SkillsButton.png"
-        );
+        this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
 
         // Audio panel
         this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
@@ -75,21 +71,15 @@ export class Dashboard extends Phaser.Scene {
             "audio-settings-button",
             "src/assets/ui/buttons/AudioSettingsButton.png"
         );
-        this.load.image(
-            "audio-slider",
-            "src/assets/ui/buttons/audioSlider.png"
-        );
-        this.load.image(
-            "audio-button",
-            "src/assets/ui/buttons/AudioButton.png"
-        );
+        this.load.image("audio-slider", "src/assets/ui/buttons/audioSlider.png");
+        this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
 
         // Quests panel
         this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
-        this.load.image(
-            "quests-button",
-            "src/assets/ui/buttons/QuestsButton.png"
-        );
+        this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
+
+        // Right click menu
+        this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
     }
 
     create() {
@@ -99,12 +89,15 @@ export class Dashboard extends Phaser.Scene {
         // Get current scene
         this.currentScene = this.scene.get(this.characterData.currentLevel);
 
+        // Disable right click popup
+        this.input.mouse.disableContextMenu();
+
         // Shop
         this.add
             .text(585, 475, "Shop")
             .setAlpha(0.1)
             .setInteractive()
-            .on("pointerup", () => {
+            .on("pointerdown", () => {
                 // Pass in the current level to know which level to return to upon exiting the shop.
                 this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
                     this.characterData,
@@ -122,7 +115,7 @@ export class Dashboard extends Phaser.Scene {
             .setDepth(2)
             .setInteractive()
             .setAlpha(0.1)
-            .on("pointerup", () => {
+            .on("pointerdown", () => {
                 this.hideAllMenus();
 
                 // If enemy-level, repopulate quest text
@@ -130,8 +123,11 @@ export class Dashboard extends Phaser.Scene {
                     this.currentScene.showAutoClickerButton(true);
                 }
 
+                this.inventory.obj.showInventory(true);
                 this.inventory.button.setAlpha(0.1);
             });
+        this.inventory.obj = new Inventory(this, this.characterData.inventory);
+        this.inventory.obj.showInventory(true);
 
         // Skills
         this.skills.panel = this.add
@@ -143,7 +139,7 @@ export class Dashboard extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive();
-        this.skills.button.on("pointerup", () => {
+        this.skills.button.on("pointerdown", () => {
             this.showSkills(true);
         });
 
@@ -201,7 +197,7 @@ export class Dashboard extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive()
-            .on("pointerup", () => {
+            .on("pointerdown", () => {
                 this.showAudioSettings(true);
             });
 
@@ -210,31 +206,19 @@ export class Dashboard extends Phaser.Scene {
         this.audio.sliders = [];
         this.audio.sliders.push(
             this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 80,
-                    "audio-slider"
-                )
+                .image(audioWindowX + barXOffset, audioWindowY + 80, "audio-slider")
                 .setOrigin(0, 0)
                 .setDepth(2)
         );
         this.audio.sliders.push(
             this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 125,
-                    "audio-slider"
-                )
+                .image(audioWindowX + barXOffset, audioWindowY + 125, "audio-slider")
                 .setOrigin(0, 0)
                 .setDepth(2)
         );
         this.audio.sliders.push(
             this.add
-                .image(
-                    audioWindowX + barXOffset,
-                    audioWindowY + 170,
-                    "audio-slider"
-                )
+                .image(audioWindowX + barXOffset, audioWindowY + 170, "audio-slider")
                 .setOrigin(0, 0)
                 .setDepth(2)
         );
@@ -254,7 +238,7 @@ export class Dashboard extends Phaser.Scene {
                     .setDepth(3)
                     .setInteractive()
                     .setAlpha(0.1)
-                    .on("pointerup", () => {
+                    .on("pointerdown", () => {
                         audioScene.changeVolume(volumeType, buttonNum);
                         this.changeAudioButton(volumeType, buttonNum);
                     });
@@ -280,11 +264,9 @@ export class Dashboard extends Phaser.Scene {
 
         // Quest text
         // TODO: show all quests
-        this.killQuestText = this.add
-            .text(555, 256, "", { fill: "white" })
-            .setDepth(3);
+        this.killQuestText = this.add.text(555, 256, "", { fill: "white" }).setDepth(3);
 
-        this.quests.button.on("pointerup", () => {
+        this.quests.button.on("pointerdown", () => {
             this.showQuests(true);
         });
 
@@ -297,6 +279,7 @@ export class Dashboard extends Phaser.Scene {
         if (isVisible) {
             this.hideAllMenus();
             this.skills.button.setAlpha(1);
+            this.currentPanel = CONSTANTS.PANEL.SKILLS;
         } else {
             this.skills.button.setAlpha(0.1);
         }
@@ -317,41 +300,32 @@ export class Dashboard extends Phaser.Scene {
     showAudioSettings(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
-
-            // Show audio page
-            this.audio.audioPage.visible = true;
-            this.audio.audioPageButton.setAlpha(1);
-            this.audio.sliders.forEach(slider => {
-                slider.visible = true;
-            });
-            this.audio.audioButtons.forEach(buttonRow => {
-                buttonRow.forEach(button => {
-                    button.visible = true;
-                });
-            });
+            this.currentPanel = CONSTANTS.PANEL.SETTINGS;
 
             // Show current volume buttons
             this.characterData.audio.forEach((volume, volumeType) => {
                 this.audio.audioButtons[volumeType][volume].setAlpha(1);
             });
         } else {
-            this.audio.audioPage.visible = false;
             this.audio.audioPageButton.setAlpha(0.1);
-            this.audio.sliders.forEach(slider => {
-                slider.visible = false;
-            });
-            this.audio.audioButtons.forEach(buttonRow => {
-                buttonRow.forEach(button => {
-                    button.visible = false;
-                });
-            });
         }
+
+        this.audio.audioPage.visible = isVisible;
+        this.audio.sliders.forEach(slider => {
+            slider.visible = isVisible;
+        });
+        this.audio.audioButtons.forEach(buttonRow => {
+            buttonRow.forEach(button => {
+                button.visible = isVisible;
+            });
+        });
     }
 
     showQuests(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
             this.quests.button.setAlpha(1);
+            this.currentPanel = CONSTANTS.PANEL.QUESTS;
         } else {
             this.quests.button.setAlpha(0.1);
         }
@@ -373,11 +347,8 @@ export class Dashboard extends Phaser.Scene {
         this.showAudioSettings(false);
         this.showSkills(false);
         this.showQuests(false);
+        this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
-
-        if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-            this.currentScene.showAutoClickerButton(false);
-        }
     }
 
     updateSkillsText() {
@@ -423,7 +394,7 @@ export class Dashboard extends Phaser.Scene {
             name = name.replace(/\b\w/g, c => c.toUpperCase());
 
             // Add text
-            // TODO: Since there are currently no quests for tree levels those 
+            // TODO: Since there are currently no quests for tree levels those
             // will show up as undefined/undefined
             this.killQuestText.text +=
                 this.characterData[this.currentScene.currentLevel].enemiesKilled[

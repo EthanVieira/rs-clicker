@@ -22,19 +22,9 @@ export class HealthBar {
         this.healthBar = scene.add.graphics();
         this.healthBar.setDepth(3);
         this.healthBar.fillStyle(0x000000); // Border (black)
-        this.healthBar.fillRect(
-            this.x,
-            this.y,
-            this.width + 4,
-            this.height + 4
-        );
+        this.healthBar.fillRect(this.x, this.y, this.width + 4, this.height + 4);
         this.healthBar.fillStyle(0x00ff00); // Health (green)
-        this.healthBar.fillRect(
-            this.x + 2,
-            this.y + 2,
-            this.width,
-            this.height
-        );
+        this.healthBar.fillRect(this.x + 2, this.y + 2, this.width, this.height);
         this.healthBar.visible = false;
     }
 
@@ -43,21 +33,11 @@ export class HealthBar {
 
         // Border (black)
         this.healthBar.fillStyle(0x000000);
-        this.healthBar.fillRect(
-            this.x,
-            this.y,
-            this.width + 4,
-            this.height + 4
-        );
+        this.healthBar.fillRect(this.x, this.y, this.width + 4, this.height + 4);
 
         // Inner background (white)
         this.healthBar.fillStyle(0xffffff);
-        this.healthBar.fillRect(
-            this.x + 2,
-            this.y + 2,
-            this.width,
-            this.height
-        );
+        this.healthBar.fillRect(this.x + 2, this.y + 2, this.width, this.height);
 
         // Apply damage
         this.currentHealth -= damage;

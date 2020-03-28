@@ -22,12 +22,7 @@ export class ProgressBar {
         this.progressBar = scene.add.graphics();
         this.progressBar.setDepth(3);
         this.progressBar.fillStyle(0xffffff); // Border (white)
-        this.progressBar.fillRect(
-            this.x + 2,
-            this.y + 2,
-            this.width,
-            this.height
-        );
+        this.progressBar.fillRect(this.x + 2, this.y + 2, this.width, this.height);
         this.progressBar.visible = false;
     }
 
@@ -36,12 +31,7 @@ export class ProgressBar {
 
         // Border (white)
         this.progressBar.fillStyle(0xffffff);
-        this.progressBar.fillRect(
-            this.x + 2,
-            this.y + 2,
-            this.width,
-            this.height
-        );
+        this.progressBar.fillRect(this.x + 2, this.y + 2, this.width, this.height);
 
         // Apply damage
         this.clickProgress += progIncrease;

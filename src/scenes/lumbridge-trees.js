@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
+import NormalLogs from "../items/logs/normal-logs.js";
 
 export class LumbridgeTreeScene extends LevelScene {
     constructor() {
@@ -18,13 +19,13 @@ export class LumbridgeTreeScene extends LevelScene {
                     name: "tree1",
                     path: "src/assets/sprites/tree1.webp",
                     neededClicks: 5,
-                    resourceType: CONSTANTS.RESOURCES.WOOD
+                    drops: [{item: NormalLogs, rate: .5}]
                 },
                 {
                     name: "tree2",
                     path: "src/assets/sprites/tree2.webp",
                     neededClicks: 5,
-                    resourceType: CONSTANTS.RESOURCES.WOOD
+                    drops: [{item: NormalLogs, rate: .5}]
                 }
             ],
             audio: { bgm: "harmony" }

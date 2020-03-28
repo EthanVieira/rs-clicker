@@ -10,14 +10,14 @@ import { TutorialIslandScene } from "./scenes/tutorial-island.js";
 import { LumbridgeScene } from "./scenes/lumbridge.js";
 import { LumbridgeTreeScene } from "./scenes/lumbridge-trees.js";
 import { VarrockScene } from "./scenes/varrock.js";
-import { BarbarianVillageScene} from "./scenes/barbarian-village.js";
+import { BarbarianVillageScene } from "./scenes/barbarian-village.js";
 import { Dashboard } from "./ui/dashboard.js";
 import { SCREEN } from "./constants/constants.js";
 
 let game = new Phaser.Game({
     width: SCREEN.WIDTH,
     height: SCREEN.HEIGHT,
-    scale: { 
+    scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: "game"
     },

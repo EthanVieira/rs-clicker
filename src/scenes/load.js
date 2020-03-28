@@ -1,4 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
+import { MATERIALS } from "../constants/materials.js";
+import { ITEMS } from "../constants/items.js";
 
 export class LoadScene extends Phaser.Scene {
     constructor() {
@@ -16,9 +18,7 @@ export class LoadScene extends Phaser.Scene {
             }
         });
     }
-    init() {
-        // this is where you receive data from other scenes or instantiate plugins
-    }
+
     preload() {
         this.add.image(750, 600, "lesser-demon");
 
@@ -84,11 +84,6 @@ export class LoadScene extends Phaser.Scene {
             //assetText.destroy();
         });
 
-        // Simulate lag
-        for (let i = 0; i < 500; i++) {
-            this.load.image("chicken" + i, "src/assets/sprites/Chicken.jpg");
-        }
-
         //TODO: Get RS Font working
         // Fonts
         //this.load.bitmapFont('rsfont', 'src/assets/fonts/runescape_uf.bmp');
@@ -98,20 +93,46 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("lesser-demon", "src/assets/sprites/LesserDemon.png");
 
         // Backgrounds/Logos
-        this.load.image(
-            "main-menu-bg",
-            "src/assets/backgrounds/MainMenuBg.png"
-        );
+        this.load.image("main-menu-bg", "src/assets/backgrounds/MainMenuBg.png");
         this.load.image("main-menu", "src/assets/ui/MainMenu.png");
         this.load.image("rsc-logo", "src/assets/logos/RSCLogo.png");
 
         // Buttons
         this.load.image("play-button", "src/assets/ui/buttons/PlayButton.png");
-        this.load.image(
-            "settings-button",
-            "src/assets/ui/buttons/SettingsButton.png"
-        );
+        this.load.image("settings-button", "src/assets/ui/buttons/SettingsButton.png");
+
+        // Resources
+        this.load.image("Logs", "src/assets/items/resources/Logs.png");
+
+        // Other item sprites
+        this.load.image("Bones", "src/assets/items/other/Bones.png");
+
+        // Load all weapons
+        let path = "src/assets/items/weapons/";
+        Object.entries(ITEMS.Weapon).forEach(([item, itemObj]) => {
+            // Loop through materials
+            Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
+                // Load all types
+                this.load.image(
+                    matObj.name + itemObj.name,
+                    path + matObj.name + itemObj.name + ".png"
+                );
+            });
+        });
+
+        // Load all tools
+        Object.entries(ITEMS.Tool).forEach(([item, itemObj]) => {
+            // Loop through materials
+            Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
+                // Load all types
+                this.load.image(
+                    matObj.name + itemObj.name,
+                    path + matObj.name + itemObj.name + ".png"
+                );
+            });
+        });
     }
+
     create() {
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO);
@@ -135,9 +156,5 @@ export class LoadScene extends Phaser.Scene {
             Use add to start dynamically
             this.scene.add(...)
         */
-    }
-    update() {
-        // this is the update loop
-        // dont need this for load scene
     }
 }

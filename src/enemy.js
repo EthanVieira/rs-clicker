@@ -9,6 +9,7 @@ export class Enemy {
     scene;
     killGold;
     name = "";
+    drops = [];
 
     constructor(data) {
         // Add enemy
@@ -49,14 +50,10 @@ export class Enemy {
         this.hitsplatText.visible = false;
 
         // Add health bar
-        this.healthBar = new HealthBar(
-            data.scene,
-            data.x,
-            data.y - 40,
-            data.maxHealth
-        );
+        this.healthBar = new HealthBar(data.scene, data.x, data.y - 40, data.maxHealth);
 
         // Set other vars
+        this.drops = data.drops;
         this.killGold = data.killGold;
         this.scene = data.scene;
     }
@@ -99,9 +96,16 @@ export class Enemy {
         if (isDead) {
             // Give extra gold if unit is killed
             this.scene.addGold(this.killGold);
-            console.log(
-                this.name + " killed, getting " + this.killGold + " extra gold"
-            );
+            console.log(this.name + " killed, getting " + this.killGold + " extra gold");
+
+            // Calculate item drops
+            this.drops.forEach(item => {
+                if (item.rate > Math.random()) {
+                    let droppedItem = new item.item(this.scene.dashboard);
+                    console.log(this.name, "dropped", droppedItem.name);
+                    this.scene.dashboard.inventory.obj.addToInventory(droppedItem);
+                }
+            });
 
             // Update quest and stats
             this.scene.enemyKilled(this.name);

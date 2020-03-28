@@ -1,23 +1,26 @@
 export const ITEMS = {
-    WEAPONS: {
+    Weapon: {
         // Melee Weapons
-        DAGGER: {
+        Dagger: {
             name: "Dagger",
             cost: 50,
-            material: "SMITHINGMATS",
-            skill: "attack"
+            material: "ORE",
+            skill: "attack",
+            examineText: "Short but pointy"
         },
-        LONGSWORD: {
+        Longsword: {
             name: "Longsword",
             cost: 200,
-            material: "SMITHINGMATS",
-            skill: "attack"
+            material: "ORE",
+            skill: "attack",
+            examineText: "A razor sharp longsword"
         },
-        SCIMITAR: {
+        Scimitar: {
             name: "Scimitar",
             cost: 500,
-            material: "SMITHINGMATS",
-            skill: "attack"
+            material: "ORE",
+            skill: "attack",
+            examineText: "A vicious, curved sword"
         },
         // WARHAMMER: ["WARHAMMER", 1000, "SMITHINGMAT"],
         // BATTLEAXE: ["BATTLEAXE", 1500, "SMITHINGMAT"],
@@ -28,23 +31,26 @@ export const ITEMS = {
         // MAUL: ["MAUL", 15000, "SPECIAL"]
 
         // Ranged Weapons
-        SHORTBOW: {
+        Shortbow: {
             name: "Shortbow",
             cost: 100,
-            material: "FLETCHINGMATS",
-            skill: "ranged"
+            material: "WOOD",
+            skill: "ranged",
+            examineText: "Short but effective"
         },
-        LONGBOW: {
+        Longbow: {
             name: "Longbow",
             cost: 100,
-            material: "FLETCHINGMATS",
-            skill: "ranged"
+            material: "WOOD",
+            skill: "ranged",
+            examineText: "A nice sturdy bow"
         },
-        CROSSBOW: {
+        Crossbow: {
             name: "Crossbow",
             cost: 1000,
-            material: "SMITHINGMATS",
-            skill: "ranged"
+            material: "ORE",
+            skill: "ranged",
+            examineText: "A crossbow"
         }
         // COMPBOW: ["COMPBOW", 1000, "FLETCHINGMAT"],
         // KNIFE: ["KNIFE", 10, "SMITHINGMAT"],
@@ -72,20 +78,22 @@ export const ITEMS = {
         // AHRIMSTAFF: ["AHRIMSTAFF", 100000, "SPECIAL"],
         // TRIDENT: ["TRIDENT", 150000, "SPECIAL"]
     },
-    // Tools [name, base_cost, skill]
-    TOOLS: {
-        AXE: {
+    // Tool [name, base_cost, skill]
+    Tool: {
+        Axe: {
             name: "Axe",
             cost: 100,
-            material: "SMITHINGMATS",
-            skill: "woodcutting"
+            material: "ORE",
+            skill: "woodcutting",
+            examineText: "A woodcutter's axe"
         },
-        PICKAXE: {
+        Pickaxe: {
             name: "Pickaxe",
             cost: 100,
-            material: "SMITHINGMATS",
-            skill: "mining"
+            material: "ORE",
+            skill: "mining",
+            examineText: "Used for mining"
         }
     },
-    CONSUMABLES: {}
+    Consumable: {}
 };

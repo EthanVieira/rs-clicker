@@ -103,22 +103,10 @@ export class LevelScene extends Phaser.Scene {
         });
 
         // Classes
-        this.load.image(
-            CONSTANTS.CLASS.UNARMED,
-            "src/assets/sprites/PlayerUnarmed.png"
-        );
-        this.load.image(
-            CONSTANTS.CLASS.WARRIOR,
-            "src/assets/sprites/PlayerWarrior.png"
-        );
-        this.load.image(
-            CONSTANTS.CLASS.RANGER,
-            "src/assets/sprites/PlayerRanger.png"
-        );
-        this.load.image(
-            CONSTANTS.CLASS.MAGE,
-            "src/assets/sprites/PlayerMage.png"
-        );
+        this.load.image(CONSTANTS.CLASS.UNARMED, "src/assets/sprites/PlayerUnarmed.png");
+        this.load.image(CONSTANTS.CLASS.WARRIOR, "src/assets/sprites/PlayerWarrior.png");
+        this.load.image(CONSTANTS.CLASS.RANGER, "src/assets/sprites/PlayerRanger.png");
+        this.load.image(CONSTANTS.CLASS.MAGE, "src/assets/sprites/PlayerMage.png");
 
         // Call preload function for inherited class
         if (this.levelType != "") {
@@ -161,7 +149,7 @@ export class LevelScene extends Phaser.Scene {
                         y: this.height / 2 - 150,
                         neededClicks: clickObject.neededClicks,
                         name: clickObject.name,
-                        resourceType: clickObject.resourceType
+                        drops: clickObject.drops
                     })
                 );
             });
@@ -203,11 +191,10 @@ export class LevelScene extends Phaser.Scene {
 
         // Fix class images that are not the same dimensions
         if (this.characterData.characterClass == CONSTANTS.CLASS.RANGER) {
-            classPicture.setScale(.3);
+            classPicture.setScale(0.3);
             classPicture.y = 195;
-        }
-        else if (this.characterData.characterClass == CONSTANTS.CLASS.MAGE) {
-            classPicture.setScale(.5);
+        } else if (this.characterData.characterClass == CONSTANTS.CLASS.MAGE) {
+            classPicture.setScale(0.5);
             classPicture.y = 175;
         }
 
@@ -222,12 +209,9 @@ export class LevelScene extends Phaser.Scene {
         // Show stats
         let statColor = "white";
         this.enemiesKilledText = this.add
-            .text(
-                20,
-                60,
-                "Enemies killed: " + this.characterData.totalEnemiesKilled,
-                { fill: statColor }
-            )
+            .text(20, 60, "Enemies killed: " + this.characterData.totalEnemiesKilled, {
+                fill: statColor
+            })
             .setDepth(3);
         this.timesClickedText = this.add
             .text(20, 75, "Times clicked: " + this.characterData.timesClicked, {
@@ -238,18 +222,20 @@ export class LevelScene extends Phaser.Scene {
             .text(
                 20,
                 90,
-                "Damage done by clicking: " +
-                    this.characterData.damageByClicking,
-                { fill: statColor }
+                "Damage done by clicking: " + this.characterData.damageByClicking,
+                {
+                    fill: statColor
+                }
             )
             .setDepth(3);
         this.damageByAutoClickText = this.add
             .text(
                 20,
                 105,
-                "Damage done by autoclickers: " +
-                    this.characterData.damageByAutoClick,
-                { fill: statColor }
+                "Damage done by autoclickers: " + this.characterData.damageByAutoClick,
+                {
+                    fill: statColor
+                }
             )
             .setDepth(3);
 
@@ -266,7 +252,7 @@ export class LevelScene extends Phaser.Scene {
         this.showRandomClickObject();
 
         // Scene destructor
-        this.events.on('shutdown', () => {
+        this.events.on("shutdown", () => {
             // Release autoclickers to be garbage collected
             this.clearAutoClickers();
             // Hide dashboard
@@ -294,8 +280,7 @@ export class LevelScene extends Phaser.Scene {
 
         // Turn characterData into a json string and store it in a cookie
         let jsonString = JSON.stringify(this.characterData);
-        document.cookie =
-            "characterData=" + jsonString + ";" + expireString + ";path=/;";
+        document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
     }
 
     addGold(addedGold) {
@@ -305,8 +290,7 @@ export class LevelScene extends Phaser.Scene {
 
     updateClickedEnemyStat() {
         this.characterData.timesClicked++;
-        this.timesClickedText.text =
-            "Times clicked: " + this.characterData.timesClicked;
+        this.timesClickedText.text = "Times clicked: " + this.characterData.timesClicked;
     }
 
     updateClickDamageStat(damageDone) {
@@ -316,7 +300,7 @@ export class LevelScene extends Phaser.Scene {
             "Damage done by clicking: " + this.characterData.damageByClicking;
 
         // Increase attack XP
-        switch(this.characterData.characterClass) {
+        switch (this.characterData.characterClass) {
             case CONSTANTS.CLASS.MAGE:
                 this.characterData.skills.magic += damageDone;
                 break;

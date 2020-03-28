@@ -14,10 +14,7 @@ export class AudioScene extends Phaser.Scene {
     async preload() {
         // Audio
         this.load.audio("scape-main", "src/assets/audio/bgm/ScapeMain.ogg");
-        this.load.audio(
-            "newbie-melody",
-            "src/assets/audio/bgm/NewbieMelody.ogg"
-        );
+        this.load.audio("newbie-melody", "src/assets/audio/bgm/NewbieMelody.ogg");
         this.load.audio("harmony", "src/assets/audio/bgm/Harmony.ogg");
         this.load.audio("expanse", "src/assets/audio/bgm/Expanse.mp3");
         this.load.audio("barbarianism", "src/assets/audio/bgm/Barbarianism.ogg");

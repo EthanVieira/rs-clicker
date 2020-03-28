@@ -24,7 +24,7 @@ export class EnemyLevelScene extends LevelScene {
     childCreate() {
         // Button text to test autoclickers
         this.autoClickerButton = this.add
-            .text(530, 250, "50 gold for autoclicker", { fill: "white" })
+            .text(20, 135, "50 gold for autoclicker", { fill: "gold" })
             .setDepth(3)
             .setInteractive()
             .on("pointerup", () => {
@@ -47,7 +47,8 @@ export class EnemyLevelScene extends LevelScene {
                     y: this.height / 2 - 115,
                     maxHealth: clickObject.maxHealth,
                     name: clickObject.name,
-                    killGold: clickObject.killGold
+                    killGold: clickObject.killGold,
+                    drops: clickObject.drops
                 })
             );
         });
@@ -79,27 +80,20 @@ export class EnemyLevelScene extends LevelScene {
     enemyKilled(name) {
         this.characterData.totalEnemiesKilled++;
         // Update kill quest score
-        if (
-            this.characterData[this.currentLevel].enemiesKilled[name] <
-            this.killQuest
-        ) {
+        if (this.characterData[this.currentLevel].enemiesKilled[name] < this.killQuest) {
             this.characterData[this.currentLevel].enemiesKilled[name]++;
 
             let questCompleted = true;
             this.clickObjectMetaData.forEach((enemy, index) => {
                 // Check for quest completion
                 if (
-                    this.characterData[this.currentLevel].enemiesKilled[
-                        enemy.name
-                    ] < this.killQuest
+                    this.characterData[this.currentLevel].enemiesKilled[enemy.name] <
+                    this.killQuest
                 ) {
                     questCompleted = false;
                 }
                 // Set as complete if all passed on last index
-                else if (
-                    questCompleted &&
-                    index == this.clickObjectMetaData.length - 1
-                ) {
+                else if (questCompleted && index == this.clickObjectMetaData.length - 1) {
                     this.characterData[this.currentLevel].questCompleted = true;
                     console.log("Quest complete!");
                 }
@@ -128,7 +122,7 @@ export class EnemyLevelScene extends LevelScene {
     }
 
     getDamageLevel() {
-        switch(this.characterData.characterClass) {
+        switch (this.characterData.characterClass) {
             case CONSTANTS.CLASS.MAGE:
                 return calcLevel(this.characterData.skills.magic);
                 break;
