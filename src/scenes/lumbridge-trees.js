@@ -17,13 +17,13 @@ export class LumbridgeTreeScene extends LevelScene {
             clickObjects: [
                 {
                     name: "tree1",
-                    path: "src/assets/sprites/tree1.webp",
+                    path: "src/assets/sprites/Tree1.webp",
                     neededClicks: 5,
                     drops: [{item: NormalLogs, rate: .5}]
                 },
                 {
                     name: "tree2",
-                    path: "src/assets/sprites/tree2.webp",
+                    path: "src/assets/sprites/Tree2.webp",
                     neededClicks: 5,
                     drops: [{item: NormalLogs, rate: .5}]
                 }

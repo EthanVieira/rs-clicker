@@ -71,7 +71,7 @@ export class Dashboard extends Phaser.Scene {
             "audio-settings-button",
             "src/assets/ui/buttons/AudioSettingsButton.png"
         );
-        this.load.image("audio-slider", "src/assets/ui/buttons/audioSlider.png");
+        this.load.image("audio-slider", "src/assets/ui/buttons/AudioSlider.png");
         this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
 
         // Quests panel
