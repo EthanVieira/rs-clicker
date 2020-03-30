@@ -56,6 +56,7 @@ export class Enemy {
         this.drops = data.drops;
         this.killGold = data.killGold;
         this.scene = data.scene;
+        this.stats = data.scene.stats;
     }
 
     clickEnemy() {
@@ -71,14 +72,14 @@ export class Enemy {
         this.hitsplatText.visible = true;
 
         // Get bonus gold for using mouseclick to encourage user interaction
-        this.scene.addGold(hitValue);
+        this.stats.addGold(hitValue);
 
         // Lower health and check life
         this.damageEnemy(hitValue);
 
         // Log hit for stats
-        this.scene.updateClickedEnemyStat();
-        this.scene.updateClickDamageStat(hitValue);
+        this.stats.updateClickedTargetStat();
+        this.stats.updateClickDamageStat(hitValue);
 
         // Hide hitsplat
         let _this = this; // Gross scope workaround
@@ -95,7 +96,7 @@ export class Enemy {
 
         if (isDead) {
             // Give extra gold if unit is killed
-            this.scene.addGold(this.killGold);
+            this.stats.addGold(this.killGold);
             console.log(this.name + " killed, getting " + this.killGold + " extra gold");
 
             // Calculate item drops

@@ -15,21 +15,15 @@ export class EnemyLevelScene extends LevelScene {
         this.levelType = CONSTANTS.LEVEL_TYPE.ENEMY;
     }
 
-    childPreload() {
-        // Hitsplats
-        this.load.image("blue-hitsplat", "src/assets/effects/BlueHitsplat.png");
-        this.load.image("red-hitsplat", "src/assets/effects/RedHitsplat.png");
-    }
-
     childCreate() {
-        // Button text to test autoclickers
+        // Buy auto clickers
         this.autoClickerButton = this.add
-            .text(20, 135, "50 gold for autoclicker", { fill: "gold" })
+            .text(20, 60, "50 gold for autoclicker", { fill: "gold" })
             .setDepth(3)
             .setInteractive()
             .on("pointerup", () => {
                 if (this.characterData.gold >= 50) {
-                    this.addGold(-50);
+                    this.stats.addGold(-50);
                     this.createAutoClicker({
                         dps: 5,
                         level: 1,
@@ -53,32 +47,25 @@ export class EnemyLevelScene extends LevelScene {
             );
         });
 
-        // Show stats
-        let statColor = "white";
-        this.autoClickDpsText = this.add
-            .text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {
-                fill: statColor
-            })
-            .setDepth(3);
-
-        // Re-add autoclickers from cookies on first load
-        if (this.characterData.hasCookies && this.autoClickers.length == 0) {
-            let numAutoClickers = this.characterData.numberOfAutoClickers;
-            this.characterData.numberOfAutoClickers = 0;
-            this.autoClickDps = 0;
-            this.updateAutoClickerDPS(0);
-            for (let i = 0; i < numAutoClickers; i++) {
-                this.createAutoClicker({
-                    dps: 5,
-                    level: 1,
-                    type: "Hired Bowman"
-                });
+        // Load autoclickers after stats
+        this.stats.events.on('create', () =>  {
+            if (this.characterData.hasCookies && this.autoClickers.length == 0) {
+                let numAutoClickers = this.characterData.numberOfAutoClickers;
+                this.characterData.numberOfAutoClickers = 0;
+                this.stats.autoClickDps = 0;
+                this.stats.updateAutoClickerDPS(0);
+                for (let i = 0; i < numAutoClickers; i++) {
+                    this.createAutoClicker({
+                        dps: 5,
+                        level: 1,
+                        type: "Hired Bowman"
+                    });
+                }
             }
-        }
+        });
     }
 
     enemyKilled(name) {
-        this.characterData.totalEnemiesKilled++;
         // Update kill quest score
         if (this.characterData[this.currentLevel].enemiesKilled[name] < this.killQuest) {
             this.characterData[this.currentLevel].enemiesKilled[name]++;
@@ -102,8 +89,7 @@ export class EnemyLevelScene extends LevelScene {
 
         // Update text
         this.dashboard.updateKillQuestText();
-        this.enemiesKilledText.text =
-            "Enemies killed: " + this.characterData.totalEnemiesKilled;
+        this.stats.updateEnemiesKilledStat();
 
         // Get new enemy
         this.showRandomClickObject();
@@ -117,7 +103,7 @@ export class EnemyLevelScene extends LevelScene {
             type: data.type
         });
         this.autoClickers.push(autoClicker);
-        this.updateAutoClickerDPS(data.dps);
+        this.stats.updateAutoClickerDPS(data.dps);
         this.characterData.numberOfAutoClickers++;
     }
 

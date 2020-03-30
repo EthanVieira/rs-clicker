@@ -1,5 +1,3 @@
-/** @type {import("../typings/phaser")} */
-
 import { LoadScene } from "./scenes/load.js";
 import { AudioScene } from "./scenes/audio.js";
 import { MainMenuScene } from "./scenes/main-menu.js";
@@ -11,7 +9,8 @@ import { LumbridgeScene } from "./scenes/lumbridge.js";
 import { LumbridgeTreeScene } from "./scenes/lumbridge-trees.js";
 import { VarrockScene } from "./scenes/varrock.js";
 import { BarbarianVillageScene } from "./scenes/barbarian-village.js";
-import { Dashboard } from "./ui/dashboard.js";
+import { DashboardScene } from "./ui/dashboard.js";
+import { StatsScene } from "./ui/stats.js";
 import { SCREEN } from "./constants/constants.js";
 
 let game = new Phaser.Game({
@@ -33,6 +32,7 @@ let game = new Phaser.Game({
         LumbridgeTreeScene,
         VarrockScene,
         BarbarianVillageScene,
-        Dashboard
+        DashboardScene,
+        StatsScene
     ]
 });

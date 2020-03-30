@@ -37,6 +37,7 @@ export class Resource {
         // Set other vars
         this.drops = data.drops;
         this.scene = data.scene;
+        this.stats = data.scene.stats;
     }
 
     clickTarget() {
@@ -61,6 +62,9 @@ export class Resource {
             this.scene.dashboard.inventory.obj.addToInventory(droppedResource);
             this.scene.showRandomClickObject();
         }
+
+        // Update stats
+        this.stats.updateClickedTargetStat();
     }
 
     show() {

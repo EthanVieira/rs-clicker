@@ -2,6 +2,8 @@
 
 ![alt text](/src/assets/logos/RSCLogo.jpg "Swanky RS Clicker logo")
 
+[Play here](https://ethanvieira.github.io/rs-clicker/)
+
 ### TODO
 
 [Trello board for tasks](https://trello.com/b/hJYfFDMr)

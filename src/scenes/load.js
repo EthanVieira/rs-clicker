@@ -88,6 +88,10 @@ export class LoadScene extends Phaser.Scene {
         // Fonts
         //this.load.bitmapFont('rsfont', 'src/assets/fonts/runescape_uf.bmp');
 
+        // Effects
+        this.load.image("blue-hitsplat", "src/assets/effects/BlueHitsplat.png");
+        this.load.image("red-hitsplat", "src/assets/effects/RedHitsplat.png");
+
         // Enemies
         this.load.image("chicken", "src/assets/sprites/Chicken.jpg");
         this.load.image("lesser-demon", "src/assets/sprites/LesserDemon.png");

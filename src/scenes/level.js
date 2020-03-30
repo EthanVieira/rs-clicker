@@ -26,20 +26,13 @@ export class LevelScene extends Phaser.Scene {
 
     // Autoclickers
     autoClickers = [];
-    autoClickDps = 0;
 
     // Character
     characterData;
 
-    // Dashboard for inventory, etc.
+    // Dashboard for inventory, skills, etc.
     dashboard;
-
-    // Text
-    goldText = "";
-    enemiesKilledText;
-    timesClickedText;
-    damageByClickingText;
-    autoClickDpsText;
+    stats;
 
     constructor(data) {
         super({
@@ -107,11 +100,6 @@ export class LevelScene extends Phaser.Scene {
         this.load.image(CONSTANTS.CLASS.WARRIOR, "src/assets/sprites/PlayerWarrior.png");
         this.load.image(CONSTANTS.CLASS.RANGER, "src/assets/sprites/PlayerRanger.png");
         this.load.image(CONSTANTS.CLASS.MAGE, "src/assets/sprites/PlayerMage.png");
-
-        // Call preload function for inherited class
-        if (this.levelType != "") {
-            this.childPreload();
-        }
     }
 
     create() {
@@ -128,6 +116,15 @@ export class LevelScene extends Phaser.Scene {
         audioScene.changeVolume(0, this.characterData.audio[0]);
         audioScene.changeVolume(1, this.characterData.audio[1]);
         audioScene.changeVolume(2, this.characterData.audio[2]);
+
+        // Launch dashboard and stats scenes in parallel
+        this.scene.run(CONSTANTS.SCENES.DASHBOARD, this.characterData);
+        this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        this.scene.run(CONSTANTS.SCENES.STATS, {
+            characterData: this.characterData, 
+            levelType: this.levelType
+        });
+        this.stats = this.scene.get(CONSTANTS.SCENES.STATS);
 
         // Helper vars
         this.width = this.cameras.main.width;
@@ -198,51 +195,6 @@ export class LevelScene extends Phaser.Scene {
             classPicture.y = 175;
         }
 
-        // Gold
-        this.goldText = this.add
-            .text(20, 20, "Gold: " + this.characterData.gold, {
-                fill: "gold",
-                fontSize: "30px"
-            })
-            .setDepth(3);
-
-        // Show stats
-        let statColor = "white";
-        this.enemiesKilledText = this.add
-            .text(20, 60, "Enemies killed: " + this.characterData.totalEnemiesKilled, {
-                fill: statColor
-            })
-            .setDepth(3);
-        this.timesClickedText = this.add
-            .text(20, 75, "Times clicked: " + this.characterData.timesClicked, {
-                fill: statColor
-            })
-            .setDepth(3);
-        this.damageByClickingText = this.add
-            .text(
-                20,
-                90,
-                "Damage done by clicking: " + this.characterData.damageByClicking,
-                {
-                    fill: statColor
-                }
-            )
-            .setDepth(3);
-        this.damageByAutoClickText = this.add
-            .text(
-                20,
-                105,
-                "Damage done by autoclickers: " + this.characterData.damageByAutoClick,
-                {
-                    fill: statColor
-                }
-            )
-            .setDepth(3);
-
-        // Launch dashboard scene in parallel
-        this.scene.run(CONSTANTS.SCENES.DASHBOARD, this.characterData);
-        this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
-
         // Call create function for inherited class
         if (this.levelType != "") {
             this.childCreate();
@@ -255,8 +207,9 @@ export class LevelScene extends Phaser.Scene {
         this.events.on("shutdown", () => {
             // Release autoclickers to be garbage collected
             this.clearAutoClickers();
-            // Hide dashboard
+            // Hide dashboard and stats
             this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
+            this.scene.stop(CONSTANTS.SCENES.STATS);
         });
     }
 
@@ -283,56 +236,12 @@ export class LevelScene extends Phaser.Scene {
         document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
     }
 
-    addGold(addedGold) {
-        this.characterData.gold += addedGold;
-        this.goldText.text = "Gold: " + this.characterData.gold;
-    }
-
-    updateClickedEnemyStat() {
-        this.characterData.timesClicked++;
-        this.timesClickedText.text = "Times clicked: " + this.characterData.timesClicked;
-    }
-
-    updateClickDamageStat(damageDone) {
-        // Increase click damage
-        this.characterData.damageByClicking += damageDone;
-        this.damageByClickingText.text =
-            "Damage done by clicking: " + this.characterData.damageByClicking;
-
-        // Increase attack XP
-        switch (this.characterData.characterClass) {
-            case CONSTANTS.CLASS.MAGE:
-                this.characterData.skills.magic += damageDone;
-                break;
-            case CONSTANTS.CLASS.RANGER:
-                this.characterData.skills.ranged += damageDone;
-                break;
-            case CONSTANTS.CLASS.WARRIOR:
-                this.characterData.skills.attack += damageDone;
-                break;
-        }
-
-        this.dashboard.updateSkillsText();
-    }
-
-    updateAutoClickDamageStat(damageDone) {
-        this.characterData.damageByAutoClick += damageDone;
-        this.damageByAutoClickText.text =
-            "Damage done by autoclickers: " +
-            Math.floor(this.characterData.damageByAutoClick);
-    }
-
     showRandomClickObject() {
         this.clickObjects[this.currentClickObjectIndex].hide();
         this.currentClickObjectIndex = Math.floor(
             Math.random() * this.clickObjectMetaData.length
         );
         this.clickObjects[this.currentClickObjectIndex].show();
-    }
-
-    updateAutoClickerDPS(dps) {
-        this.autoClickDps += dps;
-        this.autoClickDpsText.text = "AutoClicker DPS: " + this.autoClickDps;
     }
 
     // Used by autoclicker

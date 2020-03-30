@@ -1,7 +1,7 @@
 import { CONSTANTS, FONTS, calcLevel } from "../constants/constants.js";
 import { Inventory } from "./inventory.js";
 
-export class Dashboard extends Phaser.Scene {
+export class DashboardScene extends Phaser.Scene {
     currentScene;
     currentLevel = "";
     currentPanel = "";

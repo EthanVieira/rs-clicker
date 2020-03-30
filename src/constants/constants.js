@@ -5,6 +5,7 @@ export const CONSTANTS = {
         MAIN_MENU: "MAIN_MENU",
         CHARACTER_CREATION: "CHARACTER_CREATION",
         DASHBOARD: "DASHBOARD",
+        STATS: "STATS",
         MAP: "MAP",
         SHOP: "SHOP",
         TUTORIAL_ISLAND: "TUTORIAL_ISLAND",
