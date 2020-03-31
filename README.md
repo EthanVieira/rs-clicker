@@ -1,6 +1,6 @@
 # RS Clicker
 
-![alt text](/src/assets/logos/RSCLogo.jpg "Swanky RS Clicker logo")
+![alt text](/src/assets/logos/RSCLogo.png "Swanky RS Clicker logo")
 
 [Play here](https://ethanvieira.github.io/rs-clicker/)
 
