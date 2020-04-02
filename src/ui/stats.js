@@ -83,7 +83,6 @@ export class StatsScene extends Phaser.Scene {
 
         // Access skills
         this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
-        console.log("end of create");
     }
 
     addGold(addedGold) {

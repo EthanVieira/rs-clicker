@@ -352,33 +352,35 @@ export class DashboardScene extends Phaser.Scene {
     }
 
     updateSkillsText() {
-        let totalLevel = 0;
+        if (this.scene.isActive()) {
+            let totalLevel = 0;
 
-        // Attack
-        let level = calcLevel(this.characterData.skills.attack);
-        this.attackText.text = level;
-        this.attackBottomText.text = level;
-        totalLevel += level;
+            // Attack
+            let level = calcLevel(this.characterData.skills.attack);
+            this.attackText.text = level;
+            this.attackBottomText.text = level;
+            totalLevel += level;
 
-        // Ranged
-        level = calcLevel(this.characterData.skills.ranged);
-        this.rangedText.text = level;
-        this.rangedBottomText.text = level;
-        totalLevel += level;
+            // Ranged
+            level = calcLevel(this.characterData.skills.ranged);
+            this.rangedText.text = level;
+            this.rangedBottomText.text = level;
+            totalLevel += level;
 
-        // Magic
-        level = calcLevel(this.characterData.skills.magic);
-        this.magicText.text = level;
-        this.magicBottomText.text = level;
-        totalLevel += level;
+            // Magic
+            level = calcLevel(this.characterData.skills.magic);
+            this.magicText.text = level;
+            this.magicBottomText.text = level;
+            totalLevel += level;
 
-        // Woodcutting
-        level = calcLevel(this.characterData.skills.woodcutting);
-        this.woodcuttingText.text = level;
-        this.woodcuttingBottomText.text = level;
-        totalLevel += level;
+            // Woodcutting
+            level = calcLevel(this.characterData.skills.woodcutting);
+            this.woodcuttingText.text = level;
+            this.woodcuttingBottomText.text = level;
+            totalLevel += level;
 
-        this.totalLevelText.text = totalLevel;
+            this.totalLevelText.text = totalLevel;
+        }
     }
 
     updateKillQuestText() {
