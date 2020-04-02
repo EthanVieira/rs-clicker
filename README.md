@@ -2,7 +2,7 @@
 
 ![alt text](/src/assets/logos/RSCLogo.png "Swanky RS Clicker logo")
 
-[Play here](https://ethanvieira.github.io/rs-clicker/)
+#### [>Click here to play<](https://ethanvieira.github.io/rs-clicker/)
 
 ### TODO
 
