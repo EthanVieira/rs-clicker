@@ -43,21 +43,22 @@ export class Resource {
     clickTarget() {
         // Get current resource level and add xp
         let curXp = 0;
-        switch (this.drops[0].item) {
+        let droppedResource = new this.drops[0].item(this.scene.dashboard);
+
+        // Increase xp for relevant resources
+        switch (droppedResource.item) {
             case "Logs":
-                curXp = this.scene.characterData.skills.woodcutting;
-                this.scene.characterData.skills.woodcutting++;
+                curXp = this.scene.characterData.skills.woodcutting++;
                 break;
         }
         let curLv = calcLevel(curXp);
 
-        // Increase xp
+        // Display updated level
         this.scene.dashboard.updateSkillsText();
 
         // Increase progress and check completion
         let completed = this.progressBar.updateProgress(curLv);
         if (completed) {
-            let droppedResource = new this.drops[0].item(this.scene.dashboard);
             console.log("Got", droppedResource.name);
             this.scene.dashboard.inventory.obj.addToInventory(droppedResource);
             this.scene.showRandomClickObject();
