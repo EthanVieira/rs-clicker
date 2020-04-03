@@ -381,6 +381,12 @@ export class DashboardScene extends Phaser.Scene {
 
             this.totalLevelText.text = totalLevel;
         }
+        else {
+            // If called before load, update once loaded
+            this.events.once("create", () => {
+                this.updateSkillsText();
+            });
+        }
     }
 
     updateKillQuestText() {
