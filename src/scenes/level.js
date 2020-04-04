@@ -1,6 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { Resource } from "../resource.js";
-import { defaultData } from "../default-data.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -24,7 +23,7 @@ export class LevelScene extends Phaser.Scene {
     currentClickObjectIndex = 0;
     levelType = "";
 
-    // Autoclickers
+    // Cookies
     autoClickers = [];
 
     // Character
@@ -51,13 +50,8 @@ export class LevelScene extends Phaser.Scene {
 
     init(characterData) {
         // Receive cookies if they exist
-        if (characterData.hasCookies) {
-            this.characterData = characterData;
-        }
-        // Otherwise, initialize character based on starting class
-        else {
-            // Reset data (deep copy)
-            this.characterData = JSON.parse(JSON.stringify(defaultData));
+        this.characterData = characterData;
+        if (!characterData.hasCookies) {
             switch (characterData.characterClass) {
                 case "WARRIOR":
                     this.characterData.skills.attack = 5;
@@ -72,9 +66,6 @@ export class LevelScene extends Phaser.Scene {
                     break;
             }
         }
-
-        // Always receive character class
-        this.characterData.characterClass = characterData.characterClass;
     }
 
     preload() {

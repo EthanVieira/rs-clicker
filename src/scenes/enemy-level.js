@@ -1,5 +1,6 @@
 import { LevelScene } from "./level.js";
-import { CONSTANTS, calcLevel } from "../constants/constants.js";
+import { CONSTANTS } from "../constants/constants.js";
+import { calcLevel } from "../utilities.js";
 import { AutoClicker } from "../auto-clicker.js";
 import { Enemy } from "../enemy.js";
 

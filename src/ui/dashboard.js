@@ -1,5 +1,6 @@
-import { CONSTANTS, FONTS, calcLevel } from "../constants/constants.js";
+import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { Inventory } from "./inventory.js";
+import { calcLevel } from "../utilities.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -51,10 +52,7 @@ export class DashboardScene extends Phaser.Scene {
     }
 
     init(characterData) {
-        // Receive cookies if they exist
-        if (characterData.currentLevel) {
-            this.characterData = characterData;
-        }
+        this.characterData = characterData;
     }
 
     preload() {
@@ -339,8 +337,6 @@ export class DashboardScene extends Phaser.Scene {
     changeAudioButton(volumeType, newButton) {
         let previousVolume = this.characterData.audio[volumeType];
         this.audio.audioButtons[volumeType][previousVolume].setAlpha(0.1);
-        this.characterData.audio[volumeType] = newButton;
-        this.audio.audioButtons[volumeType][newButton].setAlpha(1);
     }
 
     hideAllMenus() {

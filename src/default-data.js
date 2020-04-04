@@ -1,4 +1,5 @@
 export const defaultData = {
+    hasCookies: false,
     gold: 0,
     characterClass: "",
     currentLevel: "",
