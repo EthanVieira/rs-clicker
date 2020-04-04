@@ -37,6 +37,7 @@ export class AudioScene extends Phaser.Scene {
             this.currentSong.stop();
             this.currentSong = this.sound.add(audioName);
             this.currentSong.play();
+            this.changeVolume(0, this.currentVolume);
         } else {
             this.currentSongName = audioName;
         }
@@ -48,6 +49,7 @@ export class AudioScene extends Phaser.Scene {
                 // Set volume and show button
                 if (this.audioLoaded) {
                     this.currentSong.setVolume(value / 4); // 0-4 = 0-100
+                    this.currentVolume = value;
                 } else {
                     // Save volume to be set after loading
                     this.currentVolume = value;

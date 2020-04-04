@@ -3,7 +3,7 @@
 // TODO: Load images that are available to the player (based on levels)
 // TODO: Show price of each item below the item, and gray out items that are too expensive
 
-import { CONSTANTS } from "../constants/constants.js";
+import { calcLevel, CONSTANTS } from "../constants/constants.js";
 import { MATERIALS } from "../constants/materials.js";
 import { ITEMS } from "../constants/items.js";
 import { Item } from "../item.js";
@@ -191,7 +191,7 @@ export class ShopScene extends Phaser.Scene {
         for (let item in ITEMS[itemType]) {
             let itemData = ITEMS[itemType][item];
             let requiredSkill = itemData.skill;
-            let requiredLevel = characterSkills[requiredSkill];
+            let requiredLevel = calcLevel(characterSkills[requiredSkill]);
             // Load the current item with the best possible material (e.g. dragon dagger)
             let bestMat = this.getBestMat(requiredLevel, itemData.material);
             // Determine the corect (x,y) coordinate for the image to be displayed in the shop

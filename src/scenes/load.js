@@ -88,6 +88,10 @@ export class LoadScene extends Phaser.Scene {
         // Fonts
         //this.load.bitmapFont('rsfont', 'src/assets/fonts/runescape_uf.bmp');
 
+        // Effects
+        this.load.image("blue-hitsplat", "src/assets/effects/BlueHitsplat.png");
+        this.load.image("red-hitsplat", "src/assets/effects/RedHitsplat.png");
+
         // Enemies
         this.load.image("chicken", "src/assets/sprites/Chicken.jpg");
         this.load.image("lesser-demon", "src/assets/sprites/LesserDemon.png");
@@ -109,7 +113,7 @@ export class LoadScene extends Phaser.Scene {
 
         // Load all weapons
         let path = "src/assets/items/weapons/";
-        Object.entries(ITEMS.Weapon).forEach(([item, itemObj]) => {
+        Object.entries(ITEMS.WEAPONS).forEach(([item, itemObj]) => {
             // Loop through materials
             Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
                 // Load all types
@@ -121,7 +125,7 @@ export class LoadScene extends Phaser.Scene {
         });
 
         // Load all tools
-        Object.entries(ITEMS.Tool).forEach(([item, itemObj]) => {
+        Object.entries(ITEMS.TOOLS).forEach(([item, itemObj]) => {
             // Loop through materials
             Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
                 // Load all types

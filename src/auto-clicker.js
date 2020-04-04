@@ -10,6 +10,7 @@ export class AutoClicker {
         console.log("Creating " + data.type + " autoclicker with " + data.dps + " dps");
         // Pull into local objects
         this.scene = data.scene;
+        this.stats = data.scene.stats;
         this.dps = data.dps;
         this.level = data.level;
         this.type = data.type;
@@ -22,7 +23,7 @@ export class AutoClicker {
     clickTarget() {
         let damagePerTick = this.dps * this.damageInterval;
         this.scene.clickCurrentTarget(damagePerTick);
-        this.scene.updateAutoClickDamageStat(damagePerTick);
+        this.stats.updateAutoClickDamageStat(damagePerTick);
     }
 
     release() {

@@ -1,5 +1,5 @@
 export const ITEMS = {
-    Weapon: {
+    WEAPONS: {
         // Melee Weapons
         Dagger: {
             name: "Dagger",
@@ -79,7 +79,7 @@ export const ITEMS = {
         // TRIDENT: ["TRIDENT", 150000, "SPECIAL"]
     },
     // Tool [name, base_cost, skill]
-    Tool: {
+    TOOLS: {
         Axe: {
             name: "Axe",
             cost: 100,
@@ -95,5 +95,5 @@ export const ITEMS = {
             examineText: "Used for mining"
         }
     },
-    Consumable: {}
+    CONSUMABLES: {}
 };
