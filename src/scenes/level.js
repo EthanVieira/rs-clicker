@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { Resource } from "../resource.js";
+import { storeCookies } from "../utilities.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -207,24 +208,11 @@ export class LevelScene extends Phaser.Scene {
     update(time, delta) {
         // Update cookies every second
         if (this.timeDelta >= 1000) {
-            this.storeCookies();
+            storeCookies(this.characterData);
             this.timeDelta = 0;
         } else {
             this.timeDelta += delta;
         }
-    }
-
-    storeCookies() {
-        this.characterData.hasCookies = true;
-
-        // Lasts for one year
-        let dateTime = new Date();
-        dateTime.setTime(dateTime.getTime() + CONSTANTS.UTILS.MILLIS_IN_YEAR);
-        let expireString = "expires=" + dateTime.toUTCString();
-
-        // Turn characterData into a json string and store it in a cookie
-        let jsonString = JSON.stringify(this.characterData);
-        document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
     }
 
     showRandomClickObject() {

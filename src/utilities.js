@@ -1,7 +1,8 @@
 import { defaultData } from "./default-data.js";
+import { CONSTANTS } from "./constants/constants.js";
 
 export function getDefaultData() {
-	// Reset data (deep copy)
+    // Reset data (deep copy)
     return JSON.parse(JSON.stringify(defaultData));
 }
 
@@ -13,3 +14,16 @@ export const calcLevel = function(xp, lv = 1) {
         return lv;
     }
 };
+
+export function storeCookies(characterData) {
+    characterData.hasCookies = true;
+
+    // Lasts for one year
+    let dateTime = new Date();
+    dateTime.setTime(dateTime.getTime() + CONSTANTS.UTILS.MILLIS_IN_YEAR);
+    let expireString = "expires=" + dateTime.toUTCString();
+
+    // Turn characterData into a json string and store it in a cookie
+    let jsonString = JSON.stringify(characterData);
+    document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
+}

@@ -5,7 +5,7 @@ export class AudioScene extends Phaser.Scene {
     audioLoaded = false;
     currentVolume = 3;
     previousVolume = 3;
-    currentSongName = "scape-main";
+    currentSongName = "";
 
     characterData = {};
 
@@ -31,26 +31,30 @@ export class AudioScene extends Phaser.Scene {
     create() {
         // Don't pause BGM when clicking off the window
         this.sound.pauseOnBlur = false;
-        this.playAudio(this.currentSongName);
+        this.playAudio("scape-main");
+        this.changeVolume(0, this.characterData.audio[0]);
     }
 
     playAudio(audioName) {
-    	// Check if audio has been loaded
-        if (this.scene.isActive()) {
-        	if (this.audioLoaded) {
-        		this.currentSong.stop();
-        	}
-        	this.currentSongName = audioName;
-            this.currentSong = this.sound.add(audioName);
-            this.currentSong.setLoop(true);
-            this.currentSong.play();
-            this.changeVolume(0, this.currentVolume);
-            this.audioLoaded = true;
-        } else {
-            // If called before load, play once loaded
-            this.events.once("create", () => {
-                this.playAudio(audioName);
-            });
+        // Only play if song changes
+        if (audioName != this.currentSongName) {
+        	// Check if audio has been loaded
+            if (this.scene.isActive()) {
+            	if (this.audioLoaded) {
+            		this.currentSong.stop();
+            	}
+            	this.currentSongName = audioName;
+                this.currentSong = this.sound.add(audioName);
+                this.currentSong.setLoop(true);
+                this.currentSong.play();
+                this.audioLoaded = true;
+                this.changeVolume(0, this.currentVolume);
+            } else {
+                // If called before load, play once loaded
+                this.events.once("create", () => {
+                    this.playAudio(audioName);
+                });
+            }
         }
     }
 

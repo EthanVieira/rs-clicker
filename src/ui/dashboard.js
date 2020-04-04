@@ -237,8 +237,8 @@ export class DashboardScene extends Phaser.Scene {
                     .setInteractive()
                     .setAlpha(0.1)
                     .on("pointerdown", () => {
-                        audioScene.changeVolume(volumeType, buttonNum);
                         this.changeAudioButton(volumeType, buttonNum);
+                        audioScene.changeVolume(volumeType, buttonNum);
                     });
 
                 audioButtonRow.push(audioButton);
@@ -337,6 +337,7 @@ export class DashboardScene extends Phaser.Scene {
     changeAudioButton(volumeType, newButton) {
         let previousVolume = this.characterData.audio[volumeType];
         this.audio.audioButtons[volumeType][previousVolume].setAlpha(0.1);
+        this.audio.audioButtons[volumeType][newButton].setAlpha(1);
     }
 
     hideAllMenus() {
