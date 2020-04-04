@@ -16,7 +16,7 @@ export class AudioScene extends Phaser.Scene {
     }
 
     init(data) {
-    	this.characterData = data;
+        this.characterData = data;
     }
 
     preload() {
@@ -38,12 +38,12 @@ export class AudioScene extends Phaser.Scene {
     playAudio(audioName) {
         // Only play if song changes
         if (audioName != this.currentSongName) {
-        	// Check if audio has been loaded
+            // Check if audio has been loaded
             if (this.scene.isActive()) {
-            	if (this.audioLoaded) {
-            		this.currentSong.stop();
-            	}
-            	this.currentSongName = audioName;
+                if (this.audioLoaded) {
+                    this.currentSong.stop();
+                }
+                this.currentSongName = audioName;
                 this.currentSong = this.sound.add(audioName);
                 this.currentSong.setLoop(true);
                 this.currentSong.play();
@@ -80,11 +80,11 @@ export class AudioScene extends Phaser.Scene {
     }
 
     mute(isMuted) {
-    	if (isMuted) {
-    		this.previousVolume = this.currentVolume;
-    		this.changeVolume(0, 0);
-    	} else {
-    		this.changeVolume(0, this.previousVolume);
-    	}
+        if (isMuted) {
+            this.previousVolume = this.currentVolume;
+            this.changeVolume(0, 0);
+        } else {
+            this.changeVolume(0, this.previousVolume);
+        }
     }
 }
