@@ -11,6 +11,7 @@ export const defaultData = {
     skills: {
         attack: 0,
         ranged: 0,
+        prayer: 0,
         magic: 0,
         health: 10,
         woodcutting: 0,

@@ -42,6 +42,8 @@ export class DashboardScene extends Phaser.Scene {
     totalLevelText;
     woodcuttingText;
     woodcuttingBottomText;
+    prayerText;
+    prayerBottomText;
 
     // TODO: Quests text probably for each enemy
     killQuestText;
@@ -158,6 +160,14 @@ export class DashboardScene extends Phaser.Scene {
             .setDepth(2);
         this.rangedBottomText = this.add
             .text(600, 320, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
+            .setDepth(2);
+        this.prayerText = this.add
+            .text(585, 342, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
+            .setDepth(2);
+        this.prayerBottomText = this.add
+            .text(600, 352, "1", { fontSize: "12px" })
             .setOrigin(0.5)
             .setDepth(2);
         this.magicText = this.add
@@ -290,6 +300,8 @@ export class DashboardScene extends Phaser.Scene {
         this.attackBottomText.visible = isVisible;
         this.rangedText.visible = isVisible;
         this.rangedBottomText.visible = isVisible;
+        this.prayerText.visible = isVisible;
+        this.prayerBottomText.visible = isVisible;
         this.magicText.visible = isVisible;
         this.magicBottomText.visible = isVisible;
         this.totalLevelText.visible = isVisible;
@@ -365,6 +377,12 @@ export class DashboardScene extends Phaser.Scene {
             level = calcLevel(this.characterData.skills.ranged);
             this.rangedText.text = level;
             this.rangedBottomText.text = level;
+            totalLevel += level;
+
+            // Prayer
+            level = calcLevel(this.characterData.skills.prayer);
+            this.prayerText.text = level;
+            this.prayerBottomText.text = level;
             totalLevel += level;
 
             // Magic
