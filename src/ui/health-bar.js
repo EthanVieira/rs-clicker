@@ -28,7 +28,7 @@ export class HealthBar {
         this.healthBar.visible = false;
     }
 
-    updateHealth(damage) {
+    updateProgress(damage) {
         this.healthBar.clear();
 
         // Border (black)

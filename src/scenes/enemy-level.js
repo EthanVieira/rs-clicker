@@ -48,12 +48,13 @@ export class EnemyLevelScene extends LevelScene {
         });
 
         // Load autoclickers after stats
-        this.stats.events.on('create', () =>  {
+        this.stats.events.once('create', () =>  {
             if (this.characterData.hasCookies && this.autoClickers.length == 0) {
                 let numAutoClickers = this.characterData.numberOfAutoClickers;
                 this.characterData.numberOfAutoClickers = 0;
                 this.stats.autoClickDps = 0;
                 this.stats.updateAutoClickerDPS(0);
+                console.log(numAutoClickers);
                 for (let i = 0; i < numAutoClickers; i++) {
                     this.createAutoClicker({
                         dps: 5,
@@ -92,7 +93,7 @@ export class EnemyLevelScene extends LevelScene {
         this.stats.updateEnemiesKilledStat();
 
         // Get new enemy
-        this.showRandomClickObject();
+        // this.showRandomClickObject();
     }
 
     createAutoClicker(data) {

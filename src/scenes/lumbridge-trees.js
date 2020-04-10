@@ -16,12 +16,14 @@ export class LumbridgeTreeScene extends LevelScene {
             },
             clickObjects: [
                 {
+                    skill: "woodcutting",
                     name: "tree1",
                     path: "src/assets/sprites/Tree1.webp",
                     neededClicks: 5,
                     drops: [{item: NormalLogs, rate: .5}]
                 },
                 {
+                    skill: "woodcutting",
                     name: "tree2",
                     path: "src/assets/sprites/Tree2.webp",
                     neededClicks: 5,

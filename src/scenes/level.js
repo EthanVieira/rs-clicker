@@ -146,7 +146,8 @@ export class LevelScene extends Phaser.Scene {
                         y: this.height / 2 - 150,
                         neededClicks: clickObject.neededClicks,
                         name: clickObject.name,
-                        drops: clickObject.drops
+                        drops: clickObject.drops,
+                        skill: clickObject.skill
                     })
                 );
             });
@@ -246,7 +247,7 @@ export class LevelScene extends Phaser.Scene {
 
     // Used by autoclicker
     clickCurrentTarget(damage) {
-        this.clickObjects[this.currentClickObjectIndex].damageEnemy(damage);
+        this.clickObjects[this.currentClickObjectIndex].updateProgress(damage);
     }
 
     // Need to clear data before changing scenes
