@@ -1,6 +1,8 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { Resource } from "../resource.js";
 import { defaultData } from "../default-data.js";
+import { Enemy } from "../enemy.js";
+import { AutoClicker } from "../auto-clicker.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -26,6 +28,7 @@ export class LevelScene extends Phaser.Scene {
 
     // Autoclickers
     autoClickers = [];
+    autoClickerButton;
 
     // Character
     characterData;
@@ -33,6 +36,9 @@ export class LevelScene extends Phaser.Scene {
     // Dashboard for inventory, skills, etc.
     dashboard;
     stats;
+
+    // For enemy levels
+    killQuest = 0;
 
     constructor(data) {
         super({
@@ -47,6 +53,11 @@ export class LevelScene extends Phaser.Scene {
 
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
+        this.levelType = data.levelType;
+
+        if (this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
+            this.killQuest = data.killQuest;
+        }
     }
 
     init(characterData) {
@@ -196,10 +207,59 @@ export class LevelScene extends Phaser.Scene {
             classPicture.y = 175;
         }
 
-        // Call create function for inherited class
-        if (this.levelType != "") {
-            this.childCreate();
-        }
+        // // Call create function for inherited class
+        // if (this.levelType != "") {
+        //     this.childCreate();
+        // }
+
+        // Buy auto clickers
+        this.autoClickerButton = this.add
+            .text(20, 60, "50 gold for autoclicker", { fill: "gold" })
+            .setDepth(3)
+            .setInteractive()
+            .on("pointerup", () => {
+                if (this.characterData.gold >= 50) {
+                    this.stats.addGold(-50);
+                    this.createAutoClicker({
+                        dps: 5,
+                        level: 1,
+                        type: "Hired Bowman"
+                    });
+                }
+            });
+
+        // Create click objects
+        this.clickObjectMetaData.forEach(clickObject => {
+            this.clickObjects.push(
+                new Enemy({
+                    scene: this,
+                    x: this.width / 2 - 100,
+                    y: this.height / 2 - 115,
+                    maxHealth: clickObject.maxHealth,
+                    name: clickObject.name,
+                    killGold: clickObject.killGold,
+                    drops: clickObject.drops
+                })
+            );
+        });
+
+        // Load autoclickers after stats
+        this.stats.events.once('create', () =>  {
+            if (this.characterData.hasCookies && this.autoClickers.length == 0) {
+                let numAutoClickers = this.characterData.numberOfAutoClickers;
+                this.characterData.numberOfAutoClickers = 0;
+                this.stats.autoClickDps = 0;
+                this.stats.updateAutoClickerDPS(0);
+                console.log(numAutoClickers);
+                for (let i = 0; i < numAutoClickers; i++) {
+                    this.createAutoClicker({
+                        dps: 5,
+                        level: 1,
+                        type: "Hired Bowman"
+                    });
+                }
+            }
+        });
 
         // Display click object
         this.showRandomClickObject();
@@ -257,5 +317,51 @@ export class LevelScene extends Phaser.Scene {
         }
         this.autoClickers = [];
         this.clickObjects = [];
+    }
+
+    enemyKilled(name) {
+        // Update kill quest score
+        if (this.characterData[this.currentLevel].enemiesKilled[name] < this.killQuest) {
+            this.characterData[this.currentLevel].enemiesKilled[name]++;
+
+            let questCompleted = true;
+            this.clickObjectMetaData.forEach((enemy, index) => {
+                // Check for quest completion
+                if (
+                    this.characterData[this.currentLevel].enemiesKilled[enemy.name] <
+                    this.killQuest
+                ) {
+                    questCompleted = false;
+                }
+                // Set as complete if all passed on last index
+                else if (questCompleted && index == this.clickObjectMetaData.length - 1) {
+                    this.characterData[this.currentLevel].questCompleted = true;
+                    console.log("Quest complete!");
+                }
+            });
+        }
+
+        // Update text
+        this.dashboard.updateKillQuestText();
+        this.stats.updateEnemiesKilledStat();
+
+        // Get new enemy
+        // this.showRandomClickObject();
+    }
+
+    showAutoClickerButton(isVisible) {
+        this.autoClickerButton.visible = isVisible;
+    }
+
+    createAutoClicker(data) {
+        let autoClicker = new AutoClicker({
+            scene: this,
+            dps: data.dps,
+            level: data.level,
+            type: data.type
+        });
+        this.autoClickers.push(autoClicker);
+        this.stats.updateAutoClickerDPS(data.dps);
+        this.characterData.numberOfAutoClickers++;
     }
 }

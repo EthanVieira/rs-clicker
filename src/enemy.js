@@ -1,5 +1,6 @@
 import { HealthBar } from "./ui/health-bar.js";
 import { Target } from "./target.js";
+import { calcLevel, CONSTANTS } from "./constants/constants.js";
 
 export class Enemy extends Target {
     blueHitsplat;
@@ -43,7 +44,7 @@ export class Enemy extends Target {
     
     getClickValue() {
         // Get damage based on level
-        let damageLevel =  this.scene.getDamageLevel();
+        let damageLevel =  this.getDamageLevel();
         let hitValue = Math.floor(Math.random() * (damageLevel + 1));
         return hitValue;
     }
@@ -79,5 +80,19 @@ export class Enemy extends Target {
         
         // Update quest and stats
         this.scene.enemyKilled(this.name);
+    }
+
+    getDamageLevel() {
+        switch (this.characterData.characterClass) {
+            case CONSTANTS.CLASS.MAGE:
+                return calcLevel(this.characterData.skills.magic);
+                break;
+            case CONSTANTS.CLASS.RANGER:
+                return calcLevel(this.characterData.skills.ranged);
+                break;
+            case CONSTANTS.CLASS.WARRIOR:
+                return calcLevel(this.characterData.skills.attack);
+                break;
+        }
     }
 }

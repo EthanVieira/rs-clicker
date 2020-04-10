@@ -1,10 +1,11 @@
 import { CONSTANTS } from "../constants/constants.js";
-import { EnemyLevelScene } from "./enemy-level.js";
+import { LevelScene } from "./level.js";
 import NormalBones from "../items/bones/normal-bones.js";
 
-export class BarbarianVillageScene extends EnemyLevelScene {
+export class BarbarianVillageScene extends LevelScene {
     constructor() {
         super({
+            levelType: CONSTANTS.LEVEL_TYPE.ENEMY,
             key: CONSTANTS.SCENES.BARBARIAN_VILLAGE,
             killQuest: 20,
             background: {
