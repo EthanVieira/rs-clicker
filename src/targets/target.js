@@ -24,13 +24,10 @@ export class Target {
                 .image(this.x, this.y, image.name)
                 .setOrigin(0.5, 0)
                 .setDepth(2)
-                .setScale(.4)
+                .setScale(0.4)
                 .setInteractive()
                 .on("pointerup", () => {
-                    // Check if it is the current target
-                    // if (this.target.visible) {
-                        this.clickTarget();
-                    // }
+                    this.clickTarget();
                 });
             target.visible = false;
 
@@ -53,7 +50,7 @@ export class Target {
         // Target click interaction to be implemented by the child
         let progress = this.getClickValue();
         this.onClick(progress);
-        
+
         // Increase progress and check status
         this.updateProgress(progress);
 
@@ -73,10 +70,10 @@ export class Target {
                     this.scene.dashboard.inventory.obj.addToInventory(droppedItem);
                 }
             });
-            
+
             // Check for target specific actions
             this.onCompletion();
-            
+
             // Show next target
             this.showRandomTarget();
         }
@@ -84,18 +81,14 @@ export class Target {
 
     showRandomTarget() {
         this.hide();
-        let index = Math.floor(
-            Math.random() * this.scene.targetMetaData.length
-        );
+        let index = Math.floor(Math.random() * this.scene.targetMetaData.length);
         this.scene.currentTargetIndex = index;
         this.scene.targets[index].show();
     }
 
     show() {
         // Show a random image if there are multiple
-        let index = Math.floor(
-            Math.random() * this.images.length
-        );
+        let index = Math.floor(Math.random() * this.images.length);
         this.target = this.targets[index];
         this.target.visible = true;
         this.progressBar.show();

@@ -1,6 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
-// import NormalBones from "../items/bones/normal-bones.js";
 import { GiantRat } from "../targets/enemies/giant-rat.js";
 
 export class TutorialIslandScene extends LevelScene {

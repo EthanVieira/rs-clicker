@@ -1,6 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
-// import NormalBones from "../items/bones/normal-bones.js";
 import { Cow } from "../targets/enemies/cow.js";
 import { Goblin } from "../targets/enemies/goblin.js";
 

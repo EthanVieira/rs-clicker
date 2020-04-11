@@ -1,6 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
-// import NormalBones from "../items/bones/normal-bones.js";
 import { DarkWizard } from "../targets/enemies/dark-wizard.js";
 import { Guard } from "../targets/enemies/guard.js";
 

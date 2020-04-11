@@ -136,7 +136,7 @@ export class LevelScene extends Phaser.Scene {
         this.scene.run(CONSTANTS.SCENES.DASHBOARD, this.characterData);
         this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
         this.scene.run(CONSTANTS.SCENES.STATS, {
-            characterData: this.characterData, 
+            characterData: this.characterData,
             levelType: this.levelType
         });
         this.stats = this.scene.get(CONSTANTS.SCENES.STATS);
@@ -217,7 +217,7 @@ export class LevelScene extends Phaser.Scene {
             });
 
         // Load autoclickers after stats
-        this.stats.events.once('create', () =>  {
+        this.stats.events.once("create", () => {
             if (this.characterData.hasCookies && this.autoClickers.length == 0) {
                 let numAutoClickers = this.characterData.numberOfAutoClickers;
                 this.characterData.numberOfAutoClickers = 0;
@@ -231,7 +231,6 @@ export class LevelScene extends Phaser.Scene {
 
         // Display first click object
         this.targets[0].show();
-        // this.showRandomClickObject();
 
         // Scene destructor
         this.events.on("shutdown", () => {
@@ -265,14 +264,6 @@ export class LevelScene extends Phaser.Scene {
         let jsonString = JSON.stringify(this.characterData);
         document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
     }
-
-    // showRandomClickObject() {
-    //     this.clickObjects[this.currentClickObjectIndex].hide();
-    //     this.currentClickObjectIndex = Math.floor(
-    //         Math.random() * this.clickObjectMetaData.length
-    //     );
-    //     this.clickObjects[this.currentClickObjectIndex].show();
-    // }
 
     // Used by autoclicker
     clickCurrentTarget(damage) {

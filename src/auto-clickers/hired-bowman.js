@@ -1,7 +1,7 @@
 import { AutoClicker } from "./auto-clicker.js";
 
 export class HiredBowman extends AutoClicker {
-    constructor(scene){
+    constructor(scene) {
         super({
             scene: scene,
             name: "Hired Bowman",

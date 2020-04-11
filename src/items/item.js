@@ -27,9 +27,9 @@ export class Item {
     // Others
     cost = 0;
     actions = [
-        {text: "Use", func: "use"},
-        {text: "Drop", func: "drop"},
-        {text: "Examine", func: "examine"}
+        { text: "Use", func: "use" },
+        { text: "Drop", func: "drop" },
+        { text: "Examine", func: "examine" }
     ];
 
     addToInventory(x, y, index) {

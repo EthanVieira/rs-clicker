@@ -1,6 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
-// import NormalLogs from "../items/logs/normal-logs.js";
 import { NormalTree } from "../targets/resources/normal-tree.js";
 
 export class LumbridgeTreeScene extends LevelScene {

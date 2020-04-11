@@ -7,10 +7,10 @@ export class Enemy extends Target {
     redHitsplat;
     hitsplatText = "1";
     killGold;
-    
+
     constructor(data) {
         super(data);
-        
+
         // Add hitsplats
         this.blueHitsplat = data.scene.add
             .image(this.x, this.y + 50, "blue-hitsplat")
@@ -37,34 +37,34 @@ export class Enemy extends Target {
 
         // Add health bar
         this.progressBar = new HealthBar(data.scene, this.x, this.y - 40, data.maxHealth);
-        
+
         // Enemy specific vars
         this.killGold = data.killGold;
     }
-    
+
     getClickValue() {
         // Get damage based on level
-        let damageLevel =  this.getDamageLevel();
+        let damageLevel = this.getDamageLevel();
         let hitValue = Math.floor(Math.random() * (damageLevel + 1));
         return hitValue;
     }
-    
+
     onClick(hitValue) {
         // Get bonus gold for using mouseclick to encourage user interaction
         this.stats.addGold(hitValue);
-        
+
         // Update stats
         this.stats.updateClickDamageStat(hitValue);
 
         // TODO: Update skills here
-        
+
         // Display hit
         this.hitsplatText.text = hitValue;
         hitValue == 0
             ? (this.blueHitsplat.visible = true)
             : (this.redHitsplat.visible = true);
         this.hitsplatText.visible = true;
-        
+
         // Hide hitsplat
         let _this = this;
         setTimeout(function() {
@@ -73,12 +73,12 @@ export class Enemy extends Target {
             _this.hitsplatText.visible = false;
         }, 200);
     }
-    
+
     onCompletion() {
         // Give extra gold if unit is killed
         this.stats.addGold(this.killGold);
         console.log(this.name + " killed, getting " + this.killGold + " extra gold");
-        
+
         // Update quest and stats
         this.scene.enemyKilled(this.varName);
     }

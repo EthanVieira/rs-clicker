@@ -6,7 +6,7 @@ export default class Bones extends Item {
     constructor() {
         super();
         // Add to front of actions array
-        this.actions.unshift({text: "Bury", func: "bury"})
+        this.actions.unshift({ text: "Bury", func: "bury" });
     }
 
     leftClick() {
