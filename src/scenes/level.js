@@ -289,7 +289,6 @@ export class LevelScene extends Phaser.Scene {
     }
 
     enemyKilled(name) {
-        console.log(name);
         // Update kill quest score
         if (this.characterData[this.currentLevel].enemiesKilled[name] < this.killQuest) {
             this.characterData[this.currentLevel].enemiesKilled[name]++;

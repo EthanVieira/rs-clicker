@@ -113,7 +113,7 @@ export class LoadScene extends Phaser.Scene {
 
         // Load all weapons
         let path = "src/assets/items/weapons/";
-        Object.entries(ITEMS.WEAPONS).forEach(([item, itemObj]) => {
+        Object.entries(ITEMS.Weapons).forEach(([item, itemObj]) => {
             // Loop through materials
             Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
                 // Load all types
@@ -125,7 +125,7 @@ export class LoadScene extends Phaser.Scene {
         });
 
         // Load all tools
-        Object.entries(ITEMS.TOOLS).forEach(([item, itemObj]) => {
+        Object.entries(ITEMS.Tools).forEach(([item, itemObj]) => {
             // Loop through materials
             Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
                 // Load all types
