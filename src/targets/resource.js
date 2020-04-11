@@ -6,6 +6,7 @@ export class Resource extends Target {
     skill;
 
     constructor(data) {
+        data.scale = 1;
         super(data);
 
         this.skill = data.skill;

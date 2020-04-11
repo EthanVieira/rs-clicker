@@ -24,7 +24,7 @@ export class Target {
                 .image(this.x, this.y, image.name)
                 .setOrigin(0.5, 0)
                 .setDepth(2)
-                .setScale(0.4)
+                .setScale(data.scale)
                 .setInteractive()
                 .on("pointerup", () => {
                     this.clickTarget();

@@ -9,6 +9,7 @@ export class Enemy extends Target {
     killGold;
 
     constructor(data) {
+        data.scale = 0.4;
         super(data);
 
         // Add hitsplats
