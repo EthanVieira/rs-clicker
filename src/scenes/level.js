@@ -1,8 +1,9 @@
 import { CONSTANTS } from "../constants/constants.js";
-import { Resource } from "../resource.js";
+import { Resource } from "../targets/resource.js";
 import { defaultData } from "../default-data.js";
-import { Enemy } from "../enemy.js";
-import { AutoClicker } from "../auto-clicker.js";
+import { Enemy } from "../targets/enemy.js";
+// import { AutoClicker } from "../auto-clicker.js";
+import { HiredBowman } from "../auto-clickers/hired-bowman.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -20,10 +21,10 @@ export class LevelScene extends Phaser.Scene {
         path: ""
     };
 
-    // Click object: enemy, tree, etc.
-    clickObjects = [];
-    clickObjectMetaData = [];
-    currentClickObjectIndex = 0;
+    // targets: enemy, tree, etc.
+    targets = [];
+    targetMetaData = [];
+    currentTargetIndex = 0;
     levelType = "";
 
     // Autoclickers
@@ -49,7 +50,7 @@ export class LevelScene extends Phaser.Scene {
         this.background = data.background;
         this.minimap = data.minimap;
         this.audio = data.audio;
-        this.clickObjectMetaData = data.clickObjects;
+        this.targetMetaData = data.targets;
 
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
@@ -101,9 +102,12 @@ export class LevelScene extends Phaser.Scene {
         // Exit button
         this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
 
-        // Click object (target)
-        this.clickObjectMetaData.forEach(target => {
-            this.load.image(target.name, target.path);
+        // Targets
+        this.targetMetaData.forEach(target => {
+            let test = new target(this);
+            test.images.forEach(image => {
+                this.load.image(image.name, image.path);
+            });
         });
 
         // Classes
@@ -147,22 +151,10 @@ export class LevelScene extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(0);
 
-        // Create click objects
-        if (this.levelType != CONSTANTS.LEVEL_TYPE.ENEMY) {
-            this.clickObjectMetaData.forEach(clickObject => {
-                this.clickObjects.push(
-                    new Resource({
-                        scene: this,
-                        x: this.width / 2 - 100,
-                        y: this.height / 2 - 150,
-                        neededClicks: clickObject.neededClicks,
-                        name: clickObject.name,
-                        drops: clickObject.drops,
-                        skill: clickObject.skill
-                    })
-                );
-            });
-        }
+        // Create targets
+        this.targetMetaData.forEach(target => {
+            this.targets.push(new target(this));
+        });
 
         // Minimap
         this.minimap.obj = this.add
@@ -220,28 +212,9 @@ export class LevelScene extends Phaser.Scene {
             .on("pointerup", () => {
                 if (this.characterData.gold >= 50) {
                     this.stats.addGold(-50);
-                    this.createAutoClicker({
-                        dps: 5,
-                        level: 1,
-                        type: "Hired Bowman"
-                    });
+                    this.createAutoClicker();
                 }
             });
-
-        // Create click objects
-        this.clickObjectMetaData.forEach(clickObject => {
-            this.clickObjects.push(
-                new Enemy({
-                    scene: this,
-                    x: this.width / 2 - 100,
-                    y: this.height / 2 - 115,
-                    maxHealth: clickObject.maxHealth,
-                    name: clickObject.name,
-                    killGold: clickObject.killGold,
-                    drops: clickObject.drops
-                })
-            );
-        });
 
         // Load autoclickers after stats
         this.stats.events.once('create', () =>  {
@@ -250,19 +223,15 @@ export class LevelScene extends Phaser.Scene {
                 this.characterData.numberOfAutoClickers = 0;
                 this.stats.autoClickDps = 0;
                 this.stats.updateAutoClickerDPS(0);
-                console.log(numAutoClickers);
                 for (let i = 0; i < numAutoClickers; i++) {
-                    this.createAutoClicker({
-                        dps: 5,
-                        level: 1,
-                        type: "Hired Bowman"
-                    });
+                    this.createAutoClicker();
                 }
             }
         });
 
-        // Display click object
-        this.showRandomClickObject();
+        // Display first click object
+        this.targets[0].show();
+        // this.showRandomClickObject();
 
         // Scene destructor
         this.events.on("shutdown", () => {
@@ -297,17 +266,17 @@ export class LevelScene extends Phaser.Scene {
         document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
     }
 
-    showRandomClickObject() {
-        this.clickObjects[this.currentClickObjectIndex].hide();
-        this.currentClickObjectIndex = Math.floor(
-            Math.random() * this.clickObjectMetaData.length
-        );
-        this.clickObjects[this.currentClickObjectIndex].show();
-    }
+    // showRandomClickObject() {
+    //     this.clickObjects[this.currentClickObjectIndex].hide();
+    //     this.currentClickObjectIndex = Math.floor(
+    //         Math.random() * this.clickObjectMetaData.length
+    //     );
+    //     this.clickObjects[this.currentClickObjectIndex].show();
+    // }
 
     // Used by autoclicker
     clickCurrentTarget(damage) {
-        this.clickObjects[this.currentClickObjectIndex].updateProgress(damage);
+        this.targets[this.currentTargetIndex].updateProgress(damage);
     }
 
     // Need to clear data before changing scenes
@@ -316,25 +285,26 @@ export class LevelScene extends Phaser.Scene {
             this.autoClickers[i].release();
         }
         this.autoClickers = [];
-        this.clickObjects = [];
+        this.targets = [];
     }
 
     enemyKilled(name) {
+        console.log(name);
         // Update kill quest score
         if (this.characterData[this.currentLevel].enemiesKilled[name] < this.killQuest) {
             this.characterData[this.currentLevel].enemiesKilled[name]++;
 
             let questCompleted = true;
-            this.clickObjectMetaData.forEach((enemy, index) => {
+            this.targetMetaData.forEach((enemy, index) => {
                 // Check for quest completion
                 if (
-                    this.characterData[this.currentLevel].enemiesKilled[enemy.name] <
+                    this.characterData[this.currentLevel].enemiesKilled[name] <
                     this.killQuest
                 ) {
                     questCompleted = false;
                 }
                 // Set as complete if all passed on last index
-                else if (questCompleted && index == this.clickObjectMetaData.length - 1) {
+                else if (questCompleted && index == this.targetMetaData.length - 1) {
                     this.characterData[this.currentLevel].questCompleted = true;
                     console.log("Quest complete!");
                 }
@@ -344,24 +314,16 @@ export class LevelScene extends Phaser.Scene {
         // Update text
         this.dashboard.updateKillQuestText();
         this.stats.updateEnemiesKilledStat();
-
-        // Get new enemy
-        // this.showRandomClickObject();
     }
 
     showAutoClickerButton(isVisible) {
         this.autoClickerButton.visible = isVisible;
     }
 
-    createAutoClicker(data) {
-        let autoClicker = new AutoClicker({
-            scene: this,
-            dps: data.dps,
-            level: data.level,
-            type: data.type
-        });
+    createAutoClicker() {
+        let autoClicker = new HiredBowman(this);
         this.autoClickers.push(autoClicker);
-        this.stats.updateAutoClickerDPS(data.dps);
+        this.stats.updateAutoClickerDPS(autoClicker.dps);
         this.characterData.numberOfAutoClickers++;
     }
 }

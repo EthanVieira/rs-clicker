@@ -1,35 +1,52 @@
 export class Target {
-    target;
+    target; // Reference to the current image
+    targets = [];
     progressBar;
     name = "";
     drops = [];
+
+    x = 0;
+    y = 0;
 
     scene;
     stats;
     characterData;
 
     constructor(data) {
-        // Add target
-        this.target = data.scene.add.image(data.x, data.y, data.name);
-        this.target
-            .setOrigin(0.5, 0)
-            .setDepth(2)
-            .setScale(.4)
-            .setInteractive()
-            .on("pointerup", () => {
-                // Check if it is the current target
-                if (this.target.visible) {
-                    this.clickTarget();
-                }
-            });
-        this.target.visible = false;
+        let width = data.scene.cameras.main.width;
+        let height = data.scene.cameras.main.height;
+        this.x = width / 2 - 100;
+        this.y = height / 2 - 150;
+
+        // Add images if there are multiple
+        data.images.forEach(image => {
+            let target = data.scene.add
+                .image(this.x, this.y, image.name)
+                .setOrigin(0.5, 0)
+                .setDepth(2)
+                .setScale(.4)
+                .setInteractive()
+                .on("pointerup", () => {
+                    // Check if it is the current target
+                    // if (this.target.visible) {
+                        this.clickTarget();
+                    // }
+                });
+            target.visible = false;
+
+            this.targets.push(target);
+        });
 
         // Set other vars
         this.name = data.name;
+        this.varName = data.varName;
         this.drops = data.drops;
+        this.images = data.images;
         this.scene = data.scene;
         this.stats = data.scene.stats;
         this.characterData = data.scene.characterData;
+
+        this.val = Math.floor(Math.random() * 100);
     }
 
     clickTarget() {
@@ -61,11 +78,25 @@ export class Target {
             this.onCompletion();
             
             // Show next target
-            this.scene.showRandomClickObject();
+            this.showRandomTarget();
         }
     }
 
+    showRandomTarget() {
+        this.hide();
+        let index = Math.floor(
+            Math.random() * this.scene.targetMetaData.length
+        );
+        this.scene.currentTargetIndex = index;
+        this.scene.targets[index].show();
+    }
+
     show() {
+        // Show a random image if there are multiple
+        let index = Math.floor(
+            Math.random() * this.images.length
+        );
+        this.target = this.targets[index];
         this.target.visible = true;
         this.progressBar.show();
     }

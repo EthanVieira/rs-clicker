@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
-import NormalBones from "../items/bones/normal-bones.js";
+// import NormalBones from "../items/bones/normal-bones.js";
+import { Barbarian } from "../targets/enemies/barbarian.js";
 
 export class BarbarianVillageScene extends LevelScene {
     constructor() {
@@ -16,22 +17,7 @@ export class BarbarianVillageScene extends LevelScene {
                 name: "barbarian_village_map",
                 path: "src/assets/maps/BarbarianVillageMap.png"
             },
-            clickObjects: [
-                {
-                    name: "male_barbarian",
-                    path: "src/assets/sprites/MaleBarbarian.png",
-                    maxHealth: 20,
-                    killGold: 20,
-                    drops: [{item: NormalBones, rate: .5}]
-                },
-                {
-                    name: "female_barbarian",
-                    path: "src/assets/sprites/FemaleBarbarian.png",
-                    maxHealth: 20,
-                    killGold: 20,
-                    drops: [{item: NormalBones, rate: .5}]
-                }
-            ],
+            targets: [Barbarian],
             audio: { bgm: "barbarianism" }
         });
     }

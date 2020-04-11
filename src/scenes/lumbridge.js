@@ -1,6 +1,8 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
-import NormalBones from "../items/bones/normal-bones.js";
+// import NormalBones from "../items/bones/normal-bones.js";
+import { Cow } from "../targets/enemies/cow.js";
+import { Goblin } from "../targets/enemies/goblin.js";
 
 export class LumbridgeScene extends LevelScene {
     constructor() {
@@ -16,22 +18,7 @@ export class LumbridgeScene extends LevelScene {
                 name: "lumbridge-map",
                 path: "src/assets/maps/LumbridgeMap.png"
             },
-            clickObjects: [
-                {
-                    name: "cow",
-                    path: "src/assets/sprites/Cow.png",
-                    maxHealth: 8,
-                    killGold: 5,
-                    drops: [{item: NormalBones, rate: .5}]
-                },
-                {
-                    name: "goblin",
-                    path: "src/assets/sprites/Goblin.png",
-                    maxHealth: 5,
-                    killGold: 3,
-                    drops: [{item: NormalBones, rate: .5}]
-                }
-            ],
+            targets: [Cow, Goblin],
             audio: { bgm: "harmony" }
         });
     }

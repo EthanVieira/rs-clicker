@@ -1,6 +1,6 @@
-import { HealthBar } from "./ui/health-bar.js";
+import { HealthBar } from "../ui/health-bar.js";
 import { Target } from "./target.js";
-import { calcLevel, CONSTANTS } from "./constants/constants.js";
+import { calcLevel, CONSTANTS } from "../constants/constants.js";
 
 export class Enemy extends Target {
     blueHitsplat;
@@ -13,30 +13,30 @@ export class Enemy extends Target {
         
         // Add hitsplats
         this.blueHitsplat = data.scene.add
-            .image(data.x, data.y + 50, "blue-hitsplat")
+            .image(this.x, this.y + 50, "blue-hitsplat")
             .setOrigin(0.5, 0)
-            .setDepth(3)
+            .setDepth(4)
             .setScale(0.3);
         this.blueHitsplat.visible = false;
 
         this.redHitsplat = data.scene.add
-            .image(data.x, data.y + 50, "red-hitsplat")
+            .image(this.x, this.y + 50, "red-hitsplat")
             .setOrigin(0.5, 0)
-            .setDepth(3)
+            .setDepth(4)
             .setScale(0.3);
         this.redHitsplat.visible = false;
 
         // Add damage text
         this.hitsplatText = data.scene.add
-            .text(data.x, data.y + 100, "1", {
+            .text(this.x, this.y + 100, "1", {
                 fill: "white"
             })
             .setOrigin(0.5, 0)
-            .setDepth(4);
+            .setDepth(5);
         this.hitsplatText.visible = false;
 
         // Add health bar
-        this.progressBar = new HealthBar(data.scene, data.x, data.y - 40, data.maxHealth);
+        this.progressBar = new HealthBar(data.scene, this.x, this.y - 40, data.maxHealth);
         
         // Enemy specific vars
         this.killGold = data.killGold;
@@ -55,7 +55,8 @@ export class Enemy extends Target {
         
         // Update stats
         this.stats.updateClickDamageStat(hitValue);
-        // Update skills here
+
+        // TODO: Update skills here
         
         // Display hit
         this.hitsplatText.text = hitValue;
@@ -79,7 +80,7 @@ export class Enemy extends Target {
         console.log(this.name + " killed, getting " + this.killGold + " extra gold");
         
         // Update quest and stats
-        this.scene.enemyKilled(this.name);
+        this.scene.enemyKilled(this.varName);
     }
 
     getDamageLevel() {

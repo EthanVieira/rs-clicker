@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
-import NormalBones from "../items/bones/normal-bones.js";
+// import NormalBones from "../items/bones/normal-bones.js";
+import { GiantRat } from "../targets/enemies/giant-rat.js";
 
 export class TutorialIslandScene extends LevelScene {
     constructor() {
@@ -16,15 +17,7 @@ export class TutorialIslandScene extends LevelScene {
                 name: "tutorial-island-map",
                 path: "src/assets/maps/TutorialIslandMap.png"
             },
-            clickObjects: [
-                {
-                    name: "rat",
-                    path: "src/assets/sprites/GiantRat.png",
-                    maxHealth: 5,
-                    killGold: 1,
-                    drops: [{item: NormalBones, rate: .5}]
-                }
-            ],
+            targets: [GiantRat],
             audio: { bgm: "newbie-melody" }
         });
     }

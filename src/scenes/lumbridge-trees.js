@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { LevelScene } from "./level.js";
-import NormalLogs from "../items/logs/normal-logs.js";
+// import NormalLogs from "../items/logs/normal-logs.js";
+import { NormalTree } from "../targets/resources/normal-tree.js";
 
 export class LumbridgeTreeScene extends LevelScene {
     constructor() {
@@ -14,22 +15,7 @@ export class LumbridgeTreeScene extends LevelScene {
                 name: "lumbridgeMap",
                 path: "src/assets/maps/LumbridgeMap.png"
             },
-            clickObjects: [
-                {
-                    skill: "woodcutting",
-                    name: "tree1",
-                    path: "src/assets/sprites/Tree1.webp",
-                    neededClicks: 5,
-                    drops: [{item: NormalLogs, rate: 1}]
-                },
-                {
-                    skill: "woodcutting",
-                    name: "tree2",
-                    path: "src/assets/sprites/Tree2.webp",
-                    neededClicks: 5,
-                    drops: [{item: NormalLogs, rate: 1}]
-                }
-            ],
+            targets: [NormalTree],
             audio: { bgm: "harmony" }
         });
     }

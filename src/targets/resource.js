@@ -1,5 +1,5 @@
-import { ProgressBar } from "./ui/progress-bar.js";
-import { CONSTANTS, calcLevel } from "./constants/constants.js"; 
+import { ProgressBar } from "../ui/progress-bar.js";
+import { CONSTANTS, calcLevel } from "../constants/constants.js"; 
 import { Target } from "./target.js";
 
 export class Resource extends Target {
@@ -11,7 +11,7 @@ export class Resource extends Target {
         this.skill = data.skill;
 
         // Add health bar
-        this.progressBar = new ProgressBar(data.scene, data.x, data.y - 40, data.neededClicks);
+        this.progressBar = new ProgressBar(data.scene, this.x, this.y - 40, data.neededClicks);
     }
     
     getClickValue() {

@@ -1,19 +1,21 @@
 export class AutoClicker {
-    scene;
+    name = "";
     dps = 0;
     level = 0;
-    type = "";
+
+    scene;
+
     damageInterval = 0;
     timer = {};
 
     constructor(data) {
-        console.log("Creating " + data.type + " autoclicker with " + data.dps + " dps");
+        console.log("Creating " + data.name + " autoclicker with " + data.dps + " dps");
         // Pull into local objects
         this.scene = data.scene;
         this.stats = data.scene.stats;
         this.dps = data.dps;
         this.level = data.level;
-        this.type = data.type;
+        this.name = name.type;
 
         // Damage every .1 second
         this.damageInterval = 0.1;
