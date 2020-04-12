@@ -17,6 +17,13 @@ export class DashboardScene extends Phaser.Scene {
         panel: {}
     };
 
+    prayer = {
+        button: {},
+        panel: {},
+        maxPrayerText: "",
+        curPrayerText: ""
+    };
+
     audio = {
         bgm: "",
         audioPage: {},
@@ -33,6 +40,9 @@ export class DashboardScene extends Phaser.Scene {
     // Save data
     characterData;
 
+    // Hotbar
+    prayerHotbarText;
+
     // Skill text
     attackText;
     attackBottomText;
@@ -43,6 +53,8 @@ export class DashboardScene extends Phaser.Scene {
     totalLevelText;
     woodcuttingText;
     woodcuttingBottomText;
+    prayerText;
+    prayerBottomText;
 
     // TODO: Quests text probably for each enemy
     killQuestText;
@@ -62,6 +74,10 @@ export class DashboardScene extends Phaser.Scene {
         // Skills panel
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
         this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
+
+        // Prayer panel
+        this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
+        this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
 
         // Audio panel
         this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
@@ -141,6 +157,22 @@ export class DashboardScene extends Phaser.Scene {
             this.showSkills(true);
         });
 
+        // Hotbar skills text (the top part)
+        this.prayerHotbarText = this.add
+            .text(532, 95, "1", { 
+                fontFamily: '"runescape_uf"',
+                fontSize: "12px",
+                fill: "#00ff00",
+                shadow: {
+                    offsetX: 1,
+                    offsetY: 1,
+                    color: "black",
+                    fill: true
+                } 
+            })
+            .setOrigin(0.5)
+            .setDepth(3);
+
         // Skills text
         this.attackText = this.add
             .text(585, 220, "1", { fontSize: "12px" })
@@ -158,16 +190,20 @@ export class DashboardScene extends Phaser.Scene {
             .text(600, 320, "1", { fontSize: "12px" })
             .setOrigin(0.5)
             .setDepth(2);
+        this.prayerText = this.add
+            .text(585, 342, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
+            .setDepth(2);
+        this.prayerBottomText = this.add
+            .text(600, 352, "1", { fontSize: "12px" })
+            .setOrigin(0.5)
+            .setDepth(2);
         this.magicText = this.add
             .text(585, 375, "1", { fontSize: "12px" })
             .setOrigin(0.5)
             .setDepth(2);
         this.magicBottomText = this.add
             .text(600, 385, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.totalLevelText = this.add
-            .text(705, 450, "3", { fontSize: "12px", fill: "yellow" })
             .setOrigin(0.5)
             .setDepth(2);
         this.woodcuttingText = this.add
@@ -178,10 +214,57 @@ export class DashboardScene extends Phaser.Scene {
             .text(725, 385, "1", { fontSize: "12px" })
             .setOrigin(0.5)
             .setDepth(2);
+        this.totalLevelText = this.add
+            .text(705, 450, "1", { fontSize: "12px", fill: "yellow" })
+            .setOrigin(0.5)
+            .setDepth(2);
 
         // Set and hide skills page on startup
         this.updateSkillsText();
         this.showSkills(false);
+
+        // Prayer
+        this.prayer.panel = this.add
+            .image(548, 205, "prayer-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+        this.prayer.button = this.add
+            .image(692, 168, "prayer-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.showPrayer(true);
+            });
+        this.prayer.curPrayerText = this.add
+            .text(630, 441, "1", { 
+                fontFamily: '"runescape_uf"',
+                fontSize: "14px",
+                fill: "orange",
+                shadow: {
+                    offsetX: 1,
+                    offsetY: 1,
+                    color: "black",
+                    fill: true
+                } 
+            })
+            .setOrigin(0.5)
+            .setDepth(3);
+        this.prayer.maxPrayerText = this.add
+            .text(646, 441, "1", { 
+                fontFamily: '"runescape_uf"',
+                fontSize: "14px",
+                fill: "orange",
+                shadow: {
+                    offsetX: 1,
+                    offsetY: 1,
+                    color: "black",
+                    fill: true
+                } 
+            })
+            .setOrigin(0.5)
+            .setDepth(3);
+        this.showPrayer(false);
 
         // Audio settings
         let audioWindowX = 550;
@@ -191,7 +274,7 @@ export class DashboardScene extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(1);
         this.audio.audioPageButton = this.add
-            .image(660, 465, "audio-settings-button")
+            .image(659, 466, "audio-settings-button")
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive()
@@ -288,6 +371,8 @@ export class DashboardScene extends Phaser.Scene {
         this.attackBottomText.visible = isVisible;
         this.rangedText.visible = isVisible;
         this.rangedBottomText.visible = isVisible;
+        this.prayerText.visible = isVisible;
+        this.prayerBottomText.visible = isVisible;
         this.magicText.visible = isVisible;
         this.magicBottomText.visible = isVisible;
         this.totalLevelText.visible = isVisible;
@@ -295,10 +380,26 @@ export class DashboardScene extends Phaser.Scene {
         this.woodcuttingBottomText.visible = isVisible;
     }
 
+    showPrayer(isVisible) {
+        if (isVisible) {
+            this.hideAllMenus();
+            this.prayer.button.setAlpha(1);
+            this.currentPanel = CONSTANTS.PANEL.PRAYER;
+        } else {
+            this.prayer.button.setAlpha(0.1);
+        }
+
+        // Show/hide panel
+        this.prayer.panel.visible = isVisible;
+        this.prayer.curPrayerText.visible = isVisible;
+        this.prayer.maxPrayerText.visible = isVisible;
+    }
+
     showAudioSettings(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
             this.currentPanel = CONSTANTS.PANEL.SETTINGS;
+            this.audio.audioPageButton.setAlpha(1);
 
             // Show current volume buttons
             this.characterData.audio.forEach((volume, volumeType) => {
@@ -343,6 +444,7 @@ export class DashboardScene extends Phaser.Scene {
     hideAllMenus() {
         this.showAudioSettings(false);
         this.showSkills(false);
+        this.showPrayer(false);
         this.showQuests(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
@@ -362,6 +464,15 @@ export class DashboardScene extends Phaser.Scene {
             level = calcLevel(this.characterData.skills.ranged);
             this.rangedText.text = level;
             this.rangedBottomText.text = level;
+            totalLevel += level;
+
+            // Prayer
+            level = calcLevel(this.characterData.skills.prayer);
+            this.prayerText.text = level;
+            this.prayerBottomText.text = level;
+            this.prayerHotbarText.text = level;
+            this.prayer.curPrayerText.text = level;
+            this.prayer.maxPrayerText.text = level;
             totalLevel += level;
 
             // Magic
