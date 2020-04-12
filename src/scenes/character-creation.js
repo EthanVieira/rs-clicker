@@ -1,15 +1,15 @@
 import { CONSTANTS } from "../constants/constants.js";
 
 export class CharacterCreationScene extends Phaser.Scene {
+    characterData = {};
+
     constructor() {
         super({
             key: CONSTANTS.SCENES.CHARACTER_CREATION
         });
     }
-    init() {
-        // receieve data from other scene that initialized this scene
-        // TODO: Adjust the starting positions of buttons/background by a set scale
-        // let scale = 1;
+    init(data) {
+        this.characterData = data;
     }
     preload() {
         this.load.image("unarmed", "src/assets/ui/CharacterCreationUnarmed.png");
@@ -79,9 +79,8 @@ export class CharacterCreationScene extends Phaser.Scene {
         acceptButton.on("pointerup", () => {
             // Start the first level if a class has been selected.
             if (characterClass != CONSTANTS.CLASS.UNARMED) {
-                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, {
-                    characterClass
-                });
+                this.characterData.characterClass = characterClass;
+                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData);
                 console.log("Going to Tutorial Island");
             }
         });

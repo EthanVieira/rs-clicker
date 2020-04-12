@@ -1,6 +1,7 @@
 import { HealthBar } from "../ui/health-bar.js";
 import { Target } from "./target.js";
-import { calcLevel, CONSTANTS } from "../constants/constants.js";
+import { CONSTANTS } from "../constants/constants.js";
+import { calcLevel } from "../utilities.js";
 
 export class Enemy extends Target {
     blueHitsplat;

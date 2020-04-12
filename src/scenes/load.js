@@ -1,8 +1,11 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { MATERIALS } from "../constants/materials.js";
 import { ITEMS } from "../constants/items.js";
+import { getDefaultData } from "../utilities.js";
 
 export class LoadScene extends Phaser.Scene {
+    characterData = {};
+
     constructor() {
         super({
             key: CONSTANTS.SCENES.LOAD,
@@ -138,8 +141,14 @@ export class LoadScene extends Phaser.Scene {
     }
 
     create() {
+        // Initialize save data
+        this.characterData = getDefaultData();
+        
+        // Check for previous play data
+        this.getCookies();
+
         // Launch audio scene in parallel
-        this.scene.launch(CONSTANTS.SCENES.AUDIO);
+        this.scene.launch(CONSTANTS.SCENES.AUDIO, this.characterData);
 
         this.add.text(250, 300, "Welcome to RS Clicker!");
         this.add.text(250, 340, "Click the lesser demon to continue.");
@@ -149,16 +158,24 @@ export class LoadScene extends Phaser.Scene {
 
         // Start main menu scene on demon click
         lesserDemonSprite.on("pointerup", () => {
-            this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
+            this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
         });
+    }
 
-        //
-        /*
-            Use launch to start a scene in parallel
-            this.scene.launch(...)
-
-            Use add to start dynamically
-            this.scene.add(...)
-        */
+    getCookies() {
+        // Pull out first cookie
+        let decodedCookies = decodeURIComponent(document.cookie).split(";");
+        if (decodedCookies[0] != "") {
+            for (let i = 0; i < decodedCookies.length; i++) {
+                // Split into (0)name|(1)value
+                let cookieCrumbs = decodedCookies[i].split("=");
+                if (
+                    cookieCrumbs[i] == "characterData" ||
+                    cookieCrumbs[i] == " characterData"
+                ) {
+                    this.characterData = JSON.parse(cookieCrumbs[1]);
+                }
+            }
+        }
     }
 }
