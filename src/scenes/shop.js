@@ -2,8 +2,8 @@
 // TODO: Each item needs to be a clickable image, and clicking adds the item to player inventory.
 // TODO: Load images that are available to the player (based on levels)
 // TODO: Show price of each item below the item, and gray out items that are too expensive
-
-import { calcLevel, CONSTANTS } from "../constants/constants.js";
+import { calcLevel } from "../utilities.js";
+import { CONSTANTS } from "../constants/constants.js";
 import { MATERIALS } from "../constants/materials.js";
 import { ITEMS } from "../constants/items.js";
 import { Item } from "../item.js";

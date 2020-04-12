@@ -1,12 +1,17 @@
 import { CONSTANTS } from "../constants/constants.js";
+import { getDefaultData, storeCookies } from "../utilities.js";
 
 export class MainMenuScene extends Phaser.Scene {
     characterData = {};
+
     settingsWindow;
     settingsOpen = false;
     settingsTitle;
     settingsYesText;
     settingsNoText;
+
+    mutedButton;
+    unmutedButton;
 
     constructor() {
         super({
@@ -15,14 +20,13 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     init(characterData) {
-        // Receive save data if it exists
-        if (characterData.hasCookies) {
-            this.characterData = characterData;
-        }
+        this.characterData = characterData;
     }
 
     preload() {
         this.load.image("settings", "src/assets/ui/SettingsPanel.png");
+        this.load.image("sound-on", "src/assets/ui/buttons/SoundOn.png");
+        this.load.image("sound-off", "src/assets/ui/buttons/SoundOff.png");
     }
 
     create() {
@@ -77,8 +81,8 @@ export class MainMenuScene extends Phaser.Scene {
             if (this.settingsOpen) {
                 this.toggleSettings(false);
             } else {
-                if (!this.characterData.characterClass) {
-                    this.scene.start(CONSTANTS.SCENES.CHARACTER_CREATION);
+                if (!this.characterData.hasCookies) {
+                    this.scene.start(CONSTANTS.SCENES.CHARACTER_CREATION, this.characterData);
                     console.log("Going to Character Creation");
                 } else {
                     this.scene.start(this.characterData.currentLevel, this.characterData);
@@ -100,8 +104,9 @@ export class MainMenuScene extends Phaser.Scene {
 
         // Delete cookies (Yes)
         this.settingsYesText.on("pointerup", () => {
-            this.characterData = {};
+            this.characterData = getDefaultData();
             this.toggleSettings(false);
+            storeCookies(this.characterData);
         });
 
         // Close Settings (No)
@@ -109,24 +114,44 @@ export class MainMenuScene extends Phaser.Scene {
             this.toggleSettings(false);
         });
 
-        // Pull in previous data
-        this.getCookies();
-    }
+        // Get audio scene
+        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
 
-    getCookies() {
-        // Pull out first cookie
-        let decodedCookies = decodeURIComponent(document.cookie).split(";");
-        if (decodedCookies[0] != "") {
-            for (let i = 0; i < decodedCookies.length; i++) {
-                // Split into (0)name|(1)value
-                let cookieCrumbs = decodedCookies[i].split("=");
-                if (
-                    cookieCrumbs[i] == "characterData" ||
-                    cookieCrumbs[i] == " characterData"
-                ) {
-                    this.characterData = JSON.parse(cookieCrumbs[1]);
-                }
-            }
+        // Muted button
+        this.mutedButton = this.add
+            .image(
+                this.cameras.main.width - 40, 
+                this.cameras.main.height - 40, 
+                "sound-off"
+            )
+            .setDepth(1)
+            .setInteractive()
+            .on("pointerup", () => {
+                this.showMuteButton(false);
+                audioScene.mute(false);
+                storeCookies(this.characterData);
+            });
+
+        // Unmuted button
+        this.unmutedButton = this.add
+            .image(
+                this.cameras.main.width - 40, 
+                this.cameras.main.height - 40, 
+                "sound-on"
+            )
+            .setDepth(1)
+            .setInteractive()
+            .on("pointerup", () => {
+                this.showMuteButton(true);
+                audioScene.mute(true);
+                storeCookies(this.characterData);
+            });
+
+        // Check if audio is muted
+        if (this.characterData.audio[0] > 0) {
+            this.showMuteButton(false);
+        } else {
+            this.showMuteButton(true);
         }
     }
 
@@ -136,5 +161,10 @@ export class MainMenuScene extends Phaser.Scene {
         this.settingsTitle.visible = toggle;
         this.settingsYesText.visible = toggle;
         this.settingsNoText.visible = toggle;
+    }
+
+    showMuteButton(isMuted) {
+        this.mutedButton.visible = isMuted;
+        this.unmutedButton.visible = !isMuted;
     }
 }

@@ -1,5 +1,6 @@
 import { ProgressBar } from "./ui/progress-bar.js";
-import { CONSTANTS, calcLevel } from "./constants/constants.js"; 
+import { CONSTANTS } from "./constants/constants.js";
+import { calcLevel } from "./utilities.js";
 
 export class Resource {
     scene;
