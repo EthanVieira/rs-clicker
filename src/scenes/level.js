@@ -94,8 +94,11 @@ export class LevelScene extends Phaser.Scene {
 
         // Targets
         this.targetMetaData.forEach(target => {
-            let test = new target(this);
-            test.images.forEach(image => {
+            // Need to initialize object to get the image info
+            let targetObj = new target(this);
+
+            // Load target images
+            targetObj.images.forEach(image => {
                 this.load.image(image.name, image.path);
             });
         });
@@ -215,7 +218,7 @@ export class LevelScene extends Phaser.Scene {
         });
 
         // Display first click object
-        this.targets[0].show();
+        this.targets[this.currentTargetIndex].show();
 
         // Scene destructor
         this.events.on("shutdown", () => {

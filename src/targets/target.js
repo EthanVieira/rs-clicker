@@ -1,5 +1,5 @@
 export class Target {
-    target; // Reference to the current image
+    curTarget;
     targets = [];
     progressBar;
     name = "";
@@ -81,7 +81,7 @@ export class Target {
 
     showRandomTarget() {
         this.hide();
-        let index = Math.floor(Math.random() * this.scene.targetMetaData.length);
+        let index = Math.floor(Math.random() * this.scene.targets.length);
         this.scene.currentTargetIndex = index;
         this.scene.targets[index].show();
     }
@@ -89,13 +89,13 @@ export class Target {
     show() {
         // Show a random image if there are multiple
         let index = Math.floor(Math.random() * this.images.length);
-        this.target = this.targets[index];
-        this.target.visible = true;
+        this.curTarget = this.targets[index];
+        this.curTarget.visible = true;
         this.progressBar.show();
     }
 
     hide() {
-        this.target.visible = false;
+        this.curTarget.visible = false;
         this.progressBar.hide();
     }
 }
