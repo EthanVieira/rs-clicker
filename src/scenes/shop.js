@@ -27,7 +27,7 @@ export class ShopScene extends Phaser.Scene {
 
     preload() {
         // Shop Interface Images
-        let buttons = ["WEAPONS", "TOOLS", "CONSUMABLES"];
+        let buttons = ["Weapons", "Tools", "Consumables"];
         for (let i = 0; i < buttons.length; i++) {
             this.load.image(
                 "shop-" + buttons[i],
@@ -40,7 +40,7 @@ export class ShopScene extends Phaser.Scene {
         for (let i = 0; i < stacks.length; i++) {
             this.load.image(
                 stacks[i],
-                "src/assets/coin-stacks/" + stacks[i] + "-stack.png"
+                "src/assets/coin-stacks/" + stacks[i] + "-Stack.png"
             );
         }
     }
@@ -53,7 +53,7 @@ export class ShopScene extends Phaser.Scene {
         this.loadingText.visible = false;
 
         // Display the shop (weapons displayed by default)
-        this.loadShop("WEAPONS");
+        this.loadShop("Weapons");
 
         // Button to exit the shop and return to previous level
         this.exitButton = this.add
@@ -72,21 +72,21 @@ export class ShopScene extends Phaser.Scene {
             .setDepth(-1)
             .setInteractive();
         this.weaponsButton.on("pointerup", () => {
-            this.loadShop("WEAPONS");
+            this.loadShop("Weapons");
         });
         this.toolsButton = this.add
             .text(485, 170, "XXXX", { fontSize: "40px" })
             .setDepth(-1)
             .setInteractive();
         this.toolsButton.on("pointerup", () => {
-            this.loadShop("TOOLS");
+            this.loadShop("Tools");
         });
         this.consumablesButton = this.add
             .text(485, 250, "XXXX", { fontSize: "40px" })
             .setDepth(-1)
             .setInteractive();
         this.consumablesButton.on("pointerup", () => {
-            this.loadShop("CONSUMABLES");
+            this.loadShop("Consumables");
         });
     }
 
@@ -168,18 +168,18 @@ export class ShopScene extends Phaser.Scene {
             imageY = {};
         switch (itemType) {
             // Weapons organized with attack on row 1, ranged on row 2, magic on row 3
-            case "WEAPONS":
+            case "Weapons":
                 imageX = { attack: 100, ranged: 100, magic: 100 };
                 imageY = { attack: 100, ranged: 200, magic: 300 };
                 break;
             // Tools organized with all tools on one row
-            case "TOOLS":
+            case "Tools":
                 imageX = { woodcutting: 100, mining: 200 };
                 imageY = { woodcutting: 100, mining: 100 };
                 break;
             // Consumables organized by food on row 1, potions on row 2
             // TODO: This organization scheme will need to be changed in the future
-            case "CONSUMABLES":
+            case "Consumables":
                 imageX = { health: 100, herblore: 100 };
                 imageY = { health: 100, herblore: 200 };
                 break;

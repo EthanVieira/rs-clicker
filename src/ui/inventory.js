@@ -25,16 +25,16 @@ export class Inventory {
                 let itemObj = await getItemClass(item.name, item.material, this.scene);
                 this.addToInventoryAtIndex(itemObj, index);
             }
-        }   
+        }
     }
 
     // Add to specific index
     addToInventoryAtIndex(item, index) {
         // Add to saved data
         this.playerItems[index] = {
-            name: item.item, 
+            name: item.item,
             material: item.material
-        }; 
+        };
 
         // Add item images
         let column = index % 4;
@@ -52,7 +52,7 @@ export class Inventory {
         this.inventory[index] = item;
     }
 
-    // Add to first available slot 
+    // Add to first available slot
     addToInventory(item) {
         // Search for empty slot
         for (let index = 0; index < this.playerItems.length; index++) {
@@ -65,8 +65,7 @@ export class Inventory {
         // Add to end
         if (this.playerItems.length < 28) {
             this.addToInventoryAtIndex(item, this.playerItems.length);
-        }
-        else {
+        } else {
             console.log("Inventory is full");
         }
     }
@@ -91,13 +90,19 @@ export class Inventory {
         // Add text options
         // Have to use two separate texts per option for different colors
         let options = [menuBox];
-        let optionsY = y -45;
+        let optionsY = y - 45;
 
         // Generate dynamic list of actions (wield, bury, etc.)
         item.actions.forEach(action => {
             optionsY += 15;
-            let itemText = this.scene.add.text(x + 10, optionsY, item.name, FONTS.ITEM_NAME);
-            let actionText = this.scene.add.text(x - 48, optionsY, action.text, FONTS.OPTIONS_MENU)
+            let itemText = this.scene.add.text(
+                x + 10,
+                optionsY,
+                item.name,
+                FONTS.ITEM_NAME
+            );
+            let actionText = this.scene.add
+                .text(x - 48, optionsY, action.text, FONTS.OPTIONS_MENU)
                 .setInteractive()
                 .setDepth(5)
                 .on("pointerdown", () => {
@@ -119,18 +124,18 @@ export class Inventory {
         options.push(cancelText);
 
         // Group objects together
-        this.menu = this.scene.add
-            .container(0, 0, options)
-            .setDepth(5);
+        this.menu = this.scene.add.container(0, 0, options).setDepth(5);
     }
 
     highlightItem(index) {
         if (index == this.curSelectedItemIndex) {
             this.curSelectedItemIndex = -1;
-        }
-        else {
+        } else {
             // Use this ugly method to see if obj is empty
-            if (this.curSelectedItemIndex >= 0 && Object.keys(this.inventory[this.curSelectedItemIndex]).length) {
+            if (
+                this.curSelectedItemIndex >= 0 &&
+                Object.keys(this.inventory[this.curSelectedItemIndex]).length
+            ) {
                 this.inventory[this.curSelectedItemIndex].highlightItem();
             }
             this.curSelectedItemIndex = index;

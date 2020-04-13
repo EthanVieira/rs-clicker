@@ -23,7 +23,7 @@ export const defaultData = {
     TUTORIAL_ISLAND: {
         questCompleted: false,
         enemiesKilled: {
-            rat: 0
+            giantRat: 0
         }
     },
     LUMBRIDGE: {
@@ -39,21 +39,20 @@ export const defaultData = {
         // Quest text will soon change anyway
         questCompleted: false,
         enemiesKilled: {
-            trees: 0
+            tree: 0
         }
     },
     VARROCK: {
         questCompleted: false,
         enemiesKilled: {
-            dark_wizard: 0,
+            darkWizard: 0,
             guard: 0
         }
     },
     BARBARIAN_VILLAGE: {
         questCompleted: false,
         enemiesKilled: {
-            male_barbarian: 0,
-            female_barbarian: 0
+            barbarian: 0
         }
     }
 };

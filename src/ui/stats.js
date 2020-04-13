@@ -16,7 +16,7 @@ export class StatsScene extends Phaser.Scene {
     enemiesKilledText;
     timesClickedText;
     damageByClickingText;
-    damageByAutoClickText
+    damageByAutoClickText;
     autoClickDpsText;
     autoClickDps = 0;
 
@@ -71,7 +71,7 @@ export class StatsScene extends Phaser.Scene {
                     fill: statColor
                 }
             )
-            .setDepth(3);        
+            .setDepth(3);
         this.autoClickDpsText = this.add
             .text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {
                 fill: statColor
@@ -139,7 +139,7 @@ export class StatsScene extends Phaser.Scene {
         this.show(false);
 
         // Show level-relevant stats
-        switch(this.levelType) {
+        switch (this.levelType) {
             case CONSTANTS.LEVEL_TYPE.ENEMY:
                 this.orderStats([
                     this.enemiesKilledText,

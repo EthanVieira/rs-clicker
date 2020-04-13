@@ -488,8 +488,7 @@ export class DashboardScene extends Phaser.Scene {
             totalLevel += level;
 
             this.totalLevelText.text = totalLevel;
-        }
-        else {
+        } else {
             // If called before load, update once loaded
             this.events.once("create", () => {
                 this.updateSkillsText();
@@ -499,31 +498,22 @@ export class DashboardScene extends Phaser.Scene {
 
     updateKillQuestText() {
         this.killQuestText.text = "";
-        this.currentScene.clickObjectMetaData.forEach((enemy, index) => {
-            // Reformat name
-            let name = enemy.name;
-
-            // Replace underscore with a space
-            name = name.replace("_", " ");
-
-            // Capitalize the first letters
-            name = name.replace(/\b\w/g, c => c.toUpperCase());
-
+        this.currentScene.targets.forEach((enemy, index) => {
             // Add text
             // TODO: Since there are currently no quests for tree levels those
             // will show up as undefined/undefined
             this.killQuestText.text +=
                 this.characterData[this.currentScene.currentLevel].enemiesKilled[
-                    enemy.name
+                    enemy.varName
                 ] +
                 "/" +
                 this.currentScene.killQuest +
                 " " +
-                name +
+                enemy.name +
                 "s";
 
             // Check to see if there are multiple enemies
-            if (index + 1 < this.currentScene.clickObjectMetaData.length) {
+            if (index + 1 < this.currentScene.targetMetaData.length) {
                 this.killQuestText.text += "\n";
             }
         });
