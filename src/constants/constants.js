@@ -18,7 +18,8 @@ export const CONSTANTS = {
         UNARMED: "UNARMED",
         WARRIOR: "WARRIOR",
         MAGE: "MAGE",
-        RANGER: "RANGER"
+        RANGER: "RANGER",
+        FISHERMAN: "FISHERMAN",
     },
     RESOURCES: {
         WOOD: "WOOD",
