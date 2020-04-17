@@ -37,6 +37,11 @@ export class DashboardScene extends Phaser.Scene {
         panel: {}
     };
 
+    equipment = {
+        button: {},
+        panel: {}
+    };
+
     // Save data
     characterData;
 
@@ -91,6 +96,10 @@ export class DashboardScene extends Phaser.Scene {
         // Quests panel
         this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
         this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
+
+        // Equipment panel
+        this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
+        this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
 
         // Right click menu
         this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
@@ -354,6 +363,21 @@ export class DashboardScene extends Phaser.Scene {
         // Set and hide quests on startup
         this.updateKillQuestText();
         this.showQuests(false);
+
+        // Equipment
+        this.equipment.panel = this.add
+            .image(548, 204, "equipment-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+        this.equipment.button = this.add
+            .image(659, 168, "equipment-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.showEquipment(true);
+            });
+        this.showEquipment(false);
     }
 
     showSkills(isVisible) {
@@ -393,6 +417,18 @@ export class DashboardScene extends Phaser.Scene {
         this.prayer.panel.visible = isVisible;
         this.prayer.curPrayerText.visible = isVisible;
         this.prayer.maxPrayerText.visible = isVisible;
+    }
+
+    showEquipment(isVisible) {
+        if (isVisible) {
+            this.hideAllMenus();
+            this.equipment.button.setAlpha(1);
+            this.currentPanel = CONSTANTS.PANEL.EQUIPMENT;
+        } else {
+            this.equipment.button.setAlpha(0.1);
+        }
+
+        this.equipment.panel.visible = isVisible;
     }
 
     showAudioSettings(isVisible) {
@@ -446,6 +482,7 @@ export class DashboardScene extends Phaser.Scene {
         this.showSkills(false);
         this.showPrayer(false);
         this.showQuests(false);
+        this.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
     }

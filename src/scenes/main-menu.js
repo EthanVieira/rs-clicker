@@ -107,6 +107,7 @@ export class MainMenuScene extends Phaser.Scene {
             this.characterData = getDefaultData();
             this.toggleSettings(false);
             storeCookies(this.characterData);
+            this.characterData.currentLevel = CONSTANTS.SCENES.CHARACTER_CREATION;
         });
 
         // Close Settings (No)
