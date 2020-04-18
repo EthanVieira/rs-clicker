@@ -9,6 +9,10 @@ export const defaultData = {
     damageByAutoClick: 0,
     numberOfAutoClickers: 0,
     inventory: [],
+    equipment: {
+    	WEAPON: {type: "Bronze", item: "Dagger"}
+    },
+    // Skill XP
     skills: {
         attack: 0,
         ranged: 0,

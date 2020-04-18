@@ -2,6 +2,7 @@ import { CONSTANTS } from "../constants/constants.js";
 import { MATERIALS } from "../constants/materials.js";
 import { ITEMS } from "../constants/items.js";
 import { getDefaultData } from "../utilities.js";
+import { itemManifest } from "../items/item-manifest.js";
 
 export class LoadScene extends Phaser.Scene {
     characterData = {};
@@ -108,14 +109,20 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("play-button", "src/assets/ui/buttons/PlayButton.png");
         this.load.image("settings-button", "src/assets/ui/buttons/SettingsButton.png");
 
+        // Load all items
+        let path = "src/assets/items/";
+        Object.entries(itemManifest).forEach(([item, itemObj]) => {
+            this.load.image(itemObj.imageName, path + itemObj.imagePath);
+        });
+
         // Resources
-        this.load.image("Logs", "src/assets/items/resources/Logs.png");
+        /*this.load.image("Logs", "src/assets/items/resources/Logs.png");
 
         // Other item sprites
-        this.load.image("Bones", "src/assets/items/other/Bones.png");
+        this.load.image("Bones", "src/assets/items/other/Bones.png");*/
 
         // Load all weapons
-        let path = "src/assets/items/weapons/";
+        path = "src/assets/items/weapons/";
         Object.entries(ITEMS.Weapons).forEach(([item, itemObj]) => {
             // Loop through materials
             Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {

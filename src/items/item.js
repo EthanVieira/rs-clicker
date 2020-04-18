@@ -1,7 +1,9 @@
 import { itemManifest } from "./item-manifest.js";
 
-export async function getItemClass(itemName, material, scene) {
-    let path = itemManifest[material + itemName].classPath;
+export async function getItemClass(itemName, type, scene) {
+    console.log(type, itemName);
+    let path = itemManifest[type + itemName].classPath;
+    console.log(path);
     let itemClass = await import(path);
 
     return new itemClass.default(scene);
@@ -11,7 +13,7 @@ export class Item {
     // Text data
     name = "";
     item = "";
-    material = "";
+    type = "";
     examineText = "";
 
     // Inventory location
@@ -25,6 +27,7 @@ export class Item {
     scene;
 
     // Others
+    scale = 1;
     cost = 0;
     actions = [
         { text: "Use", func: "use" },
@@ -32,13 +35,14 @@ export class Item {
         { text: "Examine", func: "examine" }
     ];
 
-    addToInventory(x, y, index) {
+    createSprite(x, y, index = -1) {
         this.x = x;
         this.y = y;
         this.index = index;
 
         this.sprite = this.scene.add
-            .image(x, y, this.name)
+            .image(x, y, itemManifest[this.type + this.item].imageName)
+            .setScale(this.scale)
             .setDepth(4)
             .setInteractive()
             .on("pointerdown", pointer => {
@@ -77,9 +81,11 @@ export class Item {
         console.log(this.examineText);
     }
 
-    move(x, y, index) {
+    move(x, y, index = -1) {
         this.x = x;
         this.y = y;
+        this.sprite.x = x;
+        this.sprite.y = y;
         this.index = index;
     }
 

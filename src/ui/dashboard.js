@@ -1,5 +1,6 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { Inventory } from "./inventory.js";
+import { Equipment } from "./equipment.js";
 import { calcLevel } from "../utilities.js";
 
 export class DashboardScene extends Phaser.Scene {
@@ -39,7 +40,8 @@ export class DashboardScene extends Phaser.Scene {
 
     equipment = {
         button: {},
-        panel: {}
+        panel: {},
+        obj: {}
     };
 
     // Save data
@@ -376,7 +378,10 @@ export class DashboardScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerdown", () => {
                 this.showEquipment(true);
+
+                this.equipment.obj.showEquipment(true);
             });
+        this.equipment.obj = new Equipment(this, this.characterData.equipment);
         this.showEquipment(false);
     }
 
@@ -483,6 +488,7 @@ export class DashboardScene extends Phaser.Scene {
         this.showPrayer(false);
         this.showQuests(false);
         this.showEquipment(false);
+        this.equipment.obj.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
     }
