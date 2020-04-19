@@ -6,7 +6,7 @@ export default class NormalShortbow extends Equipment {
 	slot = EQUIPMENT.SLOTS.WEAPON;
 	skill = EQUIPMENT.WEAPON_TYPES.RANGED;
 
-	// Bonuses
+	// Attack Bonuses
 	rangedBonus = 8;
 
 	// Text data

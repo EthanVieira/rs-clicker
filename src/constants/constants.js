@@ -59,6 +59,11 @@ export const EQUIPMENT = {
         HANDS: "HANDS",
         FEET: "FEET",
         TWO_HANDED: "TWO_HANDED"
+    },
+    ATTACK_STYLE: {
+        STAB: "STAB",
+        SLASH: "SLASH",
+        CRUSH: "CRUSH"
     }
 }
 

@@ -24,6 +24,8 @@ export default class Equipment extends Item {
     // Equipment details
     slot = "";
     equipped = false;
+    style = "";
+    skill = "";
 
     constructor() {
         super();

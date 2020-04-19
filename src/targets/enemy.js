@@ -9,8 +9,29 @@ export class Enemy extends Target {
     hitsplatText = "1";
     killGold;
 
+    // Target stats
+    attack = 1;
+    strength = 1;
+    defense = 1;
+    magic = 1;
+    ranged = 1;
+
+    // Attack bonuses
+    attackBonus = 0;
+    strengthBonus = 0;
+    magicBonus = 0;
+    magicStrengthBonus = 0;
+    rangedBonus = 0;
+    rangedStrengthBonus = 0;
+
+    // Defenses
+    stabDefense = 0;
+    slashDefense = 0;
+    crushDefense = 0;
+    magicDefense = 0;
+    rangedDefense = 0;
+
     constructor(data) {
-        data.scale = 0.4;
         super(data);
 
         // Add hitsplats
@@ -44,48 +65,98 @@ export class Enemy extends Target {
         this.killGold = data.killGold;
     }
 
+    // Player: (attack/items/bonuses) and enemy:  (defense/bonuses) affects accuracy
+    // Player: (strength/items/bonuses) affect max hit
+    // Equal chance to deal (1 - max hit) damage if it hits
     getClickValue() {
         // Get damage based on level
+        // Normally for melee you would use strength for damage and attack for accuracy
+        // But for now we'll use attack for both
         let damageLevel = this.getDamageLevel();
 
-        // Get weapon stats
-        let equipmenStrengthBonus = 0;
-        let equipmentLevel = 0;
+        // Get weapon stats and enemy bonuses
+        let equipmenStrength = 0;
+        let equipmentAttack = 0;
+        let enemyBonus = 0;
         if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
-            equipmentLevel = this.equipment.obj.equipment.WEAPON.requiredLevel;
-            equipmenStrengthBonus = this.equipment.obj.equipment.WEAPON.strengthBonus;
+
+            switch (this.equipment.obj.equipment.WEAPON.skill) {
+                case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                    equipmentAttack = this.equipment.obj.equipment.WEAPON.magicBonus;
+                    equipmenStrength = this.equipment.obj.equipment.WEAPON.magicStrengthBonus
+                    enemyBonus = this.magicDefense;
+                    break;
+                case EQUIPMENT.WEAPON_TYPES.RANGED:
+                    equipmentAttack = this.equipment.obj.equipment.WEAPON.rangedBonus;
+                    equipmenStrength = this.equipment.obj.equipment.WEAPON.rangedStrengthBonus
+                    enemyBonus = this.rangedDefense;
+                    break;
+                case EQUIPMENT.WEAPON_TYPES.MELEE: {
+                    equipmenStrength = this.equipment.obj.equipment.WEAPON.strengthBonus
+
+                    switch (this.equipment.obj.equipment.WEAPON.style) {
+                        case EQUIPMENT.ATTACK_STYLE.STAB:
+                            equipmentAttack = this.equipment.obj.equipment.WEAPON.stabBonus;
+                            enemyBonus = this.stabDefense;
+                            break;
+                        case EQUIPMENT.ATTACK_STYLE.SLASH:
+                            equipmentAttack = this.equipment.obj.equipment.WEAPON.slashBonus;
+                            enemyBonus = this.slashDefense;
+                            break;
+                        case EQUIPMENT.ATTACK_STYLE.CRUSH:
+                            equipmentAttack = this.equipment.obj.equipment.WEAPON.crushBonus;
+                            enemyBonus = this.crushDefense;
+                            break;
+                    }
+                    break;
+                }
+            }
         }
 
         // Strength level bonuses
         let potBonus = 0;
-        let styleBonus = 1; // Aggressive: 3, Controlled: 1, Accurate/Defensive: 0
-        let prayerCoeff = 1;
+        let styleBonus = 3; // Aggressive: 3, Controlled: 1, Accurate/Defensive: 0
+        let prayerCoeff = 1; // Prayer gives multiplier (ex: 1.05)
 
         // Get damage level after bonuses
         let effectiveDamageLevel = Math.floor((damageLevel + potBonus) * prayerCoeff) + styleBonus;
-        console.log("effective damage level", effectiveDamageLevel)
+
         // Get max hit
-        let maxHit = Math.floor(1.3 + (effectiveDamageLevel/10) + (equipmenStrengthBonus/80) + ((effectiveDamageLevel * equipmenStrengthBonus) / 640));
+        let maxHit = Math.floor(1.3 + (effectiveDamageLevel/10) + (equipmenStrength/80) + ((effectiveDamageLevel * equipmenStrength) / 640));
         
         // Check accuracy
         let affinity = 55;
-        let accuracy = this.calcLevelCoeff(damageLevel) + 2.5 * this.calcLevelCoeff(equipmentLevel);
-        let defense = this.calcLevelCoeff(this.defense) + 2.5 * this.calcLevelCoeff(0);
+        let accuracy = this.calcLevelCoeff(damageLevel) + 2.5 * this.calcLevelCoeff(equipmentAttack);
+        let defense = this.calcLevelCoeff(this.defense) + 2.5 * this.calcLevelCoeff(enemyBonus);
         let hitChance = affinity * (accuracy / defense);
-        
-        console.log("hit chance", hitChance)
-        console.log("max hit", maxHit);
+
         let rand = Math.random() * 100;
-        console.log(rand);
         let hitValue = 0;
-        if (hitChance > rand) {
+        if (hitChance > rand || hitChance < 0) { // Handle case for negative armor
             hitValue = Math.floor(maxHit * (rand / 100) + 1);
-            console.log("hit", hitValue);
         }
-        //let hitValue = Math.floor(Math.random() * (damageLevel + 1));
+
+        const logHit = true;
+        if (logHit) {
+            console.log("----------------hit info-------------");
+            console.log("player level", damageLevel);
+            console.log("item str", equipmenStrength)
+            console.log("item attack", equipmentAttack)
+            console.log("enemy defense", this.defense);
+            console.log("enemy bonus", enemyBonus);
+            console.log("accuracy", accuracy);
+            console.log("defense", defense);
+            console.log("effective damage level", effectiveDamageLevel)
+            console.log("hit chance", hitChance)
+            console.log("max hit", maxHit);
+            console.log("rolled", rand);
+            console.log("Damage", hitValue);
+        }
+
         return hitValue;
     }
 
+    // .0008a^3 + 4a + 40
     calcLevelCoeff(level) {
         return (0.0008 * Math.pow(level, 3)) + (4 * level) + 40;
     }
@@ -148,7 +219,7 @@ export class Enemy extends Target {
 
     increaseXp(hitValue) {
         // Increase attack/ranged/magic XP
-        const xpModifier = 1;
+        const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
         if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
             switch (this.equipment.obj.equipment.WEAPON.skill) {
