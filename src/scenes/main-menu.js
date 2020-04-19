@@ -81,15 +81,19 @@ export class MainMenuScene extends Phaser.Scene {
             if (this.settingsOpen) {
                 this.toggleSettings(false);
             } else {
-                if (!this.characterData.hasCookies || this.characterData.currentLevel == "") {
+                if (
+                    this.characterData.hasCookies &&
+                    this.characterData.currentLevel != "" &&
+                    typeof this.characterData.currentLevel != undefined
+                ) {
+                    this.scene.start(this.characterData.currentLevel, this.characterData);
+                    console.log("Going to", this.characterData.currentLevel);
+                } else {
                     this.scene.start(
                         CONSTANTS.SCENES.CHARACTER_CREATION,
                         this.characterData
                     );
                     console.log("Going to Character Creation");
-                } else {
-                    this.scene.start(this.characterData.currentLevel, this.characterData);
-                    console.log("Going to", this.characterData.currentLevel);
                 }
             }
         });
