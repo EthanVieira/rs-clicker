@@ -81,7 +81,7 @@ export class MainMenuScene extends Phaser.Scene {
             if (this.settingsOpen) {
                 this.toggleSettings(false);
             } else {
-                if (!this.characterData.hasCookies) {
+                if (!this.characterData.hasCookies || this.characterData.currentLevel == "") {
                     this.scene.start(
                         CONSTANTS.SCENES.CHARACTER_CREATION,
                         this.characterData
