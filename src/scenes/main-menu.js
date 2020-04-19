@@ -81,9 +81,11 @@ export class MainMenuScene extends Phaser.Scene {
             if (this.settingsOpen) {
                 this.toggleSettings(false);
             } else {
-            	console.log(this.characterData);
                 if (!this.characterData.hasCookies) {
-                    this.scene.start(CONSTANTS.SCENES.CHARACTER_CREATION, this.characterData);
+                    this.scene.start(
+                        CONSTANTS.SCENES.CHARACTER_CREATION,
+                        this.characterData
+                    );
                     console.log("Going to Character Creation");
                 } else {
                     this.scene.start(this.characterData.currentLevel, this.characterData);
@@ -122,8 +124,8 @@ export class MainMenuScene extends Phaser.Scene {
         // Muted button
         this.mutedButton = this.add
             .image(
-                this.cameras.main.width - 40, 
-                this.cameras.main.height - 40, 
+                this.cameras.main.width - 40,
+                this.cameras.main.height - 40,
                 "sound-off"
             )
             .setDepth(1)
@@ -137,8 +139,8 @@ export class MainMenuScene extends Phaser.Scene {
         // Unmuted button
         this.unmutedButton = this.add
             .image(
-                this.cameras.main.width - 40, 
-                this.cameras.main.height - 40, 
+                this.cameras.main.width - 40,
+                this.cameras.main.height - 40,
                 "sound-on"
             )
             .setDepth(1)

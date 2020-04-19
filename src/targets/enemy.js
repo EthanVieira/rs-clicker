@@ -79,32 +79,36 @@ export class Enemy extends Target {
         let equipmentAttack = 0;
         let enemyBonus = 0;
         if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
-
             switch (this.equipment.obj.equipment.WEAPON.skill) {
                 case EQUIPMENT.WEAPON_TYPES.MAGIC:
                     equipmentAttack = this.equipment.obj.equipment.WEAPON.magicBonus;
-                    equipmenStrength = this.equipment.obj.equipment.WEAPON.magicStrengthBonus
+                    equipmenStrength = this.equipment.obj.equipment.WEAPON
+                        .magicStrengthBonus;
                     enemyBonus = this.magicDefense;
                     break;
                 case EQUIPMENT.WEAPON_TYPES.RANGED:
                     equipmentAttack = this.equipment.obj.equipment.WEAPON.rangedBonus;
-                    equipmenStrength = this.equipment.obj.equipment.WEAPON.rangedStrengthBonus
+                    equipmenStrength = this.equipment.obj.equipment.WEAPON
+                        .rangedStrengthBonus;
                     enemyBonus = this.rangedDefense;
                     break;
                 case EQUIPMENT.WEAPON_TYPES.MELEE: {
-                    equipmenStrength = this.equipment.obj.equipment.WEAPON.strengthBonus
+                    equipmenStrength = this.equipment.obj.equipment.WEAPON.strengthBonus;
 
                     switch (this.equipment.obj.equipment.WEAPON.style) {
                         case EQUIPMENT.ATTACK_STYLE.STAB:
-                            equipmentAttack = this.equipment.obj.equipment.WEAPON.stabBonus;
+                            equipmentAttack = this.equipment.obj.equipment.WEAPON
+                                .stabBonus;
                             enemyBonus = this.stabDefense;
                             break;
                         case EQUIPMENT.ATTACK_STYLE.SLASH:
-                            equipmentAttack = this.equipment.obj.equipment.WEAPON.slashBonus;
+                            equipmentAttack = this.equipment.obj.equipment.WEAPON
+                                .slashBonus;
                             enemyBonus = this.slashDefense;
                             break;
                         case EQUIPMENT.ATTACK_STYLE.CRUSH:
-                            equipmentAttack = this.equipment.obj.equipment.WEAPON.crushBonus;
+                            equipmentAttack = this.equipment.obj.equipment.WEAPON
+                                .crushBonus;
                             enemyBonus = this.crushDefense;
                             break;
                     }
@@ -119,35 +123,44 @@ export class Enemy extends Target {
         let prayerCoeff = 1; // Prayer gives multiplier (ex: 1.05)
 
         // Get damage level after bonuses
-        let effectiveDamageLevel = Math.floor((damageLevel + potBonus) * prayerCoeff) + styleBonus;
+        let effectiveDamageLevel =
+            Math.floor((damageLevel + potBonus) * prayerCoeff) + styleBonus;
 
         // Get max hit
-        let maxHit = Math.floor(1.3 + (effectiveDamageLevel/10) + (equipmenStrength/80) + ((effectiveDamageLevel * equipmenStrength) / 640));
-        
+        let maxHit = Math.floor(
+            1.3 +
+                effectiveDamageLevel / 10 +
+                equipmenStrength / 80 +
+                (effectiveDamageLevel * equipmenStrength) / 640
+        );
+
         // Check accuracy
         let affinity = 55;
-        let accuracy = this.calcLevelCoeff(damageLevel) + 2.5 * this.calcLevelCoeff(equipmentAttack);
-        let defense = this.calcLevelCoeff(this.defense) + 2.5 * this.calcLevelCoeff(enemyBonus);
+        let accuracy =
+            this.calcLevelCoeff(damageLevel) + 2.5 * this.calcLevelCoeff(equipmentAttack);
+        let defense =
+            this.calcLevelCoeff(this.defense) + 2.5 * this.calcLevelCoeff(enemyBonus);
         let hitChance = affinity * (accuracy / defense);
 
         let rand = Math.random() * 100;
         let hitValue = 0;
-        if (hitChance > rand || hitChance < 0) { // Handle case for negative armor
+        if (hitChance > rand || hitChance < 0) {
+            // Handle case for negative armor
             hitValue = Math.floor(maxHit * (rand / 100) + 1);
         }
 
-        const logHit = true;
+        const logHit = false;
         if (logHit) {
             console.log("----------------hit info-------------");
             console.log("player level", damageLevel);
-            console.log("item str", equipmenStrength)
-            console.log("item attack", equipmentAttack)
+            console.log("item str", equipmenStrength);
+            console.log("item attack", equipmentAttack);
             console.log("enemy defense", this.defense);
             console.log("enemy bonus", enemyBonus);
             console.log("accuracy", accuracy);
             console.log("defense", defense);
-            console.log("effective damage level", effectiveDamageLevel)
-            console.log("hit chance", hitChance)
+            console.log("effective damage level", effectiveDamageLevel);
+            console.log("hit chance", hitChance);
             console.log("max hit", maxHit);
             console.log("rolled", rand);
             console.log("Damage", hitValue);
@@ -158,7 +171,7 @@ export class Enemy extends Target {
 
     // .0008a^3 + 4a + 40
     calcLevelCoeff(level) {
-        return (0.0008 * Math.pow(level, 3)) + (4 * level) + 40;
+        return 0.0008 * Math.pow(level, 3) + 4 * level + 40;
     }
 
     onClick(hitValue) {
@@ -209,10 +222,14 @@ export class Enemy extends Target {
                     return calcLevel(this.characterData.skills.attack);
                     break;
                 default:
-                    console.log("Error, incorrect weapon type", this.equipment.obj.equipment.WEAPON);
+                    console.log(
+                        "Error, incorrect weapon type",
+                        this.equipment.obj.equipment.WEAPON
+                    );
                     break;
             }
-        } else { // Unarmed
+        } else {
+            // Unarmed
             return calcLevel(this.characterData.skills.attack);
         }
     }
@@ -233,10 +250,14 @@ export class Enemy extends Target {
                     this.characterData.skills.attack += xpIncrease;
                     break;
                 default:
-                    console.log("Error, incorrect weapon type", this.equipment.obj.equipment.WEAPON);
+                    console.log(
+                        "Error, incorrect weapon type",
+                        this.equipment.obj.equipment.WEAPON
+                    );
                     break;
             }
-        } else { // Unarmed
+        } else {
+            // Unarmed
             this.characterData.skills.attack += xpIncrease;
         }
 

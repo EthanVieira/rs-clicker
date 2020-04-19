@@ -104,13 +104,13 @@ export class Item {
         this.actions.forEach(action => {
             optionsY += 15;
             let itemText = this.scene.add.text(
-                this.x + 10,
+                this.x - 20,
                 optionsY,
                 this.name,
                 FONTS.ITEM_NAME
             );
             let actionText = this.scene.add
-                .text(this.x - 48, optionsY, action.text, FONTS.OPTIONS_MENU)
+                .text(this.x - 78, optionsY, action.text, FONTS.OPTIONS_MENU)
                 .setInteractive()
                 .setDepth(5)
                 .on("pointerdown", () => {
@@ -123,7 +123,7 @@ export class Item {
         });
 
         let cancelText = this.scene.add
-            .text(this.x - 48, optionsY + 15, "Cancel", FONTS.OPTIONS_MENU)
+            .text(this.x - 78, optionsY + 15, "Cancel", FONTS.OPTIONS_MENU)
             .setInteractive()
             .on("pointerdown", () => {
                 console.log("cancel");

@@ -51,7 +51,7 @@ export default class Equipment extends Item {
                 this.scene.inventory.obj.inventory[this.index] = {};
                 this.index = -1;
             }
-            
+
             this.actions[0] = { text: "Unequip", func: "unequip" };
             this.equipped = true;
             this.scene.equipment.obj.equipItem(this);
@@ -72,7 +72,7 @@ export default class Equipment extends Item {
 
                 this.actions[0] = { text: "Equip", func: "equip" };
                 this.equipped = false;
-                console.log("Unequipped", this.name)
+                console.log("Unequipped", this.name);
             }
         } else {
             console.log("Error, trying to unequip when not equipped");

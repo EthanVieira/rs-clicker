@@ -177,7 +177,7 @@ export class LoadScene extends Phaser.Scene {
     create() {
         // Initialize save data
         this.characterData = getDefaultData();
-        
+
         // Check for previous play data
         this.getCookies();
 

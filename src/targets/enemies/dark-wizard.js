@@ -17,10 +17,16 @@ export class DarkWizard extends Enemy {
             scene: scene,
             name: "Dark Wizard",
             varName: "darkWizard",
-            images: [{name: "dark-wizard", path: "src/assets/sprites/DarkWizard.png", scale: 0.4}],
+            images: [
+                {
+                    name: "dark-wizard",
+                    path: "src/assets/sprites/DarkWizard.png",
+                    scale: 0.4
+                }
+            ],
             maxHealth: 12,
             killGold: 10,
-            drops: [{item: NormalBones, rate: .5}]
+            drops: [{ item: NormalBones, rate: 0.5 }]
         });
     }
 }
