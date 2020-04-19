@@ -4,6 +4,16 @@ export var itemManifest = {
         imagePath: "weapons/BronzeDagger.png",
         imageName: "bronze-dagger"
     },
+    NormalShortbow: {
+        classPath: "./equipment/normal-shortbow.js",
+        imagePath: "weapons/Shortbow.png",
+        imageName: "shortbow"
+    },
+    NormalStaff: {
+        classPath: "./equipment/normal-staff.js",
+        imagePath: "weapons/Staff.png",
+        imageName: "staff"
+    },
     NormalLogs: {
         classPath: "./logs/normal-logs.js",
         imagePath: "resources/Logs.png",

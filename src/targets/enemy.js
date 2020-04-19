@@ -1,6 +1,6 @@
 import { HealthBar } from "../ui/health-bar.js";
 import { Target } from "./target.js";
-import { CONSTANTS } from "../constants/constants.js";
+import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { calcLevel } from "../utilities.js";
 
 export class Enemy extends Target {
@@ -47,8 +47,47 @@ export class Enemy extends Target {
     getClickValue() {
         // Get damage based on level
         let damageLevel = this.getDamageLevel();
-        let hitValue = Math.floor(Math.random() * (damageLevel + 1));
+
+        // Get weapon stats
+        let equipmenStrengthBonus = 0;
+        let equipmentLevel = 0;
+        if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
+            equipmentLevel = this.equipment.obj.equipment.WEAPON.requiredLevel;
+            equipmenStrengthBonus = this.equipment.obj.equipment.WEAPON.strengthBonus;
+        }
+
+        // Strength level bonuses
+        let potBonus = 0;
+        let styleBonus = 1; // Aggressive: 3, Controlled: 1, Accurate/Defensive: 0
+        let prayerCoeff = 1;
+
+        // Get damage level after bonuses
+        let effectiveDamageLevel = Math.floor((damageLevel + potBonus) * prayerCoeff) + styleBonus;
+        console.log("effective damage level", effectiveDamageLevel)
+        // Get max hit
+        let maxHit = Math.floor(1.3 + (effectiveDamageLevel/10) + (equipmenStrengthBonus/80) + ((effectiveDamageLevel * equipmenStrengthBonus) / 640));
+        
+        // Check accuracy
+        let affinity = 55;
+        let accuracy = this.calcLevelCoeff(damageLevel) + 2.5 * this.calcLevelCoeff(equipmentLevel);
+        let defense = this.calcLevelCoeff(this.defense) + 2.5 * this.calcLevelCoeff(0);
+        let hitChance = affinity * (accuracy / defense);
+        
+        console.log("hit chance", hitChance)
+        console.log("max hit", maxHit);
+        let rand = Math.random() * 100;
+        console.log(rand);
+        let hitValue = 0;
+        if (hitChance > rand) {
+            hitValue = Math.floor(maxHit * (rand / 100) + 1);
+            console.log("hit", hitValue);
+        }
+        //let hitValue = Math.floor(Math.random() * (damageLevel + 1));
         return hitValue;
+    }
+
+    calcLevelCoeff(level) {
+        return (0.0008 * Math.pow(level, 3)) + (4 * level) + 40;
     }
 
     onClick(hitValue) {
@@ -58,7 +97,8 @@ export class Enemy extends Target {
         // Update stats
         this.stats.updateClickDamageStat(hitValue);
 
-        // TODO: Update skills here
+        // Update xp
+        this.increaseXp(hitValue);
 
         // Display hit
         this.hitsplatText.text = hitValue;
@@ -86,16 +126,49 @@ export class Enemy extends Target {
     }
 
     getDamageLevel() {
-        switch (this.characterData.characterClass) {
-            case CONSTANTS.CLASS.MAGE:
-                return calcLevel(this.characterData.skills.magic);
-                break;
-            case CONSTANTS.CLASS.RANGER:
-                return calcLevel(this.characterData.skills.ranged);
-                break;
-            case CONSTANTS.CLASS.WARRIOR:
-                return calcLevel(this.characterData.skills.attack);
-                break;
+        if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
+            switch (this.equipment.obj.equipment.WEAPON.skill) {
+                case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                    return calcLevel(this.characterData.skills.magic);
+                    break;
+                case EQUIPMENT.WEAPON_TYPES.RANGED:
+                    return calcLevel(this.characterData.skills.ranged);
+                    break;
+                case EQUIPMENT.WEAPON_TYPES.MELEE:
+                    return calcLevel(this.characterData.skills.attack);
+                    break;
+                default:
+                    console.log("Error, incorrect weapon type", this.equipment.obj.equipment.WEAPON);
+                    break;
+            }
+        } else { // Unarmed
+            return calcLevel(this.characterData.skills.attack);
         }
+    }
+
+    increaseXp(hitValue) {
+        // Increase attack/ranged/magic XP
+        const xpModifier = 1;
+        let xpIncrease = xpModifier * hitValue;
+        if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
+            switch (this.equipment.obj.equipment.WEAPON.skill) {
+                case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                    this.characterData.skills.magic += xpIncrease;
+                    break;
+                case EQUIPMENT.WEAPON_TYPES.RANGED:
+                    this.characterData.skills.ranged += xpIncrease;
+                    break;
+                case EQUIPMENT.WEAPON_TYPES.MELEE:
+                    this.characterData.skills.attack += xpIncrease;
+                    break;
+                default:
+                    console.log("Error, incorrect weapon type", this.equipment.obj.equipment.WEAPON);
+                    break;
+            }
+        } else { // Unarmed
+            this.characterData.skills.attack += xpIncrease;
+        }
+
+        this.scene.dashboard.updateSkillsText();
     }
 }

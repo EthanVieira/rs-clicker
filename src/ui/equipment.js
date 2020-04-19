@@ -35,7 +35,7 @@ export class Equipment {
     equipItem(item) {
         // Remove previously equipped item if there is one
         if (Object.keys(this.equipment[item.slot]).length) {
-            console.log("Unequiping previous item", this.equipment[item.slot])
+            console.log("Unequiping previous item", this.equipment[item.slot].name)
             this.equipment[item.slot].unequip();
         }
         
@@ -48,18 +48,17 @@ export class Equipment {
         // Put into the right position
         switch (item.slot) {
             case EQUIPMENT.SLOTS.WEAPON:
-                item.move(600, 300);
+                item.move(587, 303);
                 break;
             default:
                 console.log("Bad equipment slot", item.slot);
-                item.move(600, 300);
+                item.move(587, 303);
                 break;
         }
 
         // Hide if equipment is not selected
-        if (this.scene.currentPanel != CONSTANTS.PANEL.EQUIPMENT) {
-            item.show(false);
-        }
+        let showItem = this.scene.currentPanel == CONSTANTS.PANEL.EQUIPMENT
+        item.show(showItem);
 
         // Add object to the scene
         this.equipment[item.slot] = item;

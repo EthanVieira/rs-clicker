@@ -50,9 +50,8 @@ export class Inventory {
         }
 
         // Hide if inventory is not selected
-        if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
-            item.show(false);
-        }
+        let showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY
+        item.show(showItem);
 
         // Add object to the scene
         this.inventory[index] = item;
@@ -76,63 +75,6 @@ export class Inventory {
             console.log("Inventory is full");
             return false;
         }
-    }
-
-    createRightClickMenu(x, y, item, index) {
-        let menuBox = this.scene.add
-            .image(x, y, "right-click-menu")
-            .setDepth(4)
-            .setInteractive()
-            .on("pointerout", pointer => {
-                // Check to ensure it doesn't trigger when hovering over text options
-                if (
-                    pointer.worldX > x + menuBox.width / 2 ||
-                    pointer.worldY > y + menuBox.height / 2 ||
-                    pointer.worldX < x - menuBox.width / 2 ||
-                    pointer.worldY < y - menuBox.height / 2
-                ) {
-                    this.menu.destroy();
-                }
-            });
-
-        // Add text options
-        // Have to use two separate texts per option for different colors
-        let options = [menuBox];
-        let optionsY = y - 45;
-
-        // Generate dynamic list of actions (wield, bury, etc.)
-        item.actions.forEach(action => {
-            optionsY += 15;
-            let itemText = this.scene.add.text(
-                x + 10,
-                optionsY,
-                item.name,
-                FONTS.ITEM_NAME
-            );
-            let actionText = this.scene.add
-                .text(x - 48, optionsY, action.text, FONTS.OPTIONS_MENU)
-                .setInteractive()
-                .setDepth(5)
-                .on("pointerdown", () => {
-                    item[action.func]();
-                    this.menu.destroy();
-                });
-
-            options.push(actionText);
-            options.push(itemText);
-        });
-
-        let cancelText = this.scene.add
-            .text(x - 48, optionsY + 15, "Cancel", FONTS.OPTIONS_MENU)
-            .setInteractive()
-            .on("pointerdown", () => {
-                console.log("cancel");
-                this.menu.destroy();
-            });
-        options.push(cancelText);
-
-        // Group objects together
-        this.menu = this.scene.add.container(0, 0, options).setDepth(5);
     }
 
     highlightItem(index) {

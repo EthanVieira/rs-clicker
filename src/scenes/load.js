@@ -3,6 +3,7 @@ import { MATERIALS } from "../constants/materials.js";
 import { ITEMS } from "../constants/items.js";
 import { getDefaultData } from "../utilities.js";
 import { itemManifest } from "../items/item-manifest.js";
+import { targetManifest } from "../targets/target-manifest.js";
 
 export class LoadScene extends Phaser.Scene {
     characterData = {};
@@ -109,20 +110,46 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("play-button", "src/assets/ui/buttons/PlayButton.png");
         this.load.image("settings-button", "src/assets/ui/buttons/SettingsButton.png");
 
-        // Load all items
-        let path = "src/assets/items/";
+        // Dashboard UI
+        // Inventory icon
+        this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
+        // Skills panel
+        this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
+        this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
+        // Prayer panel
+        this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
+        this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
+        // Audio panel
+        this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
+        this.load.image(
+            "audio-settings-button",
+            "src/assets/ui/buttons/AudioSettingsButton.png"
+        );
+        this.load.image("audio-slider", "src/assets/ui/buttons/AudioSlider.png");
+        this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
+        // Quests panel
+        this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
+        this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
+        // Equipment panel
+        this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
+        this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
+        // Right click menu
+        this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
+
+        // Load all targets in target manifest
+        let path = "src/assets/sprites/";
+        Object.entries(targetManifest).forEach(([target, targetObj]) => {
+            this.load.image(targetObj.imageName, path + targetObj.imagePath);
+        });
+
+        // Load all items in item manifest
+        path = "src/assets/items/icons/";
         Object.entries(itemManifest).forEach(([item, itemObj]) => {
             this.load.image(itemObj.imageName, path + itemObj.imagePath);
         });
 
-        // Resources
-        /*this.load.image("Logs", "src/assets/items/resources/Logs.png");
-
-        // Other item sprites
-        this.load.image("Bones", "src/assets/items/other/Bones.png");*/
-
         // Load all weapons
-        path = "src/assets/items/weapons/";
+        path = "src/assets/items/models/weapons/";
         Object.entries(ITEMS.Weapons).forEach(([item, itemObj]) => {
             // Loop through materials
             Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {

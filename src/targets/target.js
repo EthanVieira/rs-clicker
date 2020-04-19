@@ -42,8 +42,7 @@ export class Target {
         this.scene = data.scene;
         this.stats = data.scene.stats;
         this.characterData = data.scene.characterData;
-
-        this.val = Math.floor(Math.random() * 100);
+        this.equipment = data.scene.dashboard.equipment;
     }
 
     clickTarget() {

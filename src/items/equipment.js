@@ -25,9 +25,6 @@ export default class Equipment extends Item {
     slot = "";
     equipped = false;
 
-    // Other
-    scale = .2;
-
     constructor() {
         super();
         // Add to front of actions array
@@ -44,7 +41,7 @@ export default class Equipment extends Item {
 
     equip() {
         if (!this.equipped) {
-            console.log("Equipping", this.name, this.index);
+            console.log("Equipping", this.name);
 
             // Remove from inventory if it was there
             if (this.index >= 0) {

@@ -74,38 +74,7 @@ export class DashboardScene extends Phaser.Scene {
         this.characterData = characterData;
     }
 
-    preload() {
-        // Inventory icon
-        this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
-
-        // Skills panel
-        this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
-        this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
-
-        // Prayer panel
-        this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
-        this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
-
-        // Audio panel
-        this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
-        this.load.image(
-            "audio-settings-button",
-            "src/assets/ui/buttons/AudioSettingsButton.png"
-        );
-        this.load.image("audio-slider", "src/assets/ui/buttons/AudioSlider.png");
-        this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
-
-        // Quests panel
-        this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
-        this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
-
-        // Equipment panel
-        this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
-        this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
-
-        // Right click menu
-        this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
-    }
+    preload() {}
 
     create() {
         // Get audio scene

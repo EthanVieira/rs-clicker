@@ -21,6 +21,7 @@ export default class BronzeDagger extends Equipment {
 
 	// Other
 	cost = 10;
+	requiredLevel = 1;
 
 	constructor(scene) {
 		super();
