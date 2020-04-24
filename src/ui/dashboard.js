@@ -93,7 +93,7 @@ export class DashboardScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerdown", () => {
                 // Pass in the current level to know which level to return to upon exiting the shop.
-                this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
+                this.currentScene.scene.run(CONSTANTS.SCENES.SHOP, [
                     this.characterData,
                     this.characterData.currentLevel
                 ]);
