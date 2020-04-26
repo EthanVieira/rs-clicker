@@ -182,6 +182,8 @@ export class LoadScene extends Phaser.Scene {
 
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO, this.characterData);
+        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        audioScene.playAudio("scape-main");
 
         this.add.text(250, 300, "Welcome to RS Clicker!", {font: "24px runescape"});
         this.add.text(250, 340, "Click the lesser demon to continue.", {font: "18px runescape"});

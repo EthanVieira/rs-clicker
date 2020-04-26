@@ -480,7 +480,7 @@ export class DashboardScene extends Phaser.Scene {
             "Welcome to RS Clicker",
             FONTS.ITEM_HEADER
         );
-        this.showItemStats(false);
+        this.showObjectInfo(false);
     }
 
     showSkills(isVisible) {
@@ -581,7 +581,7 @@ export class DashboardScene extends Phaser.Scene {
     }
 
     // Show items stats in chat window
-    showItemStats(isVisible, item = false) {
+    showObjectInfo(isVisible, object = false) {
         // Show/hide all text
         for (let textBox in this.itemStatText) {
             this.itemStatText[textBox].visible = isVisible;
@@ -597,15 +597,15 @@ export class DashboardScene extends Phaser.Scene {
         this.chatWindow.visible = isVisible;
         this.welcomeText.visible = isVisible;
 
-        // Get stats from item
-        if (item) {
+        // Get stats from object
+        if (object) {
             // Get stat values if it's equipment
-            if (item.slot != undefined) {
+            if (object.slot != undefined) {
                 for (let textBox in this.itemStatText) {
-                    this.itemStatText[textBox].text = item[textBox];
+                    this.itemStatText[textBox].text = object[textBox];
                 }
             } else {
-                // Item is not equipment, hide stats
+                // Object is not equipment, hide stats
                 for (let textBox in this.itemStatText) {
                     this.itemStatText[textBox].visible = false;
                 }
@@ -615,10 +615,17 @@ export class DashboardScene extends Phaser.Scene {
                 this.itemStatHeaders.visible = false;
             }
 
+            if (object.cost != undefined) {
+                this.costText.text = Math.floor(object.cost) + "gp";
+            } else {
+                // Object is not an item, hide cost
+                this.costText.visible = false;
+                this.sellsForText.visible = false;
+            }
+
             // Get examine text
-            this.itemNameText.text = item.name;
-            this.itemExamineText.text = item.examineText;
-            this.costText.text = Math.floor(item.cost) + "gp";
+            this.itemNameText.text = object.name;
+            this.itemExamineText.text = object.examineText;
         }
     }
 

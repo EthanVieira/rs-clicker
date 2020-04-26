@@ -16,6 +16,9 @@ export class Goblin extends Enemy {
     magicDefense = -15;
     rangedDefense = -15;
 
+    // Text
+    examineText = "An ugly green creature.";
+
     constructor(scene) {
         super({
             scene: scene,

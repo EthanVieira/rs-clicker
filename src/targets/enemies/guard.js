@@ -22,6 +22,9 @@ export class Guard extends Enemy {
     magicDefense = -4;
     rangedDefense = 20;
 
+    // Text
+    examineText = "He tries to keep order around here.";
+
     constructor(scene) {
         super({
             scene: scene,

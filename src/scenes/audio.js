@@ -31,7 +31,6 @@ export class AudioScene extends Phaser.Scene {
     create() {
         // Don't pause BGM when clicking off the window
         this.sound.pauseOnBlur = false;
-        this.playAudio("scape-main");
         this.changeVolume(0, this.characterData.audio[0]);
     }
 
@@ -41,6 +40,7 @@ export class AudioScene extends Phaser.Scene {
         if (audioName != this.currentSongName) {
             // Check if audio has been loaded
             if (this.scene.isActive()) {
+                console.log("scene is active, play", audioName);
                 if (this.audioLoaded) {
                     this.currentSong.stop();
                 }
@@ -53,6 +53,7 @@ export class AudioScene extends Phaser.Scene {
             } else {
                 // If called before load, play once loaded
                 this.events.once("create", () => {
+                    console.log("once event: ", audioName);
                     this.playAudio(audioName);
                 });
             }

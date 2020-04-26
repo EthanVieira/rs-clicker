@@ -22,6 +22,9 @@ export class Cow extends Enemy {
     magicDefense = -21;
     rangedDefense = -21;
 
+    // Text
+    examineText = "Converts grass to beef.";
+
     constructor(scene) {
         super({
             scene: scene,

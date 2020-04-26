@@ -9,6 +9,9 @@ export class GiantRat extends Enemy {
     magic = 1;
     ranged = 1;
 
+    // Text
+    examineText = "Overgrown vermin.";
+
     constructor(scene) {
         super({
             scene: scene,

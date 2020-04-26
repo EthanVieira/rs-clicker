@@ -1,4 +1,6 @@
-export class Target {
+import { ClickableObject } from "../clickable-object.js";
+
+export class Target extends ClickableObject {
     curTarget;
     targets = [];
     progressBar;
@@ -13,6 +15,7 @@ export class Target {
     characterData;
 
     constructor(data) {
+        super();
         let width = data.scene.cameras.main.width;
         let height = data.scene.cameras.main.height;
         this.x = width / 2 - 100;
@@ -26,8 +29,12 @@ export class Target {
                 .setDepth(2)
                 .setScale(image.scale)
                 .setInteractive()
-                .on("pointerup", () => {
-                    this.clickTarget();
+                .on("pointerdown", (pointer) => {
+                    if (pointer.rightButtonDown()) {
+                        this.createRightClickMenu(pointer.x, pointer.y);
+                    } else {
+                        this.clickTarget();
+                    }
                 });
             target.visible = false;
 

@@ -10,3 +10,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+body {
+  margin: auto;
+  padding: 0;
+}
