@@ -76,6 +76,7 @@ export class Item {
 
     examine() {
         console.log(this.examineText);
+        this.scene.showItemStats(true, this);
     }
 
     createRightClickMenu() {
@@ -94,6 +95,11 @@ export class Item {
                     this.menu.destroy();
                 }
             });
+
+        // Show stats menu until right click menu is destroyed
+        menuBox.on("destroy", () => {
+            this.scene.showItemStats(false);
+        });
 
         // Add text options
         // Have to use two separate texts per option for different colors
@@ -115,7 +121,11 @@ export class Item {
                 .setDepth(5)
                 .on("pointerdown", () => {
                     this[action.func]();
-                    this.menu.destroy();
+
+                    // Keep menu up when examining
+                    if (action.text != "Examine") {
+                        this.menu.destroy();
+                    }
                 });
 
             options.push(actionText);

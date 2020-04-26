@@ -44,6 +44,16 @@ export class DashboardScene extends Phaser.Scene {
         obj: {}
     };
 
+    chatWindow;
+    itemNameText;
+    itemExamineText;
+    sellsForText;
+    costText;
+    itemStatHeaders;
+    itemStatLabels = [];
+    itemStatText = {};
+    welcomeText;
+
     // Save data
     characterData;
 
@@ -74,7 +84,9 @@ export class DashboardScene extends Phaser.Scene {
         this.characterData = characterData;
     }
 
-    preload() {}
+    preload() {
+        this.load.image("chat-window", "src/assets/ui/ChatWindow.png");
+    }
 
     create() {
         // Get audio scene
@@ -93,7 +105,7 @@ export class DashboardScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerdown", () => {
                 // Pass in the current level to know which level to return to upon exiting the shop.
-                this.currentScene.scene.run(CONSTANTS.SCENES.SHOP, [
+                this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
                     this.characterData,
                     this.characterData.currentLevel
                 ]);
@@ -139,17 +151,7 @@ export class DashboardScene extends Phaser.Scene {
 
         // Hotbar skills text (the top part)
         this.prayerHotbarText = this.add
-            .text(532, 95, "1", { 
-                fontFamily: '"runescape_uf"',
-                fontSize: "12px",
-                fill: "#00ff00",
-                shadow: {
-                    offsetX: 1,
-                    offsetY: 1,
-                    color: "black",
-                    fill: true
-                } 
-            })
+            .text(532, 97, "1", FONTS.HOTBAR)
             .setOrigin(0.5)
             .setDepth(3);
 
@@ -217,31 +219,11 @@ export class DashboardScene extends Phaser.Scene {
                 this.showPrayer(true);
             });
         this.prayer.curPrayerText = this.add
-            .text(630, 441, "1", { 
-                fontFamily: '"runescape_uf"',
-                fontSize: "14px",
-                fill: "orange",
-                shadow: {
-                    offsetX: 1,
-                    offsetY: 1,
-                    color: "black",
-                    fill: true
-                } 
-            })
+            .text(630, 441, "1", FONTS.PRAYER)
             .setOrigin(0.5)
             .setDepth(3);
         this.prayer.maxPrayerText = this.add
-            .text(646, 441, "1", { 
-                fontFamily: '"runescape_uf"',
-                fontSize: "14px",
-                fill: "orange",
-                shadow: {
-                    offsetX: 1,
-                    offsetY: 1,
-                    color: "black",
-                    fill: true
-                } 
-            })
+            .text(646, 441, "1", FONTS.PRAYER)
             .setOrigin(0.5)
             .setDepth(3);
         this.showPrayer(false);
@@ -352,6 +334,153 @@ export class DashboardScene extends Phaser.Scene {
             });
         this.equipment.obj = new Equipment(this, this.characterData.equipment);
         this.showEquipment(false);
+
+        // Chat window for examining items
+        this.chatWindow = this.add
+            .image(0, 338, "chat-window")
+            .setOrigin(0, 0)
+            .setDepth(0);
+        let tableStartX = 140;
+        let tableStartY = 380;
+        let tableWidth = 70;
+        let tableHeight = 16;
+        // Item text
+        this.itemNameText = this.add.text(10, tableStartY - 32, "", FONTS.ITEM_HEADER);
+        this.itemExamineText = this.add.text(
+            tableStartX,
+            tableStartY - 32,
+            "",
+            FONTS.ITEM_STATS
+        );
+        this.sellsForText = this.add.text(
+            10,
+            tableStartY - 16,
+            "Sells for:",
+            FONTS.ITEM_HEADER
+        );
+        this.costText = this.add.text(
+            tableStartX,
+            tableStartY - 16,
+            "",
+            FONTS.ITEM_STATS
+        );
+
+        // Headers
+        let text = "Accuracy Bonuses:\n" + "Defense Bonuses:\n" + "Damage Bonuses:";
+        this.itemStatHeaders = this.add.text(10, tableStartY, text, FONTS.ITEM_HEADER);
+
+        // Column labels
+        let columns = [
+            "Stab\nStab\nMelee",
+            "Slash\nSlash\nPrayer",
+            "Crush\nCrush",
+            "Magic\nMagic\nMagic",
+            "Ranged\nRanged\nRanged"
+        ];
+        columns.forEach((column, index) => {
+            this.itemStatLabels[index] = this.add.text(
+                tableStartX + tableWidth * index,
+                tableStartY,
+                column,
+                FONTS.ITEM_STATS
+            );
+        });
+
+        // Accuracy bonuses
+        this.itemStatText.stabBonus = this.add.text(
+            tableStartX + 50,
+            tableStartY,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.slashBonus = this.add.text(
+            tableStartX + 50 + tableWidth,
+            tableStartY,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.crushBonus = this.add.text(
+            tableStartX + 50 + tableWidth * 2,
+            tableStartY,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.magicBonus = this.add.text(
+            tableStartX + 50 + tableWidth * 3,
+            tableStartY,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.rangedBonus = this.add.text(
+            tableStartX + 50 + tableWidth * 4,
+            tableStartY,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        // Defense
+        this.itemStatText.stabDefenseBonus = this.add.text(
+            tableStartX + 50,
+            tableStartY + tableHeight,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.slashDefenseBonus = this.add.text(
+            tableStartX + 50 + tableWidth,
+            tableStartY + tableHeight,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.crushDefenseBonus = this.add.text(
+            tableStartX + 50 + tableWidth * 2,
+            tableStartY + tableHeight,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.magicDefenseBonus = this.add.text(
+            tableStartX + 50 + tableWidth * 3,
+            tableStartY + tableHeight,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.rangedDefenseBonus = this.add.text(
+            tableStartX + 50 + tableWidth * 4,
+            tableStartY + tableHeight,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        // Other (strength/damage)
+        this.itemStatText.strengthBonus = this.add.text(
+            tableStartX + 50,
+            tableStartY + tableHeight * 2,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.prayerBonus = this.add.text(
+            tableStartX + 50 + tableWidth,
+            tableStartY + tableHeight * 2,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.magicStrengthBonus = this.add.text(
+            tableStartX + 50 + tableWidth * 2,
+            tableStartY + tableHeight * 2,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        this.itemStatText.rangedStrengthBonus = this.add.text(
+            tableStartX + 50 + tableWidth * 3,
+            tableStartY + tableHeight * 2,
+            "0",
+            FONTS.ITEM_STATS
+        );
+        // Welcome text
+        this.welcomeText = this.add.text(
+            10,
+            441,
+            "Welcome to RS Clicker",
+            FONTS.ITEM_HEADER
+        );
+        this.showItemStats(false);
     }
 
     showSkills(isVisible) {
@@ -449,6 +578,48 @@ export class DashboardScene extends Phaser.Scene {
         let previousVolume = this.characterData.audio[volumeType];
         this.audio.audioButtons[volumeType][previousVolume].setAlpha(0.1);
         this.audio.audioButtons[volumeType][newButton].setAlpha(1);
+    }
+
+    // Show items stats in chat window
+    showItemStats(isVisible, item = false) {
+        // Show/hide all text
+        for (let textBox in this.itemStatText) {
+            this.itemStatText[textBox].visible = isVisible;
+        }
+        this.itemStatLabels.forEach(label => {
+            label.visible = isVisible;
+        });
+        this.itemExamineText.visible = isVisible;
+        this.itemNameText.visible = isVisible;
+        this.sellsForText.visible = isVisible;
+        this.costText.visible = isVisible;
+        this.itemStatHeaders.visible = isVisible;
+        this.chatWindow.visible = isVisible;
+        this.welcomeText.visible = isVisible;
+
+        // Get stats from item
+        if (item) {
+            // Get stat values if it's equipment
+            if (item.slot != undefined) {
+                for (let textBox in this.itemStatText) {
+                    this.itemStatText[textBox].text = item[textBox];
+                }
+            } else {
+                // Item is not equipment, hide stats
+                for (let textBox in this.itemStatText) {
+                    this.itemStatText[textBox].visible = false;
+                }
+                this.itemStatLabels.forEach(label => {
+                    label.visible = false;
+                });
+                this.itemStatHeaders.visible = false;
+            }
+
+            // Get examine text
+            this.itemNameText.text = item.name;
+            this.itemExamineText.text = item.examineText;
+            this.costText.text = Math.floor(item.cost) + "gp";
+        }
     }
 
     hideAllMenus() {

@@ -36,6 +36,7 @@ export class AudioScene extends Phaser.Scene {
     }
 
     playAudio(audioName) {
+        console.log("input:", audioName, "current:", this.currentSongName)
         // Only play if song changes
         if (audioName != this.currentSongName) {
             // Check if audio has been loaded

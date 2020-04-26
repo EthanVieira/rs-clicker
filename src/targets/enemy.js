@@ -115,6 +115,8 @@ export class Enemy extends Target {
                     break;
                 }
             }
+        } else { // Unarmed uses crush type attack
+            enemyBonus = this.crushDefense;
         }
 
         // Strength level bonuses

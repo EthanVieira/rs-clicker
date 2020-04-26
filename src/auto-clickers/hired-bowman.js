@@ -6,7 +6,7 @@ export class HiredBowman extends AutoClicker {
             scene: scene,
             name: "Hired Bowman",
             level: 1,
-            dps: 5
+            dps: 1
         });
     }
 }
