@@ -39,7 +39,7 @@ export class LoadScene extends Phaser.Scene {
             y: height / 2 - 50,
             text: "RS Clicker is loading - Please Wait...",
             style: {
-                font: "18px courier",
+                font: "24px runescape",
                 fill: "#ffffff"
             }
         });
@@ -50,31 +50,31 @@ export class LoadScene extends Phaser.Scene {
             y: height / 2 - 5,
             text: "0%",
             style: {
-                font: "12px monospace",
+                font: "18px runescape",
                 fill: "#ffffff"
             }
         });
         percentText.setOrigin(0.5, 0.5);
 
-        // TODO: Display asset text on loading bar
-        // var assetText = this.make.text({
-        //     x: width / 2,
-        //     y: height / 2 + 50,
-        //     text: '',
-        //     style: {
-        //         font: '18px monospace',
-        //         fill: '#ffffff'
-        //     }
-        // });
-        // assetText.setOrigin(0.5, 0.5);
+        // Display asset text on loading bar
+        var assetText = this.make.text({
+            x: width / 2,
+            y: height / 2 + 42,
+            text: 'Loading asset',
+            style: {
+                font: '18px runescape',
+                fill: '#ffffff'
+            }
+        });
+        assetText.setOrigin(0.5, 0.5);
 
-        // this.load.on('fileprogress', function (file) {
-        //     assetText.setText('Loading asset: ' + file.key);
-        // });
+        this.load.on('fileprogress', function (file) {
+            assetText.text = "Loading asset: " + file.key;
+        });
 
         this.load.on("progress", function(value, file) {
             percentText.setText(
-                "Loading asset: good ol rs stuff " + parseInt(value * 100) + "%"
+                "Loading good ol rs stuff " + parseInt(value * 100) + "%"
             );
             progressBar.clear();
             progressBar.fillStyle(0xed1c24, 1);
@@ -86,12 +86,8 @@ export class LoadScene extends Phaser.Scene {
             progressBox.destroy();
             loadingText.destroy();
             percentText.destroy();
-            //assetText.destroy();
+            assetText.destroy();
         });
-
-        //TODO: Get RS Font working
-        // Fonts
-        //this.load.bitmapFont('rsfont', 'src/assets/fonts/runescape_uf.bmp');
 
         // Effects
         this.load.image("blue-hitsplat", "src/assets/effects/BlueHitsplat.png");
@@ -135,6 +131,9 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
         // Right click menu
         this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
+        // Scrolled windoow
+        this.load.image("scroll-bar", "src/assets/ui/ScrollBar.png");
+        this.load.image("scroll-button", "src/assets/ui/ScrollButton.png");
 
         // Load all targets in target manifest
         let path = "src/assets/sprites/";
@@ -183,9 +182,11 @@ export class LoadScene extends Phaser.Scene {
 
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO, this.characterData);
+        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        audioScene.playAudio("scape-main");
 
-        this.add.text(250, 300, "Welcome to RS Clicker!");
-        this.add.text(250, 340, "Click the lesser demon to continue.");
+        this.add.text(250, 300, "Welcome to RS Clicker!", {font: "24px runescape"});
+        this.add.text(250, 340, "Click the lesser demon to continue.", {font: "18px runescape"});
 
         let lesserDemonSprite = this.add.image(750, 600, "lesser-demon");
         lesserDemonSprite.setInteractive();

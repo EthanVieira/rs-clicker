@@ -50,7 +50,7 @@ export class Inventory {
         }
 
         // Hide if inventory is not selected
-        let showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY
+        let showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY;
         item.show(showItem);
 
         // Add object to the scene

@@ -1,5 +1,6 @@
 import { itemManifest } from "./item-manifest.js";
-import { FONTS } from "../constants/constants.js";
+//import { FONTS } from "../constants/constants.js";
+import { ClickableObject } from "../clickable-object.js";
 
 export async function getItemClass(itemName, type, scene) {
     //console.log(itemName, type);
@@ -10,7 +11,7 @@ export async function getItemClass(itemName, type, scene) {
     return new itemClass.default(scene);
 }
 
-export class Item {
+export class Item extends ClickableObject {
     // Text data
     name = "";
     item = "";
@@ -25,7 +26,6 @@ export class Item {
 
     // Objects
     sprite;
-    menu;
     scene;
 
     // Others
@@ -49,7 +49,7 @@ export class Item {
             .setInteractive()
             .on("pointerdown", pointer => {
                 if (pointer.rightButtonDown()) {
-                    this.createRightClickMenu();
+                    this.createRightClickMenu(pointer.x, pointer.y);
                 } else {
                     this.leftClick();
                 }
@@ -74,67 +74,6 @@ export class Item {
         this.destroy();
     }
 
-    examine() {
-        console.log(this.examineText);
-    }
-
-    createRightClickMenu() {
-        let menuBox = this.scene.add
-            .image(this.x, this.y, "right-click-menu")
-            .setDepth(4)
-            .setInteractive()
-            .on("pointerout", pointer => {
-                // Check to ensure it doesn't trigger when hovering over text options
-                if (
-                    pointer.worldX > this.x + menuBox.width / 2 ||
-                    pointer.worldY > this.y + menuBox.height / 2 ||
-                    pointer.worldX < this.x - menuBox.width / 2 ||
-                    pointer.worldY < this.y - menuBox.height / 2
-                ) {
-                    this.menu.destroy();
-                }
-            });
-
-        // Add text options
-        // Have to use two separate texts per option for different colors
-        let options = [menuBox];
-        let optionsY = this.y - 45;
-
-        // Generate dynamic list of actions (wield, bury, etc.)
-        this.actions.forEach(action => {
-            optionsY += 15;
-            let itemText = this.scene.add.text(
-                this.x - 20,
-                optionsY,
-                this.name,
-                FONTS.ITEM_NAME
-            );
-            let actionText = this.scene.add
-                .text(this.x - 78, optionsY, action.text, FONTS.OPTIONS_MENU)
-                .setInteractive()
-                .setDepth(5)
-                .on("pointerdown", () => {
-                    this[action.func]();
-                    this.menu.destroy();
-                });
-
-            options.push(actionText);
-            options.push(itemText);
-        });
-
-        let cancelText = this.scene.add
-            .text(this.x - 78, optionsY + 15, "Cancel", FONTS.OPTIONS_MENU)
-            .setInteractive()
-            .on("pointerdown", () => {
-                console.log("cancel");
-                this.menu.destroy();
-            });
-        options.push(cancelText);
-
-        // Group objects together
-        this.menu = this.scene.add.container(0, 0, options).setDepth(5);
-    }
-
     move(x, y, index = -1) {
         this.x = x;
         this.y = y;
@@ -148,7 +87,9 @@ export class Item {
     }
 
     destroy() {
-        this.scene.characterData.inventory[this.index] = "";
+        if (this.index >= 0) {
+            this.scene.characterData.inventory[this.index] = "";
+        }
         this.sprite.destroy();
         this.name = "";
     }

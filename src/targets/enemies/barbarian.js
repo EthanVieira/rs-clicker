@@ -19,6 +19,9 @@ export class Barbarian extends Enemy {
     stabDefense = 1;
     slashDefense = 1;
 
+    // Text
+    examineText = "Wotan, a sturdy barbarian warrior.";
+
     constructor(scene) {
         super({
             scene: scene,

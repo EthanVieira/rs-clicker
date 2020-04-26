@@ -125,4 +125,32 @@ export const FONTS = {
         fill: "orange",
         fontSize: "12px"
     },
+    ITEM_STATS: {
+        font: "16px runescape",
+        fill: "blue",
+    },
+    ITEM_HEADER: {
+        font: "16px runescape",
+        fill: "black",
+    },
+    PRAYER: { 
+        font: "16px runescape",
+        fill: "orange",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true
+        } 
+    },
+    HOTBAR: { 
+        font: "15.5px runescape",
+        fill: "#00ff00",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true
+        } 
+    }
 }

@@ -12,6 +12,9 @@ export class DarkWizard extends Enemy {
     // Defense
     magicDefense = 3;
 
+    // Text
+    examineText = "He works evil magic.";
+
     constructor(scene) {
         super({
             scene: scene,

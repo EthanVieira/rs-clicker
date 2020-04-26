@@ -7,6 +7,7 @@ import { CONSTANTS } from "../constants/constants.js";
 import { MATERIALS } from "../constants/materials.js";
 import { ITEMS } from "../constants/items.js";
 import { Item } from "../item.js";
+import { ScrollWindow } from "../ui/scroll-window.js";
 
 export class ShopScene extends Phaser.Scene {
     constructor() {
@@ -52,6 +53,10 @@ export class ShopScene extends Phaser.Scene {
             .setDepth(3);
         this.loadingText.visible = false;
 
+        // Add scrollable window for items
+        this.scrollWindow = new ScrollWindow("shop");
+        this.scene.add("scroll-window", this.scrollWindow, true);
+
         // Display the shop (weapons displayed by default)
         this.loadShop("Weapons");
 
@@ -63,6 +68,7 @@ export class ShopScene extends Phaser.Scene {
         this.exitButton.on("pointerup", () => {
             // Pass in the current level to know which level to return to upon exiting the shop.
             this.scene.start(this.currentLevel, this.characterData);
+            this.scene.remove(this.scrollWindow.name);
             console.log("Going back to", this.currentLevel);
         });
 
@@ -149,7 +155,7 @@ export class ShopScene extends Phaser.Scene {
             fill = "#06c663";
         }
         this.add.text(33, 320, goldText, {
-            fontFamily: '"runescape_uf"',
+            fontFamily: '"runescape"',
             fill: color,
             stroke: "#000000",
             strokeThickness: 2
@@ -211,7 +217,8 @@ export class ShopScene extends Phaser.Scene {
         for (let i = 0; i < this.shopItems.length; i++) {
             let item = this.shopItems[i];
             console.log("Displaying Item: ", item.name);
-            let tempIcon = this.add.image(item.x, item.y, item.name).setInteractive();
+            // Add images to the scroll window
+            let tempIcon = this.scrollWindow.add.image(item.x, item.y, item.name).setInteractive();
             tempIcon.scale = 0.25;
             tempIcon.on("pointerup", () => {
                 this.buyItem(this.shopItems[i]);
@@ -221,6 +228,9 @@ export class ShopScene extends Phaser.Scene {
             });
             this.shopIcons.push(tempIcon);
         }
+
+        // Attach to the correct columns
+        this.scrollWindow.addObjects(20, 100, 400, 4, this.shopIcons);
     }
 
     // TODO: Buy an item from the shop (add item to inventory / subtract from available gold)
