@@ -32,6 +32,7 @@ export const CONSTANTS = {
         INVENTORY: "INVENTORY",
         SKILLS: "SKILLS",
         PRAYER: "PRAYER",
+        EQUIPMENT: "EQUIPMENT",
         QUESTS: "QUESTS",
         SETTINGS: "SETTINGS"
     },
@@ -39,6 +40,32 @@ export const CONSTANTS = {
         MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000
     }
 };
+
+export const EQUIPMENT = {
+    WEAPON_TYPES: {
+        MELEE: "MELEE",
+        RANGED: "RANGED",
+        MAGIC: "MAGIC"
+    },
+    SLOTS: {
+        HEAD: "HEAD",
+        CAPE: "CAPE",
+        NECK: "NECK",
+        AMMUNITION: "AMMUNITION",
+        WEAPON: "WEAPON",
+        SHIELD: "SHIELD",
+        BODY: "BODY",
+        LEGS: "LEGS",
+        HANDS: "HANDS",
+        FEET: "FEET",
+        TWO_HANDED: "TWO_HANDED"
+    },
+    ATTACK_STYLE: {
+        STAB: "STAB",
+        SLASH: "SLASH",
+        CRUSH: "CRUSH"
+    }
+}
 
 export const SCREEN = {
     WIDTH: 765,

@@ -4,7 +4,7 @@ import { getItemClass } from "../items/item.js";
 export class Inventory {
     scene;
     menu;
-    playerItems = []; // Pointer to cookies, store item name/material
+    playerItems = []; // Pointer to cookies, store item name/type
     inventory = []; // Images
     curSelectedItemIndex = -1;
 
@@ -22,18 +22,18 @@ export class Inventory {
             let item = this.playerItems[index];
             if (Object.keys(item).length) {
                 // Create item from name
-                let itemObj = await getItemClass(item.name, item.material, this.scene);
+                let itemObj = await getItemClass(item.item, item.type, this.scene);
                 this.addToInventoryAtIndex(itemObj, index);
             }
         }
     }
 
     // Add to specific index
-    addToInventoryAtIndex(item, index) {
+    addToInventoryAtIndex(item, index, createSprite = true) {
         // Add to saved data
         this.playerItems[index] = {
-            name: item.item,
-            material: item.material
+            item: item.item,
+            type: item.type
         };
 
         // Add item images
@@ -41,90 +41,40 @@ export class Inventory {
         let row = Math.floor(index / 4);
         let x = 570 + column * 45;
         let y = 225 + row * 35;
-        item.addToInventory(x, y, index);
+
+        // Draw sprite or move it if it already exists
+        if (createSprite) {
+            item.createSprite(x, y, index);
+        } else {
+            item.move(x, y, index);
+        }
 
         // Hide if inventory is not selected
-        if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
-            item.show(false);
-        }
+        let showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY
+        item.show(showItem);
 
         // Add object to the scene
         this.inventory[index] = item;
     }
 
     // Add to first available slot
-    addToInventory(item) {
+    addToInventory(item, createSprite = true) {
         // Search for empty slot
         for (let index = 0; index < this.playerItems.length; index++) {
             // Check if object exists
             if (!Object.keys(this.playerItems[index]).length) {
-                this.addToInventoryAtIndex(item, index);
-                return;
+                this.addToInventoryAtIndex(item, index, createSprite);
+                return true;
             }
         }
         // Add to end
         if (this.playerItems.length < 28) {
-            this.addToInventoryAtIndex(item, this.playerItems.length);
+            this.addToInventoryAtIndex(item, this.playerItems.length, createSprite);
+            return true;
         } else {
             console.log("Inventory is full");
+            return false;
         }
-    }
-
-    createRightClickMenu(x, y, item, index) {
-        let menuBox = this.scene.add
-            .image(x, y, "right-click-menu")
-            .setDepth(4)
-            .setInteractive()
-            .on("pointerout", pointer => {
-                // Check to ensure it doesn't trigger when hovering over text options
-                if (
-                    pointer.worldX > x + menuBox.width / 2 ||
-                    pointer.worldY > y + menuBox.height / 2 ||
-                    pointer.worldX < x - menuBox.width / 2 ||
-                    pointer.worldY < y - menuBox.height / 2
-                ) {
-                    this.menu.destroy();
-                }
-            });
-
-        // Add text options
-        // Have to use two separate texts per option for different colors
-        let options = [menuBox];
-        let optionsY = y - 45;
-
-        // Generate dynamic list of actions (wield, bury, etc.)
-        item.actions.forEach(action => {
-            optionsY += 15;
-            let itemText = this.scene.add.text(
-                x + 10,
-                optionsY,
-                item.name,
-                FONTS.ITEM_NAME
-            );
-            let actionText = this.scene.add
-                .text(x - 48, optionsY, action.text, FONTS.OPTIONS_MENU)
-                .setInteractive()
-                .setDepth(5)
-                .on("pointerdown", () => {
-                    item[action.func]();
-                    this.menu.destroy();
-                });
-
-            options.push(actionText);
-            options.push(itemText);
-        });
-
-        let cancelText = this.scene.add
-            .text(x - 48, optionsY + 15, "Cancel", FONTS.OPTIONS_MENU)
-            .setInteractive()
-            .on("pointerdown", () => {
-                console.log("cancel");
-                this.menu.destroy();
-            });
-        options.push(cancelText);
-
-        // Group objects together
-        this.menu = this.scene.add.container(0, 0, options).setDepth(5);
     }
 
     highlightItem(index) {

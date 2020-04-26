@@ -7,10 +7,10 @@ export class Resource extends Target {
     skill;
 
     constructor(data) {
-        data.scale = 1;
         super(data);
 
         this.skill = data.skill;
+        this.neededClicks = data.neededClicks;
 
         // Add health bar
         this.progressBar = new ProgressBar(
@@ -25,10 +25,11 @@ export class Resource extends Target {
         return calcLevel(this.characterData.skills[this.skill]);
     }
 
-    onClick(clickValue) {
-        // Increase skill xp
-        this.characterData.skills[this.skill] += clickValue;
-    }
+    onClick(clickValue) {}
 
-    onCompletion() {}
+    onCompletion() {
+        // Increase skill xp
+        this.characterData.skills[this.skill] += this.neededClicks;
+        this.scene.dashboard.updateSkillsText();
+    }
 }

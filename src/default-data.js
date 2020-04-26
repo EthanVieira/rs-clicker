@@ -8,7 +8,15 @@ export const defaultData = {
     damageByClicking: 0,
     damageByAutoClick: 0,
     numberOfAutoClickers: 0,
-    inventory: [],
+    inventory: [
+        { type: "Bronze", item: "Dagger" },
+        { type: "Normal", item: "Shortbow" },
+        { type: "Normal", item: "Staff" }
+    ],
+    equipment: {
+        WEAPON: {}
+    },
+    // Skill XP
     skills: {
         attack: 0,
         ranged: 0,

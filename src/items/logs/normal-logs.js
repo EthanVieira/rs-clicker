@@ -4,7 +4,7 @@ export default class NormalLogs extends Logs {
 	// Text data
 	name = "Logs";
 	item = "Logs";
-	material = "Normal";
+	type = "Normal";
 	examineText = "A number of wooden logs.";
 
 	// Other

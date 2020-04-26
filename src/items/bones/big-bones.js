@@ -4,7 +4,7 @@ export default class BigBones extends Bones {
 	// Text data
 	name = "Big Bones";
 	item = "Bones";
-	material = "Big";
+	type = "Big";
 	examineText = "Bones are for burying!";
 
 	// Other

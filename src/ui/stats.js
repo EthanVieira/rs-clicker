@@ -100,21 +100,6 @@ export class StatsScene extends Phaser.Scene {
         this.characterData.damageByClicking += damageDone;
         this.damageByClickingText.text =
             "Damage done by clicking: " + this.characterData.damageByClicking;
-
-        // Increase attack XP
-        switch (this.characterData.characterClass) {
-            case CONSTANTS.CLASS.MAGE:
-                this.characterData.skills.magic += damageDone;
-                break;
-            case CONSTANTS.CLASS.RANGER:
-                this.characterData.skills.ranged += damageDone;
-                break;
-            case CONSTANTS.CLASS.WARRIOR:
-                this.characterData.skills.attack += damageDone;
-                break;
-        }
-
-        this.dashboard.updateSkillsText();
     }
 
     updateEnemiesKilledStat() {

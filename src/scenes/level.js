@@ -92,17 +92,6 @@ export class LevelScene extends Phaser.Scene {
         // Exit button
         this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
 
-        // Targets
-        this.targetMetaData.forEach(target => {
-            // Need to initialize object to get the image info
-            let targetObj = new target(this);
-
-            // Load target images
-            targetObj.images.forEach(image => {
-                this.load.image(image.name, image.path);
-            });
-        });
-
         // Classes
         this.load.image(CONSTANTS.CLASS.UNARMED, "src/assets/sprites/PlayerUnarmed.png");
         this.load.image(CONSTANTS.CLASS.WARRIOR, "src/assets/sprites/PlayerWarrior.png");

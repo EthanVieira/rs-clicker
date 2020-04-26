@@ -1,5 +1,6 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { Inventory } from "./inventory.js";
+import { Equipment } from "./equipment.js";
 import { calcLevel } from "../utilities.js";
 
 export class DashboardScene extends Phaser.Scene {
@@ -37,6 +38,12 @@ export class DashboardScene extends Phaser.Scene {
         panel: {}
     };
 
+    equipment = {
+        button: {},
+        panel: {},
+        obj: {}
+    };
+
     // Save data
     characterData;
 
@@ -67,34 +74,7 @@ export class DashboardScene extends Phaser.Scene {
         this.characterData = characterData;
     }
 
-    preload() {
-        // Inventory icon
-        this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
-
-        // Skills panel
-        this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
-        this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
-
-        // Prayer panel
-        this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
-        this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
-
-        // Audio panel
-        this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
-        this.load.image(
-            "audio-settings-button",
-            "src/assets/ui/buttons/AudioSettingsButton.png"
-        );
-        this.load.image("audio-slider", "src/assets/ui/buttons/AudioSlider.png");
-        this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
-
-        // Quests panel
-        this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
-        this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
-
-        // Right click menu
-        this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
-    }
+    preload() {}
 
     create() {
         // Get audio scene
@@ -354,6 +334,24 @@ export class DashboardScene extends Phaser.Scene {
         // Set and hide quests on startup
         this.updateKillQuestText();
         this.showQuests(false);
+
+        // Equipment
+        this.equipment.panel = this.add
+            .image(548, 204, "equipment-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+        this.equipment.button = this.add
+            .image(659, 168, "equipment-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.showEquipment(true);
+
+                this.equipment.obj.showEquipment(true);
+            });
+        this.equipment.obj = new Equipment(this, this.characterData.equipment);
+        this.showEquipment(false);
     }
 
     showSkills(isVisible) {
@@ -393,6 +391,18 @@ export class DashboardScene extends Phaser.Scene {
         this.prayer.panel.visible = isVisible;
         this.prayer.curPrayerText.visible = isVisible;
         this.prayer.maxPrayerText.visible = isVisible;
+    }
+
+    showEquipment(isVisible) {
+        if (isVisible) {
+            this.hideAllMenus();
+            this.equipment.button.setAlpha(1);
+            this.currentPanel = CONSTANTS.PANEL.EQUIPMENT;
+        } else {
+            this.equipment.button.setAlpha(0.1);
+        }
+
+        this.equipment.panel.visible = isVisible;
     }
 
     showAudioSettings(isVisible) {
@@ -446,6 +456,8 @@ export class DashboardScene extends Phaser.Scene {
         this.showSkills(false);
         this.showPrayer(false);
         this.showQuests(false);
+        this.showEquipment(false);
+        this.equipment.obj.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
     }
