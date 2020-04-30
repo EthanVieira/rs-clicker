@@ -19,12 +19,13 @@ export class ScrollWindow extends Phaser.Scene {
                 .setOrigin(0, 0);
 
             // Position objects
-            let xInit = 20;
-            let yInit = 50;
+            let xInit = 20,
+                yInit = 50,
+                row = 0,
+                column = 0;
             let xDiff = (width - 20) / numColumns;
             let yDiff = 70 + objects[0].displayHeight;
-            let row = 0,
-                column = 0;
+            
             for (let i = 0; i < objects.length; i++) {
                 objects[i].x = xInit + xDiff * column;
                 objects[i].y = yInit + yDiff * row;
@@ -39,25 +40,20 @@ export class ScrollWindow extends Phaser.Scene {
 
             // Stretch scroll button depending on # objects
             let lastObj = objects[objects.length - 1];
-            let listHeight = lastObj.y + lastObj.displayHeight/2; //- yInit - y;
-            let scrollBarHeight = scrollBar.displayHeight; //- scrollHeaderheight * 2;
+            let listHeight = lastObj.y + lastObj.displayHeight/2;
+            let scrollBarHeight = scrollBar.displayHeight;
 
-            console.log("list:", listHeight);
-            console.log("scroll:", scrollBarHeight);
-
-            // No scrolling needed
-            if (listHeight <= scrollBarHeight) {
-                //scrollButton.scaleY = scrollBarHeight / scrollButton.displayHeight;
-            } else {
-                // Scrolling needed
+            // Check if scrolling needed
+            if (listHeight > scrollBarHeight) {
+                // Scale the bar image down
                 scrollButton.scaleY = scrollBarHeight / listHeight;
 
                 // Move scroll bar & objects
                 this.input.on("wheel", (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
-                    // Shrink deltas
-                    deltaY *= 2* (scrollHeaderheight / 100);
+                    // Shrink scroll distance from default 100 pixels
+                    deltaY *= 2 * (scrollHeaderheight / 100);
 
-                    // Make scroll bar evenly divisible so it will fit properly at the bottom
+                    // Make scroll bar evenly divisible so it will fit properly at the top/bottom
                     let deltaOffset = (scrollBarHeight - scrollHeaderheight * 2) % deltaY;
                     if (deltaOffset != 0 && deltaY < 0) {
                         deltaY += deltaOffset;
@@ -65,8 +61,6 @@ export class ScrollWindow extends Phaser.Scene {
                     else if (deltaOffset != 0 && deltaY > 0) {
                         deltaY -= deltaOffset;
                     }
-
-                    console.log("scroll y", scrollButton.y, "half height", scrollBar.displayHeight/2, "bar height", scrollBarHeight, "left tot", scrollButton.y + deltaY + scrollBar.displayHeight/2)
 
                     // Check top/bottom bounds
                     if (
