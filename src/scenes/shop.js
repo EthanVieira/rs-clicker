@@ -227,6 +227,14 @@ export class ShopScene extends Phaser.Scene {
                 this.displayToolTip(this.shopItems[i]);
             });
             this.shopIcons.push(tempIcon);
+
+            tempIcon = this.scrollWindow.add.image(item.x, item.y, item.name).setInteractive();
+            tempIcon.scale = 0.25;
+            this.shopIcons.push(tempIcon);
+
+            tempIcon = this.scrollWindow.add.image(item.x, item.y, item.name).setInteractive();
+            tempIcon.scale = 0.25;
+            this.shopIcons.push(tempIcon);
         }
 
         // Attach to the correct columns
