@@ -17,6 +17,7 @@ export class Item extends ClickableObject {
     item = "";
     type = "";
     examineText = "";
+    objectType = "ITEM";
 
     // Inventory location
     index = -1;
@@ -49,11 +50,40 @@ export class Item extends ClickableObject {
             .setInteractive()
             .on("pointerdown", pointer => {
                 if (pointer.rightButtonDown()) {
-                    this.createRightClickMenu(pointer.x, pointer.y);
+                    this.createRightClickMenu(pointer.x, pointer.y, this.actions);
                 } else {
                     this.leftClick();
                 }
             });
+    }
+
+    createShopSprite(x, y) {
+        this.x = x;
+        this.y = y;
+
+        let shopActions = [
+            { text: "Buy", func: "buy"}
+        ]
+
+        this.sprite = this.scene.add
+            .image(x, y, itemManifest[this.type + this.item].imageName + "-model")
+            .setScale(this.scale)
+            .setDepth(4)
+            .setInteractive()
+            .on("pointerover", () => {
+                this.examine();
+            })
+            .on("pointerdown", pointer => {
+                this.createRightClickMenu(pointer.x, pointer.y, shopActions);
+            });
+    }
+
+    buy() {
+        if (this.scene.characterData.gold >= this.cost) {
+            console.log("buying it");
+        } else {
+            console.log("not enough mulah");
+        }
     }
 
     // Toggle highlighting on use

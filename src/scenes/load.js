@@ -143,8 +143,10 @@ export class LoadScene extends Phaser.Scene {
 
         // Load all items in item manifest
         path = "src/assets/items/icons/";
+        let modelPath = "src/assets/items/models/";
         Object.entries(itemManifest).forEach(([item, itemObj]) => {
             this.load.image(itemObj.imageName, path + itemObj.imagePath);
+            this.load.image(itemObj.imageName + "-model", modelPath + itemObj.imagePath);
         });
 
         // Load all weapons

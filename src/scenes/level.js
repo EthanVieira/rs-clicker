@@ -114,7 +114,7 @@ export class LevelScene extends Phaser.Scene {
         audioScene.changeVolume(1, this.characterData.audio[1]);
         audioScene.changeVolume(2, this.characterData.audio[2]);
 
-        // Launch dashboard and stats scenes in parallel
+        // Launch dashboard, stats, and chat scenes in parallel
         this.scene.run(CONSTANTS.SCENES.DASHBOARD, this.characterData);
         this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
         this.scene.run(CONSTANTS.SCENES.STATS, {
@@ -122,6 +122,7 @@ export class LevelScene extends Phaser.Scene {
             levelType: this.levelType
         });
         this.stats = this.scene.get(CONSTANTS.SCENES.STATS);
+        this.scene.run(CONSTANTS.SCENES.CHAT);
 
         // Helper vars
         this.width = this.cameras.main.width;

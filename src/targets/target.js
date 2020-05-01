@@ -31,7 +31,7 @@ export class Target extends ClickableObject {
                 .setInteractive()
                 .on("pointerdown", (pointer) => {
                     if (pointer.rightButtonDown()) {
-                        this.createRightClickMenu(pointer.x, pointer.y);
+                        this.createRightClickMenu(pointer.x, pointer.y, this.actions);
                     } else {
                         this.clickTarget();
                     }

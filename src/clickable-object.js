@@ -7,16 +7,17 @@ export class ClickableObject {
     // Objects
     menu;
     scene;
+    chat;
 
     // Right click actions
     actions = [{ text: "Examine", func: "examine" }];
 
     examine() {
         console.log(this.examineText);
-        this.dashboard.showObjectInfo(true, this);
+        this.chat.showObjectInfo(true, this);
     }
 
-    createRightClickMenu(x, y) {
+    createRightClickMenu(x, y, actions) {
         let menuBox = this.scene.add
             .image(x, y, "right-click-menu")
             .setDepth(4)
@@ -33,12 +34,12 @@ export class ClickableObject {
                 }
             });
 
-        // Get dashboard scene
-        this.dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        // Get chat scene
+        this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
         // Show stats menu until right click menu is destroyed
         menuBox.on("destroy", () => {
-            this.dashboard.showObjectInfo(false);
+            this.chat.showObjectInfo(false);
         });
 
         // Add text options
@@ -47,7 +48,7 @@ export class ClickableObject {
         let optionsY = y - 45;
 
         // Generate dynamic list of actions (wield, bury, etc.)
-        this.actions.forEach(action => {
+        actions.forEach(action => {
             optionsY += 15;
             let itemText = this.scene.add.text(
                 x - 20,

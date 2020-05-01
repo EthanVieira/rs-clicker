@@ -10,6 +10,7 @@ import { LumbridgeTreeScene } from "./scenes/lumbridge-trees.js";
 import { VarrockScene } from "./scenes/varrock.js";
 import { BarbarianVillageScene } from "./scenes/barbarian-village.js";
 import { DashboardScene } from "./ui/dashboard.js";
+import { ChatScene } from "./ui/chat-window.js";
 import { StatsScene } from "./ui/stats.js";
 import { SCREEN } from "./constants/constants.js";
 
@@ -33,6 +34,7 @@ let game = new Phaser.Game({
         VarrockScene,
         BarbarianVillageScene,
         DashboardScene,
+        ChatScene,
         StatsScene
     ]
 });

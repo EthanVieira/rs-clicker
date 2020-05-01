@@ -8,6 +8,7 @@ export class Enemy extends Target {
     redHitsplat;
     hitsplatText = "1";
     killGold;
+    objectType = "ENEMY";
 
     // Target stats
     attack = 1;
