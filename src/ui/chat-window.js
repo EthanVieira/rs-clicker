@@ -3,6 +3,7 @@ import { CONSTANTS, FONTS } from "../constants/constants.js";
 export class ChatScene extends Phaser.Scene {
     // Used for all object types
     chatWindow;
+    shopChatWindow
     objNameText;
     objExamineText;
     welcomeText;
@@ -21,18 +22,28 @@ export class ChatScene extends Phaser.Scene {
     enemyStatLabels = [];
     enemyStatText = {};
 
+
     constructor() {
         super({ key: CONSTANTS.SCENES.CHAT });
     }
 
+    init(characterData) {
+        this.characterData = characterData;
+    }
+
     preload() {
         this.load.image("chat-window", "src/assets/ui/ChatWindow.png");
+        this.load.image("shop-chat-window", "src/assets/ui/ShopChatWindow.png");
     }
 
     create() {
         // Chat window for examining items
         this.chatWindow = this.add
             .image(0, 338, "chat-window")
+            .setOrigin(0, 0)
+            .setDepth(0);
+        this.shopChatWindow = this.add
+            .image(0, 338, "shop-chat-window")
             .setOrigin(0, 0)
             .setDepth(0);
 
@@ -220,25 +231,31 @@ export class ChatScene extends Phaser.Scene {
         this.itemStatHeaders.visible = false;
         this.enemyStatHeaders.visible = false;
         this.chatWindow.visible = false;
+        this.shopChatWindow.visible = false;
         this.welcomeText.visible = false;
     }
 
     // Show object info in chat window
-    showObjectInfo(isVisible, object = false) {
+    showObjectInfo(isVisible, object = false, isShop = false) {
         // Hide all text
-        if (!isVisible) {
-            this.hideObjectInfo();
-        }
+        this.hideObjectInfo();
+
         // Show name, description, and stats from object
-        else if (object && isVisible) {
+        if (object && isVisible) {
 
             // Show name and description for all
             this.objNameText.text = object.name;
             this.objNameText.visible = true;
             this.objExamineText.text = object.examineText;
             this.objExamineText.visible = true;
-            this.chatWindow.visible = true;
             this.welcomeText.visible = true;
+
+            // Load bigger window on shop scene
+            if (isShop) {
+                this.shopChatWindow.visible = true;
+            } else {
+                this.chatWindow.visible = true;
+            }
 
             // Show different things for different types of objects
             switch (object.objectType) {
@@ -258,7 +275,14 @@ export class ChatScene extends Phaser.Scene {
                     }
                 case "ITEM":
                     // Get cost only
-                    this.costText.text = Math.floor(object.cost) + "gp";
+                    if (isShop) {
+                        this.costText.text = object.cost + "gp";
+                        this.sellsForText.text = "Cost:";
+                    } else {
+                        this.costText.text = Math.floor(object.cost / 2) + "gp";
+                        this.sellsForText.text = "Sells for:";
+                    }
+                    
                     this.costText.visible = true;
                     this.sellsForText.visible = true;
                     break;

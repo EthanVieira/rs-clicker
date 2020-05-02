@@ -62,7 +62,7 @@ export class Equipment {
 
         // Hide if equipment is not selected
         let showItem = this.scene.currentPanel == CONSTANTS.PANEL.EQUIPMENT
-        item.show(showItem);
+        item.setVisible(showItem);
 
         // Add object to the scene
         this.equipment[item.slot] = item;
@@ -74,7 +74,7 @@ export class Equipment {
         }
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
             if (Object.keys(itemObj).length) {
-                itemObj.show(isVisible);
+                itemObj.setVisible(isVisible);
             }
         });
     }

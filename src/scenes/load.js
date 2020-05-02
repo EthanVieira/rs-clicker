@@ -1,6 +1,4 @@
 import { CONSTANTS } from "../constants/constants.js";
-import { MATERIALS } from "../constants/materials.js";
-import { ITEMS } from "../constants/items.js";
 import { getDefaultData } from "../utilities.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
@@ -35,8 +33,8 @@ export class LoadScene extends Phaser.Scene {
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
         var loadingText = this.make.text({
-            x: width / 2,
-            y: height / 2 - 50,
+            x: Math.floor(width / 2),
+            y: Math.floor(height / 2) - 50,
             text: "RS Clicker is loading - Please Wait...",
             style: {
                 font: "24px runescape",
@@ -46,8 +44,8 @@ export class LoadScene extends Phaser.Scene {
         loadingText.setOrigin(0.5, 0.5);
 
         var percentText = this.make.text({
-            x: width / 2,
-            y: height / 2 - 5,
+            x: Math.floor(width / 2),
+            y: Math.floor(height / 2) - 5,
             text: "0%",
             style: {
                 font: "18px runescape",
@@ -58,8 +56,8 @@ export class LoadScene extends Phaser.Scene {
 
         // Display asset text on loading bar
         var assetText = this.make.text({
-            x: width / 2,
-            y: height / 2 + 42,
+            x: Math.floor(width / 2),
+            y: Math.floor(height / 2) + 42,
             text: 'Loading asset',
             style: {
                 font: '18px runescape',
@@ -109,13 +107,10 @@ export class LoadScene extends Phaser.Scene {
         // Dashboard UI
         // Inventory icon
         this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
-        // Skills panel
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
         this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
-        // Prayer panel
         this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
         this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
-        // Audio panel
         this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
         this.load.image(
             "audio-settings-button",
@@ -123,15 +118,11 @@ export class LoadScene extends Phaser.Scene {
         );
         this.load.image("audio-slider", "src/assets/ui/buttons/AudioSlider.png");
         this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
-        // Quests panel
         this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
         this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
-        // Equipment panel
         this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
         this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
-        // Right click menu
         this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
-        // Scrolled windoow
         this.load.image("scroll-bar", "src/assets/ui/ScrollBar.png");
         this.load.image("scroll-button", "src/assets/ui/ScrollButton.png");
 
@@ -148,31 +139,6 @@ export class LoadScene extends Phaser.Scene {
             this.load.image(itemObj.imageName, path + itemObj.imagePath);
             this.load.image(itemObj.imageName + "-model", modelPath + itemObj.imagePath);
         });
-
-        // Load all weapons
-        path = "src/assets/items/models/weapons/";
-        Object.entries(ITEMS.Weapons).forEach(([item, itemObj]) => {
-            // Loop through materials
-            Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
-                // Load all types
-                this.load.image(
-                    matObj.name + itemObj.name,
-                    path + matObj.name + itemObj.name + ".png"
-                );
-            });
-        });
-
-        // Load all tools
-        Object.entries(ITEMS.Tools).forEach(([item, itemObj]) => {
-            // Loop through materials
-            Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
-                // Load all types
-                this.load.image(
-                    matObj.name + itemObj.name,
-                    path + matObj.name + itemObj.name + ".png"
-                );
-            });
-        });
     }
 
     create() {
@@ -185,7 +151,7 @@ export class LoadScene extends Phaser.Scene {
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO, this.characterData);
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-        audioScene.playAudio("scape-main");
+        audioScene.playBgm("scape-main");
 
         this.add.text(250, 300, "Welcome to RS Clicker!", {font: "24px runescape"});
         this.add.text(250, 340, "Click the lesser demon to continue.", {font: "18px runescape"});

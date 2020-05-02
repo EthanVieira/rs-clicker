@@ -12,9 +12,13 @@ export class ClickableObject {
     // Right click actions
     actions = [{ text: "Examine", func: "examine" }];
 
-    examine() {
+    examine(isShop) {
         console.log(this.examineText);
-        this.chat.showObjectInfo(true, this);
+        // Get chat scene
+        if (this.chat == undefined) {
+            this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        }
+        this.chat.showObjectInfo(true, this, isShop);
     }
 
     createRightClickMenu(x, y, actions) {
@@ -35,7 +39,9 @@ export class ClickableObject {
             });
 
         // Get chat scene
-        this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        if (this.chat == undefined) {
+            this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        }
 
         // Show stats menu until right click menu is destroyed
         menuBox.on("destroy", () => {
@@ -84,5 +90,26 @@ export class ClickableObject {
 
         // Group objects together
         this.menu = this.scene.add.container(0, 0, options).setDepth(5);
+    }
+
+    // Implement getters/setters so it can match the Phaser game object class
+    setX(x) {
+        this.x = x;
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.x = x;
+        }
+    }
+
+    setY(y) {
+        this.y = y;
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.y = y;
+        }
+    }
+
+    setVisible(isVisible) {
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.visible = isVisible;
+        }
     }
 }

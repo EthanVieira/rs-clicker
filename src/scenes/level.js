@@ -107,7 +107,7 @@ export class LevelScene extends Phaser.Scene {
 
         // Play music
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-        audioScene.playAudio(this.audio.bgm);
+        audioScene.playBgm(this.audio.bgm);
 
         // Initialize volume levels
         audioScene.changeVolume(0, this.characterData.audio[0]);
@@ -122,7 +122,7 @@ export class LevelScene extends Phaser.Scene {
             levelType: this.levelType
         });
         this.stats = this.scene.get(CONSTANTS.SCENES.STATS);
-        this.scene.run(CONSTANTS.SCENES.CHAT);
+        this.scene.run(CONSTANTS.SCENES.CHAT, this.characterData);
 
         // Helper vars
         this.width = this.cameras.main.width;
