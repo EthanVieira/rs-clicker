@@ -163,7 +163,7 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive();
         exitButton.on("pointerup", () => {
-            audioScene.playAudio("scape-main");
+            audioScene.playBgm("scape-main");
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
         });
 
