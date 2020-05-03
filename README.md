@@ -2,7 +2,7 @@
 
 ![alt text](/src/assets/logos/RSCLogo.png "Swanky RS Clicker logo")
 
-### Play online now
+## Play online
 
 #### [>Click here to play<](https://ethanvieira.github.io/rs-clicker/)
 
@@ -26,7 +26,7 @@ http://192.168.1.2:8000
 or
 http://127.0.0.1:8000
 
-### TODO
+## TODO
 
 [Trello board for tasks](https://trello.com/b/hJYfFDMr)
 
