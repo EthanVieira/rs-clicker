@@ -11,7 +11,7 @@ export class AudioScene extends Phaser.Scene {
 
     constructor() {
         super({
-            key: CONSTANTS.SCENES.AUDIO
+            key: CONSTANTS.SCENES.AUDIO,
         });
     }
 
@@ -29,7 +29,10 @@ export class AudioScene extends Phaser.Scene {
         this.load.audio("the-trade-parade", "src/assets/audio/bgm/TheTradeParade.ogg");
 
         // SFX
-        this.load.audio("purchase", "src/assets/audio/sfx/GrandExchangeOfferComplete.mp3");
+        this.load.audio(
+            "purchase",
+            "src/assets/audio/sfx/GrandExchangeOfferComplete.mp3"
+        );
     }
 
     create() {
@@ -65,11 +68,11 @@ export class AudioScene extends Phaser.Scene {
     playSfx(audioName) {
         this.currentSong.pause();
         let sfx = this.sound.add(audioName);
-        sfx.setVolume(this.currentVolume[1] / 4)
-        sfx.play()
+        sfx.setVolume(this.currentVolume[1] / 4);
+        sfx.play();
         sfx.once("complete", () => {
             this.currentSong.resume();
-        }); 
+        });
     }
 
     // 0: BGM, 1: SFX, 2: Environment

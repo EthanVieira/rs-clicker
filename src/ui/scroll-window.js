@@ -33,7 +33,7 @@ export class ScrollWindow extends Phaser.Scene {
                 column = 0;
             let xDiff = (width - 20) / numColumns;
             let yDiff = 35 + objects[0].displayHeight;
-            
+
             for (let i = 0; i < objects.length; i++) {
                 objects[i].setX(xInit + xDiff * column);
                 objects[i].setY(yInit + yDiff * row);
@@ -61,19 +61,23 @@ export class ScrollWindow extends Phaser.Scene {
                 let delta = 30;
 
                 // Make scroll button evenly divisible so it will fit properly at the top/bottom
-                let deltaOffset = Math.floor((scrollBarHeight - scrollHeaderHeight * 2) - scrollButton.displayHeight) % delta;
+                let deltaOffset =
+                    Math.floor(
+                        scrollBarHeight -
+                            scrollHeaderHeight * 2 -
+                            scrollButton.displayHeight
+                    ) % delta;
                 let negDelta = -1 * delta + deltaOffset;
                 let posDelta = delta - deltaOffset;
 
                 // Scale the scroll speed of the objects based on list size
-                let objScrollSpeed = 1.2 * listHeight / scrollBarHeight;
+                let objScrollSpeed = (1.2 * listHeight) / scrollBarHeight;
 
                 // Move scroll button & objects
                 this.input.on("wheel", (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
                     if (deltaY > 0) {
                         deltaY = posDelta;
-                    } 
-                    else if (deltaY < 0) {
+                    } else if (deltaY < 0) {
                         deltaY = negDelta;
                     }
 
@@ -86,7 +90,7 @@ export class ScrollWindow extends Phaser.Scene {
                     ) {
                         // Scroll objects faster than scroll bar
                         scrollButton.y += deltaY;
-                        objects.forEach(object => {
+                        objects.forEach((object) => {
                             object.setY(object.y - deltaY * objScrollSpeed);
                         });
                     }

@@ -24,12 +24,12 @@ export class DarkWizard extends Enemy {
                 {
                     name: "dark-wizard",
                     path: "src/assets/sprites/DarkWizard.png",
-                    scale: 0.4
-                }
+                    scale: 0.4,
+                },
             ],
             maxHealth: 12,
             killGold: 10,
-            drops: [{ item: NormalBones, rate: 0.5 }]
+            drops: [{ item: NormalBones, rate: 0.5 }],
         });
     }
 }

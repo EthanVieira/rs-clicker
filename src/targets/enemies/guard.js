@@ -33,7 +33,7 @@ export class Guard extends Enemy {
             images: [{ name: "guard", path: "src/assets/sprites/Guard.png", scale: 0.4 }],
             maxHealth: 22,
             killGold: 15,
-            drops: [{ item: NormalBones, rate: 0.5 }]
+            drops: [{ item: NormalBones, rate: 0.5 }],
         });
     }
 }

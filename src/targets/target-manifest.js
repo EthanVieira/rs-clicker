@@ -1,38 +1,38 @@
 export var targetManifest = {
     GiantRat: {
         imagePath: "GiantRat.png",
-        imageName: "giant-rat"
+        imageName: "giant-rat",
     },
     Cow: {
         imagePath: "Cow.png",
-        imageName: "cow"
+        imageName: "cow",
     },
     Goblin: {
         imagePath: "Goblin.png",
-        imageName: "goblin"
+        imageName: "goblin",
     },
     Tree1: {
         imagePath: "Tree1.png",
-        imageName: "tree1"
+        imageName: "tree1",
     },
     Tree2: {
         imagePath: "Tree2.png",
-        imageName: "tree2"
+        imageName: "tree2",
     },
     DarkWizard: {
         imagePath: "DarkWizard.png",
-        imageName: "dark-wizard"
+        imageName: "dark-wizard",
     },
     Guard: {
         imagePath: "Guard.png",
-        imageName: "guard"
+        imageName: "guard",
     },
     FemaleBarbarian: {
         imagePath: "FemaleBarbarian.png",
-        imageName: "female-barbarian"
+        imageName: "female-barbarian",
     },
     MaleBarbarian: {
         imagePath: "MaleBarbarian.png",
-        imageName: "male-barbarian"
-    }
+        imageName: "male-barbarian",
+    },
 };

@@ -8,7 +8,7 @@ import { ScrollWindow } from "../ui/scroll-window.js";
 export class ShopScene extends Phaser.Scene {
     constructor() {
         super({
-            key: CONSTANTS.SCENES.SHOP
+            key: CONSTANTS.SCENES.SHOP,
         });
     }
 
@@ -25,13 +25,18 @@ export class ShopScene extends Phaser.Scene {
 
     preload() {
         // Shop Interface Images
-        let buttons = ["Weapons", "Tools", "Consumables"];
-        for (let i = 0; i < buttons.length; i++) {
-            this.load.image(
-                "shop-" + buttons[i],
-                "src/assets/ui/ShopInterface" + buttons[i] + ".png"
-            );
-        }
+        this.load.image(
+            "shop-" + CONSTANTS.ITEM_TYPES.WEAPON,
+            "src/assets/ui/ShopInterfaceWeaponS.png"
+        );
+        this.load.image(
+            "shop-" + CONSTANTS.ITEM_TYPES.TOOL,
+            "src/assets/ui/ShopInterfaceToolS.png"
+        );
+        this.load.image(
+            "shop-" + CONSTANTS.ITEM_TYPES.CONSUMABLE,
+            "src/assets/ui/ShopInterfaceConsumableS.png"
+        );
 
         // Cash Stack Images
         let stacks = ["5", "25", "100", "250", "1k", "10k"];
@@ -55,13 +60,10 @@ export class ShopScene extends Phaser.Scene {
         this.scene.add("scroll-window", this.scrollWindow, true, this.characterData);
 
         // Display the shop (weapons displayed by default)
-        this.loadShop("Weapons");
+        this.loadShop(CONSTANTS.ITEM_TYPES.WEAPON);
 
         // Button to exit the shop and return to previous level
-        this.exitButton = this.add
-            .text(568, 15, "exit")
-            .setDepth(-1)
-            .setInteractive();
+        this.exitButton = this.add.text(568, 15, "exit").setDepth(-1).setInteractive();
         this.exitButton.on("pointerup", () => {
             // Pass in the current level to know which level to return to upon exiting the shop.
             this.scene.start(this.currentLevel, this.characterData);
@@ -75,21 +77,21 @@ export class ShopScene extends Phaser.Scene {
             .setDepth(-1)
             .setInteractive();
         this.weaponsButton.on("pointerup", () => {
-            this.loadShop("Weapons");
+            this.loadShop(CONSTANTS.ITEM_TYPES.WEAPON);
         });
         this.toolsButton = this.add
             .text(485, 170, "XXXX", { fontSize: "40px" })
             .setDepth(-1)
             .setInteractive();
         this.toolsButton.on("pointerup", () => {
-            this.loadShop("Tools");
+            this.loadShop(CONSTANTS.ITEM_TYPES.TOOL);
         });
         this.consumablesButton = this.add
             .text(485, 250, "XXXX", { fontSize: "40px" })
             .setDepth(-1)
             .setInteractive();
         this.consumablesButton.on("pointerup", () => {
-            this.loadShop("Consumables");
+            this.loadShop(CONSTANTS.ITEM_TYPES.CONSUMABLE);
         });
 
         // Get audio scene
@@ -98,8 +100,8 @@ export class ShopScene extends Phaser.Scene {
     }
 
     // Update the shop to display current gold
-    update(){
-        if(this.currentGold != this.characterData.gold) {
+    update() {
+        if (this.currentGold != this.characterData.gold) {
             // Play buy sfx
             this.audio.playSfx("purchase");
 
@@ -165,7 +167,7 @@ export class ShopScene extends Phaser.Scene {
             fontFamily: "runescape",
             fill: color,
             stroke: "#000000",
-            strokeThickness: 2
+            strokeThickness: 2,
         });
     }
 
@@ -175,31 +177,33 @@ export class ShopScene extends Phaser.Scene {
         this.loadingText.visible = true;
 
         // Reset the shop when loading a new type of item
-        this.shopIcons.forEach(icon => {
+        this.shopIcons.forEach((icon) => {
             icon.destroy();
         });
         (this.shopItems = []), (this.shopIcons = []), (this.displayIndex = 0);
 
-        this.displayItems();
+        this.displayItems(itemType);
     }
 
     // Display the loaded images in the shop
-    async displayItems() {
+    async displayItems(itemType) {
         // Scroll window offsets from the main window, used to position right-click menu
         let scrollX = 20,
             scrollY = 100;
 
-        // Load all items
+        // Load all items in that category
         for (let item in itemManifest) {
-            // Get item class
-            let path = itemManifest[item].classPath;
-            let itemClass = await import("/src/items/" + path);
-            let newItem = new itemClass.default(this.scrollWindow);
+            if (itemManifest[item].type == itemType) {
+                // Get item class
+                let path = itemManifest[item].classPath;
+                let itemClass = await import("/src/items/" + path);
+                let newItem = new itemClass.default(this.scrollWindow);
 
-            // Create sprite
-            newItem.createShopSprite(scrollX, scrollY);
-            newItem.setVisible(false);
-            this.shopIcons.push(newItem);
+                // Create sprite
+                newItem.createShopSprite(scrollX, scrollY);
+                newItem.setVisible(false);
+                this.shopIcons.push(newItem);
+            }
         }
 
         // Attach to the correct columns in the scroll window

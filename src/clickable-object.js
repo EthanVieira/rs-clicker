@@ -3,7 +3,7 @@ import { CONSTANTS, FONTS } from "./constants/constants.js";
 export class ClickableObject {
     // Basic info
     examineText = "";
-    
+
     // Objects
     menu;
     scene;
@@ -26,7 +26,7 @@ export class ClickableObject {
             .image(x, y, "right-click-menu")
             .setDepth(4)
             .setInteractive()
-            .on("pointerout", pointer => {
+            .on("pointerout", (pointer) => {
                 // Check to ensure it doesn't trigger when hovering over text options
                 if (
                     pointer.worldX > x + menuBox.width / 2 ||
@@ -54,7 +54,7 @@ export class ClickableObject {
         let optionsY = y - 45;
 
         // Generate dynamic list of actions (wield, bury, etc.)
-        actions.forEach(action => {
+        actions.forEach((action) => {
             optionsY += 15;
             let itemText = this.scene.add.text(
                 x - 20,

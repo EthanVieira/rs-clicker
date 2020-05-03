@@ -53,7 +53,7 @@ export class Enemy extends Target {
         // Add damage text
         this.hitsplatText = data.scene.add
             .text(this.x, this.y + 100, "1", {
-                fill: "white"
+                fill: "white",
             })
             .setOrigin(0.5, 0)
             .setDepth(5);
@@ -116,7 +116,8 @@ export class Enemy extends Target {
                     break;
                 }
             }
-        } else { // Unarmed uses crush type attack
+        } else {
+            // Unarmed uses crush type attack
             enemyBonus = this.crushDefense;
         }
 
@@ -196,7 +197,7 @@ export class Enemy extends Target {
 
         // Hide hitsplat
         let _this = this;
-        setTimeout(function() {
+        setTimeout(function () {
             _this.redHitsplat.visible = false;
             _this.blueHitsplat.visible = false;
             _this.hitsplatText.visible = false;

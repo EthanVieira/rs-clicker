@@ -15,7 +15,7 @@ export class MainMenuScene extends Phaser.Scene {
 
     constructor() {
         super({
-            key: CONSTANTS.SCENES.MAIN_MENU
+            key: CONSTANTS.SCENES.MAIN_MENU,
         });
     }
 
@@ -56,16 +56,13 @@ export class MainMenuScene extends Phaser.Scene {
                     offsetX: 1,
                     offsetY: 1,
                     color: "black",
-                    fill: true
-                }
+                    fill: true,
+                },
             })
             .setDepth(3)
             .setInteractive();
         this.settingsYesText.visible = false;
-        this.settingsNoText = this.add
-            .text(428, 242, "No")
-            .setDepth(3)
-            .setInteractive();
+        this.settingsNoText = this.add.text(428, 242, "No").setDepth(3).setInteractive();
         this.settingsNoText.visible = false;
 
         // Close settings window if clicked outside of it

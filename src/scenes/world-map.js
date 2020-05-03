@@ -7,7 +7,7 @@ export class WorldMapScene extends Phaser.Scene {
     exitButton;
     constructor() {
         super({
-            key: CONSTANTS.SCENES.MAP
+            key: CONSTANTS.SCENES.MAP,
         });
     }
     init(characterData) {
@@ -26,10 +26,7 @@ export class WorldMapScene extends Phaser.Scene {
         this.currentWidth = window.innerWidth - 10;
         this.currentHeight = window.innerHeight - 10;
         // Background
-        let map = this.add
-            .image(0, 0, "world-map")
-            .setOrigin(0, 0)
-            .setDepth(0);
+        let map = this.add.image(0, 0, "world-map").setOrigin(0, 0).setDepth(0);
 
         // Exit button
         this.exitButton = this.add
@@ -163,7 +160,7 @@ export class WorldMapScene extends Phaser.Scene {
         );
         this.input.setDraggable(container);
         let _this = this;
-        this.input.on("drag", function(pointer, gameObject, dragX, dragY) {
+        this.input.on("drag", function (pointer, gameObject, dragX, dragY) {
             if (MAP.WIDTH - _this.currentWidth + dragX > 0 && dragX < 0) {
                 gameObject.x = dragX;
             }

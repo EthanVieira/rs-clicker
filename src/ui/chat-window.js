@@ -3,7 +3,7 @@ import { CONSTANTS, FONTS } from "../constants/constants.js";
 export class ChatScene extends Phaser.Scene {
     // Used for all object types
     chatWindow;
-    shopChatWindow
+    shopChatWindow;
     objNameText;
     objExamineText;
     welcomeText;
@@ -21,7 +21,6 @@ export class ChatScene extends Phaser.Scene {
     enemyStatHeaders;
     enemyStatLabels = [];
     enemyStatText = {};
-
 
     constructor() {
         super({ key: CONSTANTS.SCENES.CHAT });
@@ -51,7 +50,7 @@ export class ChatScene extends Phaser.Scene {
         let tableStartX = 140;
         let tableStartY = 380;
         let tableWidth = 70;
-        let tableHeight = 16; 
+        let tableHeight = 16;
 
         // General info
         this.objNameText = this.add.text(10, tableStartY - 32, "", FONTS.ITEM_HEADER);
@@ -101,7 +100,7 @@ export class ChatScene extends Phaser.Scene {
             "Slash\nSlash\nPrayer",
             "Crush\nCrush",
             "Magic\nMagic\nMagic",
-            "Ranged\nRanged\nRanged"
+            "Ranged\nRanged\nRanged",
         ];
         labels.forEach((header, index) => {
             this.itemStatLabels[index] = this.add.text(
@@ -114,21 +113,21 @@ export class ChatScene extends Phaser.Scene {
 
         // Variable names in the item class
         let itemStats = [
-            "stabBonus", 
-            "slashBonus", 
-            "crushBonus", 
-            "magicBonus", 
-            "rangedBonus", 
-            "stabDefenseBonus", 
-            "slashDefenseBonus", 
-            "crushDefenseBonus", 
-            "magicDefenseBonus", 
-            "rangedDefenseBonus", 
-            "strengthBonus", 
+            "stabBonus",
+            "slashBonus",
+            "crushBonus",
+            "magicBonus",
+            "rangedBonus",
+            "stabDefenseBonus",
+            "slashDefenseBonus",
+            "crushDefenseBonus",
+            "magicDefenseBonus",
+            "rangedDefenseBonus",
+            "strengthBonus",
             "prayerBonus",
             "",
             "magicStrengthBonus",
-            "rangedStrengthBonus"
+            "rangedStrengthBonus",
         ];
 
         // Create text fields for the stat values
@@ -137,9 +136,9 @@ export class ChatScene extends Phaser.Scene {
                 let column = index % 5;
                 let row = Math.floor(index / 5);
                 this.itemStatText[varName] = this.add.text(
-                    tableStartX + 50 + tableWidth * column, 
-                    tableStartY + tableHeight * row, 
-                    "0", 
+                    tableStartX + 50 + tableWidth * column,
+                    tableStartY + tableHeight * row,
+                    "0",
                     FONTS.ITEM_STATS
                 );
             }
@@ -159,7 +158,7 @@ export class ChatScene extends Phaser.Scene {
             "Strength\n\n\nSlash",
             "Defense\n\n\nCrush",
             "Magic\nMagic\nMagic\nMagic",
-            "Ranged\nRanged\nRanged\nMagic"
+            "Ranged\nRanged\nRanged\nMagic",
         ];
         labels.forEach((header, index) => {
             this.enemyStatLabels[index] = this.add.text(
@@ -172,26 +171,26 @@ export class ChatScene extends Phaser.Scene {
 
         // Variable names in the enemy class
         let enemyStats = [
-            "attack", 
-            "strength", 
-            "defense", 
-            "magic", 
-            "ranged", 
-            "attackBonus", 
+            "attack",
+            "strength",
+            "defense",
+            "magic",
+            "ranged",
+            "attackBonus",
             "",
             "",
-            "magicBonus", 
-            "rangedBonus", 
-            "strengthBonus", 
-            "", 
+            "magicBonus",
+            "rangedBonus",
+            "strengthBonus",
             "",
-            "magicStrengthBonus", 
+            "",
+            "magicStrengthBonus",
             "rangedStrengthBonus",
             "stabDefense",
             "slashDefense",
             "crushDefense",
             "magicDefense",
-            "rangedDefense"
+            "rangedDefense",
         ];
 
         // Create text fields for the stat values
@@ -200,14 +199,14 @@ export class ChatScene extends Phaser.Scene {
                 let column = index % 5;
                 let row = Math.floor(index / 5);
                 this.enemyStatText[varName] = this.add.text(
-                    tableStartX + 55 + tableWidth * column, 
-                    tableStartY + tableHeight * row, 
-                    "0", 
+                    tableStartX + 55 + tableWidth * column,
+                    tableStartY + tableHeight * row,
+                    "0",
                     FONTS.ITEM_STATS
                 );
             }
         });
-        
+
         this.hideObjectInfo();
     }
 
@@ -215,13 +214,13 @@ export class ChatScene extends Phaser.Scene {
         for (let varName in this.itemStatText) {
             this.itemStatText[varName].visible = false;
         }
-        this.itemStatLabels.forEach(label => {
+        this.itemStatLabels.forEach((label) => {
             label.visible = false;
         });
         for (let varName in this.enemyStatText) {
             this.enemyStatText[varName].visible = false;
         }
-        this.enemyStatLabels.forEach(label => {
+        this.enemyStatLabels.forEach((label) => {
             label.visible = false;
         });
         this.objExamineText.visible = false;
@@ -242,7 +241,6 @@ export class ChatScene extends Phaser.Scene {
 
         // Show name, description, and stats from object
         if (object && isVisible) {
-
             // Show name and description for all
             this.objNameText.text = object.name;
             this.objNameText.visible = true;
@@ -264,7 +262,7 @@ export class ChatScene extends Phaser.Scene {
                     this.itemStatHeaders.visible = true;
 
                     // Labels
-                    this.itemStatLabels.forEach(label => {
+                    this.itemStatLabels.forEach((label) => {
                         label.visible = true;
                     });
 
@@ -282,7 +280,7 @@ export class ChatScene extends Phaser.Scene {
                         this.costText.text = Math.floor(object.cost / 2) + "gp";
                         this.sellsForText.text = "Sells for:";
                     }
-                    
+
                     this.costText.visible = true;
                     this.sellsForText.visible = true;
                     break;
@@ -291,7 +289,7 @@ export class ChatScene extends Phaser.Scene {
                     this.enemyStatHeaders.visible = true;
 
                     // Labels
-                    this.enemyStatLabels.forEach(label => {
+                    this.enemyStatLabels.forEach((label) => {
                         label.visible = true;
                     });
 

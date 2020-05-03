@@ -10,19 +10,19 @@ export class DashboardScene extends Phaser.Scene {
 
     inventory = {
         button: {},
-        obj: {}
+        obj: {},
     };
 
     skills = {
         button: {},
-        panel: {}
+        panel: {},
     };
 
     prayer = {
         button: {},
         panel: {},
         maxPrayerText: "",
-        curPrayerText: ""
+        curPrayerText: "",
     };
 
     audio = {
@@ -30,18 +30,18 @@ export class DashboardScene extends Phaser.Scene {
         audioPage: {},
         audioPageButton: {},
         sliders: [],
-        audioButtons: []
+        audioButtons: [],
     };
 
     quests = {
         button: {},
-        panel: {}
+        panel: {},
     };
 
     equipment = {
         button: {},
         panel: {},
-        obj: {}
+        obj: {},
     };
 
     // Save data
@@ -93,7 +93,7 @@ export class DashboardScene extends Phaser.Scene {
                 // Pass in the current level to know which level to return to upon exiting the shop.
                 this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
                     this.characterData,
-                    this.characterData.currentLevel
+                    this.characterData.currentLevel,
                 ]);
 
                 // TODO: Instead of starting a shop scene, just have a shop interface pop up w/o stopping game.
@@ -388,11 +388,11 @@ export class DashboardScene extends Phaser.Scene {
         }
 
         this.audio.audioPage.visible = isVisible;
-        this.audio.sliders.forEach(slider => {
+        this.audio.sliders.forEach((slider) => {
             slider.visible = isVisible;
         });
-        this.audio.audioButtons.forEach(buttonRow => {
-            buttonRow.forEach(button => {
+        this.audio.audioButtons.forEach((buttonRow) => {
+            buttonRow.forEach((button) => {
                 button.visible = isVisible;
             });
         });

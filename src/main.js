@@ -19,7 +19,7 @@ let game = new Phaser.Game({
     height: SCREEN.HEIGHT,
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        parent: "game"
+        parent: "game",
     },
     scene: [
         LoadScene,
@@ -35,6 +35,6 @@ let game = new Phaser.Game({
         BarbarianVillageScene,
         DashboardScene,
         ChatScene,
-        StatsScene
-    ]
+        StatsScene,
+    ],
 });

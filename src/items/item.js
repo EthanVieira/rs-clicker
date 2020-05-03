@@ -36,7 +36,7 @@ export class Item extends ClickableObject {
     actions = [
         { text: "Use", func: "use" },
         { text: "Drop", func: "drop" },
-        { text: "Examine", func: "examine" }
+        { text: "Examine", func: "examine" },
     ];
 
     createSprite(x, y, index = -1) {
@@ -49,7 +49,7 @@ export class Item extends ClickableObject {
             .setScale(this.scale)
             .setDepth(4)
             .setInteractive()
-            .on("pointerdown", pointer => {
+            .on("pointerdown", (pointer) => {
                 if (pointer.rightButtonDown()) {
                     this.createRightClickMenu(pointer.x, pointer.y, this.actions);
                 } else {
@@ -61,21 +61,23 @@ export class Item extends ClickableObject {
 
     // Need offset for where scroll window is placed as coordinates are relative
     createShopSprite(offsetX, offsetY) {
-        let shopActions = [
-            { text: "Buy", func: "buy"}
-        ];
+        let shopActions = [{ text: "Buy", func: "buy" }];
 
         this.sprite = this.scene.add
             .image(0, 0, itemManifest[this.type + this.item].imageName + "-model")
-            .setScale(this.scale/2)
+            .setScale(this.scale / 2)
             .setDepth(4)
             .setInteractive()
             .setOrigin(0, 0)
             .on("pointerover", () => {
                 this.examine(true);
             })
-            .on("pointerdown", pointer => {
-                this.createRightClickMenu(pointer.x - offsetX, pointer.y - offsetY, shopActions);
+            .on("pointerdown", (pointer) => {
+                this.createRightClickMenu(
+                    pointer.x - offsetX,
+                    pointer.y - offsetY,
+                    shopActions
+                );
             });
         this.displayHeight = this.sprite.displayHeight;
     }
@@ -90,7 +92,6 @@ export class Item extends ClickableObject {
             if (dashboard.inventory.obj.addToInventory(boughtItem)) {
                 this.scene.characterData.gold -= this.cost;
             }
-            
         } else {
             console.log("not enough mulah", this.scene.characterData.gold, this.cost);
         }

@@ -15,10 +15,10 @@ export class LoadScene extends Phaser.Scene {
                     {
                         type: "image",
                         key: "lesser-demon",
-                        url: "/src/assets/sprites/LesserDemon.png"
-                    }
-                ]
-            }
+                        url: "/src/assets/sprites/LesserDemon.png",
+                    },
+                ],
+            },
         });
     }
 
@@ -38,8 +38,8 @@ export class LoadScene extends Phaser.Scene {
             text: "RS Clicker is loading - Please Wait...",
             style: {
                 font: "24px runescape",
-                fill: "#ffffff"
-            }
+                fill: "#ffffff",
+            },
         });
         loadingText.setOrigin(0.5, 0.5);
 
@@ -49,8 +49,8 @@ export class LoadScene extends Phaser.Scene {
             text: "0%",
             style: {
                 font: "18px runescape",
-                fill: "#ffffff"
-            }
+                fill: "#ffffff",
+            },
         });
         percentText.setOrigin(0.5, 0.5);
 
@@ -58,19 +58,19 @@ export class LoadScene extends Phaser.Scene {
         var assetText = this.make.text({
             x: Math.floor(width / 2),
             y: Math.floor(height / 2) + 42,
-            text: 'Loading asset',
+            text: "Loading asset",
             style: {
-                font: '18px runescape',
-                fill: '#ffffff'
-            }
+                font: "18px runescape",
+                fill: "#ffffff",
+            },
         });
         assetText.setOrigin(0.5, 0.5);
 
-        this.load.on('fileprogress', function (file) {
+        this.load.on("fileprogress", function (file) {
             assetText.text = "Loading asset: " + file.key;
         });
 
-        this.load.on("progress", function(value, file) {
+        this.load.on("progress", function (value, file) {
             percentText.setText(
                 "Loading good ol rs stuff " + parseInt(value * 100) + "%"
             );
@@ -79,7 +79,7 @@ export class LoadScene extends Phaser.Scene {
             progressBar.fillRect(250, 280, 300 * value, 30);
         });
 
-        this.load.on("complete", function() {
+        this.load.on("complete", function () {
             progressBar.destroy();
             progressBox.destroy();
             loadingText.destroy();
@@ -153,8 +153,10 @@ export class LoadScene extends Phaser.Scene {
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
         audioScene.playBgm("scape-main");
 
-        this.add.text(250, 300, "Welcome to RS Clicker!", {font: "24px runescape"});
-        this.add.text(250, 340, "Click the lesser demon to continue.", {font: "18px runescape"});
+        this.add.text(250, 300, "Welcome to RS Clicker!", { font: "24px runescape" });
+        this.add.text(250, 340, "Click the lesser demon to continue.", {
+            font: "18px runescape",
+        });
 
         let lesserDemonSprite = this.add.image(750, 600, "lesser-demon");
         lesserDemonSprite.setInteractive();
