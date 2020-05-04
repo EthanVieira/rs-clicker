@@ -1,4 +1,9 @@
 export var itemManifest = {
+    AirStaff: {
+        classPath: "./equipment/air-stff.js",
+        imagePath: "weapons/AirStaff.png",
+        imageName: "air-staff"
+    },
     Bronze2hSword: {
         classPath: "./equipment/bronze-2h-sword.js",
         imagePath: "weapons/Bronze2hSword.png",
@@ -58,5 +63,40 @@ export var itemManifest = {
         classPath: "./bones/normal-bones.js",
         imagePath: "other/Bones.png",
         imageName: "bones"
-    }
+    },
+    Steel2hSword: {
+        classPath: "./equipment/steel-2h-sword.js",
+        imagePath: "weapons/Steel2hSword.png",
+        imageName: "steel-2h-sword"
+    },
+    SteelAxe: {
+        classPath: "./equipment/steel-axe.js",
+        imagePath: "weapons/SteelAxe.png",
+        imageName: "steel-axe"
+    },
+    SteelCrossbow: {
+        classPath: "./equipment/steel-crossbow.js",
+        imagePath: "weapons/SteelCrossbow.png",
+        imageName: "steel-crossbow"
+    },
+    SteelDagger: {
+        classPath: "./equipment/steel-dagger.js",
+        imagePath: "weapons/SteelDagger.png",
+        imageName: "steel-dagger"
+    },
+    SteelKnife: {
+        classPath: "./equipment/steel-knife.js",
+        imagePath: "weapons/SteelKnife.png",
+        imageName: "steel-knife"
+    },
+    SteelScimitar: {
+        classPath: "./equipment/steel-scimitar.js",
+        imagePath: "weapons/SteelScimitar.png",
+        imageName: "steel-scimitar"
+    },
+    SteelSword: {
+        classPath: "./equipment/steel-sword.js",
+        imagePath: "weapons/SteelSword.png",
+        imageName: "steel-sword"
+    },
 };
