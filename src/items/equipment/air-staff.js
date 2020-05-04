@@ -10,7 +10,7 @@ export default class AirStaff extends Equipment {
     stabBonus = 0;
     slashBonus = -1;
     crushBonus = 7;
-    magicBonus = 10;
+    magicBonus = 20; // Buffed from 10
 
     // Defense bonuses
     stabDefenseBonus = 2;
@@ -19,7 +19,8 @@ export default class AirStaff extends Equipment {
     magicDefenseBonus = 10;
 
     // Other
-    strengthBonus = 8;
+    strengthBonus = 3;
+    magicStrengthBonus = 10; // Buffed from 0
 
     // Text data
     name = "Staff of air";
