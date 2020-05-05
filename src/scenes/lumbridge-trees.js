@@ -8,14 +8,14 @@ export class LumbridgeTreeScene extends LevelScene {
             key: CONSTANTS.SCENES.LUMBRIDGE_TREES,
             background: {
                 name: "lumbridge",
-                path: "src/assets/backgrounds/LumbridgeBackground.jpg"
+                path: "src/assets/backgrounds/LumbridgeBackground.jpg",
             },
             minimap: {
                 name: "lumbridgeMap",
-                path: "src/assets/maps/LumbridgeMap.png"
+                path: "src/assets/maps/LumbridgeMap.png",
             },
             targets: [NormalTree],
-            audio: { bgm: "harmony" }
+            audio: { bgm: "harmony" },
         });
     }
 }

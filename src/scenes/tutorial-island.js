@@ -10,14 +10,14 @@ export class TutorialIslandScene extends LevelScene {
             killQuest: 10,
             background: {
                 name: "tutorial-island",
-                path: "src/assets/backgrounds/TutorialIslandBackground.png"
+                path: "src/assets/backgrounds/TutorialIslandBackground.png",
             },
             minimap: {
                 name: "tutorial-island-map",
-                path: "src/assets/maps/TutorialIslandMap.png"
+                path: "src/assets/maps/TutorialIslandMap.png",
             },
             targets: [GiantRat],
-            audio: { bgm: "newbie-melody" }
+            audio: { bgm: "newbie-melody" },
         });
     }
 }

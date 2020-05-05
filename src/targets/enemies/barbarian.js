@@ -31,17 +31,17 @@ export class Barbarian extends Enemy {
                 {
                     name: "male-barbarian",
                     path: "src/assets/sprites/MaleBarbarian.png",
-                    scale: 0.4
+                    scale: 0.4,
                 },
                 {
                     name: "female-barbarian",
                     path: "src/assets/sprites/FemaleBarbarian.png",
-                    scale: 0.4
-                }
+                    scale: 0.4,
+                },
             ],
             maxHealth: 20,
             killGold: 20,
-            drops: [{ item: NormalBones, rate: 0.5 }]
+            drops: [{ item: NormalBones, rate: 0.5 }],
         });
     }
 }

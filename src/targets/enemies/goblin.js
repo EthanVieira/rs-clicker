@@ -25,11 +25,11 @@ export class Goblin extends Enemy {
             name: "Goblin",
             varName: "goblin",
             images: [
-                { name: "goblin", path: "src/assets/sprites/Goblin.png", scale: 0.4 }
+                { name: "goblin", path: "src/assets/sprites/Goblin.png", scale: 0.4 },
             ],
             maxHealth: 5,
             killGold: 3,
-            drops: [{ item: NormalBones, rate: 0.5 }]
+            drops: [{ item: NormalBones, rate: 0.5 }],
         });
     }
 }

@@ -5,11 +5,11 @@ export class Equipment {
     scene;
 
     // Pointer to cookies, stores item name/type
-    playerEquipment = {}; 
+    playerEquipment = {};
 
     // Images
     equipment = {
-        WEAPON: {}
+        WEAPON: {},
     };
 
     constructor(scene, equipment) {
@@ -42,11 +42,11 @@ export class Equipment {
             console.log("Unequiping previous item", this.equipment[item.slot].name);
             this.equipment[item.slot].unequip();
         }
-        
+
         // Add to saved data
         this.playerEquipment[item.slot] = {
             item: item.item,
-            type: item.type
+            type: item.type,
         };
 
         // Put into the right position
@@ -61,8 +61,8 @@ export class Equipment {
         }
 
         // Hide if equipment is not selected
-        let showItem = this.scene.currentPanel == CONSTANTS.PANEL.EQUIPMENT
-        item.show(showItem);
+        let showItem = this.scene.currentPanel == CONSTANTS.PANEL.EQUIPMENT;
+        item.setVisible(showItem);
 
         // Add object to the scene
         this.equipment[item.slot] = item;
@@ -74,7 +74,7 @@ export class Equipment {
         }
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
             if (Object.keys(itemObj).length) {
-                itemObj.show(isVisible);
+                itemObj.setVisible(isVisible);
             }
         });
     }

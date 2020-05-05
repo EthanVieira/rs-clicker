@@ -33,7 +33,7 @@ export class Inventory {
         // Add to saved data
         this.playerItems[index] = {
             item: item.item,
-            type: item.type
+            type: item.type,
         };
 
         // Add item images
@@ -51,7 +51,7 @@ export class Inventory {
 
         // Hide if inventory is not selected
         let showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY;
-        item.show(showItem);
+        item.setVisible(showItem);
 
         // Add object to the scene
         this.inventory[index] = item;
@@ -96,9 +96,9 @@ export class Inventory {
         if (isVisible) {
             this.scene.currentPanel = CONSTANTS.PANEL.INVENTORY;
         }
-        this.inventory.forEach(item => {
+        this.inventory.forEach((item) => {
             if (Object.keys(item).length) {
-                item.show(isVisible);
+                item.setVisible(isVisible);
             }
         });
     }

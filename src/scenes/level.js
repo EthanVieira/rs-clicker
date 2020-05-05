@@ -11,12 +11,12 @@ export class LevelScene extends Phaser.Scene {
 
     background = {
         name: "",
-        path: ""
+        path: "",
     };
 
     minimap = {
         name: "",
-        path: ""
+        path: "",
     };
 
     // targets: enemy, tree, etc.
@@ -41,7 +41,7 @@ export class LevelScene extends Phaser.Scene {
 
     constructor(data) {
         super({
-            key: data.key
+            key: data.key,
         });
 
         // Get data from child class
@@ -107,34 +107,32 @@ export class LevelScene extends Phaser.Scene {
 
         // Play music
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-        audioScene.playAudio(this.audio.bgm);
+        audioScene.playBgm(this.audio.bgm);
 
         // Initialize volume levels
         audioScene.changeVolume(0, this.characterData.audio[0]);
         audioScene.changeVolume(1, this.characterData.audio[1]);
         audioScene.changeVolume(2, this.characterData.audio[2]);
 
-        // Launch dashboard and stats scenes in parallel
+        // Launch dashboard, stats, and chat scenes in parallel
         this.scene.run(CONSTANTS.SCENES.DASHBOARD, this.characterData);
         this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
         this.scene.run(CONSTANTS.SCENES.STATS, {
             characterData: this.characterData,
-            levelType: this.levelType
+            levelType: this.levelType,
         });
         this.stats = this.scene.get(CONSTANTS.SCENES.STATS);
+        this.scene.run(CONSTANTS.SCENES.CHAT, this.characterData);
 
         // Helper vars
         this.width = this.cameras.main.width;
         this.height = this.cameras.main.height;
 
         // Background
-        this.add
-            .image(0, 0, this.background.name)
-            .setOrigin(0, 0)
-            .setDepth(0);
+        this.add.image(0, 0, this.background.name).setOrigin(0, 0).setDepth(0);
 
         // Create targets
-        this.targetMetaData.forEach(target => {
+        this.targetMetaData.forEach((target) => {
             this.targets.push(new target(this));
         });
 
@@ -150,10 +148,7 @@ export class LevelScene extends Phaser.Scene {
         });
 
         // Overlay
-        this.add
-            .image(0, 0, "overlay")
-            .setOrigin(0, 0)
-            .setDepth(1);
+        this.add.image(0, 0, "overlay").setOrigin(0, 0).setDepth(1);
 
         // Exit button
         let exitButton = this.add
@@ -162,7 +157,7 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive();
         exitButton.on("pointerup", () => {
-            audioScene.playAudio("scape-main");
+            audioScene.playBgm("scape-main");
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
         });
 

@@ -1,18 +1,14 @@
-// TODO: Display items over the blank interface, along with their cost
-// TODO: Each item needs to be a clickable image, and clicking adds the item to player inventory.
-// TODO: Load images that are available to the player (based on levels)
-// TODO: Show price of each item below the item, and gray out items that are too expensive
+// TODO: gray out items that are too expensive
 import { calcLevel } from "../utilities.js";
 import { CONSTANTS } from "../constants/constants.js";
-import { MATERIALS } from "../constants/materials.js";
-import { ITEMS } from "../constants/items.js";
-import { Item } from "../item.js";
+import { Item, getItemClass } from "../items/item.js";
+import { itemManifest } from "../items/item-manifest.js";
 import { ScrollWindow } from "../ui/scroll-window.js";
 
 export class ShopScene extends Phaser.Scene {
     constructor() {
         super({
-            key: CONSTANTS.SCENES.SHOP
+            key: CONSTANTS.SCENES.SHOP,
         });
     }
 
@@ -24,17 +20,23 @@ export class ShopScene extends Phaser.Scene {
         this.shopIcons = [];
         this.displayIndex = 0;
         this.itemBought = false;
+        this.currentGold = this.characterData.gold;
     }
 
     preload() {
         // Shop Interface Images
-        let buttons = ["Weapons", "Tools", "Consumables"];
-        for (let i = 0; i < buttons.length; i++) {
-            this.load.image(
-                "shop-" + buttons[i],
-                "src/assets/ui/ShopInterface" + buttons[i] + ".png"
-            );
-        }
+        this.load.image(
+            "shop-" + CONSTANTS.ITEM_TYPES.WEAPON,
+            "src/assets/ui/ShopInterfaceWeaponS.png"
+        );
+        this.load.image(
+            "shop-" + CONSTANTS.ITEM_TYPES.TOOL,
+            "src/assets/ui/ShopInterfaceToolS.png"
+        );
+        this.load.image(
+            "shop-" + CONSTANTS.ITEM_TYPES.CONSUMABLE,
+            "src/assets/ui/ShopInterfaceConsumableS.png"
+        );
 
         // Cash Stack Images
         let stacks = ["5", "25", "100", "250", "1k", "10k"];
@@ -55,16 +57,13 @@ export class ShopScene extends Phaser.Scene {
 
         // Add scrollable window for items
         this.scrollWindow = new ScrollWindow("shop");
-        this.scene.add("scroll-window", this.scrollWindow, true);
+        this.scene.add("scroll-window", this.scrollWindow, true, this.characterData);
 
         // Display the shop (weapons displayed by default)
-        this.loadShop("Weapons");
+        this.loadShop(CONSTANTS.ITEM_TYPES.WEAPON);
 
         // Button to exit the shop and return to previous level
-        this.exitButton = this.add
-            .text(568, 15, "exit")
-            .setDepth(-1)
-            .setInteractive();
+        this.exitButton = this.add.text(568, 15, "exit").setDepth(-1).setInteractive();
         this.exitButton.on("pointerup", () => {
             // Pass in the current level to know which level to return to upon exiting the shop.
             this.scene.start(this.currentLevel, this.characterData);
@@ -78,31 +77,41 @@ export class ShopScene extends Phaser.Scene {
             .setDepth(-1)
             .setInteractive();
         this.weaponsButton.on("pointerup", () => {
-            this.loadShop("Weapons");
+            this.loadShop(CONSTANTS.ITEM_TYPES.WEAPON);
         });
         this.toolsButton = this.add
             .text(485, 170, "XXXX", { fontSize: "40px" })
             .setDepth(-1)
             .setInteractive();
         this.toolsButton.on("pointerup", () => {
-            this.loadShop("Tools");
+            this.loadShop(CONSTANTS.ITEM_TYPES.TOOL);
         });
         this.consumablesButton = this.add
             .text(485, 250, "XXXX", { fontSize: "40px" })
             .setDepth(-1)
             .setInteractive();
         this.consumablesButton.on("pointerup", () => {
-            this.loadShop("Consumables");
+            this.loadShop(CONSTANTS.ITEM_TYPES.CONSUMABLE);
         });
+
+        // Get audio scene
+        this.audio = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        this.audio.playBgm("the-trade-parade");
     }
 
-    // TODO: Update the shop to display current gold and which items you can afford
-    // update(){
-    //     if(this.itemBought) {
-    //         updateGold();
-    //         updateShop();
-    //     }
-    // }
+    // Update the shop to display current gold
+    update() {
+        if (this.currentGold != this.characterData.gold) {
+            // Play buy sfx
+            this.audio.playSfx("purchase");
+
+            // Remove old gold info and re-add new
+            this.goldText.destroy();
+            this.goldImage.destroy();
+            this.displayGold(this.characterData.gold);
+            this.currentGold = this.characterData.gold;
+        }
+    }
 
     loadShop(type) {
         // Loads the correct background image (changes which button is selected)
@@ -142,8 +151,8 @@ export class ShopScene extends Phaser.Scene {
                 stack = "10k";
                 break;
         }
-        let goldImage = this.add.image(48, 346, stack).setInteractive();
-        goldImage.scale = 1.3;
+        this.goldImage = this.add.image(48, 76, stack).setInteractive();
+        this.goldImage.scale = 1.3;
 
         // Pick text color and style based on # of coins
         let color = "white";
@@ -154,11 +163,11 @@ export class ShopScene extends Phaser.Scene {
             goldText = gold / 1000000 + "M";
             fill = "#06c663";
         }
-        this.add.text(33, 320, goldText, {
-            fontFamily: '"runescape"',
+        this.goldText = this.add.text(35, 50, goldText, {
+            fontFamily: "runescape",
             fill: color,
             stroke: "#000000",
-            strokeThickness: 2
+            strokeThickness: 2,
         });
     }
 
@@ -168,103 +177,37 @@ export class ShopScene extends Phaser.Scene {
         this.loadingText.visible = true;
 
         // Reset the shop when loading a new type of item
+        this.shopIcons.forEach((icon) => {
+            icon.destroy();
+        });
         (this.shopItems = []), (this.shopIcons = []), (this.displayIndex = 0);
 
-        let imageX = {},
-            imageY = {};
-        switch (itemType) {
-            // Weapons organized with attack on row 1, ranged on row 2, magic on row 3
-            case "Weapons":
-                imageX = { attack: 100, ranged: 100, magic: 100 };
-                imageY = { attack: 100, ranged: 200, magic: 300 };
-                break;
-            // Tools organized with all tools on one row
-            case "Tools":
-                imageX = { woodcutting: 100, mining: 200 };
-                imageY = { woodcutting: 100, mining: 100 };
-                break;
-            // Consumables organized by food on row 1, potions on row 2
-            // TODO: This organization scheme will need to be changed in the future
-            case "Consumables":
-                imageX = { health: 100, herblore: 100 };
-                imageY = { health: 100, herblore: 200 };
-                break;
-            default:
-                console.log("Cannot Load Shop -- Invalid Item Type");
-        }
-
-        // Load each item object in the shopItems array
-        for (let item in ITEMS[itemType]) {
-            let itemData = ITEMS[itemType][item];
-            let requiredSkill = itemData.skill;
-            let requiredLevel = calcLevel(characterSkills[requiredSkill]);
-            // Load the current item with the best possible material (e.g. dragon dagger)
-            let bestMat = this.getBestMat(requiredLevel, itemData.material);
-            // Determine the corect (x,y) coordinate for the image to be displayed in the shop
-            let x = imageX[requiredSkill];
-            let y = imageY[requiredSkill];
-            // Increment the x location for the next item of this type
-            imageX[requiredSkill] += 100;
-            this.shopItems.push(new Item(bestMat, itemData, x, y));
-        }
-        this.displayItems();
+        this.displayItems(itemType);
     }
 
     // Display the loaded images in the shop
-    displayItems() {
+    async displayItems(itemType) {
+        // Scroll window offsets from the main window, used to position right-click menu
+        let scrollX = 20,
+            scrollY = 100;
+
+        // Load all items in that category
+        for (let item in itemManifest) {
+            if (itemManifest[item].type == itemType) {
+                // Get item class
+                let path = itemManifest[item].classPath;
+                let itemClass = await import("/src/items/" + path);
+                let newItem = new itemClass.default(this.scrollWindow);
+
+                // Create sprite
+                newItem.createShopSprite(scrollX, scrollY);
+                newItem.setVisible(false);
+                this.shopIcons.push(newItem);
+            }
+        }
+
+        // Attach to the correct columns in the scroll window
+        this.scrollWindow.addObjects(scrollX, scrollY, 400, 3, this.shopIcons);
         this.loadingText.visible = false;
-        // Create icons for all of the loaded images
-        for (let i = 0; i < this.shopItems.length; i++) {
-            let item = this.shopItems[i];
-            console.log("Displaying Item: ", item.name);
-            // Add images to the scroll window
-            let tempIcon = this.scrollWindow.add.image(item.x, item.y, item.name).setInteractive();
-            tempIcon.scale = 0.25;
-            tempIcon.on("pointerup", () => {
-                this.buyItem(this.shopItems[i]);
-            });
-            tempIcon.on("pointerover", () => {
-                this.displayToolTip(this.shopItems[i]);
-            });
-            this.shopIcons.push(tempIcon);
-        }
-
-        // Attach to the correct columns
-        this.scrollWindow.addObjects(20, 100, 400, 4, this.shopIcons);
-    }
-
-    // TODO: Buy an item from the shop (add item to inventory / subtract from available gold)
-    buyItem(item) {
-        console.log("Buying Item:", item.name);
-    }
-
-    // TODO: Display the tooltip text for an item (item name / stats) when hovering over it
-    displayToolTip(item) {
-        console.log("Hovering Over Item: ", item.name);
-    }
-
-    // // TODO:
-    // updateGold() {
-    //     // If an item was bought, update the available gold and re-set the "itemBought" flag
-    // }
-
-    // // TODO:
-    // updateShop() {
-    //     // Check if an item was bought?
-    // }
-
-    //====== Helper Functions ======
-
-    // Determine the best material type available for a character given their levels (e.g. 5 attack = steel weapons)
-    getBestMat(reqLevel, matType) {
-        let bestMat = "No Mat";
-        // Looping over values of this material type (e.g. SMITHINGMAT: Bronze, Iron, Steel, ...)
-        for (let mat in MATERIALS[matType]) {
-            // No dict.values() in Javascript, so this is a workaround.
-            let matData = MATERIALS[matType][mat];
-            bestMat = matData;
-            if (matData.level >= reqLevel) break;
-        }
-        return bestMat;
     }
 }
