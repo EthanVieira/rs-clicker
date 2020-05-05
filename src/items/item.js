@@ -23,6 +23,8 @@ export class Item extends ClickableObject {
     x = 0;
     y = 0;
     selected = false;
+    stackable = true;
+    numItems = 1;
 
     // Objects
     sprite;
