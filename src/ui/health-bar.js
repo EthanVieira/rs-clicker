@@ -9,8 +9,8 @@ export class HealthBar {
 
     constructor(scene, x, y, maxHealth) {
         // Offset coordinates based on width/height of health bar
-        this.width = maxHealth + 20;
-        this.height = 12;
+        this.width = maxHealth + 40;
+        this.height = 14;
         this.x = x - 4 - (5 * this.width) / 12;
         this.y = y - this.height;
 

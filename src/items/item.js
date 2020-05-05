@@ -1,6 +1,6 @@
 import { itemManifest } from "./item-manifest.js";
-//import { FONTS } from "../constants/constants.js";
 import { ClickableObject } from "../clickable-object.js";
+import { CONSTANTS } from "../constants/constants.js";
 
 export async function getItemClass(itemName, type, scene) {
     //console.log(itemName, type);
@@ -17,6 +17,7 @@ export class Item extends ClickableObject {
     item = "";
     type = "";
     examineText = "";
+    objectType = "ITEM";
 
     // Inventory location
     index = -1;
@@ -30,11 +31,12 @@ export class Item extends ClickableObject {
 
     // Others
     scale = 1;
+    displayHeight = 0;
     cost = 0;
     actions = [
         { text: "Use", func: "use" },
         { text: "Drop", func: "drop" },
-        { text: "Examine", func: "examine" }
+        { text: "Examine", func: "examine" },
     ];
 
     createSprite(x, y, index = -1) {
@@ -47,13 +49,52 @@ export class Item extends ClickableObject {
             .setScale(this.scale)
             .setDepth(4)
             .setInteractive()
-            .on("pointerdown", pointer => {
+            .on("pointerdown", (pointer) => {
                 if (pointer.rightButtonDown()) {
-                    this.createRightClickMenu(pointer.x, pointer.y);
+                    this.createRightClickMenu(pointer.x, pointer.y, this.actions);
                 } else {
                     this.leftClick();
                 }
             });
+        this.displayHeight = this.sprite.displayHeight;
+    }
+
+    // Need offset for where scroll window is placed as coordinates are relative
+    createShopSprite(offsetX, offsetY) {
+        let shopActions = [{ text: "Buy", func: "buy" }];
+
+        this.sprite = this.scene.add
+            .image(0, 0, itemManifest[this.type + this.item].imageName + "-model")
+            .setScale(this.scale / 2)
+            .setDepth(4)
+            .setInteractive()
+            .setOrigin(0, 0)
+            .on("pointerover", () => {
+                this.examine(true);
+            })
+            .on("pointerdown", (pointer) => {
+                this.createRightClickMenu(
+                    pointer.x - offsetX,
+                    pointer.y - offsetY,
+                    shopActions
+                );
+            });
+        this.displayHeight = this.sprite.displayHeight;
+    }
+
+    async buy() {
+        if (this.scene.characterData.gold >= this.cost) {
+            console.log("Buying", this.name);
+            let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+
+            // Create new non-shop item
+            let boughtItem = await getItemClass(this.item, this.type, dashboard);
+            if (dashboard.inventory.obj.addToInventory(boughtItem)) {
+                this.scene.characterData.gold -= this.cost;
+            }
+        } else {
+            console.log("not enough mulah", this.scene.characterData.gold, this.cost);
+        }
     }
 
     // Toggle highlighting on use
@@ -82,15 +123,13 @@ export class Item extends ClickableObject {
         this.index = index;
     }
 
-    show(isVisible) {
-        this.sprite.visible = isVisible;
-    }
-
     destroy() {
         if (this.index >= 0) {
             this.scene.characterData.inventory[this.index] = "";
         }
-        this.sprite.destroy();
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.destroy();
+        }
         this.name = "";
     }
 }

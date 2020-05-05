@@ -11,14 +11,14 @@ export class VarrockScene extends LevelScene {
             killQuest: 15,
             background: {
                 name: "varrock",
-                path: "src/assets/backgrounds/VarrockBackground.png"
+                path: "src/assets/backgrounds/VarrockBackground.png",
             },
             minimap: {
                 name: "varrock_map",
-                path: "src/assets/maps/VarrockMap.png"
+                path: "src/assets/maps/VarrockMap.png",
             },
             targets: [DarkWizard, Guard],
-            audio: { bgm: "expanse" }
+            audio: { bgm: "expanse" },
         });
     }
 }

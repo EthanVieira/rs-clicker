@@ -11,14 +11,14 @@ export class LumbridgeScene extends LevelScene {
             killQuest: 10,
             background: {
                 name: "lumbridge",
-                path: "src/assets/backgrounds/LumbridgeBackground.jpg"
+                path: "src/assets/backgrounds/LumbridgeBackground.jpg",
             },
             minimap: {
                 name: "lumbridge-map",
-                path: "src/assets/maps/LumbridgeMap.png"
+                path: "src/assets/maps/LumbridgeMap.png",
             },
             targets: [Cow, Goblin],
-            audio: { bgm: "harmony" }
+            audio: { bgm: "harmony" },
         });
     }
 }

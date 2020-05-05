@@ -2,15 +2,15 @@
 
 ![alt text](/src/assets/logos/RSCLogo.png "Swanky RS Clicker logo")
 
+## Play online
+
 #### [>Click here to play<](https://ethanvieira.github.io/rs-clicker/)
 
-### TODO
+![alt text](/src/assets/screenshots/Login.png "Login Screen")
+![alt text](/src/assets/screenshots/TutorialIsland.png "Tutorial Island")
+![alt text](/src/assets/screenshots/WorldMap.png "World Map")
 
-[Trello board for tasks](https://trello.com/b/hJYfFDMr)
-
-[Google doc for future ideas](https://docs.google.com/document/d/14aIu6_-7gJhgkLuyItdyquUk115mISjRNwYPJmxmUm0/edit?usp=sharing)
-
-### Run Game with Python server:
+### Run locally with Python server:
 
 Python version 2.x:
 
@@ -26,19 +26,8 @@ http://192.168.1.2:8000
 or
 http://127.0.0.1:8000
 
-### Random resources
+## TODO
 
-https://www.youtube.com/playlist?list=PLitFP8FdScfHcJQ-kDmm0i6aOhinVO7ND
+[Trello board for tasks](https://trello.com/b/hJYfFDMr)
 
-https://gamedevacademy.org/phaser-tutorial-how-to-create-an-idle-clicker-game/ -- I think this is Phaser 2
-
-https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
-
-https://gamedevacademy.org/category/tutorials/phaser-tutorials/phaser-3-tutorials/
-
-https://photonstorm.github.io/phaser3-docs/index.html
-
-Repo of examples:
-https://github.com/photonstorm/phaser3-examples
-
-http://labs.phaser.io/
+[Google doc for future ideas](https://docs.google.com/document/d/14aIu6_-7gJhgkLuyItdyquUk115mISjRNwYPJmxmUm0/edit?usp=sharing)

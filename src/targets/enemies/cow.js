@@ -33,7 +33,7 @@ export class Cow extends Enemy {
             images: [{ name: "cow", path: "src/assets/sprites/Cow.png", scale: 0.4 }],
             maxHealth: 8,
             killGold: 5,
-            drops: [{ item: NormalBones, rate: 0.5 }]
+            drops: [{ item: NormalBones, rate: 0.5 }],
         });
     }
 }

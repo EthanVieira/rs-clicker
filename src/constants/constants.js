@@ -5,6 +5,7 @@ export const CONSTANTS = {
         MAIN_MENU: "MAIN_MENU",
         CHARACTER_CREATION: "CHARACTER_CREATION",
         DASHBOARD: "DASHBOARD",
+        CHAT: "CHAT",
         STATS: "STATS",
         MAP: "MAP",
         SHOP: "SHOP",
@@ -12,21 +13,26 @@ export const CONSTANTS = {
         LUMBRIDGE: "LUMBRIDGE",
         LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
         VARROCK: "VARROCK",
-        BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE"
+        BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE",
     },
     CLASS: {
         UNARMED: "UNARMED",
         WARRIOR: "WARRIOR",
         MAGE: "MAGE",
-        RANGER: "RANGER"
+        RANGER: "RANGER",
     },
     RESOURCES: {
         WOOD: "WOOD",
-        ORE: "ORE"
+        ORE: "ORE",
+    },
+    ITEM_TYPES: {
+        WEAPON: "WEAPON",
+        TOOL: "TOOL",
+        CONSUMABLE: "CONSUMABLE",
     },
     LEVEL_TYPE: {
         ENEMY: "ENEMY",
-        RESOURCE: "RESOURCE"
+        RESOURCE: "RESOURCE",
     },
     PANEL: {
         INVENTORY: "INVENTORY",
@@ -34,18 +40,18 @@ export const CONSTANTS = {
         PRAYER: "PRAYER",
         EQUIPMENT: "EQUIPMENT",
         QUESTS: "QUESTS",
-        SETTINGS: "SETTINGS"
+        SETTINGS: "SETTINGS",
     },
     UTILS: {
-        MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000
-    }
+        MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000,
+    },
 };
 
 export const EQUIPMENT = {
     WEAPON_TYPES: {
         MELEE: "MELEE",
         RANGED: "RANGED",
-        MAGIC: "MAGIC"
+        MAGIC: "MAGIC",
     },
     SLOTS: {
         HEAD: "HEAD",
@@ -58,18 +64,18 @@ export const EQUIPMENT = {
         LEGS: "LEGS",
         HANDS: "HANDS",
         FEET: "FEET",
-        TWO_HANDED: "TWO_HANDED"
+        TWO_HANDED: "TWO_HANDED",
     },
     ATTACK_STYLE: {
         STAB: "STAB",
         SLASH: "SLASH",
-        CRUSH: "CRUSH"
-    }
-}
+        CRUSH: "CRUSH",
+    },
+};
 
 export const SCREEN = {
     WIDTH: 765,
-    HEIGHT: 503
+    HEIGHT: 503,
 };
 
 export const MAP = {
@@ -77,24 +83,24 @@ export const MAP = {
     HEIGHT: 4431,
     TUTORIAL_ISLAND: {
         X: 2500,
-        Y: 3570
+        Y: 3570,
     },
     LUMBRIDGE: {
         X: 3000,
-        Y: 3075
+        Y: 3075,
     },
     LUMBRIDGE_TREES: {
         X: 2820,
-        Y: 3075
+        Y: 3075,
     },
     VARROCK: {
         X: 2980,
-        Y: 2210
+        Y: 2210,
     },
     BARBARIAN_VILLAGE: {
         X: 2400,
-        Y: 2250
-    }
+        Y: 2250,
+    },
 };
 
 export const FONTS = {
@@ -108,14 +114,14 @@ export const FONTS = {
             offsetX: 2,
             offsetY: 2,
             color: "black",
-            fill: true
-        }
+            fill: true,
+        },
     },
     LOCKED_FONT: {
         fill: "black",
         fontSize: "20px",
         style: "bold",
-        backgroundColor: "grey"
+        backgroundColor: "grey",
     },
     OPTIONS_MENU: {
         fill: "white",
@@ -123,7 +129,7 @@ export const FONTS = {
     },
     ITEM_NAME: {
         fill: "orange",
-        fontSize: "12px"
+        fontSize: "12px",
     },
     ITEM_STATS: {
         font: "16px runescape",
@@ -133,24 +139,24 @@ export const FONTS = {
         font: "16px runescape",
         fill: "black",
     },
-    PRAYER: { 
+    PRAYER: {
         font: "16px runescape",
         fill: "orange",
         shadow: {
             offsetX: 1,
             offsetY: 1,
             color: "black",
-            fill: true
-        } 
+            fill: true,
+        },
     },
-    HOTBAR: { 
+    HOTBAR: {
         font: "15.5px runescape",
         fill: "#00ff00",
         shadow: {
             offsetX: 1,
             offsetY: 1,
             color: "black",
-            fill: true
-        } 
-    }
-}
+            fill: true,
+        },
+    },
+};

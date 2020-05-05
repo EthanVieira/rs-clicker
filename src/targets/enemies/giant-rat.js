@@ -18,11 +18,15 @@ export class GiantRat extends Enemy {
             name: "Giant Rat",
             varName: "giantRat",
             images: [
-                { name: "giant-rat", path: "src/assets/sprites/GiantRat.png", scale: 0.4 }
+                {
+                    name: "giant-rat",
+                    path: "src/assets/sprites/GiantRat.png",
+                    scale: 0.4,
+                },
             ],
             maxHealth: 5,
             killGold: 1,
-            drops: [{ item: NormalBones, rate: 0.5 }]
+            drops: [{ item: NormalBones, rate: 0.5 }],
         });
     }
 }

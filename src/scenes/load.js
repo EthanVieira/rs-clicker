@@ -1,6 +1,4 @@
 import { CONSTANTS } from "../constants/constants.js";
-import { MATERIALS } from "../constants/materials.js";
-import { ITEMS } from "../constants/items.js";
 import { getDefaultData } from "../utilities.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
@@ -17,10 +15,10 @@ export class LoadScene extends Phaser.Scene {
                     {
                         type: "image",
                         key: "lesser-demon",
-                        url: "/src/assets/sprites/LesserDemon.png"
-                    }
-                ]
-            }
+                        url: "/src/assets/sprites/LesserDemon.png",
+                    },
+                ],
+            },
         });
     }
 
@@ -35,44 +33,44 @@ export class LoadScene extends Phaser.Scene {
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
         var loadingText = this.make.text({
-            x: width / 2,
-            y: height / 2 - 50,
+            x: Math.floor(width / 2),
+            y: Math.floor(height / 2) - 50,
             text: "RS Clicker is loading - Please Wait...",
             style: {
                 font: "24px runescape",
-                fill: "#ffffff"
-            }
+                fill: "#ffffff",
+            },
         });
         loadingText.setOrigin(0.5, 0.5);
 
         var percentText = this.make.text({
-            x: width / 2,
-            y: height / 2 - 5,
+            x: Math.floor(width / 2),
+            y: Math.floor(height / 2) - 5,
             text: "0%",
             style: {
                 font: "18px runescape",
-                fill: "#ffffff"
-            }
+                fill: "#ffffff",
+            },
         });
         percentText.setOrigin(0.5, 0.5);
 
         // Display asset text on loading bar
         var assetText = this.make.text({
-            x: width / 2,
-            y: height / 2 + 42,
-            text: 'Loading asset',
+            x: Math.floor(width / 2),
+            y: Math.floor(height / 2) + 42,
+            text: "Loading asset",
             style: {
-                font: '18px runescape',
-                fill: '#ffffff'
-            }
+                font: "18px runescape",
+                fill: "#ffffff",
+            },
         });
         assetText.setOrigin(0.5, 0.5);
 
-        this.load.on('fileprogress', function (file) {
+        this.load.on("fileprogress", function (file) {
             assetText.text = "Loading asset: " + file.key;
         });
 
-        this.load.on("progress", function(value, file) {
+        this.load.on("progress", function (value, file) {
             percentText.setText(
                 "Loading good ol rs stuff " + parseInt(value * 100) + "%"
             );
@@ -81,7 +79,7 @@ export class LoadScene extends Phaser.Scene {
             progressBar.fillRect(250, 280, 300 * value, 30);
         });
 
-        this.load.on("complete", function() {
+        this.load.on("complete", function () {
             progressBar.destroy();
             progressBox.destroy();
             loadingText.destroy();
@@ -109,13 +107,10 @@ export class LoadScene extends Phaser.Scene {
         // Dashboard UI
         // Inventory icon
         this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
-        // Skills panel
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
         this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
-        // Prayer panel
         this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
         this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
-        // Audio panel
         this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
         this.load.image(
             "audio-settings-button",
@@ -123,15 +118,11 @@ export class LoadScene extends Phaser.Scene {
         );
         this.load.image("audio-slider", "src/assets/ui/buttons/AudioSlider.png");
         this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
-        // Quests panel
         this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
         this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
-        // Equipment panel
         this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
         this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
-        // Right click menu
         this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
-        // Scrolled windoow
         this.load.image("scroll-bar", "src/assets/ui/ScrollBar.png");
         this.load.image("scroll-button", "src/assets/ui/ScrollButton.png");
 
@@ -143,33 +134,10 @@ export class LoadScene extends Phaser.Scene {
 
         // Load all items in item manifest
         path = "src/assets/items/icons/";
+        let modelPath = "src/assets/items/models/";
         Object.entries(itemManifest).forEach(([item, itemObj]) => {
             this.load.image(itemObj.imageName, path + itemObj.imagePath);
-        });
-
-        // Load all weapons
-        path = "src/assets/items/models/weapons/";
-        Object.entries(ITEMS.Weapons).forEach(([item, itemObj]) => {
-            // Loop through materials
-            Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
-                // Load all types
-                this.load.image(
-                    matObj.name + itemObj.name,
-                    path + matObj.name + itemObj.name + ".png"
-                );
-            });
-        });
-
-        // Load all tools
-        Object.entries(ITEMS.Tools).forEach(([item, itemObj]) => {
-            // Loop through materials
-            Object.entries(MATERIALS[itemObj.material]).forEach(([mat, matObj]) => {
-                // Load all types
-                this.load.image(
-                    matObj.name + itemObj.name,
-                    path + matObj.name + itemObj.name + ".png"
-                );
-            });
+            this.load.image(itemObj.imageName + "-model", modelPath + itemObj.imagePath);
         });
     }
 
@@ -183,10 +151,12 @@ export class LoadScene extends Phaser.Scene {
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO, this.characterData);
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-        audioScene.playAudio("scape-main");
+        audioScene.playBgm("scape-main");
 
-        this.add.text(250, 300, "Welcome to RS Clicker!", {font: "24px runescape"});
-        this.add.text(250, 340, "Click the lesser demon to continue.", {font: "18px runescape"});
+        this.add.text(250, 300, "Welcome to RS Clicker!", { font: "24px runescape" });
+        this.add.text(250, 340, "Click the lesser demon to continue.", {
+            font: "18px runescape",
+        });
 
         let lesserDemonSprite = this.add.image(750, 600, "lesser-demon");
         lesserDemonSprite.setInteractive();

@@ -36,7 +36,7 @@ export class StatsScene extends Phaser.Scene {
         this.goldText = this.add
             .text(20, 20, "Gold: " + this.characterData.gold, {
                 fill: "gold",
-                fontSize: "30px"
+                fontSize: "30px",
             })
             .setDepth(3);
 
@@ -44,12 +44,12 @@ export class StatsScene extends Phaser.Scene {
         let statColor = "white";
         this.enemiesKilledText = this.add
             .text(20, 60, "Enemies killed: " + this.characterData.totalEnemiesKilled, {
-                fill: statColor
+                fill: statColor,
             })
             .setDepth(3);
         this.timesClickedText = this.add
             .text(20, 75, "Times clicked: " + this.characterData.timesClicked, {
-                fill: statColor
+                fill: statColor,
             })
             .setDepth(3);
         this.damageByClickingText = this.add
@@ -58,7 +58,7 @@ export class StatsScene extends Phaser.Scene {
                 90,
                 "Damage done by clicking: " + this.characterData.damageByClicking,
                 {
-                    fill: statColor
+                    fill: statColor,
                 }
             )
             .setDepth(3);
@@ -68,13 +68,13 @@ export class StatsScene extends Phaser.Scene {
                 105,
                 "Damage done by autoclickers: " + this.characterData.damageByAutoClick,
                 {
-                    fill: statColor
+                    fill: statColor,
                 }
             )
             .setDepth(3);
         this.autoClickDpsText = this.add
             .text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {
-                fill: statColor
+                fill: statColor,
             })
             .setDepth(3);
 
@@ -131,7 +131,7 @@ export class StatsScene extends Phaser.Scene {
                     this.timesClickedText,
                     this.damageByClickingText,
                     this.autoClickDpsText,
-                    this.damageByAutoClickText
+                    this.damageByAutoClickText,
                 ]);
                 break;
             default:
@@ -143,7 +143,7 @@ export class StatsScene extends Phaser.Scene {
     // Takes in array of text objects and displays them in order
     orderStats(statsArray) {
         let yPos = 75;
-        statsArray.forEach(stat => {
+        statsArray.forEach((stat) => {
             stat.y = yPos;
             stat.visible = true;
             yPos += 15;
