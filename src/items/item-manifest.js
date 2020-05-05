@@ -1,6 +1,12 @@
 import { CONSTANTS } from "../constants/constants.js";
 
 export var itemManifest = {
+    AirStaff: {
+        classPath: "./equipment/air-stff.js",
+        imagePath: "weapons/AirStaff.png",
+        imageName: "air-staff",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
     Bronze2hSword: {
         classPath: "./equipment/bronze-2h-sword.js",
         imagePath: "weapons/Bronze2hSword.png",
@@ -70,5 +76,53 @@ export var itemManifest = {
         classPath: "./bones/normal-bones.js",
         imagePath: "other/Bones.png",
         imageName: "bones",
+    },
+    OakShortbow: {
+        classPath: "./equipment/oak-shortbow.js",
+        imagePath: "weapons/OakShortbow.png",
+        imageName: "oak-shortbow",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    Steel2hSword: {
+        classPath: "./equipment/steel-2h-sword.js",
+        imagePath: "weapons/Steel2hSword.png",
+        imageName: "steel-2h-sword",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    SteelAxe: {
+        classPath: "./equipment/steel-axe.js",
+        imagePath: "weapons/SteelAxe.png",
+        imageName: "steel-axe",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
+    },
+    SteelCrossbow: {
+        classPath: "./equipment/steel-crossbow.js",
+        imagePath: "weapons/SteelCrossbow.png",
+        imageName: "steel-crossbow",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    SteelDagger: {
+        classPath: "./equipment/steel-dagger.js",
+        imagePath: "weapons/SteelDagger.png",
+        imageName: "steel-dagger",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    SteelKnife: {
+        classPath: "./equipment/steel-knife.js",
+        imagePath: "weapons/SteelKnife.png",
+        imageName: "steel-knife",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    SteelScimitar: {
+        classPath: "./equipment/steel-scimitar.js",
+        imagePath: "weapons/SteelScimitar.png",
+        imageName: "steel-scimitar",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    SteelSword: {
+        classPath: "./equipment/steel-sword.js",
+        imagePath: "weapons/SteelSword.png",
+        imageName: "steel-sword",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
 };
