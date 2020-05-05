@@ -64,6 +64,11 @@ export var itemManifest = {
         imagePath: "other/Bones.png",
         imageName: "bones"
     },
+    OakShortbow: {
+        classPath: "./equipment/oak-shortbow.js",
+        imagePath: "weapons/OakShortbow.png",
+        imageName: "oak-shortbow"
+    },
     Steel2hSword: {
         classPath: "./equipment/steel-2h-sword.js",
         imagePath: "weapons/Steel2hSword.png",
