@@ -4,7 +4,7 @@ import { getItemClass } from "../items/item.js";
 export class Inventory {
     scene;
     menu;
-    playerItems = []; // Pointer to cookies, store item name/type
+    playerItems = []; // Pointer to cookies, store item name/type/count
     inventory = []; // Images
     curSelectedItemIndex = -1;
 
@@ -23,6 +23,7 @@ export class Inventory {
             if (Object.keys(item).length) {
                 // Create item from name
                 let itemObj = await getItemClass(item.item, item.type, this.scene);
+                itemObj.setNumItems(item.count);
                 this.addToInventoryAtIndex(itemObj, index);
             }
         }
@@ -33,7 +34,8 @@ export class Inventory {
         // Add to saved data
         this.playerItems[index] = {
             item: item.item,
-            type: item.type
+            type: item.type,
+            count: item.numItems,
         };
 
         // Add item images
@@ -61,8 +63,19 @@ export class Inventory {
     addToInventory(item, createSprite = true) {
         // Search for empty slot
         for (let index = 0; index < this.playerItems.length; index++) {
-            // Check if object exists
-            if (!Object.keys(this.playerItems[index]).length) {
+            let itemExists = this.playerItems[index]).length;
+            
+            // Check if it can stack with other items
+            if (
+                itemExists && item.stackable && 
+                this.playerItems[index].name == item.name
+            ) {
+                let curItem = this.inventory[index];
+                curItem.setnumItems(curItem.numItems + item.numItems);
+                return true;
+            }
+            // Check if slot is empty
+            else if (!itemExists) {
                 this.addToInventoryAtIndex(item, index, createSprite);
                 return true;
             }
