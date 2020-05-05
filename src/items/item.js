@@ -28,6 +28,7 @@ export class Item extends ClickableObject {
 
     // Objects
     sprite;
+    numItemsText;
     scene;
 
     // Others
@@ -56,6 +57,19 @@ export class Item extends ClickableObject {
                     this.leftClick();
                 }
             });
+        
+        // Add text in top left for stackable items
+        this.numItemsText = this.scene.add
+            .text(x, y, this.numItems, { 
+                font: "10px runescape",
+                fill: "orange"
+            });
+        }
+        
+        // Hide unless item is stacked
+        if (this.numItems <= 1) {
+            this.numItemsText.visible = false;
+        }
     }
 
     // Toggle highlighting on use
@@ -73,7 +87,12 @@ export class Item extends ClickableObject {
 
     drop() {
         console.log("Drop", this.name);
-        this.destroy();
+        
+        if (this.numItems <= 1) {
+            this.destroy();
+        } else {
+            this.setNumItems(this.numItems - 1);
+        }
     }
 
     move(x, y, index = -1) {
@@ -84,8 +103,25 @@ export class Item extends ClickableObject {
         this.index = index;
     }
 
+    setNumItems(num) {
+        this.numItems = num;
+        
+        // Update text and make visible if item is visible
+        this.numItemsText.text = num;
+        if (num <= 1) {
+            this.numItemsText.visible = false;
+        } else if (this.sprite.visible) {
+            this.numItemsText.visible = true;
+        }
+    }
+
     show(isVisible) {
         this.sprite.visible = isVisible;
+        
+        // Show/hide if stacked
+        if (this.numItems > 1) {
+            this.numItemsText.visible = isVisible;
+        }
     }
 
     destroy() {
@@ -93,6 +129,7 @@ export class Item extends ClickableObject {
             this.scene.characterData.inventory[this.index] = "";
         }
         this.sprite.destroy();
+        this.numItemsText.destroy();
         this.name = "";
     }
 }
