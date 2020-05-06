@@ -67,7 +67,8 @@ export class Inventory {
 
             // Check if it can stack with other items
             if (
-                itemExists && item.stackable && 
+                itemExists &&
+                item.stackable &&
                 this.playerItems[index].item == item.item &&
                 this.playerItems[index].type == item.type
             ) {

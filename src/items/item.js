@@ -60,20 +60,19 @@ export class Item extends ClickableObject {
                 }
             });
         this.displayHeight = this.sprite.displayHeight;
-        
+
         // Add text in top left for stackable items
         this.numItemsText = this.scene.add
-            .text(x-15, y-15, this.numItems, { 
+            .text(x - 15, y - 15, this.numItems, {
                 font: "10px runescape",
-                fill: "orange"
+                fill: "orange",
             })
             .setDepth(5);
-        
+
         // Hide unless item is stacked
         if (this.numItems <= 1) {
             this.numItemsText.visible = false;
         }
-        
     }
 
     // Need offset for where scroll window is placed as coordinates are relative
@@ -129,7 +128,7 @@ export class Item extends ClickableObject {
 
     drop() {
         console.log("Drop", this.name);
-        
+
         if (this.numItems <= 1) {
             this.destroy();
         } else {
@@ -147,7 +146,7 @@ export class Item extends ClickableObject {
 
     setNumItems(num) {
         this.numItems = num;
-        
+
         // Update text and make visible if item is visible
         if (this.numItemsText != undefined) {
             this.numItemsText.text = num;
@@ -159,9 +158,11 @@ export class Item extends ClickableObject {
         }
     }
 
-    show(isVisible) {
-        this.sprite.visible = isVisible;
-        
+    setVisible(isVisible) {
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.visible = isVisible;
+        }
+
         // Show/hide if stacked
         if (this.numItems > 1) {
             this.numItemsText.visible = isVisible;
