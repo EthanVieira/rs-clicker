@@ -10,14 +10,14 @@ export class BarbarianVillageScene extends LevelScene {
             killQuest: 20,
             background: {
                 name: "barbarian_village",
-                path: "src/assets/backgrounds/BarbarianVillageBackground.png"
+                path: "src/assets/backgrounds/BarbarianVillageBackground.png",
             },
             minimap: {
                 name: "barbarian_village_map",
-                path: "src/assets/maps/BarbarianVillageMap.png"
+                path: "src/assets/maps/BarbarianVillageMap.png",
             },
             targets: [Barbarian],
-            audio: { bgm: "barbarianism" }
+            audio: { bgm: "barbarianism" },
         });
     }
 }

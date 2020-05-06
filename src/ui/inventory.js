@@ -53,7 +53,7 @@ export class Inventory {
 
         // Hide if inventory is not selected
         let showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY;
-        item.show(showItem);
+        item.setVisible(showItem);
 
         // Add object to the scene
         this.inventory[index] = item;
@@ -63,15 +63,22 @@ export class Inventory {
     addToInventory(item, createSprite = true) {
         // Search for empty slot
         for (let index = 0; index < this.playerItems.length; index++) {
-            let itemExists = this.playerItems[index]).length;
-            
+            let itemExists = Object.keys(this.playerItems[index]).length;
+
             // Check if it can stack with other items
             if (
                 itemExists && item.stackable && 
-                this.playerItems[index].name == item.name
+                this.playerItems[index].item == item.item &&
+                this.playerItems[index].type == item.type
             ) {
                 let curItem = this.inventory[index];
-                curItem.setnumItems(curItem.numItems + item.numItems);
+
+                // Update the item in the game
+                curItem.setNumItems(curItem.numItems + item.numItems);
+
+                // Update it in the cookies
+                this.playerItems[index].count += item.numItems;
+
                 return true;
             }
             // Check if slot is empty
@@ -109,9 +116,9 @@ export class Inventory {
         if (isVisible) {
             this.scene.currentPanel = CONSTANTS.PANEL.INVENTORY;
         }
-        this.inventory.forEach(item => {
+        this.inventory.forEach((item) => {
             if (Object.keys(item).length) {
-                item.show(isVisible);
+                item.setVisible(isVisible);
             }
         });
     }

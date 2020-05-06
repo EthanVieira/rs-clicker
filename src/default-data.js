@@ -11,10 +11,10 @@ export const defaultData = {
     inventory: [
         { type: "Bronze", item: "Dagger" },
         { type: "Normal", item: "Shortbow" },
-        { type: "Normal", item: "Staff" }
+        { type: "Normal", item: "Staff" },
     ],
     equipment: {
-        WEAPON: {}
+        WEAPON: {},
     },
     // Skill XP
     skills: {
@@ -24,22 +24,22 @@ export const defaultData = {
         magic: 0,
         health: 10,
         woodcutting: 0,
-        mining: 0
+        mining: 0,
     },
     audio: [2, 2, 2], // BGM, SFX, Environment
     // Can be accessed with characterData[this.currentLevel].questCompleted, etc.
     TUTORIAL_ISLAND: {
         questCompleted: false,
         enemiesKilled: {
-            giantRat: 0
-        }
+            giantRat: 0,
+        },
     },
     LUMBRIDGE: {
         questCompleted: false,
         enemiesKilled: {
             cow: 0,
-            goblin: 0
-        }
+            goblin: 0,
+        },
     },
     LUMBRIDGE_TREES: {
         // TODO: "enemiesKilled" makes things work nicely but isn't an accurate name here
@@ -47,20 +47,20 @@ export const defaultData = {
         // Quest text will soon change anyway
         questCompleted: false,
         enemiesKilled: {
-            tree: 0
-        }
+            tree: 0,
+        },
     },
     VARROCK: {
         questCompleted: false,
         enemiesKilled: {
             darkWizard: 0,
-            guard: 0
-        }
+            guard: 0,
+        },
     },
     BARBARIAN_VILLAGE: {
         questCompleted: false,
         enemiesKilled: {
-            barbarian: 0
-        }
-    }
+            barbarian: 0,
+        },
+    },
 };

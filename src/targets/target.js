@@ -22,7 +22,7 @@ export class Target extends ClickableObject {
         this.y = height / 2 - 150;
 
         // Add images if there are multiple
-        data.images.forEach(image => {
+        data.images.forEach((image) => {
             let target = data.scene.add
                 .image(this.x, this.y, image.name)
                 .setOrigin(0.5, 0)
@@ -31,7 +31,7 @@ export class Target extends ClickableObject {
                 .setInteractive()
                 .on("pointerdown", (pointer) => {
                     if (pointer.rightButtonDown()) {
-                        this.createRightClickMenu(pointer.x, pointer.y);
+                        this.createRightClickMenu(pointer.x, pointer.y, this.actions);
                     } else {
                         this.clickTarget();
                     }
@@ -69,7 +69,7 @@ export class Target extends ClickableObject {
 
         if (isFinished) {
             // Calculate item drops
-            this.drops.forEach(item => {
+            this.drops.forEach((item) => {
                 if (item.rate > Math.random()) {
                     let droppedItem = new item.item(this.scene.dashboard);
                     console.log(this.name, "dropped", droppedItem.name);

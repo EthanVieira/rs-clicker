@@ -3,25 +3,30 @@ import { CONSTANTS, FONTS } from "./constants/constants.js";
 export class ClickableObject {
     // Basic info
     examineText = "";
-    
+
     // Objects
     menu;
     scene;
+    chat;
 
     // Right click actions
     actions = [{ text: "Examine", func: "examine" }];
 
-    examine() {
+    examine(isShop) {
         console.log(this.examineText);
-        this.dashboard.showObjectInfo(true, this);
+        // Get chat scene
+        if (this.chat == undefined) {
+            this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        }
+        this.chat.showObjectInfo(true, this, isShop);
     }
 
-    createRightClickMenu(x, y) {
+    createRightClickMenu(x, y, actions) {
         let menuBox = this.scene.add
             .image(x, y, "right-click-menu")
             .setDepth(4)
             .setInteractive()
-            .on("pointerout", pointer => {
+            .on("pointerout", (pointer) => {
                 // Check to ensure it doesn't trigger when hovering over text options
                 if (
                     pointer.worldX > x + menuBox.width / 2 ||
@@ -33,12 +38,14 @@ export class ClickableObject {
                 }
             });
 
-        // Get dashboard scene
-        this.dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        // Get chat scene
+        if (this.chat == undefined) {
+            this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        }
 
         // Show stats menu until right click menu is destroyed
         menuBox.on("destroy", () => {
-            this.dashboard.showObjectInfo(false);
+            this.chat.showObjectInfo(false);
         });
 
         // Add text options
@@ -47,7 +54,7 @@ export class ClickableObject {
         let optionsY = y - 45;
 
         // Generate dynamic list of actions (wield, bury, etc.)
-        this.actions.forEach(action => {
+        actions.forEach((action) => {
             optionsY += 15;
             let itemText = this.scene.add.text(
                 x - 20,
@@ -83,5 +90,26 @@ export class ClickableObject {
 
         // Group objects together
         this.menu = this.scene.add.container(0, 0, options).setDepth(5);
+    }
+
+    // Implement getters/setters so it can match the Phaser game object class
+    setX(x) {
+        this.x = x;
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.x = x;
+        }
+    }
+
+    setY(y) {
+        this.y = y;
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.y = y;
+        }
+    }
+
+    setVisible(isVisible) {
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.visible = isVisible;
+        }
     }
 }

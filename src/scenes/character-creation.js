@@ -5,7 +5,7 @@ export class CharacterCreationScene extends Phaser.Scene {
 
     constructor() {
         super({
-            key: CONSTANTS.SCENES.CHARACTER_CREATION
+            key: CONSTANTS.SCENES.CHARACTER_CREATION,
         });
     }
     init(data) {
@@ -22,10 +22,7 @@ export class CharacterCreationScene extends Phaser.Scene {
     create() {
         let characterClass = CONSTANTS.CLASS.UNARMED;
         // Load the default character creation screen
-        this.add
-            .image(0, 0, "unarmed")
-            .setOrigin(0, 0)
-            .setDepth(0);
+        this.add.image(0, 0, "unarmed").setOrigin(0, 0).setDepth(0);
 
         // Warrior Button
         let warriorButton = this.add.image(130, 180, "play-button").setDepth(0);
@@ -51,28 +48,19 @@ export class CharacterCreationScene extends Phaser.Scene {
 
         warriorButton.on("pointerup", () => {
             // Load the warrior image
-            this.add
-                .image(0, 0, "warrior")
-                .setOrigin(0, 0)
-                .setDepth(0);
+            this.add.image(0, 0, "warrior").setOrigin(0, 0).setDepth(0);
             characterClass = CONSTANTS.CLASS.WARRIOR;
         });
 
         mageButton.on("pointerup", () => {
             // Load the mage image
-            this.add
-                .image(0, 0, "mage")
-                .setOrigin(0, 0)
-                .setDepth(0);
+            this.add.image(0, 0, "mage").setOrigin(0, 0).setDepth(0);
             characterClass = CONSTANTS.CLASS.MAGE;
         });
 
         rangerButton.on("pointerup", () => {
             // Load the ranger image
-            this.add
-                .image(0, 0, "ranger")
-                .setOrigin(0, 0)
-                .setDepth(0);
+            this.add.image(0, 0, "ranger").setOrigin(0, 0).setDepth(0);
             characterClass = CONSTANTS.CLASS.RANGER;
         });
 

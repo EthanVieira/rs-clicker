@@ -3,15 +3,15 @@ import { CONSTANTS } from "../constants/constants.js";
 export class AudioScene extends Phaser.Scene {
     currentSong = {};
     audioLoaded = false;
-    currentVolume = 3;
-    previousVolume = 3;
+    currentVolume = [3, 3, 3];
+    previousVolume = [3, 3, 3];
     currentSongName = "";
 
     characterData = {};
 
     constructor() {
         super({
-            key: CONSTANTS.SCENES.AUDIO
+            key: CONSTANTS.SCENES.AUDIO,
         });
     }
 
@@ -20,12 +20,19 @@ export class AudioScene extends Phaser.Scene {
     }
 
     preload() {
-        // Audio
+        // BGM
         this.load.audio("scape-main", "src/assets/audio/bgm/ScapeMain.ogg");
         this.load.audio("newbie-melody", "src/assets/audio/bgm/NewbieMelody.ogg");
         this.load.audio("harmony", "src/assets/audio/bgm/Harmony.ogg");
         this.load.audio("expanse", "src/assets/audio/bgm/Expanse.mp3");
         this.load.audio("barbarianism", "src/assets/audio/bgm/Barbarianism.ogg");
+        this.load.audio("the-trade-parade", "src/assets/audio/bgm/TheTradeParade.ogg");
+
+        // SFX
+        this.load.audio(
+            "purchase",
+            "src/assets/audio/sfx/GrandExchangeOfferComplete.mp3"
+        );
     }
 
     create() {
@@ -34,13 +41,12 @@ export class AudioScene extends Phaser.Scene {
         this.changeVolume(0, this.characterData.audio[0]);
     }
 
-    playAudio(audioName) {
-        console.log("input:", audioName, "current:", this.currentSongName)
+    playBgm(audioName) {
         // Only play if song changes
         if (audioName != this.currentSongName) {
             // Check if audio has been loaded
             if (this.scene.isActive()) {
-                console.log("scene is active, play", audioName);
+                console.log("playing music", audioName);
                 if (this.audioLoaded) {
                     this.currentSong.stop();
                 }
@@ -49,35 +55,36 @@ export class AudioScene extends Phaser.Scene {
                 this.currentSong.setLoop(true);
                 this.currentSong.play();
                 this.audioLoaded = true;
-                this.changeVolume(0, this.currentVolume);
+                this.changeVolume(0, this.currentVolume[0]);
             } else {
                 // If called before load, play once loaded
                 this.events.once("create", () => {
-                    console.log("once event: ", audioName);
-                    this.playAudio(audioName);
+                    this.playBgm(audioName);
                 });
             }
         }
     }
 
-    changeVolume(volumeType, value) {
-        switch (volumeType) {
-            case 0: // BGM
-                // Set volume and show button
-                this.characterData.audio[0] = value;
-                this.currentVolume = value;
+    // Pause BGM while playing SFX
+    playSfx(audioName) {
+        this.currentSong.pause();
+        let sfx = this.sound.add(audioName);
+        sfx.setVolume(this.currentVolume[1] / 4);
+        sfx.play();
+        sfx.once("complete", () => {
+            this.currentSong.resume();
+        });
+    }
 
-                if (this.audioLoaded) {
-                    this.currentSong.setVolume(value / 4); // 0-4 = 0-100
-                }
-                break;
-            case 1: // SFX
-                break;
-            case 2: // Environment
-                break;
-            default:
-                console.log("Error: incorrect volume knob type");
-                break;
+    // 0: BGM, 1: SFX, 2: Environment
+    changeVolume(volumeType, value) {
+        // Set volume and show button
+        this.characterData.audio[volumeType] = value;
+        this.currentVolume[volumeType] = value;
+
+        // Lower volume of currently playing BGM
+        if (volumeType == 0 && this.audioLoaded) {
+            this.currentSong.setVolume(value / 4); // 0-4 = 0-100
         }
     }
 
@@ -85,8 +92,12 @@ export class AudioScene extends Phaser.Scene {
         if (isMuted) {
             this.previousVolume = this.currentVolume;
             this.changeVolume(0, 0);
+            this.changeVolume(1, 0);
+            this.changeVolume(2, 0);
         } else {
-            this.changeVolume(0, this.previousVolume);
+            this.changeVolume(0, this.previousVolume[0]);
+            this.changeVolume(1, this.previousVolume[1]);
+            this.changeVolume(2, this.previousVolume[2]);
         }
     }
 }
