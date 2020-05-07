@@ -169,9 +169,10 @@ export class Item extends ClickableObject {
         }
     }
 
-    destroy() {
+    // When clearing objects between scenes we don't want to delete cookies
+    destroy(deleteCookies = true) {
         // Remove from inventory
-        if (this.index >= 0) {
+        if (deleteCookies && this.index >= 0) {
             this.scene.characterData.inventory[this.index] = "";
         }
 

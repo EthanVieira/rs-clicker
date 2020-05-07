@@ -88,6 +88,7 @@ export class Inventory {
                 return true;
             }
         }
+
         // Add to end
         if (this.playerItems.length < 28) {
             this.addToInventoryAtIndex(item, this.playerItems.length, createSprite);
@@ -120,6 +121,14 @@ export class Inventory {
         this.inventory.forEach((item) => {
             if (Object.keys(item).length) {
                 item.setVisible(isVisible);
+            }
+        });
+    }
+
+    destroy() {
+        this.inventory.forEach((item) => {
+            if (Object.keys(item).length) {
+                item.destroy(false);
             }
         });
     }
