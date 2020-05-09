@@ -159,4 +159,14 @@ export const FONTS = {
             fill: true,
         },
     },
+    SHOP: {
+        font: "19px runescape",
+        fill: "#e9921e",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
 };
