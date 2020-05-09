@@ -41,6 +41,7 @@ export const CONSTANTS = {
         EQUIPMENT: "EQUIPMENT",
         QUESTS: "QUESTS",
         SETTINGS: "SETTINGS",
+        CLAN: "CLAN",
     },
     UTILS: {
         MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000,

@@ -1,6 +1,7 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { Inventory } from "./inventory.js";
 import { Equipment } from "./equipment.js";
+import { Clan } from "./clan.js";
 import { calcLevel } from "../utilities.js";
 
 export class DashboardScene extends Phaser.Scene {
@@ -39,6 +40,12 @@ export class DashboardScene extends Phaser.Scene {
     };
 
     equipment = {
+        button: {},
+        panel: {},
+        obj: {},
+    };
+
+    clan = {
         button: {},
         panel: {},
         obj: {},
@@ -329,6 +336,26 @@ export class DashboardScene extends Phaser.Scene {
         }
         this.equipment.obj = new Equipment(this, this.characterData.equipment);
         this.showEquipment(false);
+
+        // Clan chat
+        this.clan.panel = this.add
+            .image(550, 204, "clan-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+        this.clan.button = this.add
+            .image(522, 466, "clan-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.showClanChat(true);
+            });
+        // Clear out and reinstatiate clan members
+        if (Object.entries(this.clan.obj).length) {
+            this.clan.obj.destroy();
+        }
+        this.clan.obj = new Clan(this);
+        this.showClanChat(false);
     }
 
     showSkills(isVisible) {
@@ -421,6 +448,19 @@ export class DashboardScene extends Phaser.Scene {
         this.killQuestText.visible = isVisible;
     }
 
+    showClanChat(isVisible) {
+        if (isVisible) {
+            this.hideAllMenus();
+            this.clan.button.setAlpha(1);
+            this.currentPanel = CONSTANTS.PANEL.CLAN;
+        } else {
+            this.clan.button.setAlpha(0.1);
+        }
+
+        this.clan.obj.show(isVisible);
+        this.clan.panel.visible = isVisible;
+    }
+
     // Hide old button and show new one
     changeAudioButton(volumeType, newButton) {
         let previousVolume = this.characterData.audio[volumeType];
@@ -434,6 +474,7 @@ export class DashboardScene extends Phaser.Scene {
         this.showPrayer(false);
         this.showQuests(false);
         this.showEquipment(false);
+        this.showClanChat(false);
         this.equipment.obj.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon

@@ -213,12 +213,23 @@ export class ShopScene extends Phaser.Scene {
             scrollY = 100;
 
         if (itemType == "CLAN") {
+            // Get dashboard scene
+            let dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
+
+            // Use text instead of items for clan members
             let text = ["Bot", "Account Sharing", "Jagex Mod", "Gamer Girl GF"];
 
+            // Add text to window
             text.forEach((clan) => {
-                let textObj = this.scrollWindow.add.text(scrollX, scrollY, clan, {
-                    font: "18px runescape",
-                });
+                let textObj = this.scrollWindow.add
+                    .text(scrollX, scrollY, clan, {
+                        font: "18px runescape",
+                    })
+                    .setInteractive()
+                    .on("pointerup", () => {
+                        // Add to clan member list
+                        dashboard.clan.obj.addClanMember(clan);
+                    });
                 textObj.visible = false;
                 this.shopIcons.push(textObj);
             });
