@@ -16,10 +16,7 @@ export class ShopScene extends Phaser.Scene {
         // Carry along character data
         this.characterData = data[0];
         this.currentLevel = data[1];
-        this.shopItems = [];
         this.shopIcons = [];
-        this.displayIndex = 0;
-        this.itemBought = false;
         this.currentGold = this.characterData.gold;
     }
 
@@ -114,7 +111,7 @@ export class ShopScene extends Phaser.Scene {
             .on("pointerup", () => {
                 this.hideAllButtons();
                 this.clanButton.setAlpha(1);
-                this.loadShop(CONSTANTS.ITEM_TYPES.CONSUMABLE);
+                this.loadShop("CLAN");
             });
         this.clanText = this.add
             .text(659, 86, "    Clan\nMembers", FONTS.SHOP)
@@ -204,7 +201,7 @@ export class ShopScene extends Phaser.Scene {
         this.shopIcons.forEach((icon) => {
             icon.destroy();
         });
-        (this.shopItems = []), (this.shopIcons = []), (this.displayIndex = 0);
+        this.shopIcons = [];
 
         this.displayItems(itemType);
     }
@@ -215,18 +212,30 @@ export class ShopScene extends Phaser.Scene {
         let scrollX = 20,
             scrollY = 100;
 
-        // Load all items in that category
-        for (let item in itemManifest) {
-            if (itemManifest[item].type == itemType) {
-                // Get item class
-                let path = itemManifest[item].classPath;
-                let itemClass = await import("/src/items/" + path);
-                let newItem = new itemClass.default(this.scrollWindow);
+        if (itemType == "CLAN") {
+            let text = ["Bot", "Account Sharing", "Jagex Mod", "Gamer Girl GF"];
 
-                // Create sprite
-                newItem.createShopSprite(scrollX, scrollY);
-                newItem.setVisible(false);
-                this.shopIcons.push(newItem);
+            text.forEach((clan) => {
+                let textObj = this.scrollWindow.add.text(scrollX, scrollY, clan, {
+                    font: "18px runescape",
+                });
+                textObj.visible = false;
+                this.shopIcons.push(textObj);
+            });
+        } else {
+            // Load all items in that category
+            for (let item in itemManifest) {
+                if (itemManifest[item].type == itemType) {
+                    // Get item class
+                    let path = itemManifest[item].classPath;
+                    let itemClass = await import("/src/items/" + path);
+                    let newItem = new itemClass.default(this.scrollWindow);
+
+                    // Create sprite
+                    newItem.createShopSprite(scrollX, scrollY);
+                    newItem.setVisible(false);
+                    this.shopIcons.push(newItem);
+                }
             }
         }
 
