@@ -118,7 +118,7 @@ export class DashboardScene extends Phaser.Scene {
                 this.inventory.obj.showInventory(true);
                 this.inventory.button.setAlpha(0.1);
             });
-        // Clear out and reinstatiate inventory
+        // Clear out and reinstantiate inventory
         if (Object.entries(this.inventory.obj).length) {
             this.inventory.obj.destroy();
         }
@@ -323,7 +323,7 @@ export class DashboardScene extends Phaser.Scene {
                 this.equipment.obj.showEquipment(true);
             });
 
-        // Clear out and reinstatiate equipment
+        // Clear out and reinstantiate equipment
         if (Object.entries(this.equipment.obj).length) {
             this.equipment.obj.destroy();
         }

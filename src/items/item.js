@@ -128,12 +128,7 @@ export class Item extends ClickableObject {
 
     drop() {
         console.log("Drop", this.name);
-
-        if (this.numItems <= 1) {
-            this.destroy();
-        } else {
-            this.setNumItems(this.numItems - 1);
-        }
+        this.destroy();
     }
 
     move(x, y, index = -1) {
@@ -147,9 +142,30 @@ export class Item extends ClickableObject {
     setNumItems(num) {
         this.numItems = num;
 
-        // Update text and make visible if item is visible
+        // Update text
         if (this.numItemsText != undefined) {
-            this.numItemsText.text = num;
+            let visualNum = "0";
+            let fillColor = "";
+
+            // Set format/color based on the amount
+            switch (true) {
+                case num < 1000:
+                    visualNum = num;
+                    fillColor = "orange";
+                    break;
+                case num < 10000:
+                    visualNum = (num / 1000).toFixed(1) + " k";
+                    fillColor = "white";
+                    break;
+                default:
+                    visualNum = (num / 1000000).toFixed(1) + " m";
+                    fillColor = "green";
+                    break;
+            }
+            this.numItemsText.text = visualNum;
+            this.numItemsText.setFill(fillColor);
+
+            // Make visible if item is also visible
             if (num <= 1) {
                 this.numItemsText.visible = false;
             } else if (this.sprite.visible) {
