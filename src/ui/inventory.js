@@ -39,10 +39,10 @@ export class Inventory {
         };
 
         // Add item images
-        let column = index % 4;
-        let row = Math.floor(index / 4);
-        let x = 570 + column * 45;
-        let y = 225 + row * 35;
+        const column = index % 4;
+        const row = Math.floor(index / 4);
+        const x = 570 + column * 45;
+        const y = 225 + row * 35;
 
         // Draw sprite or move it if it already exists
         if (createSprite) {
@@ -61,9 +61,9 @@ export class Inventory {
 
     // Add to first available slot
     addToInventory(item, createSprite = true) {
-        // Search for empty slot
+        // Check all slots to see if the item can stack
         for (let index = 0; index < this.playerItems.length; index++) {
-            let itemExists = Object.keys(this.playerItems[index]).length;
+            const itemExists = Object.keys(this.playerItems[index]).length;
 
             // Check if it can stack with other items
             if (
@@ -82,8 +82,14 @@ export class Inventory {
 
                 return true;
             }
+        }
+
+        // Search for empty slot
+        for (let index = 0; index < this.playerItems.length; index++) {
+            let itemExists = Object.keys(this.playerItems[index]).length;
+
             // Check if slot is empty
-            else if (!itemExists) {
+            if (!itemExists) {
                 this.addToInventoryAtIndex(item, index, createSprite);
                 return true;
             }
