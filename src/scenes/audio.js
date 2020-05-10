@@ -1,10 +1,14 @@
 import { CONSTANTS } from "../constants/constants.js";
 
+const BGM = 0;
+const SFX = 1;
+const ENV = 2;
+
 export class AudioScene extends Phaser.Scene {
     currentSong = {};
     audioLoaded = false;
-    currentVolume = [3, 3, 3];
-    previousVolume = [3, 3, 3];
+    currentVolume = [2, 2, 2];
+    previousVolume = [2, 2, 2];
     currentSongName = "";
 
     characterData = {};
@@ -38,7 +42,7 @@ export class AudioScene extends Phaser.Scene {
     create() {
         // Don't pause BGM when clicking off the window
         this.sound.pauseOnBlur = false;
-        this.changeVolume(0, this.characterData.audio[0]);
+        this.changeVolume(BGM, this.characterData.audio[BGM]);
     }
 
     playBgm(audioName) {
@@ -46,7 +50,9 @@ export class AudioScene extends Phaser.Scene {
         if (audioName != this.currentSongName) {
             // Check if audio has been loaded
             if (this.scene.isActive()) {
+                console.log("playing music", audioName);
                 if (this.audioLoaded) {
+                    console.log("stopped prev song");
                     this.currentSong.stop();
                 }
                 this.currentSongName = audioName;
@@ -54,7 +60,7 @@ export class AudioScene extends Phaser.Scene {
                 this.currentSong.setLoop(true);
                 this.currentSong.play();
                 this.audioLoaded = true;
-                this.changeVolume(0, this.currentVolume[0]);
+                this.changeVolume(BGM, this.currentVolume[BGM]);
             } else {
                 // If called before load, play once loaded
                 this.events.once("create", () => {
@@ -68,7 +74,7 @@ export class AudioScene extends Phaser.Scene {
     playSfx(audioName) {
         this.currentSong.pause();
         let sfx = this.sound.add(audioName);
-        sfx.setVolume(this.currentVolume[1] / 4);
+        sfx.setVolume(this.currentVolume[SFX] / 4);
         sfx.play();
         sfx.once("complete", () => {
             this.currentSong.resume();
@@ -82,21 +88,23 @@ export class AudioScene extends Phaser.Scene {
         this.currentVolume[volumeType] = value;
 
         // Lower volume of currently playing BGM
-        if (volumeType == 0 && this.audioLoaded) {
+        if (volumeType == BGM && this.audioLoaded) {
             this.currentSong.setVolume(value / 4); // 0-4 = 0-100
         }
     }
 
     mute(isMuted) {
         if (isMuted) {
-            this.previousVolume = this.currentVolume;
-            this.changeVolume(0, 0);
-            this.changeVolume(1, 0);
-            this.changeVolume(2, 0);
+            this.previousVolume[BGM] = this.currentVolume[BGM];
+            this.previousVolume[SFX] = this.currentVolume[SFX];
+            this.previousVolume[ENV] = this.currentVolume[ENV];
+            this.changeVolume(BGM, 0);
+            this.changeVolume(SFX, 0);
+            this.changeVolume(ENV, 0);
         } else {
-            this.changeVolume(0, this.previousVolume[0]);
-            this.changeVolume(1, this.previousVolume[1]);
-            this.changeVolume(2, this.previousVolume[2]);
+            this.changeVolume(BGM, this.previousVolume[BGM]);
+            this.changeVolume(SFX, this.previousVolume[SFX]);
+            this.changeVolume(ENV, this.previousVolume[ENV]);
         }
     }
 }

@@ -9,7 +9,7 @@ export default class OakLogs extends Logs {
 
     // Other
     cost = 20;
-  
+
     requiredLevel = 15;
 
     constructor(scene) {

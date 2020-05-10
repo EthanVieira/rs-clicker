@@ -24,9 +24,12 @@ export class Item extends ClickableObject {
     x = 0;
     y = 0;
     selected = false;
+    stackable = true;
+    numItems = 1;
 
     // Objects
     sprite;
+    numItemsText;
     scene;
 
     // Others
@@ -57,6 +60,19 @@ export class Item extends ClickableObject {
                 }
             });
         this.displayHeight = this.sprite.displayHeight;
+
+        // Add text in top left for stackable items
+        this.numItemsText = this.scene.add
+            .text(x - 15, y - 15, this.numItems, {
+                font: "10px runescape",
+                fill: "orange",
+            })
+            .setDepth(5);
+
+        // Hide unless item is stacked
+        if (this.numItems <= 1) {
+            this.numItemsText.visible = false;
+        }
     }
 
     // Need offset for where scroll window is placed as coordinates are relative
@@ -123,12 +139,65 @@ export class Item extends ClickableObject {
         this.index = index;
     }
 
-    destroy() {
-        if (this.index >= 0) {
+    setNumItems(num) {
+        this.numItems = num;
+
+        // Update text
+        if (this.numItemsText != undefined) {
+            let visualNum = "0";
+            let fillColor = "";
+
+            // Set format/color based on the amount
+            switch (true) {
+                case num < 1000:
+                    visualNum = num;
+                    fillColor = "orange";
+                    break;
+                case num < 10000:
+                    visualNum = (num / 1000).toFixed(1) + " k";
+                    fillColor = "white";
+                    break;
+                default:
+                    visualNum = (num / 1000000).toFixed(1) + " m";
+                    fillColor = "green";
+                    break;
+            }
+            this.numItemsText.text = visualNum;
+            this.numItemsText.setFill(fillColor);
+
+            // Make visible if item is also visible
+            if (num <= 1) {
+                this.numItemsText.visible = false;
+            } else if (this.sprite.visible) {
+                this.numItemsText.visible = true;
+            }
+        }
+    }
+
+    setVisible(isVisible) {
+        if (this.sprite != undefined && this.sprite != null) {
+            this.sprite.visible = isVisible;
+        }
+
+        // Show/hide if stacked
+        if (this.numItems > 1) {
+            this.numItemsText.visible = isVisible;
+        }
+    }
+
+    // When clearing objects between scenes we don't want to delete cookies
+    destroy(deleteCookies = true) {
+        // Remove from inventory
+        if (deleteCookies && this.index >= 0) {
             this.scene.characterData.inventory[this.index] = "";
         }
+
+        // Destroy objects
         if (this.sprite != undefined && this.sprite != null) {
             this.sprite.destroy();
+        }
+        if (this.numItemsText != undefined && this.numItemsText != null) {
+            this.numItemsText.destroy();
         }
         this.name = "";
     }

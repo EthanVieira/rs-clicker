@@ -26,6 +26,7 @@ export default class Equipment extends Item {
     equipped = false;
     style = "";
     skill = "";
+    stackable = false;
     objectType = "EQUIPMENT";
 
     constructor() {

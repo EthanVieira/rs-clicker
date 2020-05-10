@@ -78,4 +78,12 @@ export class Equipment {
             }
         });
     }
+
+    destroy() {
+        Object.entries(this.equipment).forEach(([item, itemObj]) => {
+            if (Object.keys(itemObj).length) {
+                itemObj.destroy(false);
+            }
+        });
+    }
 }

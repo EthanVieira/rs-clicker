@@ -2,7 +2,7 @@ import { CONSTANTS } from "../constants/constants.js";
 
 export var itemManifest = {
     AirStaff: {
-        classPath: "./equipment/air-stff.js",
+        classPath: "./equipment/air-staff.js",
         imagePath: "weapons/AirStaff.png",
         imageName: "air-staff",
         type: CONSTANTS.ITEM_TYPES.WEAPON,

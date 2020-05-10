@@ -2,6 +2,8 @@ import { Resource } from "../resource.js";
 import NormalLogs from "../../items/logs/normal-logs.js";
 
 export class NormalTree extends Resource {
+    examineText = "A commonly found tree.";
+
     constructor(scene) {
         super({
             scene: scene,
