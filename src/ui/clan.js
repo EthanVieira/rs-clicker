@@ -3,6 +3,7 @@ import { CONSTANTS } from "../constants/constants.js";
 // Clan members function as autoclickers
 export class Clan {
     scene;
+    scrollWindow;
 
     // Pointer to cookies, stores clan name and member names
     clanCookies;
@@ -13,10 +14,16 @@ export class Clan {
     clanNameText;
     clanMembers = [];
 
-    constructor(scene) {
+    constructor(scene, scrollWindow) {
         this.scene = scene;
+        this.scrollWindow = scrollWindow;
         this.characterData = scene.characterData;
         this.clanCookies = this.characterData.clan;
+
+        // Add self to clan members
+        if (this.clanCookies.members.length == 0) {
+            this.clanCookies.members.push(this.characterData.name);
+        }
 
         // Update and show clan info on startup
         this.refreshClan();
@@ -42,7 +49,7 @@ export class Clan {
             startY = 280,
             yDiff = 18;
         this.clanCookies.members.forEach((member, index) => {
-            let text = this.scene.add
+            let text = this.scrollWindow.add
                 .text(startX, startY + index * yDiff, member, {
                     font: "16px runescape",
                 })
@@ -72,12 +79,24 @@ export class Clan {
         // Hide if clan tab is not selected
         let show = this.scene.currentPanel == CONSTANTS.PANEL.CLAN;
         textObj.setVisible(show);
+
+        this.scrollWindow.addObject(textObj);
     }
 
     show(isVisible) {
+        this.scrollWindow.refresh({
+            x: 535,
+            y: 280,
+            width: 175,
+            height: 140,
+            numColumns: 1,
+            padding: 10,
+            objects: this.clanMembers,
+        });
         if (isVisible) {
             this.scene.currentPanel = CONSTANTS.PANEL.CLAN;
         }
+        this.scrollWindow.setVisible(isVisible);
         this.clanMembers.forEach((member) => {
             member.visible = isVisible;
         });

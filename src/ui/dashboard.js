@@ -2,6 +2,7 @@ import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { Inventory } from "./inventory.js";
 import { Equipment } from "./equipment.js";
 import { Clan } from "./clan.js";
+import { ScrollWindow } from "./scroll-window.js";
 import { calcLevel } from "../utilities.js";
 
 export class DashboardScene extends Phaser.Scene {
@@ -49,6 +50,7 @@ export class DashboardScene extends Phaser.Scene {
         button: {},
         panel: {},
         obj: {},
+        scrollWindow: {},
     };
 
     // Save data
@@ -350,12 +352,30 @@ export class DashboardScene extends Phaser.Scene {
             .on("pointerdown", () => {
                 this.showClanChat(true);
             });
+
+        // Add scrollable window for clan members
+        if (!Object.keys(this.clan.scrollWindow).length) {
+            this.clan.scrollWindow = new ScrollWindow("clans");
+            this.scene.add(
+                "scroll-window",
+                this.clan.scrollWindow,
+                true,
+                this.characterData
+            );
+        }
+
         // Clear out and reinstatiate clan members
         if (Object.entries(this.clan.obj).length) {
             this.clan.obj.destroy();
         }
-        this.clan.obj = new Clan(this);
+        this.clan.obj = new Clan(this, this.clan.scrollWindow);
         this.showClanChat(false);
+
+        // Scene destructor
+        this.events.on("shutdown", () => {
+            // Remove scroll window scene
+            this.clan.scrollWindow.setVisible(false);
+        });
     }
 
     showSkills(isVisible) {

@@ -125,7 +125,9 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("clan-panel", "src/assets/ui/ClanPanel.png");
         this.load.image("clan-button", "src/assets/ui/buttons/ClanButton.png");
         this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
-        this.load.image("scroll-bar", "src/assets/ui/ScrollBar.png");
+        this.load.image("scroll-background", "src/assets/ui/ScrollBackground.png");
+        this.load.image("scroll-header", "src/assets/ui/ScrollHeader.png");
+        this.load.image("scroll-footer", "src/assets/ui/ScrollFooter.png");
         this.load.image("scroll-button", "src/assets/ui/ScrollButton.png");
 
         // Load all targets in target manifest

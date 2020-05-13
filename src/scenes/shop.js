@@ -250,8 +250,16 @@ export class ShopScene extends Phaser.Scene {
             }
         }
 
-        // Attach to the correct columns in the scroll window
-        this.scrollWindow.addObjects(scrollX, scrollY, 450, 3, this.shopIcons);
+        // Attach to the scroll window
+        this.scrollWindow.addObjects({
+            x: scrollX,
+            y: scrollY,
+            width: 450,
+            height: 214,
+            numColumns: 3,
+            padding: 35,
+            objects: this.shopIcons,
+        });
         this.loadingText.visible = false;
     }
 
