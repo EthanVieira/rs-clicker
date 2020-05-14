@@ -86,7 +86,7 @@ export class Inventory {
 
         // Search for empty slot
         for (let index = 0; index < this.playerItems.length; index++) {
-            let itemExists = Object.keys(this.playerItems[index]).length;
+            const itemExists = Object.keys(this.playerItems[index]).length;
 
             // Check if slot is empty
             if (!itemExists) {

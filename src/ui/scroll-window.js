@@ -39,8 +39,7 @@ export class ScrollWindow extends Phaser.Scene {
     // Objects passed in need the setX, setY, setVisible functions available
     addObjects(data) {
         if (data.objects.length > 0) {
-            this.data = data;
-            this.refresh();
+            this.refresh(data);
         }
     }
 
@@ -121,7 +120,8 @@ export class ScrollWindow extends Phaser.Scene {
 
                 // Make scroll button evenly divisible so it will fit properly at the top/bottom
                 let remainingListDist = this.listHeight - data.height;
-                let remainingScrollBarDist = this.scrollBackground.displayHeight - this.scrollButton.displayHeight;
+                let remainingScrollBarDist =
+                    this.scrollBackground.displayHeight - this.scrollButton.displayHeight;
 
                 // Get closest delta that can divide evenly into the remaining list length
                 let defaultScrollDist = lastObj.displayHeight / 2;
@@ -138,11 +138,14 @@ export class ScrollWindow extends Phaser.Scene {
                         }
 
                         // Scale scroll bar delta
-                        let scrollBarDelta = deltaY * (remainingScrollBarDist / remainingListDist);
+                        let scrollBarDelta =
+                            deltaY * (remainingScrollBarDist / remainingListDist);
 
                         // Check top/bottom bounds
                         let upperBound = this.scrollButton.y + scrollBarDelta;
-                        let lowerBound = Math.floor(this.scrollButton.y + scrollButtonHeight + scrollBarDelta);
+                        let lowerBound = Math.floor(
+                            this.scrollButton.y + scrollButtonHeight + scrollBarDelta
+                        );
                         if (
                             (scrollBarDelta < 0 && upperBound >= scrollHeaderHeight) ||
                             (scrollBarDelta > 0 && lowerBound <= this.scrollFooter.y)

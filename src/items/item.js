@@ -128,12 +128,7 @@ export class Item extends ClickableObject {
 
     drop() {
         console.log("Drop", this.name);
-
-        if (this.numItems <= 1) {
-            this.destroy();
-        } else {
-            this.setNumItems(this.numItems - 1);
-        }
+        this.destroy();
     }
 
     move(x, y, index = -1) {
