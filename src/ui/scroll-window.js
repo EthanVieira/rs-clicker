@@ -14,6 +14,7 @@ export class ScrollWindow extends Phaser.Scene {
     };
 
     listHeight = 0;
+    listDelta = 30;
 
     // Images
     scrollHeader;
@@ -35,29 +36,20 @@ export class ScrollWindow extends Phaser.Scene {
         this.data.objects.push(object);
     }
 
-    setValues(data) {
-        this.data.x = data.x;
-        this.data.y = data.y;
-        this.data.width = data.width;
-        this.data.height = data.height;
-        this.data.numColumns = data.numColumns;
-        this.data.padding = data.padding;
-        this.data.objects = data.objects;
-    }
-
     // Objects passed in need the setX, setY, setVisible functions available
     addObjects(data) {
         if (data.objects.length > 0) {
-            this.setValues(data);
+            this.data = data;
             this.refresh();
         }
     }
 
     refresh(data = this.data) {
-        this.setValues(data);
+        this.data = data;
 
         // Destroy previous scroll bar if it exists
         if (this.scrollHeader != undefined) {
+            this.input.removeListener("wheel");
             this.scrollHeader.destroy();
             this.scrollFooter.destroy();
             this.scrollBackground.destroy();
@@ -127,41 +119,38 @@ export class ScrollWindow extends Phaser.Scene {
                     data.height - this.scrollHeader.displayHeight * 2;
                 let scrollButtonHeight = this.scrollButton.displayHeight;
 
-                // Shrink scroll distance from default 100 pixels
-                let delta = 30;
-
                 // Make scroll button evenly divisible so it will fit properly at the top/bottom
-                let deltaOffset =
-                    Math.floor(
-                        data.height - scrollHeaderHeight * 2 - scrollButtonHeight
-                    ) % delta;
-                let negDelta = -1 * delta + deltaOffset;
-                let posDelta = delta - deltaOffset;
+                let remainingListDist = this.listHeight - data.height;
+                let remainingScrollBarDist = this.scrollBackground.displayHeight - this.scrollButton.displayHeight;
 
-                // Scale the scroll speed of the objects based on list size
-                let objScrollSpeed = (1.2 * this.listHeight) / data.height;
+                // Get closest delta that can divide evenly into the remaining list length
+                let defaultScrollDist = lastObj.displayHeight / 2;
+                let roundedDelta = Math.floor(remainingListDist / defaultScrollDist);
+                this.listDelta = remainingListDist / roundedDelta;
 
                 // Move scroll button & objects
                 this.input.on("wheel", (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
                     if (this.listHeight > this.data.height) {
                         if (deltaY > 0) {
-                            deltaY = posDelta;
+                            deltaY = this.listDelta;
                         } else if (deltaY < 0) {
-                            deltaY = negDelta;
+                            deltaY = this.listDelta * -1;
                         }
 
+                        // Scale scroll bar delta
+                        let scrollBarDelta = deltaY * (remainingScrollBarDist / remainingListDist);
+
                         // Check top/bottom bounds
+                        let upperBound = this.scrollButton.y + scrollBarDelta;
+                        let lowerBound = Math.floor(this.scrollButton.y + scrollButtonHeight + scrollBarDelta);
                         if (
-                            (deltaY < 0 &&
-                                this.scrollButton.y + deltaY >= scrollHeaderHeight) ||
-                            (deltaY > 0 &&
-                                this.scrollButton.y + scrollButtonHeight + deltaY <=
-                                    this.scrollFooter.y)
+                            (scrollBarDelta < 0 && upperBound >= scrollHeaderHeight) ||
+                            (scrollBarDelta > 0 && lowerBound <= this.scrollFooter.y)
                         ) {
-                            // Scroll objects faster than scroll bar
-                            this.scrollButton.y += deltaY;
+                            // Scroll objects
+                            this.scrollButton.y += scrollBarDelta;
                             data.objects.forEach((object) => {
-                                object.setY(object.y - deltaY * objScrollSpeed);
+                                object.setY(object.y - deltaY);
                             });
                         }
                     }
