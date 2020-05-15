@@ -100,8 +100,6 @@ export class LevelScene extends Phaser.Scene {
     }
 
     create() {
-        console.log(this.characterData.characterClass);
-
         // Set current level
         this.characterData.currentLevel = this.currentLevel;
 
@@ -178,7 +176,7 @@ export class LevelScene extends Phaser.Scene {
 
         // Buy auto clickers
         this.autoClickerButton = this.add
-            .text(20, 60, "50 gold for autoclicker", { fill: "gold" })
+            .text(20, 60, "50 gold for autoclicker", { font: "20px runescape", fill: "gold" })
             .setDepth(3)
             .setInteractive()
             .on("pointerup", () => {

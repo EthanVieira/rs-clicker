@@ -1,5 +1,5 @@
 import { defaultData } from "../default-data.js";
-import { CONSTANTS } from "../constants/constants.js";
+import { CONSTANTS, FONTS } from "../constants/constants.js";
 
 export class StatsScene extends Phaser.Scene {
     // Target: enemy, tree, etc.
@@ -16,9 +16,13 @@ export class StatsScene extends Phaser.Scene {
     enemiesKilledText;
     timesClickedText;
     damageByClickingText;
+    clickDpsText;
     damageByAutoClickText;
     autoClickDpsText;
     autoClickDps = 0;
+
+    recentDamage = 0;
+    timer;
 
     constructor(data) {
         super({ key: CONSTANTS.SCENES.STATS });
@@ -34,48 +38,37 @@ export class StatsScene extends Phaser.Scene {
     create() {
         // Gold
         this.goldText = this.add
-            .text(20, 20, "Gold: " + this.characterData.gold, {
-                fill: "gold",
-                fontSize: "30px",
-            })
+            .text(20, 20, "Gold: " + this.characterData.gold, FONTS.GOLD)
             .setDepth(3);
 
         // Show stats
-        let statColor = "white";
         this.enemiesKilledText = this.add
-            .text(20, 60, "Enemies killed: " + this.characterData.totalEnemiesKilled, {
-                fill: statColor,
-            })
+            .text(20, 60, "Enemies killed: " + this.characterData.totalEnemiesKilled, FONTS.STATS)
             .setDepth(3);
         this.timesClickedText = this.add
-            .text(20, 75, "Times clicked: " + this.characterData.timesClicked, {
-                fill: statColor,
-            })
+            .text(20, 75, "Times clicked: " + this.characterData.timesClicked, FONTS.STATS)
             .setDepth(3);
         this.damageByClickingText = this.add
             .text(
                 20,
                 90,
                 "Damage done by clicking: " + this.characterData.damageByClicking,
-                {
-                    fill: statColor,
-                }
+                FONTS.STATS
             )
+            .setDepth(3);
+        this.clickDpsText = this.add
+            .text(20, 75, "Click DPS: 0", FONTS.STATS)
             .setDepth(3);
         this.damageByAutoClickText = this.add
             .text(
                 20,
                 105,
                 "Damage done by autoclickers: " + this.characterData.damageByAutoClick,
-                {
-                    fill: statColor,
-                }
+                FONTS.STATS
             )
             .setDepth(3);
         this.autoClickDpsText = this.add
-            .text(20, 120, "AutoClicker DPS: " + this.autoClickDps, {
-                fill: statColor,
-            })
+            .text(20, 120, "AutoClicker DPS: " + this.autoClickDps, FONTS.STATS)
             .setDepth(3);
 
         // Show stats depending on level
@@ -83,6 +76,15 @@ export class StatsScene extends Phaser.Scene {
 
         // Access skills
         this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
+
+        // Setup dps timer
+        this.timer = this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                this.updateClickDpsStat();
+            },
+            loop: true,
+        });
     }
 
     addGold(addedGold) {
@@ -100,6 +102,14 @@ export class StatsScene extends Phaser.Scene {
         this.characterData.damageByClicking += damageDone;
         this.damageByClickingText.text =
             "Damage done by clicking: " + this.characterData.damageByClicking;
+
+        // Collect damage for dps
+        this.recentDamage += damageDone;
+    }
+
+    updateClickDpsStat() {
+        this.clickDpsText.text = "Click DPS: " + this.recentDamage;
+        this.recentDamage = 0;
     }
 
     updateEnemiesKilledStat() {
@@ -128,10 +138,11 @@ export class StatsScene extends Phaser.Scene {
             case CONSTANTS.LEVEL_TYPE.ENEMY:
                 this.orderStats([
                     this.enemiesKilledText,
-                    this.timesClickedText,
-                    this.damageByClickingText,
                     this.autoClickDpsText,
                     this.damageByAutoClickText,
+                    this.timesClickedText,
+                    this.damageByClickingText,
+                    this.clickDpsText,
                 ]);
                 break;
             default:
@@ -146,7 +157,7 @@ export class StatsScene extends Phaser.Scene {
         statsArray.forEach((stat) => {
             stat.y = yPos;
             stat.visible = true;
-            yPos += 15;
+            yPos += 16;
         });
     }
 

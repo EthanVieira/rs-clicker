@@ -21,6 +21,14 @@ export class Target extends ClickableObject {
         this.x = width / 2 - 100;
         this.y = height / 2 - 150;
 
+        // Check for offsets
+        if (data.offsetX != undefined) {
+            this.x += data.offsetY;
+        }
+        if (data.offsetY != undefined) {
+            this.y += data.offsetY;
+        }
+
         // Add images if there are multiple
         data.images.forEach((image) => {
             let target = data.scene.add
