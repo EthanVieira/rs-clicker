@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../constants/constants.js";
+import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { defaultData } from "../default-data.js";
 import { HiredBowman } from "../auto-clickers/hired-bowman.js";
 import { storeCookies } from "../utilities.js";
@@ -274,5 +274,74 @@ export class LevelScene extends Phaser.Scene {
         this.autoClickers.push(autoClicker);
         this.stats.updateAutoClickerDPS(autoClicker.dps);
         this.characterData.numberOfAutoClickers++;
+    }
+
+    clickAnimation() {
+        let image = {},
+            imageName = "",
+            attackType = "",
+            startX = 0,
+            startY = 0,
+            scale = 1;
+
+        // Get current weapon image
+        let curWeapon = this.dashboard.equipment.obj.equipment.WEAPON;
+        if (Object.keys(curWeapon).length) {
+            // Equipment animation, duplicate item image
+            imageName = curWeapon.sprite.texture.key + "-model";
+            scale = 0.5;
+
+            // Get attack type
+            if (curWeapon.skill == EQUIPMENT.WEAPON_TYPES.MELEE) {
+                attackType = curWeapon.style;
+            } else {
+                attackType = curWeapon.skill;
+            }
+        } else {
+            // Fist animation
+            imageName = "fist";
+            scale = 1;
+            attackType = EQUIPMENT.ATTACK_STYLE.CRUSH;
+        }
+
+        // Set starting location based on attack type
+        switch (attackType) {
+            case EQUIPMENT.ATTACK_STYLE.STAB:
+                startX = 200;
+                startY = 430;
+                break;
+            case EQUIPMENT.ATTACK_STYLE.CRUSH:
+                startX = 450;
+                startY = 200;
+                break
+            case EQUIPMENT.ATTACK_STYLE.SLASH:
+            case EQUIPMENT.WEAPON_TYPES.RANGED:
+            case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                startX = 450;
+                startY = 400;
+                break;
+            default:
+                console.log("Error: No attack type set for weapon");
+                break;
+        }
+
+        image = this.add
+                .image(startX, startY, imageName)
+                .setScale(scale)
+                .setDepth(4);
+
+        this.tweens.add({
+                targets: image,
+                x: 200,
+                y: 300,
+                duration: 500,
+                ease: (t) => {
+                    return Math.pow(Math.sin(t * 3), 3);
+                },
+                onComplete: () => {
+                    image.destroy();
+                },
+                delay: 50,
+            });
     }
 }

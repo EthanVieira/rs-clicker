@@ -139,6 +139,9 @@ export class LoadScene extends Phaser.Scene {
             this.load.image(itemObj.imageName, path + itemObj.imagePath);
             this.load.image(itemObj.imageName + "-model", modelPath + itemObj.imagePath);
         });
+
+        // Other
+        this.load.image("fist", "src/assets/sprites/Fist.png");
     }
 
     create() {
