@@ -62,21 +62,21 @@ export class LevelScene extends Phaser.Scene {
     init(characterData) {
         // Receive cookies if they exist
         this.characterData = characterData;
-        if (!characterData.hasCookies) {
-            switch (characterData.characterClass) {
-                case "WARRIOR":
-                    this.characterData.skills.attack = 5;
-                    this.characterData.skills.strength = 5;
-                    this.characterData.skills.defense = 5;
-                    break;
-                case "RANGER":
-                    this.characterData.skills.ranged = 10;
-                    break;
-                case "MAGE":
-                    this.characterData.skills.magic = 10;
-                    break;
-            }
-        }
+        // if (!characterData.hasCookies) {
+        //     switch (characterData.characterClass) {
+        //         case "WARRIOR":
+        //             this.characterData.skills.attack = 5;
+        //             this.characterData.skills.strength = 5;
+        //             this.characterData.skills.defense = 5;
+        //             break;
+        //         case "RANGER":
+        //             this.characterData.skills.ranged = 10;
+        //             break;
+        //         case "MAGE":
+        //             this.characterData.skills.magic = 10;
+        //             break;
+        //     }
+        // }
     }
 
     preload() {
@@ -93,10 +93,10 @@ export class LevelScene extends Phaser.Scene {
         this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
 
         // Classes
-        this.load.image(CONSTANTS.CLASS.UNARMED, "src/assets/sprites/PlayerUnarmed.png");
-        this.load.image(CONSTANTS.CLASS.WARRIOR, "src/assets/sprites/PlayerWarrior.png");
-        this.load.image(CONSTANTS.CLASS.RANGER, "src/assets/sprites/PlayerRanger.png");
-        this.load.image(CONSTANTS.CLASS.MAGE, "src/assets/sprites/PlayerMage.png");
+        // this.load.image(CONSTANTS.CLASS.UNARMED, "src/assets/sprites/PlayerUnarmed.png");
+        // this.load.image(CONSTANTS.CLASS.WARRIOR, "src/assets/sprites/PlayerWarrior.png");
+        // this.load.image(CONSTANTS.CLASS.RANGER, "src/assets/sprites/PlayerRanger.png");
+        // this.load.image(CONSTANTS.CLASS.MAGE, "src/assets/sprites/PlayerMage.png");
     }
 
     create() {
@@ -162,19 +162,19 @@ export class LevelScene extends Phaser.Scene {
         });
 
         // Class picture
-        let classPicture = this.add
-            .image(0, 250, this.characterData.characterClass)
-            .setOrigin(0, 0)
-            .setDepth(2);
+        // let classPicture = this.add
+        //     .image(0, 250, this.characterData.characterClass)
+        //     .setOrigin(0, 0)
+        //     .setDepth(2);
 
-        // Fix class images that are not the same dimensions
-        if (this.characterData.characterClass == CONSTANTS.CLASS.RANGER) {
-            classPicture.setScale(0.3);
-            classPicture.y = 195;
-        } else if (this.characterData.characterClass == CONSTANTS.CLASS.MAGE) {
-            classPicture.setScale(0.5);
-            classPicture.y = 175;
-        }
+        // // Fix class images that are not the same dimensions
+        // if (this.characterData.characterClass == CONSTANTS.CLASS.RANGER) {
+        //     classPicture.setScale(0.3);
+        //     classPicture.y = 195;
+        // } else if (this.characterData.characterClass == CONSTANTS.CLASS.MAGE) {
+        //     classPicture.setScale(0.5);
+        //     classPicture.y = 175;
+        // }
 
         // Buy auto clickers
         this.autoClickerButton = this.add
@@ -277,63 +277,87 @@ export class LevelScene extends Phaser.Scene {
     }
 
     clickAnimation() {
+        // Animation settings
         let image = {},
             imageName = "",
-            attackType = "",
             startX = 0,
             startY = 0,
-            scale = 1;
+            scale = 1,
+            curve = 0,
+            alpha = 1;
 
         // Get current weapon image
         let curWeapon = this.dashboard.equipment.obj.equipment.WEAPON;
         if (Object.keys(curWeapon).length) {
-            // Equipment animation, duplicate item image
-            imageName = curWeapon.sprite.texture.key + "-model";
-            scale = 0.5;
+            // Set animation based on current weapon
+            switch (curWeapon.skill) {
+                // Melee weapons use the weapon model image
+                case EQUIPMENT.WEAPON_TYPES.MELEE:
+                    imageName = curWeapon.sprite.texture.key + "-model";
+                    scale = 0.5;
 
-            // Get attack type
-            if (curWeapon.skill == EQUIPMENT.WEAPON_TYPES.MELEE) {
-                attackType = curWeapon.style;
-            } else {
-                attackType = curWeapon.skill;
+                    // Different animations for different attack styles
+                    switch (curWeapon.style) {
+                        case EQUIPMENT.ATTACK_STYLE.STAB:
+                            startX = 200;
+                            startY = 430;
+                            break;
+                        case EQUIPMENT.ATTACK_STYLE.CRUSH:
+                            startX = 450;
+                            startY = 200;
+                            break
+                        case EQUIPMENT.ATTACK_STYLE.SLASH:
+                            curve = 1;
+                            startX = 450;
+                            startY = 400;
+                            break;
+                    }
+                    break;
+
+                // Ranged uses arrows
+                case EQUIPMENT.WEAPON_TYPES.RANGED:
+                    imageName = "bronze-arrow";
+                    scale = 0.8;
+                    curve = 1;
+                    startX = 470;
+                    startY = 350;
+                    break;
+
+                // Magic uses spells
+                case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                    imageName = "fire-bolt";
+                    scale = 0.3;
+                    curve = 0.5;
+                    startX = 470;
+                    startY = 350;
+                    alpha = 0.5;
+                    break;
+                default:
+                    console.log("Error: item does not have attack type");
+                    break;
             }
         } else {
             // Fist animation
             imageName = "fist";
             scale = 1;
-            attackType = EQUIPMENT.ATTACK_STYLE.CRUSH;
+            startX = 450;
+            startY = 400;
         }
 
-        // Set starting location based on attack type
-        switch (attackType) {
-            case EQUIPMENT.ATTACK_STYLE.STAB:
-                startX = 200;
-                startY = 430;
-                break;
-            case EQUIPMENT.ATTACK_STYLE.CRUSH:
-                startX = 450;
-                startY = 200;
-                break
-            case EQUIPMENT.ATTACK_STYLE.SLASH:
-            case EQUIPMENT.WEAPON_TYPES.RANGED:
-            case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                startX = 450;
-                startY = 400;
-                break;
-            default:
-                console.log("Error: No attack type set for weapon");
-                break;
-        }
-
+        // Add animation image
         image = this.add
                 .image(startX, startY, imageName)
                 .setScale(scale)
-                .setDepth(4);
+                .setDepth(4)
+                .setAlpha(alpha);
 
+        // Move animation
+        let endX = Math.floor(this.width / 2) - 100,
+            endY = Math.floor(this.height / 2);
         this.tweens.add({
                 targets: image,
-                x: 200,
-                y: 300,
+                x: endX,
+                y: endY,
                 duration: 500,
                 ease: (t) => {
                     return Math.pow(Math.sin(t * 3), 3);
@@ -341,6 +365,21 @@ export class LevelScene extends Phaser.Scene {
                 onComplete: () => {
                     image.destroy();
                 },
+                onUpdate: () => {
+                    // Destroy if within 1 pixel of end point
+                    // Otherwise image will return to origin
+                    if ((image.x >= endX - 1 && image.x <= endX + 1) && 
+                        (image.y >= endY - 1 && image.y <= endY + 1)) {
+                        image.destroy();
+                    } else {
+                        image.scale -= 0.005;
+                        image.angle -= curve;
+                        if (image.alpha < 1) {
+                            image.alpha += .03;
+                        }
+                    }
+                },
+                repeat: 0,
                 delay: 50,
             });
     }

@@ -2,7 +2,7 @@ export const defaultData = {
     hasCookies: false,
     gold: 0,
     characterClass: "",
-    currentLevel: "",
+    currentLevel: "TUTORIAL_ISLAND",
     totalEnemiesKilled: 0,
     timesClicked: 0,
     damageByClicking: 0,
