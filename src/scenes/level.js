@@ -62,21 +62,6 @@ export class LevelScene extends Phaser.Scene {
     init(characterData) {
         // Receive cookies if they exist
         this.characterData = characterData;
-        // if (!characterData.hasCookies) {
-        //     switch (characterData.characterClass) {
-        //         case "WARRIOR":
-        //             this.characterData.skills.attack = 5;
-        //             this.characterData.skills.strength = 5;
-        //             this.characterData.skills.defense = 5;
-        //             break;
-        //         case "RANGER":
-        //             this.characterData.skills.ranged = 10;
-        //             break;
-        //         case "MAGE":
-        //             this.characterData.skills.magic = 10;
-        //             break;
-        //     }
-        // }
     }
 
     preload() {
@@ -91,12 +76,6 @@ export class LevelScene extends Phaser.Scene {
 
         // Exit button
         this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
-
-        // Classes
-        // this.load.image(CONSTANTS.CLASS.UNARMED, "src/assets/sprites/PlayerUnarmed.png");
-        // this.load.image(CONSTANTS.CLASS.WARRIOR, "src/assets/sprites/PlayerWarrior.png");
-        // this.load.image(CONSTANTS.CLASS.RANGER, "src/assets/sprites/PlayerRanger.png");
-        // this.load.image(CONSTANTS.CLASS.MAGE, "src/assets/sprites/PlayerMage.png");
     }
 
     create() {
@@ -159,24 +138,9 @@ export class LevelScene extends Phaser.Scene {
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
         });
 
-        // Class picture
-        // let classPicture = this.add
-        //     .image(0, 250, this.characterData.characterClass)
-        //     .setOrigin(0, 0)
-        //     .setDepth(2);
-
-        // // Fix class images that are not the same dimensions
-        // if (this.characterData.characterClass == CONSTANTS.CLASS.RANGER) {
-        //     classPicture.setScale(0.3);
-        //     classPicture.y = 195;
-        // } else if (this.characterData.characterClass == CONSTANTS.CLASS.MAGE) {
-        //     classPicture.setScale(0.5);
-        //     classPicture.y = 175;
-        // }
-
         // Buy auto clickers
         this.autoClickerButton = this.add
-            .text(20, 60, "50 gold for autoclicker", { font: "20px runescape", fill: "gold" })
+            .text(20, 50, "50 gold for autoclicker", { font: "20px runescape", fill: "gold" })
             .setDepth(3)
             .setInteractive()
             .on("pointerup", () => {
