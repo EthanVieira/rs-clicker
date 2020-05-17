@@ -246,14 +246,14 @@ export class LevelScene extends Phaser.Scene {
             startY = 0,
             scale = 1,
             curve = 0,
-            alpha = 1;
+            alpha = 1,
+            flipX = false;
 
         // Get current weapon image
         let curWeapon = this.dashboard.equipment.obj.equipment.WEAPON;
         if (Object.keys(curWeapon).length) {
             // Set animation based on current weapon
             switch (curWeapon.skill) {
-                // Melee weapons use the weapon model image
                 case EQUIPMENT.WEAPON_TYPES.MELEE:
                     imageName = curWeapon.sprite.texture.key + "-model";
                     scale = 0.5;
@@ -273,6 +273,12 @@ export class LevelScene extends Phaser.Scene {
                             startX = 450;
                             startY = 400;
                             break;
+                    }
+
+                    if (curWeapon.item == "Axe") {
+                        flipX = true;
+                        startX = 450;
+                        startY = 200;
                     }
                     break;
 
@@ -311,7 +317,8 @@ export class LevelScene extends Phaser.Scene {
                 .image(startX, startY, imageName)
                 .setScale(scale)
                 .setDepth(4)
-                .setAlpha(alpha);
+                .setAlpha(alpha)
+                .setFlipX(flipX);
 
         // Move animation
         let endX = Math.floor(this.width / 2) - 100,

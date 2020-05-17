@@ -167,5 +167,6 @@ export class StatsScene extends Phaser.Scene {
         this.damageByClickingText.visible = isVisible;
         this.autoClickDpsText.visible = isVisible;
         this.damageByAutoClickText.visible = isVisible;
+        this.clickDpsText.visible = isVisible;
     }
 }

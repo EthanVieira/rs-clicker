@@ -90,6 +90,10 @@ export class Enemy extends Target {
         this.killGold = data.killGold;
     }
 
+    isClickable() {
+        return true;
+    }
+
     // Player: (attack/items/bonuses) and enemy:  (defense/bonuses) affects accuracy
     // Player: (strength/items/bonuses) affect max hit
     // Equal chance to deal (1 - max hit) damage if it hits

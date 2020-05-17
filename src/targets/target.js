@@ -61,18 +61,21 @@ export class Target extends ClickableObject {
     }
 
     clickTarget() {
-        // Click animation
-        this.scene.clickAnimation();
-        
-        // Target click interaction to be implemented by the child
-        let progress = this.getClickValue();
-        this.onClick(progress);
+        // Check child conditions
+        if (this.isClickable()) {
+            // Click animation
+            this.scene.clickAnimation();
+            
+            // Target click interaction to be implemented by the child
+            let progress = this.getClickValue();
+            this.onClick(progress);
 
-        // Increase progress and check status
-        this.updateProgress(progress);
+            // Increase progress and check status
+            this.updateProgress(progress);
 
-        // Log click for stats
-        this.stats.updateClickedTargetStat();
+            // Log click for stats
+            this.stats.updateClickedTargetStat();
+        }
     }
 
     updateProgress(progress) {

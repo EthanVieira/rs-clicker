@@ -12,6 +12,7 @@ export const defaultData = {
         { type: "Bronze", item: "Dagger" },
         { type: "Normal", item: "Shortbow" },
         { type: "Normal", item: "Staff" },
+        { type: "Bronze", item: "Axe" },
     ],
     equipment: {
         WEAPON: {},
