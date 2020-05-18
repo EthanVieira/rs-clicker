@@ -4,7 +4,8 @@ import { calcLevel } from "../utilities.js";
 import { Target } from "./target.js";
 
 export class Resource extends Target {
-    skill;
+    skill = "";
+    neededClicks = 0;
 
     constructor(data) {
         super(data);
@@ -14,11 +15,20 @@ export class Resource extends Target {
 
         // Add health bar
         this.progressBar = new ProgressBar(
-            data.scene,
+            this.scene,
             this.x,
             this.y - 40,
-            data.neededClicks
+            this.neededClicks,
         );
+    }
+
+    isClickable() {
+        let curWeapon = this.scene.dashboard.equipment.obj.equipment.WEAPON;
+        if (this.skill == "woodcutting" && curWeapon.item != "Axe") {
+            return false;
+        } else {
+            return true; true;
+        }
     }
 
     getClickValue() {

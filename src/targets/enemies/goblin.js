@@ -30,6 +30,7 @@ export class Goblin extends Enemy {
             maxHealth: 5,
             killGold: 3,
             drops: [{ item: NormalBones, rate: 0.5 }],
+            offsetY: 50,
         });
     }
 }

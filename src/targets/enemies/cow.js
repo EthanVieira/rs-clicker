@@ -34,6 +34,7 @@ export class Cow extends Enemy {
             maxHealth: 8,
             killGold: 5,
             drops: [{ item: NormalBones, rate: 0.5 }],
+            offsetY: 100,
         });
     }
 }

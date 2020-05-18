@@ -104,9 +104,17 @@ export const MAP = {
 };
 
 export const FONTS = {
+    GOLD: {
+        font: "24px runescape",
+        fill: "gold",
+    },
+    STATS: {
+        font: "18px runescape",
+        fill: "white",
+    },
     UNLOCKED_FONT: {
         fill: "white",
-        fontSize: "20px",
+        font: "26px runescape",
         style: "bold",
         backgroundColor: "grey",
         alpha: 0.5,
@@ -119,17 +127,17 @@ export const FONTS = {
     },
     LOCKED_FONT: {
         fill: "black",
-        fontSize: "20px",
+        font: "26px runescape",
         style: "bold",
         backgroundColor: "grey",
     },
     OPTIONS_MENU: {
         fill: "white",
-        fontSize: "12px",
+        font: "16px runescape",
     },
     ITEM_NAME: {
         fill: "orange",
-        fontSize: "12px",
+        font: "16px runescape",
     },
     ITEM_STATS: {
         font: "16px runescape",

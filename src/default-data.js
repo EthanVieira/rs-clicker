@@ -2,7 +2,7 @@ export const defaultData = {
     hasCookies: false,
     gold: 0,
     characterClass: "",
-    currentLevel: "",
+    currentLevel: "TUTORIAL_ISLAND",
     totalEnemiesKilled: 0,
     timesClicked: 0,
     damageByClicking: 0,
@@ -12,6 +12,7 @@ export const defaultData = {
         { type: "Bronze", item: "Dagger" },
         { type: "Normal", item: "Shortbow" },
         { type: "Normal", item: "Staff" },
+        { type: "Bronze", item: "Axe" },
     ],
     equipment: {
         WEAPON: {},

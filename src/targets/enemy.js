@@ -6,7 +6,7 @@ import { calcLevel } from "../utilities.js";
 export class Enemy extends Target {
     blueHitsplat;
     redHitsplat;
-    hitsplatText = "1";
+    hitsplatText;
     killGold;
     objectType = "ENEMY";
 
@@ -35,16 +35,40 @@ export class Enemy extends Target {
     constructor(data) {
         super(data);
 
+        // Setup coordinates
+        let hitSplatX = this.x;
+        let hitSplatY = this.y + 50;
+        let hitTextX = this.x;
+        let hitTextY = this.y + 100;
+        let barX = this.x;
+        let barY = this.y - 40;
+
+        // Get offsets if they exist
+        if (data.barOffsetX != undefined) {
+            barX += data.barOffsetX;
+        }
+        if (data.barOffsetY != undefined) {
+            barY += data.barOffsetY;
+        }
+        if (data.splatOffsetX != undefined) {
+            hitSplatX += data.splatOffsetX;
+            hitTextX += data.splatOffsetX;
+        }
+        if (data.splatOffsetY != undefined) {
+            hitSplatY += data.splatOffsetY;
+            hitTextY += data.splatOffsetY;
+        }
+
         // Add hitsplats
         this.blueHitsplat = data.scene.add
-            .image(this.x, this.y + 50, "blue-hitsplat")
+            .image(hitSplatX, hitSplatY, "blue-hitsplat")
             .setOrigin(0.5, 0)
             .setDepth(4)
             .setScale(0.3);
         this.blueHitsplat.visible = false;
 
         this.redHitsplat = data.scene.add
-            .image(this.x, this.y + 50, "red-hitsplat")
+            .image(hitSplatX, hitSplatY, "red-hitsplat")
             .setOrigin(0.5, 0)
             .setDepth(4)
             .setScale(0.3);
@@ -52,7 +76,7 @@ export class Enemy extends Target {
 
         // Add damage text
         this.hitsplatText = data.scene.add
-            .text(this.x, this.y + 100, "1", {
+            .text(hitTextX, hitTextY, "1", {
                 fill: "white",
             })
             .setOrigin(0.5, 0)
@@ -60,10 +84,14 @@ export class Enemy extends Target {
         this.hitsplatText.visible = false;
 
         // Add health bar
-        this.progressBar = new HealthBar(data.scene, this.x, this.y - 40, data.maxHealth);
+        this.progressBar = new HealthBar(data.scene, barX, barY, data.maxHealth);
 
         // Enemy specific vars
         this.killGold = data.killGold;
+    }
+
+    isClickable() {
+        return true;
     }
 
     // Player: (attack/items/bonuses) and enemy:  (defense/bonuses) affects accuracy
