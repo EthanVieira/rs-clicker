@@ -1,5 +1,6 @@
 export const defaultData = {
     hasCookies: false,
+    name: "You",
     gold: 0,
     characterClass: "",
     currentLevel: "TUTORIAL_ISLAND",
@@ -16,6 +17,10 @@ export const defaultData = {
     ],
     equipment: {
         WEAPON: {},
+    },
+    clan: {
+        name: "The Black Knights",
+        members: [],
     },
     // Skill XP
     skills: {

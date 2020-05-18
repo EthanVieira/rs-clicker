@@ -105,7 +105,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("settings-button", "src/assets/ui/buttons/SettingsButton.png");
 
         // Dashboard UI
-        // Inventory icon
+        // Panels and buttons
         this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
         this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
@@ -122,8 +122,12 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
         this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
         this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
+        this.load.image("clan-panel", "src/assets/ui/ClanPanel.png");
+        this.load.image("clan-button", "src/assets/ui/buttons/ClanButton.png");
         this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
-        this.load.image("scroll-bar", "src/assets/ui/ScrollBar.png");
+        this.load.image("scroll-background", "src/assets/ui/ScrollBackground.png");
+        this.load.image("scroll-header", "src/assets/ui/ScrollHeader.png");
+        this.load.image("scroll-footer", "src/assets/ui/ScrollFooter.png");
         this.load.image("scroll-button", "src/assets/ui/ScrollButton.png");
 
         // Load all targets in target manifest

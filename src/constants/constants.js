@@ -41,6 +41,7 @@ export const CONSTANTS = {
         EQUIPMENT: "EQUIPMENT",
         QUESTS: "QUESTS",
         SETTINGS: "SETTINGS",
+        CLAN: "CLAN",
     },
     UTILS: {
         MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000,
@@ -160,6 +161,16 @@ export const FONTS = {
     HOTBAR: {
         font: "15.5px runescape",
         fill: "#00ff00",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
+    SHOP: {
+        font: "19px runescape",
+        fill: "#e9921e",
         shadow: {
             offsetX: 1,
             offsetY: 1,
