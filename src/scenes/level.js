@@ -140,7 +140,10 @@ export class LevelScene extends Phaser.Scene {
 
         // Buy auto clickers
         this.autoClickerButton = this.add
-            .text(20, 50, "50 gold for autoclicker", { font: "20px runescape", fill: "gold" })
+            .text(20, 50, "50 gold for autoclicker", {
+                font: "20px runescape",
+                fill: "gold",
+            })
             .setDepth(3)
             .setInteractive()
             .on("pointerup", () => {
@@ -267,7 +270,7 @@ export class LevelScene extends Phaser.Scene {
                         case EQUIPMENT.ATTACK_STYLE.CRUSH:
                             startX = 450;
                             startY = 200;
-                            break
+                            break;
                         case EQUIPMENT.ATTACK_STYLE.SLASH:
                             curve = 1;
                             startX = 450;
@@ -314,42 +317,46 @@ export class LevelScene extends Phaser.Scene {
 
         // Add animation image
         image = this.add
-                .image(startX, startY, imageName)
-                .setScale(scale)
-                .setDepth(4)
-                .setAlpha(alpha)
-                .setFlipX(flipX);
+            .image(startX, startY, imageName)
+            .setScale(scale)
+            .setDepth(4)
+            .setAlpha(alpha)
+            .setFlipX(flipX);
 
         // Move animation
         let endX = Math.floor(this.width / 2) - 100,
             endY = Math.floor(this.height / 2);
         this.tweens.add({
-                targets: image,
-                x: endX,
-                y: endY,
-                duration: 500,
-                ease: (t) => {
-                    return Math.pow(Math.sin(t * 3), 3);
-                },
-                onComplete: () => {
+            targets: image,
+            x: endX,
+            y: endY,
+            duration: 500,
+            ease: (t) => {
+                return Math.pow(Math.sin(t * 3), 3);
+            },
+            onComplete: () => {
+                image.destroy();
+            },
+            onUpdate: () => {
+                // Destroy if within 1 pixel of end point
+                // Otherwise image will return to origin
+                if (
+                    image.x >= endX - 1 &&
+                    image.x <= endX + 1 &&
+                    image.y >= endY - 1 &&
+                    image.y <= endY + 1
+                ) {
                     image.destroy();
-                },
-                onUpdate: () => {
-                    // Destroy if within 1 pixel of end point
-                    // Otherwise image will return to origin
-                    if ((image.x >= endX - 1 && image.x <= endX + 1) && 
-                        (image.y >= endY - 1 && image.y <= endY + 1)) {
-                        image.destroy();
-                    } else {
-                        image.scale -= 0.005;
-                        image.angle -= curve;
-                        if (image.alpha < 1) {
-                            image.alpha += .03;
-                        }
+                } else {
+                    image.scale -= 0.005;
+                    image.angle -= curve;
+                    if (image.alpha < 1) {
+                        image.alpha += 0.03;
                     }
-                },
-                repeat: 0,
-                delay: 50,
-            });
+                }
+            },
+            repeat: 0,
+            delay: 50,
+        });
     }
 }

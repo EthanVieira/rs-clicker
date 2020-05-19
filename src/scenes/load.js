@@ -15,7 +15,7 @@ export class LoadScene extends Phaser.Scene {
                     {
                         type: "image",
                         key: "lesser-demon",
-                        url: "/src/assets/sprites/LesserDemon.png",
+                        url: "src/assets/sprites/LesserDemon.png",
                     },
                 ],
             },

@@ -141,9 +141,13 @@ export class ScrollWindow extends Phaser.Scene {
 
                 // Setup timer to check if scrollheader/footer is being held
                 this.timer = this.time.addEvent({
-                    delay: 100,                // ms
+                    delay: 100, // ms
                     callback: () => {
-                        this.scroll(this.curDelta, remainingScrollBarDist, remainingListDist);
+                        this.scroll(
+                            this.curDelta,
+                            remainingScrollBarDist,
+                            remainingListDist
+                        );
                     },
                     loop: true,
                     paused: true,
@@ -173,7 +177,11 @@ export class ScrollWindow extends Phaser.Scene {
                 this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
                     let drag = dragY - this.scrollButton.y;
                     if (Math.abs(drag) > 5) {
-                        this.scroll(dragY - this.scrollButton.y, remainingScrollBarDist, remainingListDist);
+                        this.scroll(
+                            dragY - this.scrollButton.y,
+                            remainingScrollBarDist,
+                            remainingListDist
+                        );
                     }
                 });
             }
@@ -197,8 +205,7 @@ export class ScrollWindow extends Phaser.Scene {
             }
 
             // Scale scroll bar delta
-            let scrollBarDelta =
-                deltaY * (remainingScrollBarDist / remainingListDist);
+            let scrollBarDelta = deltaY * (remainingScrollBarDist / remainingListDist);
 
             // Check top/bottom bounds
             let scrollButtonHeight = this.scrollButton.displayHeight;

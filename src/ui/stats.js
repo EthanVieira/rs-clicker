@@ -43,10 +43,20 @@ export class StatsScene extends Phaser.Scene {
 
         // Show stats
         this.enemiesKilledText = this.add
-            .text(20, 60, "Enemies killed: " + this.characterData.totalEnemiesKilled, FONTS.STATS)
+            .text(
+                20,
+                60,
+                "Enemies killed: " + this.characterData.totalEnemiesKilled,
+                FONTS.STATS
+            )
             .setDepth(3);
         this.timesClickedText = this.add
-            .text(20, 75, "Times clicked: " + this.characterData.timesClicked, FONTS.STATS)
+            .text(
+                20,
+                75,
+                "Times clicked: " + this.characterData.timesClicked,
+                FONTS.STATS
+            )
             .setDepth(3);
         this.damageByClickingText = this.add
             .text(

@@ -85,10 +85,7 @@ export class MainMenuScene extends Phaser.Scene {
                 this.scene.start(this.characterData.currentLevel, this.characterData);
                 console.log("Going to", this.characterData.currentLevel);
             } else {
-                this.scene.start(
-                    CONSTANTS.SCENES.TUTORIAL_ISLAND,
-                    this.characterData
-                );
+                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData);
                 console.log("Going to Tutorial Island");
             }
         });
