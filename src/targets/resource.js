@@ -18,7 +18,7 @@ export class Resource extends Target {
             this.scene,
             this.x,
             this.y - 40,
-            this.neededClicks,
+            this.neededClicks
         );
     }
 
@@ -27,7 +27,7 @@ export class Resource extends Target {
         if (this.skill == "woodcutting" && curWeapon.item != "Axe") {
             return false;
         } else {
-            return true; true;
+            return true;
         }
     }
 

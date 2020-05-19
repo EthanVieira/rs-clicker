@@ -239,7 +239,7 @@ export class ShopScene extends Phaser.Scene {
                 if (itemManifest[item].type == itemType) {
                     // Get item class
                     let path = itemManifest[item].classPath;
-                    let itemClass = await import("/src/items/" + path);
+                    let itemClass = await import("../../src/items/" + path);
                     let newItem = new itemClass.default(this.scrollWindow);
 
                     // Create sprite
