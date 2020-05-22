@@ -1,6 +1,7 @@
 import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { defaultData } from "../default-data.js";
-import { HiredBowman } from "../auto-clickers/hired-bowman.js";
+//import { HiredBowman } from "../auto-clickers/hired-bowman.js";
+import { getautoclickerClass } from "../auto-clickers/auto-clicker.js";
 import { storeCookies } from "../utilities.js";
 
 export class LevelScene extends Phaser.Scene {
@@ -171,8 +172,9 @@ export class LevelScene extends Phaser.Scene {
 
         // Scene destructor
         this.events.on("shutdown", () => {
-            // Release autoclickers to be garbage collected
-            this.clearAutoClickers();
+            this.autoClickers = [];
+            this.targets = [];
+
             // Hide dashboard and stats
             this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.stop(CONSTANTS.SCENES.STATS);
@@ -192,15 +194,6 @@ export class LevelScene extends Phaser.Scene {
     // Used by autoclicker
     clickCurrentTarget(damage) {
         this.targets[this.currentTargetIndex].updateProgress(damage);
-    }
-
-    // Need to clear data before changing scenes
-    clearAutoClickers() {
-        for (let i = 0; i < this.autoClickers.length; i++) {
-            this.autoClickers[i].release();
-        }
-        this.autoClickers = [];
-        this.targets = [];
     }
 
     enemyKilled(name) {
@@ -234,8 +227,9 @@ export class LevelScene extends Phaser.Scene {
         this.autoClickerButton.visible = isVisible;
     }
 
-    createAutoClicker() {
-        let autoClicker = new HiredBowman(this);
+    async createAutoClicker() {
+        // let autoClicker = new HiredBowman(this);
+        let autoClicker = await getautoclickerClass("Bot", this);
         this.autoClickers.push(autoClicker);
         this.stats.updateAutoClickerDPS(autoClicker.dps);
         this.characterData.numberOfAutoClickers++;

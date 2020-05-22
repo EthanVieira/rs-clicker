@@ -1,4 +1,15 @@
+import { autoclickerManifest } from "./auto-clicker-manifest.js";
+import { OBJECT_TYPES } from "../constants/constants.js";
+
+export async function getautoclickerClass(className, scene) {
+    let path = autoclickerManifest[className].classPath;
+    let clickerClass = await import(path);
+
+    return new clickerClass.default(scene);
+}
+
 export class AutoClicker {
+    objectType = OBJECT_TYPES.AUTOCLICKER;
     name = "";
     dps = 0;
     level = 0;
@@ -10,7 +21,6 @@ export class AutoClicker {
 
     constructor(data) {
         console.log("Creating " + data.name + " autoclicker with " + data.dps + " dps");
-        // Pull into local objects
         this.scene = data.scene;
         this.stats = data.scene.stats;
         this.dps = data.dps;
@@ -18,25 +28,20 @@ export class AutoClicker {
         this.name = name.type;
 
         // Damage every .1 second
-        this.damageInterval = 0.1;
-        this.timer = setInterval(this.clickTarget.bind(this), this.damageInterval * 1000);
+        this.damageInterval = 100;
+        this.timer = this.scene.time.addEvent({
+            delay: this.damageInterval,
+            callback: () => {
+                this.clickTarget();
+            },
+            loop: true,
+            paused: false,
+        });
     }
 
     clickTarget() {
-        let damagePerTick = this.dps * this.damageInterval;
+        let damagePerTick = this.dps * (this.damageInterval / 1000);
         this.scene.clickCurrentTarget(damagePerTick);
         this.stats.updateAutoClickDamageStat(damagePerTick);
-    }
-
-    release() {
-        clearInterval(this.timer);
-    }
-
-    getDps() {
-        return this.dps;
-    }
-
-    getLevel() {
-        return this.level;
     }
 }

@@ -1,6 +1,6 @@
 import { itemManifest } from "./item-manifest.js";
 import { ClickableObject } from "../clickable-object.js";
-import { CONSTANTS } from "../constants/constants.js";
+import { OBJECT_TYPE, CONSTANTS } from "../constants/constants.js";
 
 export async function getItemClass(itemName, type, scene) {
     //console.log(itemName, type);
@@ -17,7 +17,7 @@ export class Item extends ClickableObject {
     item = "";
     type = "";
     examineText = "";
-    objectType = "ITEM";
+    objectType = OBJECT_TYPE.ITEM;
 
     // Inventory location
     index = -1;

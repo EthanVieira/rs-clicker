@@ -1,6 +1,6 @@
 import { HealthBar } from "../ui/health-bar.js";
 import { Target } from "./target.js";
-import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
+import { OBJECT_TYPE, CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { calcLevel } from "../utilities.js";
 
 export class Enemy extends Target {
@@ -8,7 +8,7 @@ export class Enemy extends Target {
     redHitsplat;
     hitsplatText;
     killGold;
-    objectType = "ENEMY";
+    objectType = OBJECT_TYPE.ENEMY;
 
     // Target stats
     attack = 1;

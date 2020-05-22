@@ -73,7 +73,7 @@ export class StatsScene extends Phaser.Scene {
             .text(
                 20,
                 105,
-                "Damage done by autoclickers: " + this.characterData.damageByAutoClick,
+                "Damage done by autoclickers: " + Math.floor(this.characterData.damageByAutoClick),
                 FONTS.STATS
             )
             .setDepth(3);

@@ -48,6 +48,13 @@ export const CONSTANTS = {
     },
 };
 
+export const OBJECT_TYPE = {
+    ITEM: "ITEM",
+    ENEMY: "ENEMY",
+    RESOURCE: "RESOURCE",
+    AUTOCLICKER: "AUTOCLICKER",
+};
+
 export const EQUIPMENT = {
     WEAPON_TYPES: {
         MELEE: "MELEE",
