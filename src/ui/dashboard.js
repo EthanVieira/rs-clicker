@@ -120,9 +120,9 @@ export class DashboardScene extends Phaser.Scene {
                 this.hideAllMenus();
 
                 // If enemy-level, repopulate quest text
-                if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-                    this.currentScene.showAutoClickerButton(true);
-                }
+                // if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
+                //     this.currentScene.showAutoClickerButton(true);
+                // }
 
                 this.inventory.obj.showInventory(true);
                 this.inventory.button.setAlpha(0.1);
@@ -354,15 +354,8 @@ export class DashboardScene extends Phaser.Scene {
             });
 
         // Add scrollable window for clan members
-        if (!Object.keys(this.clan.scrollWindow).length) {
-            this.clan.scrollWindow = new ScrollWindow("clans");
-            this.scene.add(
-                "scroll-window",
-                this.clan.scrollWindow,
-                true,
-                this.characterData
-            );
-        }
+        this.clan.scrollWindow = new ScrollWindow("clans");
+        this.scene.add("scroll-window", this.clan.scrollWindow, true, this.characterData);
 
         // Clear out and reinstatiate clan members
         if (Object.entries(this.clan.obj).length) {
@@ -373,8 +366,7 @@ export class DashboardScene extends Phaser.Scene {
 
         // Scene destructor
         this.events.on("shutdown", () => {
-            // Remove scroll window scene
-            this.clan.scrollWindow.setVisible(false);
+            this.scene.remove(this.clan.scrollWindow.name);
         });
     }
 

@@ -63,8 +63,9 @@ export class AudioScene extends Phaser.Scene {
                 this.changeVolume(BGM, this.currentVolume[BGM]);
             } else {
                 // If called before load, play once loaded
+                this.currentSongName = audioName;
                 this.events.once("create", () => {
-                    this.playBgm(audioName);
+                    this.playBgm(this.currentSongName);
                 });
             }
         }

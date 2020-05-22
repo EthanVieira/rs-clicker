@@ -1,4 +1,4 @@
-import { CONSTANTS, FONTS } from "../constants/constants.js";
+import { OBJECT_TYPES, CONSTANTS, FONTS } from "../constants/constants.js";
 
 export class ChatScene extends Phaser.Scene {
     // Used for all object types
@@ -7,10 +7,8 @@ export class ChatScene extends Phaser.Scene {
     objNameText;
     objExamineText;
     welcomeText;
-
-    // Items
-    sellsForText;
-    costText;
+    row2Header;
+    row2Text;
 
     // Equipment
     itemStatHeaders;
@@ -73,13 +71,13 @@ export class ChatScene extends Phaser.Scene {
         // Items
         //
 
-        this.sellsForText = this.add.text(
+        this.row2Header = this.add.text(
             10,
             tableStartY - 16,
             "Sells for:",
             FONTS.ITEM_HEADER
         );
-        this.costText = this.add.text(
+        this.row2Text = this.add.text(
             tableStartX,
             tableStartY - 16,
             "",
@@ -225,8 +223,8 @@ export class ChatScene extends Phaser.Scene {
         });
         this.objExamineText.visible = false;
         this.objNameText.visible = false;
-        this.sellsForText.visible = false;
-        this.costText.visible = false;
+        this.row2Header.visible = false;
+        this.row2Text.visible = false;
         this.itemStatHeaders.visible = false;
         this.enemyStatHeaders.visible = false;
         this.chatWindow.visible = false;
@@ -257,7 +255,7 @@ export class ChatScene extends Phaser.Scene {
 
             // Show different things for different types of objects
             switch (object.objectType) {
-                case "EQUIPMENT":
+                case OBJECT_TYPES.EQUIPMENT:
                     // Headers
                     this.itemStatHeaders.visible = true;
 
@@ -271,20 +269,20 @@ export class ChatScene extends Phaser.Scene {
                         this.itemStatText[varName].text = object[varName];
                         this.itemStatText[varName].visible = true;
                     }
-                case "ITEM":
-                    // Get cost only
+                case OBJECT_TYPES.ITEM:
+                    // Get cost/sale price
                     if (isShop) {
-                        this.costText.text = object.cost + "gp";
-                        this.sellsForText.text = "Cost:";
+                        this.row2Header.text = "Cost:";
+                        this.row2Text.text = object.cost + "gp";
                     } else {
-                        this.costText.text = Math.floor(object.cost / 2) + "gp";
-                        this.sellsForText.text = "Sells for:";
+                        this.row2Header.text = "Sells for:";
+                        this.row2Text.text = Math.floor(object.cost / 2) + "gp";
                     }
 
-                    this.costText.visible = true;
-                    this.sellsForText.visible = true;
+                    this.row2Header.visible = true;
+                    this.row2Text.visible = true;
                     break;
-                case "ENEMY":
+                case OBJECT_TYPES.ENEMY:
                     // Headers
                     this.enemyStatHeaders.visible = true;
 
@@ -298,6 +296,15 @@ export class ChatScene extends Phaser.Scene {
                         this.enemyStatText[varName].text = object[varName];
                         this.enemyStatText[varName].visible = true;
                     }
+
+                    this.row2Header.text = "HP:";
+                    this.row2Text.text = object.maxHealth;
+                    break;
+                case OBJECT_TYPES.AUTOCLICKER:
+                    this.row2Header.text = "Cost:";
+                    this.row2Text.text = object.cost + "gp";
+                    this.row2Header.visible = true;
+                    this.row2Text.visible = true;
                     break;
             }
         }

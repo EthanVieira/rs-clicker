@@ -1,4 +1,5 @@
 import { Item } from "./item.js";
+import { OBJECT_TYPES } from "../constants/constants.js";
 
 export default class Equipment extends Item {
     // Attack bonuses
@@ -27,7 +28,7 @@ export default class Equipment extends Item {
     style = "";
     skill = "";
     stackable = false;
-    objectType = "EQUIPMENT";
+    objectType = OBJECT_TYPES.EQUIPMENT;
 
     constructor() {
         super();

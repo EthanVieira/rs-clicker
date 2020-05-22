@@ -1,4 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
+import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
 
 // Clan members function as autoclickers
 export class Clan {
@@ -20,17 +21,12 @@ export class Clan {
         this.characterData = scene.characterData;
         this.clanCookies = this.characterData.clan;
 
-        // Add self to clan members
-        if (this.clanCookies.members.length == 0) {
-            this.clanCookies.members.push(this.characterData.name);
-        }
-
         // Update and show clan info on startup
         this.refreshClan();
     }
 
     // Load clan data on startup
-    refreshClan() {
+    async refreshClan() {
         // Load clan name and player name
         this.clanNameText = this.scene.add
             .text(610, 228, this.clanCookies.name, {
@@ -48,14 +44,24 @@ export class Clan {
         const startX = 560,
             startY = 280,
             yDiff = 18;
-        this.clanCookies.members.forEach((member, index) => {
-            let text = this.scrollWindow.add
-                .text(startX, startY + index * yDiff, member, {
-                    font: "16px runescape",
-                })
-                .setDepth(3);
-            this.clanMembers.push(text);
-        });
+        let playerName = this.scrollWindow.add
+            .text(startX, startY, this.characterData.name, {
+                font: "16px runescape",
+            })
+            .setDepth(3)
+            .setVisible(false);
+        this.clanMembers.push(playerName);
+
+        // Reset dps counter before refreshing autoclickers
+        this.scene.currentScene.stats.resetAutoclickerDps();
+        for (let index = 0; index < this.clanCookies.members.length; index++) {
+            let memberName = this.clanCookies.members[index];
+            let member = await getAutoclickerClass(memberName, this.scrollWindow);
+            member.createText(false, startX, startY + (index + 1) * yDiff);
+            member.setVisible(false);
+            member.start(this.scene.currentScene);
+            this.clanMembers.push(member);
+        }
     }
 
     // Add clan member to list
@@ -66,21 +72,17 @@ export class Clan {
 
         // Add text to the list
         let index = this.clanMembers.length;
-        let textObj = this.scene.add
-            .text(startX, startY + index * yDiff, member, {
-                font: "16px runescape",
-            })
-            .setDepth(3);
-        this.clanMembers.push(textObj);
+        member.createText(false, startX, startY + index * yDiff);
+        this.clanMembers.push(member);
 
         // Add to saved data
-        this.clanCookies.members.push(member);
+        this.clanCookies.members.push(member.name);
 
         // Hide if clan tab is not selected
         let show = this.scene.currentPanel == CONSTANTS.PANEL.CLAN;
-        textObj.setVisible(show);
+        member.setVisible(show);
 
-        this.scrollWindow.addObject(textObj);
+        this.scrollWindow.addObject(member);
     }
 
     show(isVisible) {
@@ -97,9 +99,9 @@ export class Clan {
             this.scene.currentPanel = CONSTANTS.PANEL.CLAN;
         }
         this.scrollWindow.setVisible(isVisible);
-        this.clanMembers.forEach((member) => {
-            member.visible = isVisible;
-        });
+        // this.clanMembers.forEach((member) => {
+        //     member.setVisible(isVisible);
+        // });
         this.playerNameText.visible = isVisible;
         this.clanNameText.visible = isVisible;
     }
