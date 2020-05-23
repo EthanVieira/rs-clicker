@@ -299,6 +299,8 @@ export class ChatScene extends Phaser.Scene {
 
                     this.row2Header.text = "HP:";
                     this.row2Text.text = object.maxHealth;
+                    this.row2Header.visible = true;
+                    this.row2Text.visible = true;
                     break;
                 case OBJECT_TYPES.AUTOCLICKER:
                     this.row2Header.text = "Cost:";
