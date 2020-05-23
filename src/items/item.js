@@ -1,15 +1,6 @@
-import { itemManifest } from "./item-manifest.js";
 import { ClickableObject } from "../clickable-object.js";
 import { OBJECT_TYPES, CONSTANTS } from "../constants/constants.js";
-
-export async function getItemClass(itemName, type, scene) {
-    //console.log(itemName, type);
-    let path = itemManifest[type + itemName].classPath;
-    //console.log(path);
-    let itemClass = await import(path);
-
-    return new itemClass.default(scene);
-}
+import { itemManifest } from "./item-manifest.js";
 
 export class Item extends ClickableObject {
     // Text data

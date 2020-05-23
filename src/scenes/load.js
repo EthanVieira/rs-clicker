@@ -2,6 +2,7 @@ import { CONSTANTS } from "../constants/constants.js";
 import { getDefaultData } from "../utilities.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
+import { loadItems } from "../items/get-item-class.js";
 
 export class LoadScene extends Phaser.Scene {
     characterData = {};
@@ -143,6 +144,7 @@ export class LoadScene extends Phaser.Scene {
             this.load.image(itemObj.imageName, path + itemObj.imagePath);
             this.load.image(itemObj.imageName + "-model", modelPath + itemObj.imagePath);
         });
+        loadItems();
 
         // For attack animations
         this.load.image("fist", "src/assets/effects/Fist.png");

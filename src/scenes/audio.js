@@ -10,6 +10,7 @@ export class AudioScene extends Phaser.Scene {
     currentVolume = [2, 2, 2];
     previousVolume = [2, 2, 2];
     currentSongName = "";
+    queuedSongName = "";
 
     characterData = {};
 
@@ -63,9 +64,9 @@ export class AudioScene extends Phaser.Scene {
                 this.changeVolume(BGM, this.currentVolume[BGM]);
             } else {
                 // If called before load, play once loaded
-                this.currentSongName = audioName;
+                this.queuedSongName = audioName;
                 this.events.once("create", () => {
-                    this.playBgm(this.currentSongName);
+                    this.playBgm(this.queuedSongName);
                 });
             }
         }

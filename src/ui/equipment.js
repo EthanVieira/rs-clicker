@@ -1,5 +1,5 @@
 import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
-import { getItemClass } from "../items/item.js";
+import { getItemClass } from "../items/get-item-class.js";
 
 export class Equipment {
     scene;

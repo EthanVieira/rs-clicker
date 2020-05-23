@@ -1,7 +1,7 @@
 // TODO: gray out items that are too expensive
 import { calcLevel } from "../utilities.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { getItemClass } from "../items/item.js";
+import { getItemClass } from "../items/get-item-class.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
 import { autoclickerManifest } from "../auto-clickers/auto-clicker-manifest.js";

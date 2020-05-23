@@ -119,11 +119,6 @@ export class DashboardScene extends Phaser.Scene {
             .on("pointerdown", () => {
                 this.hideAllMenus();
 
-                // If enemy-level, repopulate quest text
-                // if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-                //     this.currentScene.showAutoClickerButton(true);
-                // }
-
                 this.inventory.obj.showInventory(true);
                 this.inventory.button.setAlpha(0.1);
             });
