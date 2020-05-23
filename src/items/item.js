@@ -1,6 +1,7 @@
 import { ClickableObject } from "../clickable-object.js";
 import { OBJECT_TYPES, CONSTANTS } from "../constants/constants.js";
 import { itemManifest } from "./item-manifest.js";
+import { getItemClass } from "./get-item-class.js";
 
 export class Item extends ClickableObject {
     // Text data

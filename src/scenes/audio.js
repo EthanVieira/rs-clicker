@@ -6,6 +6,7 @@ const ENV = 2;
 
 export class AudioScene extends Phaser.Scene {
     currentSong = {};
+    sfx = {};
     audioLoaded = false;
     currentVolume = [2, 2, 2];
     previousVolume = [2, 2, 2];
@@ -75,10 +76,14 @@ export class AudioScene extends Phaser.Scene {
     // Pause BGM while playing SFX
     playSfx(audioName) {
         this.currentSong.pause();
-        let sfx = this.sound.add(audioName);
-        sfx.setVolume(this.currentVolume[SFX] / 4);
-        sfx.play();
-        sfx.once("complete", () => {
+        if (this.sfx != undefined && this.sfx.isPlaying) {
+            this.sfx.stop();
+            this.currentSong.pause();
+        }
+        this.sfx = this.sound.add(audioName);
+        this.sfx.setVolume(this.currentVolume[SFX] / 4);
+        this.sfx.play();
+        this.sfx.once("complete", () => {
             this.currentSong.resume();
         });
     }
