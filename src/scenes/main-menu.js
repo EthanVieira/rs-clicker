@@ -102,7 +102,7 @@ export class MainMenuScene extends Phaser.Scene {
         });
 
         // Delete cookies (Yes)
-        let yesButton = new Button(this, 332, 232, 60, 30);
+        let yesButton = new Button(this, 332, 232, 60, 30, { depth: 4 });
         yesButton.on("pointerup", () => {
             if (this.settingsOpen) {
                 this.characterData = getDefaultData();
@@ -113,7 +113,7 @@ export class MainMenuScene extends Phaser.Scene {
         });
 
         // Close Settings (No)
-        let noButton = new Button(this, 406, 232, 60, 30);
+        let noButton = new Button(this, 406, 232, 60, 30, { depth: 4 });
         noButton.on("pointerup", () => {
             if (this.settingsOpen) {
                 this.toggleSettings(false);
