@@ -74,9 +74,7 @@ export default class Equipment extends Item {
 
             let wasAdded = this.scene.inventory.obj.addToInventory(this, false);
             if (wasAdded) {
-                // Remove from equipment slot
-                this.scene.equipment.obj.equipment[this.slot] = {};
-                this.scene.characterData.equipment[this.slot] = {};
+                this.scene.equipment.obj.unequipItem(this.slot);
 
                 this.actions[0] = { text: "Equip", func: "equip" };
                 this.equipped = false;

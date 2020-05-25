@@ -11,10 +11,18 @@ export class Equipment {
     equipment = {
         WEAPON: {},
     };
+    bg = {
+        WEAPON: {},
+    };
 
     constructor(scene, equipment) {
         this.scene = scene;
         this.playerEquipment = equipment;
+
+        this.bg.WEAPON = scene.add
+            .image(587, 304, "equipment-background")
+            .setDepth(2)
+            .setVisible(false);
 
         // Update and show equipment on startup
         this.refreshEquipment();
@@ -63,9 +71,16 @@ export class Equipment {
         // Hide if equipment is not selected
         let showItem = this.scene.currentPanel == CONSTANTS.PANEL.EQUIPMENT;
         item.setVisible(showItem);
+        this.bg[item.slot].visible = showItem;
 
         // Add object to the scene
         this.equipment[item.slot] = item;
+    }
+
+    unequipItem(slot) {
+        this.bg[slot].visible = false;
+        this.equipment[slot] = {};
+        this.playerEquipment[slot] = {};
     }
 
     showEquipment(isVisible) {
@@ -75,6 +90,9 @@ export class Equipment {
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
             if (Object.keys(itemObj).length) {
                 itemObj.setVisible(isVisible);
+                this.bg[item].setVisible(isVisible);
+            } else {
+                this.bg[item].setVisible(false);
             }
         });
     }
