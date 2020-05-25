@@ -80,6 +80,11 @@ export class Item extends ClickableObject {
             .on("pointerover", () => {
                 this.examine(true);
             })
+            .on("pointerout", () => {
+                if (this.chat != undefined) {
+                    this.chat.showObjectInfo(false);
+                }
+            })
             .on("pointerdown", (pointer) => {
                 this.createRightClickMenu(
                     pointer.x - offsetX,
