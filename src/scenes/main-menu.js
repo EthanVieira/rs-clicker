@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { getDefaultData, storeCookies } from "../utilities.js";
+import { Button } from "../ui/button.js";
 
 export class MainMenuScene extends Phaser.Scene {
     characterData = {};
@@ -59,10 +60,9 @@ export class MainMenuScene extends Phaser.Scene {
                     fill: true,
                 },
             })
-            .setDepth(3)
-            .setInteractive();
+            .setDepth(3);
         this.settingsYesText.visible = false;
-        this.settingsNoText = this.add.text(428, 242, "No").setDepth(3).setInteractive();
+        this.settingsNoText = this.add.text(428, 242, "No").setDepth(3);
         this.settingsNoText.visible = false;
 
         // Close settings window if clicked outside of it
@@ -102,16 +102,22 @@ export class MainMenuScene extends Phaser.Scene {
         });
 
         // Delete cookies (Yes)
-        this.settingsYesText.on("pointerup", () => {
-            this.characterData = getDefaultData();
-            this.toggleSettings(false);
-            storeCookies(this.characterData);
-            this.characterData.currentLevel = CONSTANTS.SCENES.CHARACTER_CREATION;
+        let yesButton = new Button(this, 332, 232, 60, 30);
+        yesButton.on("pointerup", () => {
+            if (this.settingsOpen) {
+                this.characterData = getDefaultData();
+                this.toggleSettings(false);
+                storeCookies(this.characterData);
+                this.characterData.currentLevel = CONSTANTS.SCENES.TUTORIAL_ISLAND;
+            }
         });
 
         // Close Settings (No)
-        this.settingsNoText.on("pointerup", () => {
-            this.toggleSettings(false);
+        let noButton = new Button(this, 406, 232, 60, 30);
+        noButton.on("pointerup", () => {
+            if (this.settingsOpen) {
+                this.toggleSettings(false);
+            }
         });
 
         // Get audio scene

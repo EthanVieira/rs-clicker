@@ -10,7 +10,7 @@ export class Button extends Phaser.GameObjects.Graphics {
                 this.strokeRectShape(shape);
             }
             if (options.depth != undefined) {
-                this.setDepth(depth);
+                this.setDepth(options.depth);
             }
         }
 
