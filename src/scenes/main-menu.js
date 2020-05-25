@@ -116,6 +116,7 @@ export class MainMenuScene extends Phaser.Scene {
 
         // Get audio scene
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        audioScene.playBgm("scape-main");
 
         // Muted button
         this.mutedButton = this.add
