@@ -10,14 +10,14 @@ export const defaultData = {
     damageByAutoClick: 0,
     numberOfAutoClickers: 0,
     inventory: [
-        { type: "Bronze", item: "Dagger" },
-        { type: "Normal", item: "Shortbow" },
-        { type: "Normal", item: "Staff" },
-        { type: "Bronze", item: "Axe" },
-        { type: "", item: "Knife"},
+        { item: "BronzeDagger", count: 1 },
+        { item: "NormalShortbow", count: 1 },
+        { item: "NormalStaff", count: 1 },
+        { item: "BronzeAxe", count: 1 },
+        { item: "Knife", count: 1 },
     ],
     equipment: {
-        WEAPON: {},
+        WEAPON: "",
     },
     clan: {
         name: "The Black Knights",

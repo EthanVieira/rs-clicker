@@ -4,7 +4,6 @@ export default class Knife extends Tool {
     // Text data
     name = "Knife";
     item = "Knife";
-    type = "";
     examineText = "A dangerous looking knife.";
 
     // Other

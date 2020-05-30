@@ -22,7 +22,7 @@ export class Inventory {
             let item = this.playerItems[index];
             if (Object.keys(item).length) {
                 // Create item from name
-                let itemObj = await getItemClass(item.item, item.type, this.scene);
+                let itemObj = await getItemClass(item.item, this.scene);
                 itemObj.setNumItems(item.count);
                 this.addToInventoryAtIndex(itemObj, index);
             }
@@ -33,8 +33,7 @@ export class Inventory {
     addToInventoryAtIndex(item, index, createSprite = true) {
         // Add to saved data
         this.playerItems[index] = {
-            item: item.item,
-            type: item.type,
+            item: item.constructor.name,
             count: item.numItems,
         };
 
@@ -69,8 +68,7 @@ export class Inventory {
             if (
                 itemExists &&
                 item.stackable &&
-                this.playerItems[index].item == item.item &&
-                this.playerItems[index].type == item.type
+                this.playerItems[index].item == item.constructor.name
             ) {
                 let curItem = this.inventory[index];
 

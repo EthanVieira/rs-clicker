@@ -2,10 +2,9 @@ import { itemManifest } from "./item-manifest.js";
 import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 
-export async function getItemClass(itemName, type, scene) {
-    //console.log(itemName, type);
-    let path = itemManifest[type + itemName].classPath;
-    //console.log(path);
+export async function getItemClass(className, scene) {
+    console.log(className);
+    let path = itemManifest[className].classPath;
     let itemClass = await import(path);
 
     return new itemClass.default(scene);
@@ -48,7 +47,7 @@ export class Item extends ClickableObject {
         this.index = index;
 
         this.sprite = this.scene.add
-            .image(x, y, itemManifest[this.type + this.item].imageName)
+            .image(x, y, itemManifest[this.constructor.name].imageName)
             .setScale(this.scale)
             .setDepth(4)
             .setInteractive()
@@ -80,7 +79,7 @@ export class Item extends ClickableObject {
         let shopActions = [{ text: "Buy", func: "buy" }];
 
         this.sprite = this.scene.add
-            .image(0, 0, itemManifest[this.type + this.item].imageName + "-model")
+            .image(0, 0, itemManifest[this.constructor.name].imageName + "-model")
             .setScale(this.scale / 2)
             .setDepth(4)
             .setInteractive()
@@ -104,7 +103,7 @@ export class Item extends ClickableObject {
             let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
 
             // Create new non-shop item
-            let boughtItem = await getItemClass(this.item, this.type, dashboard);
+            let boughtItem = await getItemClass(this.constructor.name, dashboard);
             if (dashboard.inventory.obj.addToInventory(boughtItem)) {
                 this.scene.characterData.gold -= this.cost;
             }
