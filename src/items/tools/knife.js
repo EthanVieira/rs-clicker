@@ -1,4 +1,6 @@
 import Tool from "../tool.js";
+import { CONSTANTS } from "../../constants/constants.js";
+import { getItemClass } from "../item.js";
 
 export default class Knife extends Tool {
     // Text data
@@ -12,5 +14,35 @@ export default class Knife extends Tool {
     constructor(scene) {
         super();
         this.scene = scene;
+    }
+
+    async craft(item) {
+        console.log("Combinging", this.name, item.name);
+        let className = "";
+        let numRequiredItems = 0;
+        switch (item.name) {
+            case "Logs":
+                className = "NormalShortbow";
+                numRequiredItems = 50;
+                break;
+            case "Oak Logs":
+                className = "OakShortbow";
+                numRequiredItems = 50;
+                break;
+            default:
+                console.log("Not a valid crafting combination.");
+                break;
+        }
+
+        if (className != "" && item.numItems >= numRequiredItems) {
+            if (this.dashboard == undefined) {
+                this.dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+            }
+
+            let newItem = await getItemClass(className, this.dashboard);
+            if (this.dashboard.inventory.obj.addToInventory(newItem)) {
+                item.setNumItems(item.numItems - numRequiredItems);
+            }
+        }
     }
 }

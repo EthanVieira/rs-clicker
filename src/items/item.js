@@ -3,7 +3,6 @@ import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 
 export async function getItemClass(className, scene) {
-    console.log(className);
     let path = itemManifest[className].classPath;
     let itemClass = await import(path);
 
@@ -114,15 +113,19 @@ export class Item extends ClickableObject {
 
     // Toggle highlighting on use
     highlightItem() {
-        if (this.selected) {
-            this.sprite.setAlpha(1);
-        } else {
-            this.sprite.setAlpha(0.5);
-        }
-        this.selected = !this.selected;
+        this.setHighlight(!this.selected);
 
         // Un-highlight prev item
-        this.scene.inventory.obj.highlightItem(this.index);
+        this.scene.inventory.obj.selectItem(this.index);
+    }
+
+    setHighlight(isSelected) {
+        this.selected = isSelected;
+        if (isSelected) {
+            this.sprite.setAlpha(0.5);
+        } else {
+            this.sprite.setAlpha(1);
+        }
     }
 
     drop() {
@@ -139,36 +142,40 @@ export class Item extends ClickableObject {
     }
 
     setNumItems(num) {
-        this.numItems = num;
+        if (num <= 0) {
+            this.destroy();
+        } else {
+            this.numItems = num;
 
-        // Update text
-        if (this.numItemsText != undefined) {
-            let visualNum = "0";
-            let fillColor = "";
+            // Update text
+            if (this.numItemsText != undefined) {
+                let visualNum = "0";
+                let fillColor = "";
 
-            // Set format/color based on the amount
-            switch (true) {
-                case num < 1000:
-                    visualNum = num;
-                    fillColor = "orange";
-                    break;
-                case num < 10000:
-                    visualNum = (num / 1000).toFixed(1) + " k";
-                    fillColor = "white";
-                    break;
-                default:
-                    visualNum = (num / 1000000).toFixed(1) + " m";
-                    fillColor = "green";
-                    break;
-            }
-            this.numItemsText.text = visualNum;
-            this.numItemsText.setFill(fillColor);
+                // Set format/color based on the amount
+                switch (true) {
+                    case num < 1000:
+                        visualNum = num;
+                        fillColor = "orange";
+                        break;
+                    case num < 10000:
+                        visualNum = (num / 1000).toFixed(1) + " k";
+                        fillColor = "white";
+                        break;
+                    default:
+                        visualNum = (num / 1000000).toFixed(1) + " m";
+                        fillColor = "green";
+                        break;
+                }
+                this.numItemsText.text = visualNum;
+                this.numItemsText.setFill(fillColor);
 
-            // Make visible if item is also visible
-            if (num <= 1) {
-                this.numItemsText.visible = false;
-            } else if (this.sprite.visible) {
-                this.numItemsText.visible = true;
+                // Make visible if item is also visible
+                if (num <= 1) {
+                    this.numItemsText.visible = false;
+                } else if (this.sprite.visible) {
+                    this.numItemsText.visible = true;
+                }
             }
         }
     }

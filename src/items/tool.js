@@ -1,6 +1,8 @@
 import { Item } from "./item.js";
 
 export default class Tool extends Item {
+    canCraft = true;
+
     constructor() {
         super();
     }

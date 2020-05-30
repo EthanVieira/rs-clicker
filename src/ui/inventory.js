@@ -103,18 +103,30 @@ export class Inventory {
         }
     }
 
-    highlightItem(index) {
+    selectItem(index) {
+        let item1 = this.inventory[this.curSelectedItemIndex];
+
+        // Unselect item
         if (index == this.curSelectedItemIndex) {
             this.curSelectedItemIndex = -1;
-        } else {
-            // Use this ugly method to see if obj is empty
-            if (
-                this.curSelectedItemIndex >= 0 &&
-                Object.keys(this.inventory[this.curSelectedItemIndex]).length
-            ) {
-                this.inventory[this.curSelectedItemIndex].highlightItem();
-            }
+        }
+        // Select item
+        else if (this.curSelectedItemIndex < 0 || !Object.keys(item1).length) {
             this.curSelectedItemIndex = index;
+        }
+        // Combine items
+        else {
+            let item2 = this.inventory[index];
+
+            // Attempt to craft
+            if (item1.canCraft) {
+                item1.craft(item2);
+            } else if (item2.canCraft) {
+                item2.craft(item1);
+            }
+            this.curSelectedItemIndex = -1;
+            item1.setHighlight(false);
+            item2.setHighlight(false);
         }
     }
 
