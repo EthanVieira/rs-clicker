@@ -109,6 +109,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
         this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
+        this.load.image("skills-info", "src/assets/ui/SkillsInfo.png");
         this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
         this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
         this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");

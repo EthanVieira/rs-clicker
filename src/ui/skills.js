@@ -3,6 +3,7 @@ import { calcLevel } from "../utilities.js";
 
 export class Skills {
     scene;
+    statsScene;
     saveData = {};
     skillText = {};
 
@@ -11,6 +12,12 @@ export class Skills {
     hoverNameText;
     hoverLevelText;
     hoverXpText;
+
+    skillInfo = {
+        bg: {},
+        header: {},
+        closeButton: {},
+    };
 
     skillWidth = 64;
     skillHeight = 31;
@@ -54,9 +61,17 @@ export class Skills {
             fillStyle: { color: 0xffffa0 },
         });
 
+        // Hover on skill
         this.scene.input.on("pointermove", (pointer) => {
             if (this.scene.currentPanel == CONSTANTS.PANEL.SKILLS) {
                 this.createHoverWindow(pointer.x, pointer.y);
+            }
+        });
+
+        // Click on skill
+        this.scene.input.on("pointerdown", (pointer) => {
+            if (this.scene.currentPanel == CONSTANTS.PANEL.SKILLS) {
+                this.createSkillInfo(pointer.x, pointer.y, true);
             }
         });
 
@@ -70,6 +85,25 @@ export class Skills {
             .text(532, 97, "1", FONTS.HOTBAR)
             .setOrigin(0.5)
             .setDepth(3);
+
+        // Skill description
+        this.skillInfo.bg = this.scene.add
+            .image(250, 250, "skills-info")
+            .setDepth(2)
+            .setVisible(false);
+        this.skillInfo.header = this.scene.add
+            .text(220, 100, "Fletching", { font: "24px runescape", fill: "black" })
+            .setOrigin(0)
+            .setDepth(3)
+            .setVisible(false);
+        this.skillInfo.closeButton = this.scene.add
+            .image(405, 75, "exit-button")
+            .setDepth(2)
+            .setInteractive()
+            .setVisible(false)
+            .on("pointerup", () => {
+                this.showSkillInfo(false);
+            });
     }
 
     showSkills(isVisible) {
@@ -119,22 +153,35 @@ export class Skills {
         }
     }
 
-    createHoverWindow(x, y) {
-        // Find which skill it's hovering
-        if (x > 550 && x < 730 && y > 205 && y < 450) {
-            let column = Math.floor((x - 550) / this.skillWidth);
-            let row = Math.floor((y - 205) / this.skillHeight);
-            let index = column + row * 3;
+    // Find which skill is being clicked/hovered
+    findSkill(x, y) {
+        let column = 0;
+        let row = 0;
+        let index = 0;
+        let skill = 0;
 
+        if (x > 550 && x < 730 && y > 205 && y < 450) {
+            column = Math.floor((x - 550) / this.skillWidth);
+            row = Math.floor((y - 205) / this.skillHeight);
+            index = column + row * 3;
+            skill = Object.keys(this.saveData)[index];
+
+            return { skill, index, row, column };
+        }
+        return { skill, index, row, column };
+    }
+
+    createHoverWindow(x, y) {
+        let { skill, index, row, column } = this.findSkill(x, y);
+
+        if (skill != 0) {
             x = Math.floor(490 + column * this.skillWidth);
             y = Math.floor(205 + row * this.skillHeight + this.skillHeight / 1.5);
 
             if (index < 23) {
-                let hoveredSkill = Object.keys(this.saveData)[index];
-                this.hoverNameText.text =
-                    hoveredSkill[0].toUpperCase() + hoveredSkill.substring(1);
+                this.hoverNameText.text = skill[0].toUpperCase() + skill.substring(1);
                 this.hoverXpText.text =
-                    "Total XP: " + this.saveData[hoveredSkill].toLocaleString();
+                    "Total XP: " + this.saveData[skill].toLocaleString();
             } else {
                 this.hoverNameText.text = "Total Level";
                 this.hoverXpText.text = "";
@@ -161,6 +208,29 @@ export class Skills {
             this.hoverGraphics.visible = false;
             this.hoverNameText.visible = false;
             this.hoverXpText.visible = false;
+        }
+    }
+
+    createSkillInfo(x, y, isVisible) {
+        if (isVisible) {
+            const { skill, index, row, column } = this.findSkill(x, y);
+
+            if (skill != 0 && skill != undefined) {
+                this.skillInfo.header.text = skill[0].toUpperCase() + skill.substring(1);
+                this.showSkillInfo(true);
+            }
+        } else {
+            this.showSkillInfo(false);
+        }
+    }
+
+    showSkillInfo(isVisible) {
+        if (this.statsScene == undefined) {
+            this.statsScene = this.scene.scene.get(CONSTANTS.SCENES.STATS);
+        }
+        this.statsScene.show(!isVisible);
+        for (let obj in this.skillInfo) {
+            this.skillInfo[obj].visible = isVisible;
         }
     }
 }
