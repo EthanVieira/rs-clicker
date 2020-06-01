@@ -1,5 +1,6 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { calcLevel } from "../utilities.js";
+import { getSkillDescription } from "./skill-descriptions.js";
 
 export class Skills {
     scene;
@@ -17,6 +18,8 @@ export class Skills {
         bg: {},
         header: {},
         closeButton: {},
+        description: {},
+        body: {},
     };
 
     skillWidth = 64;
@@ -92,7 +95,17 @@ export class Skills {
             .setDepth(2)
             .setVisible(false);
         this.skillInfo.header = this.scene.add
-            .text(220, 100, "Fletching", { font: "24px runescape", fill: "black" })
+            .text(225, 100, "Fletching", { font: "28px runescape", fill: "black" })
+            .setOrigin(0)
+            .setDepth(3)
+            .setVisible(false);
+        this.skillInfo.description = this.scene.add
+            .text(110, 170, "", { font: "20px runescape", fill: "black" })
+            .setOrigin(0)
+            .setDepth(3)
+            .setVisible(false);
+        this.skillInfo.body = this.scene.add
+            .text(130, 230, "", { font: "18px runescape", fill: "black" })
             .setOrigin(0)
             .setDepth(3)
             .setVisible(false);
@@ -217,6 +230,10 @@ export class Skills {
 
             if (skill != 0 && skill != undefined) {
                 this.skillInfo.header.text = skill[0].toUpperCase() + skill.substring(1);
+                const { description, body } = getSkillDescription(skill);
+                this.skillInfo.description.text = description;
+                this.skillInfo.body.text = body;
+
                 this.showSkillInfo(true);
             }
         } else {

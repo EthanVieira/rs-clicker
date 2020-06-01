@@ -17,17 +17,20 @@ export default class Knife extends Tool {
     }
 
     async craft(item) {
-        console.log("Combinging", this.name, item.name);
+        console.log("Combining", this.name, item.name);
         let className = "";
         let numRequiredItems = 0;
+        let xpGiven = 0;
         switch (item.name) {
             case "Logs":
                 className = "NormalShortbow";
                 numRequiredItems = 50;
+                xpGiven = 50;
                 break;
             case "Oak Logs":
                 className = "OakShortbow";
                 numRequiredItems = 50;
+                xpGiven = 100;
                 break;
             default:
                 console.log("Not a valid crafting combination.");
@@ -42,6 +45,8 @@ export default class Knife extends Tool {
             let newItem = await getItemClass(className, this.dashboard);
             if (this.dashboard.inventory.obj.addToInventory(newItem)) {
                 item.setNumItems(item.numItems - numRequiredItems);
+                this.scene.characterData.skills.fletching += xpGiven;
+                this.scene.skills.obj.updateSkillsText();
             }
         }
     }
