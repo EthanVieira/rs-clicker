@@ -1,8 +1,10 @@
 // TODO: gray out items that are too expensive
 import { calcLevel } from "../utilities.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { Item, getItemClass } from "../items/item.js";
+import { getItemClass } from "../items/get-item-class.js";
 import { itemManifest } from "../items/item-manifest.js";
+import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
+import { autoclickerManifest } from "../auto-clickers/auto-clicker-manifest.js";
 import { ScrollWindow } from "../ui/scroll-window.js";
 
 export class ShopScene extends Phaser.Scene {
@@ -129,12 +131,7 @@ export class ShopScene extends Phaser.Scene {
     // Update the shop to display current gold
     update() {
         if (this.currentGold != this.characterData.gold) {
-            // Play buy sfx
             this.audio.playSfx("purchase");
-
-            // Remove old gold info and re-add new
-            this.goldText.destroy();
-            this.goldImage.destroy();
             this.displayGold(this.characterData.gold);
             this.currentGold = this.characterData.gold;
         }
@@ -150,6 +147,10 @@ export class ShopScene extends Phaser.Scene {
 
     // Outputs the gold text in RS format: 1m = 1000k, 10m = green text, 1b = 1000m
     displayGold(gold) {
+        if (this.goldImage != undefined) {
+            this.goldImage.destroy();
+            this.goldText.destroy();
+        }
         // Pick gold image based on # of coins
         let stack = "";
         switch (true) {
@@ -182,7 +183,7 @@ export class ShopScene extends Phaser.Scene {
             goldText = gold / 1000 + "k";
         } else if (gold > 10000000) {
             goldText = gold / 1000000 + "M";
-            fill = "#06c663";
+            color = "#06c663";
         }
         this.goldText = this.add.text(35, 50, goldText, {
             fontFamily: "runescape",
@@ -216,23 +217,12 @@ export class ShopScene extends Phaser.Scene {
             // Get dashboard scene
             let dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
 
-            // Use text instead of items for clan members
-            let text = ["Bot", "Account Sharing", "Jagex Mod", "Gamer Girl GF"];
-
-            // Add text to window
-            text.forEach((clan) => {
-                let textObj = this.scrollWindow.add
-                    .text(scrollX, scrollY, clan, {
-                        font: "18px runescape",
-                    })
-                    .setInteractive()
-                    .on("pointerup", () => {
-                        // Add to clan member list
-                        dashboard.clan.obj.addClanMember(clan);
-                    });
-                textObj.visible = false;
-                this.shopIcons.push(textObj);
-            });
+            for (let clickerName in autoclickerManifest) {
+                let clicker = await getAutoclickerClass(clickerName, this.scrollWindow);
+                clicker.createText(true);
+                clicker.setVisible(false);
+                this.shopIcons.push(clicker);
+            }
         } else {
             // Load all items in that category
             for (let item in itemManifest) {

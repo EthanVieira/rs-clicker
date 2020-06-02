@@ -1,6 +1,5 @@
 import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { defaultData } from "../default-data.js";
-import { HiredBowman } from "../auto-clickers/hired-bowman.js";
 import { storeCookies } from "../utilities.js";
 
 export class LevelScene extends Phaser.Scene {
@@ -24,10 +23,6 @@ export class LevelScene extends Phaser.Scene {
     targetMetaData = [];
     currentTargetIndex = 0;
     levelType = "";
-
-    // Cookies
-    autoClickers = [];
-    autoClickerButton;
 
     // Character
     characterData;
@@ -134,36 +129,7 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive();
         exitButton.on("pointerup", () => {
-            audioScene.playBgm("scape-main");
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
-        });
-
-        // Buy auto clickers
-        this.autoClickerButton = this.add
-            .text(20, 50, "50 gold for autoclicker", {
-                font: "20px runescape",
-                fill: "gold",
-            })
-            .setDepth(3)
-            .setInteractive()
-            .on("pointerup", () => {
-                if (this.characterData.gold >= 50) {
-                    this.stats.addGold(-50);
-                    this.createAutoClicker();
-                }
-            });
-
-        // Load autoclickers after stats
-        this.stats.events.once("create", () => {
-            if (this.characterData.hasCookies && this.autoClickers.length == 0) {
-                let numAutoClickers = this.characterData.numberOfAutoClickers;
-                this.characterData.numberOfAutoClickers = 0;
-                this.stats.autoClickDps = 0;
-                this.stats.updateAutoClickerDPS(0);
-                for (let i = 0; i < numAutoClickers; i++) {
-                    this.createAutoClicker();
-                }
-            }
         });
 
         // Display first click object
@@ -171,8 +137,8 @@ export class LevelScene extends Phaser.Scene {
 
         // Scene destructor
         this.events.on("shutdown", () => {
-            // Release autoclickers to be garbage collected
-            this.clearAutoClickers();
+            this.targets = [];
+
             // Hide dashboard and stats
             this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.stop(CONSTANTS.SCENES.STATS);
@@ -192,15 +158,6 @@ export class LevelScene extends Phaser.Scene {
     // Used by autoclicker
     clickCurrentTarget(damage) {
         this.targets[this.currentTargetIndex].updateProgress(damage);
-    }
-
-    // Need to clear data before changing scenes
-    clearAutoClickers() {
-        for (let i = 0; i < this.autoClickers.length; i++) {
-            this.autoClickers[i].release();
-        }
-        this.autoClickers = [];
-        this.targets = [];
     }
 
     enemyKilled(name) {
@@ -228,17 +185,6 @@ export class LevelScene extends Phaser.Scene {
         // Update text
         this.dashboard.updateKillQuestText();
         this.stats.updateEnemiesKilledStat();
-    }
-
-    showAutoClickerButton(isVisible) {
-        this.autoClickerButton.visible = isVisible;
-    }
-
-    createAutoClicker() {
-        let autoClicker = new HiredBowman(this);
-        this.autoClickers.push(autoClicker);
-        this.stats.updateAutoClickerDPS(autoClicker.dps);
-        this.characterData.numberOfAutoClickers++;
     }
 
     clickAnimation() {

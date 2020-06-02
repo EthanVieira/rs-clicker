@@ -1,4 +1,6 @@
 import { Item } from "./item.js";
+import { OBJECT_TYPES } from "../constants/constants.js";
+import { calcLevel } from "../utilities.js";
 
 export default class Equipment extends Item {
     // Attack bonuses
@@ -27,7 +29,7 @@ export default class Equipment extends Item {
     style = "";
     skill = "";
     stackable = false;
-    objectType = "EQUIPMENT";
+    objectType = OBJECT_TYPES.EQUIPMENT;
 
     constructor() {
         super();
@@ -45,18 +47,22 @@ export default class Equipment extends Item {
 
     equip() {
         if (!this.equipped) {
-            console.log("Equipping", this.name);
+            if (this.checkRequiredLevel()) {
+                console.log("Equipping", this.name);
 
-            // Remove from inventory if it was there
-            if (this.index >= 0) {
-                this.scene.characterData.inventory[this.index] = {};
-                this.scene.inventory.obj.inventory[this.index] = {};
-                this.index = -1;
+                // Remove from inventory if it was there
+                if (this.index >= 0) {
+                    this.scene.characterData.inventory[this.index] = {};
+                    this.scene.inventory.obj.inventory[this.index] = {};
+                    this.index = -1;
+                }
+
+                this.actions[0] = { text: "Unequip", func: "unequip" };
+                this.equipped = true;
+                this.scene.equipment.obj.equipItem(this);
+            } else {
+                console.log("Not high enough level to equip that.");
             }
-
-            this.actions[0] = { text: "Unequip", func: "unequip" };
-            this.equipped = true;
-            this.scene.equipment.obj.equipItem(this);
         } else {
             console.log("Error, trying to equip when already equipped");
         }
@@ -68,9 +74,7 @@ export default class Equipment extends Item {
 
             let wasAdded = this.scene.inventory.obj.addToInventory(this, false);
             if (wasAdded) {
-                // Remove from equipment slot
-                this.scene.equipment.obj.equipment[this.slot] = {};
-                this.scene.characterData.equipment[this.slot] = {};
+                this.scene.equipment.obj.unequipItem(this.slot);
 
                 this.actions[0] = { text: "Equip", func: "equip" };
                 this.equipped = false;
@@ -84,5 +88,16 @@ export default class Equipment extends Item {
     use() {
         super.highlightItem();
         console.log("use", this.name);
+    }
+
+    // TODO: be able to have multiple different required levels for different skills
+    checkRequiredLevel() {
+        let skill = this.skill.toLowerCase();
+        let level = calcLevel(this.scene.characterData.skills[skill]);
+        if (level >= this.requiredLevel) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

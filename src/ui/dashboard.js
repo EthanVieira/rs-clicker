@@ -4,6 +4,7 @@ import { Equipment } from "./equipment.js";
 import { Clan } from "./clan.js";
 import { Skills } from "./skills.js";
 import { ScrollWindow } from "./scroll-window.js";
+import { Button } from "./button.js";
 import { calcLevel } from "../utilities.js";
 
 export class DashboardScene extends Phaser.Scene {
@@ -82,22 +83,6 @@ export class DashboardScene extends Phaser.Scene {
         // Disable right click popup
         this.input.mouse.disableContextMenu();
 
-        // Shop
-        this.add
-            .text(585, 475, "Shop")
-            .setAlpha(0.1)
-            .setInteractive()
-            .on("pointerdown", () => {
-                // Pass in the current level to know which level to return to upon exiting the shop.
-                this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
-                    this.characterData,
-                    this.characterData.currentLevel,
-                ]);
-
-                // TODO: Instead of starting a shop scene, just have a shop interface pop up w/o stopping game.
-                console.log("Going to Shop");
-            });
-
         // Inventory
         this.inventory.button = this.add
             .image(626, 168, "inventory-button")
@@ -108,11 +93,6 @@ export class DashboardScene extends Phaser.Scene {
             .on("pointerdown", () => {
                 this.hideAllMenus();
 
-                // If enemy-level, repopulate quest text
-                if (this.currentScene.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-                    this.currentScene.showAutoClickerButton(true);
-                }
-
                 this.inventory.obj.showInventory(true);
                 this.inventory.button.setAlpha(0.1);
             });
@@ -122,6 +102,23 @@ export class DashboardScene extends Phaser.Scene {
         }
         this.inventory.obj = new Inventory(this, this.characterData.inventory);
         this.inventory.obj.showInventory(true);
+
+        // Shop
+        let shopButton = new Button(this, 595, 466, 33, 35);
+        shopButton.on("pointerup", () => {
+            console.log("Going to Shop");
+            this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
+                this.characterData,
+                this.characterData.currentLevel,
+            ]);
+        });
+
+        // Logout
+        let logoutButton = new Button(this, 630, 466, 27, 35);
+        logoutButton.on("pointerup", () => {
+            console.log("Going to main menu");
+            this.currentScene.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
+        });
 
         // Skills
         this.skills.panel = this.add
@@ -292,15 +289,8 @@ export class DashboardScene extends Phaser.Scene {
             });
 
         // Add scrollable window for clan members
-        if (!Object.keys(this.clan.scrollWindow).length) {
-            this.clan.scrollWindow = new ScrollWindow("clans");
-            this.scene.add(
-                "scroll-window",
-                this.clan.scrollWindow,
-                true,
-                this.characterData
-            );
-        }
+        this.clan.scrollWindow = new ScrollWindow("clans");
+        this.scene.add("scroll-window", this.clan.scrollWindow, true, this.characterData);
 
         // Clear out and reinstatiate clan members
         if (Object.entries(this.clan.obj).length) {
@@ -311,7 +301,7 @@ export class DashboardScene extends Phaser.Scene {
 
         // Scene destructor
         this.events.on("shutdown", () => {
-            this.clan.scrollWindow.setVisible(false);
+            this.scene.remove(this.clan.scrollWindow.name);
         });
     }
 

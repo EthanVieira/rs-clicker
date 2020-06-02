@@ -1,6 +1,6 @@
 import { HealthBar } from "../ui/health-bar.js";
 import { Target } from "./target.js";
-import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
+import { OBJECT_TYPES, CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { calcLevel } from "../utilities.js";
 
 export class Enemy extends Target {
@@ -8,9 +8,10 @@ export class Enemy extends Target {
     redHitsplat;
     hitsplatText;
     killGold;
-    objectType = "ENEMY";
+    objectType = OBJECT_TYPES.ENEMY;
 
     // Target stats
+    maxHealth = 0;
     attack = 1;
     strength = 1;
     defense = 1;
@@ -31,6 +32,11 @@ export class Enemy extends Target {
     crushDefense = 0;
     magicDefense = 0;
     rangedDefense = 0;
+
+    actions = [
+        { text: "Attack", func: "clickTarget" },
+        { text: "Examine", func: "examine" },
+    ];
 
     constructor(data) {
         super(data);
@@ -85,6 +91,7 @@ export class Enemy extends Target {
 
         // Add health bar
         this.progressBar = new HealthBar(data.scene, barX, barY, data.maxHealth);
+        this.maxHealth = data.maxHealth;
 
         // Enemy specific vars
         this.killGold = data.killGold;

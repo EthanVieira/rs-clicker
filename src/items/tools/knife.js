@@ -1,6 +1,6 @@
 import Tool from "../tool.js";
 import { CONSTANTS } from "../../constants/constants.js";
-import { getItemClass } from "../item.js";
+import { getItemClass } from "../get-item-class.js";
 
 export default class Knife extends Tool {
     // Text data

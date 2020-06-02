@@ -1,13 +1,7 @@
-import { itemManifest } from "./item-manifest.js";
 import { ClickableObject } from "../clickable-object.js";
-import { CONSTANTS } from "../constants/constants.js";
-
-export async function getItemClass(className, scene) {
-    let path = itemManifest[className].classPath;
-    let itemClass = await import(path);
-
-    return new itemClass.default(scene);
-}
+import { OBJECT_TYPES, CONSTANTS } from "../constants/constants.js";
+import { itemManifest } from "./item-manifest.js";
+import { getItemClass } from "./get-item-class.js";
 
 export class Item extends ClickableObject {
     // Text data
@@ -15,7 +9,7 @@ export class Item extends ClickableObject {
     item = "";
     type = "";
     examineText = "";
-    objectType = "ITEM";
+    objectType = OBJECT_TYPES.ITEM;
 
     // Inventory location
     index = -1;
@@ -85,6 +79,11 @@ export class Item extends ClickableObject {
             .setOrigin(0, 0)
             .on("pointerover", () => {
                 this.examine(true);
+            })
+            .on("pointerout", () => {
+                if (this.chat != undefined) {
+                    this.chat.showObjectInfo(false);
+                }
             })
             .on("pointerdown", (pointer) => {
                 this.createRightClickMenu(

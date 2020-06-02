@@ -203,7 +203,7 @@ export class Skills {
                 for (let curSkill in this.saveData) {
                     sum += this.saveData[curSkill];
                 }
-                this.hoverXpText.text = "Total XP: " + string(sum);
+                this.hoverXpText.text = "Total XP: " + sum.toLocaleString();
             }
 
             // Set window
