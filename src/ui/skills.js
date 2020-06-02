@@ -197,7 +197,13 @@ export class Skills {
                     "Total XP: " + this.saveData[skill].toLocaleString();
             } else {
                 this.hoverNameText.text = "Total Level";
-                this.hoverXpText.text = "";
+
+                // Get cumulative XP
+                let sum = 0;
+                for (let curSkill in this.saveData) {
+                    sum += this.saveData[curSkill];
+                }
+                this.hoverXpText.text = "Total XP: " + string(sum);
             }
 
             // Set window
