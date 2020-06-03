@@ -95,17 +95,17 @@ export class Skills {
             .setDepth(2)
             .setVisible(false);
         this.skillInfo.header = this.scene.add
-            .text(225, 100, "Fletching", { font: "28px runescape", fill: "black" })
-            .setOrigin(0)
+            .text(250, 110, "Fletching", { font: "28px runescape", fill: "black" })
+            .setOrigin(0.5)
             .setDepth(3)
             .setVisible(false);
         this.skillInfo.description = this.scene.add
-            .text(110, 170, "", { font: "20px runescape", fill: "black" })
-            .setOrigin(0)
+            .text(240, 180, "", { font: "20px runescape", fill: "black" })
+            .setOrigin(0.5)
             .setDepth(3)
             .setVisible(false);
         this.skillInfo.body = this.scene.add
-            .text(130, 230, "", { font: "18px runescape", fill: "black" })
+            .text(150, 230, "", { font: "18px runescape", fill: "black" })
             .setOrigin(0)
             .setDepth(3)
             .setVisible(false);
