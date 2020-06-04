@@ -235,6 +235,16 @@ export class Skills {
             const { skill, index, row, column } = this.findSkill(x, y);
 
             if (skill != 0 && skill != undefined) {
+                // Close the window if the same skill is clicked twice
+                if (
+                    this.skillInfo.header.text ==
+                        skill[0].toUpperCase() + skill.substring(1) &&
+                    this.skillInfo.header.visible
+                ) {
+                    this.showSkillInfo(false);
+                    return;
+                }
+
                 this.skillInfo.header.text = skill[0].toUpperCase() + skill.substring(1);
                 const { description, body } = getSkillDescription(skill);
                 this.skillInfo.description.text = description;
