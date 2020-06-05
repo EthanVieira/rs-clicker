@@ -49,6 +49,12 @@ export var itemManifest = {
         imageName: "bronze-sword",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    CopperOre: {
+        classPath: "./ore/copper-ore.js",
+        imagePath: "resources/CopperOre.png",
+        imageName: "copper-ore",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
     Knife: {
         classPath: "./tools/knife.js",
         imagePath: "tools/Knife.png",
@@ -77,6 +83,7 @@ export var itemManifest = {
         classPath: "./logs/normal-logs.js",
         imagePath: "resources/Logs.png",
         imageName: "logs",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     NormalBones: {
         classPath: "./bones/normal-bones.js",
@@ -130,5 +137,11 @@ export var itemManifest = {
         imagePath: "weapons/SteelSword.png",
         imageName: "steel-sword",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    TinOre: {
+        classPath: "./ore/tin-ore.js",
+        imagePath: "resources/TinOre.png",
+        imageName: "tin-ore",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
 };

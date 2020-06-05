@@ -3,7 +3,7 @@ export const defaultData = {
     name: "You",
     gold: 0,
     characterClass: "",
-    currentLevel: "TUTORIAL_ISLAND",
+    currentLevel: "VARROCK_MINE",
     totalEnemiesKilled: 0,
     timesClicked: 0,
     damageByClicking: 0,
@@ -71,6 +71,13 @@ export const defaultData = {
         questCompleted: false,
         enemiesKilled: {
             tree: 0,
+        },
+    },
+    VARROCK_MINE: {
+        questCompleted: false,
+        enemiesKilled: {
+            copperRock: 0,
+            tinRock: 0,
         },
     },
     VARROCK: {

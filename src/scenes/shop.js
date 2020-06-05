@@ -39,6 +39,7 @@ export class ShopScene extends Phaser.Scene {
     }
 
     create() {
+        console.log("shop create");
         // Add background
         this.background = this.add
             .image(0, 0, "shop-interface")
