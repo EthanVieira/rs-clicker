@@ -1,5 +1,5 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { calcLevel } from "../utilities.js";
+import { calcLevel, calcRemainingXp } from "../utilities.js";
 import { getSkillDescription } from "./skill-descriptions.js";
 
 export class Skills {
@@ -13,6 +13,7 @@ export class Skills {
     hoverNameText;
     hoverLevelText;
     hoverXpText;
+    hoverRemainingXpText;
 
     skillInfo = {
         bg: {},
@@ -58,7 +59,10 @@ export class Skills {
             .text(0, 0, "", FONTS.SKILL_HOVER)
             .setDepth(3);
         this.hoverXpText = this.scene.add.text(0, 0, "", FONTS.SKILL_HOVER).setDepth(3);
-        this.hoverWindow = new Phaser.Geom.Rectangle(0, 0, 78, 38);
+        this.hoverRemainingXpText = this.scene.add
+            .text(0, 0, "", FONTS.SKILL_HOVER)
+            .setDepth(3);
+        this.hoverWindow = new Phaser.Geom.Rectangle(0, 0, 78, 50);
         this.hoverGraphics = this.scene.add.graphics({
             lineStyle: { width: 1, color: 0x000000 },
             fillStyle: { color: 0xffffa0 },
@@ -137,6 +141,7 @@ export class Skills {
         this.hoverGraphics.visible = false;
         this.hoverXpText.visible = false;
         this.hoverLevelText.visible = false;
+        this.hoverRemainingXpText.visible = false;
     }
 
     updateSkillsText() {
@@ -195,6 +200,9 @@ export class Skills {
                 this.hoverNameText.text = skill[0].toUpperCase() + skill.substring(1);
                 this.hoverXpText.text =
                     "Total XP: " + this.saveData[skill].toLocaleString();
+                let remainingXp = calcRemainingXp(this.saveData[skill]);
+                this.hoverRemainingXpText.text =
+                    "Remaining: " + remainingXp.toLocaleString();
             } else {
                 this.hoverNameText.text = "Total Level";
 
@@ -204,29 +212,34 @@ export class Skills {
                     sum += this.saveData[curSkill];
                 }
                 this.hoverXpText.text = "Total XP: " + sum.toLocaleString();
+                this.hoverRemainingXpText.text = "";
             }
 
             // Set window
+            this.hoverWindow.x = x;
+            this.hoverWindow.y = y;
             this.hoverGraphics.clear();
             this.hoverGraphics.fillRectShape(this.hoverWindow);
             this.hoverGraphics.strokeRectShape(this.hoverWindow);
             this.hoverGraphics.setDepth(3);
-            this.hoverWindow.x = x;
-            this.hoverWindow.y = y;
-            this.hoverGraphics.visible = true;
 
             // Set text
             this.hoverNameText.x = x + 5;
             this.hoverNameText.y = y + 5;
-            this.hoverNameText.visible = true;
-
             this.hoverXpText.x = x + 5;
             this.hoverXpText.y = y + 20;
+            this.hoverRemainingXpText.x = x + 5;
+            this.hoverRemainingXpText.y = y + 33;
+
+            this.hoverNameText.visible = true;
+            this.hoverGraphics.visible = true;
             this.hoverXpText.visible = true;
+            this.hoverRemainingXpText.visible = true;
         } else {
             this.hoverGraphics.visible = false;
             this.hoverNameText.visible = false;
             this.hoverXpText.visible = false;
+            this.hoverRemainingXpText.visible = false;
         }
     }
 
