@@ -78,6 +78,9 @@ export class Inventory {
                 // Update it in the cookies
                 this.playerItems[index].count += item.numItems;
 
+                // Delete old item
+                item.destroy();
+
                 return true;
             }
         }
