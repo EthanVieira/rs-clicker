@@ -104,6 +104,10 @@ export const MAP = {
         X: 2820,
         Y: 3075,
     },
+    VARROCK_MINE: {
+        X: 3250,
+        Y: 2450,
+    },
     VARROCK: {
         X: 2980,
         Y: 2210,
