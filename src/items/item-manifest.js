@@ -37,6 +37,12 @@ export var itemManifest = {
         imageName: "bronze-knife",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    BronzePickaxe: {
+        classPath: "./equipment/bronze-pickaxe.js",
+        imagePath: "weapons/BronzePickaxe.png",
+        imageName: "bronze-pickaxe",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
+    },
     BronzeScimitar: {
         classPath: "./equipment/bronze-scimitar.js",
         imagePath: "weapons/BronzeScimitar.png",
@@ -125,6 +131,12 @@ export var itemManifest = {
         imagePath: "weapons/SteelKnife.png",
         imageName: "steel-knife",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    SteelPickaxe: {
+        classPath: "./equipment/steel-pickaxe.js",
+        imagePath: "weapons/SteelPickaxe.png",
+        imageName: "steel-pickaxe",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
     },
     SteelScimitar: {
         classPath: "./equipment/steel-scimitar.js",

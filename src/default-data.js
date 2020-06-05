@@ -14,6 +14,7 @@ export const defaultData = {
         { item: "NormalShortbow", count: 1 },
         { item: "NormalStaff", count: 1 },
         { item: "BronzeAxe", count: 1 },
+        { item: "BronzePickaxe", count: 1 },
         { item: "Knife", count: 1 },
     ],
     equipment: {
