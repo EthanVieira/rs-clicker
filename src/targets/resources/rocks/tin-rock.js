@@ -14,6 +14,7 @@ export class TinRock extends Rock {
             ],
             neededClicks: 5,
             drops: [{ item: TinOre, rate: 1 }],
+            offsetY: 150,
         });
     }
 }

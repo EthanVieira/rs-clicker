@@ -9,7 +9,7 @@ export class VarrockMineScene extends LevelScene {
             key: CONSTANTS.SCENES.VARROCK_MINE,
             background: {
                 name: "varrock",
-                path: "src/assets/backgrounds/VarrockBackground.png",
+                path: "src/assets/backgrounds/VarrockMineBackground.png",
             },
             minimap: {
                 name: "varrock_map",

@@ -18,6 +18,7 @@ export class CopperRock extends Rock {
             ],
             neededClicks: 5,
             drops: [{ item: CopperOre, rate: 1 }],
+            offsetY: 150,
         });
     }
 }
