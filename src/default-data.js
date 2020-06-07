@@ -3,7 +3,7 @@ export const defaultData = {
     name: "You",
     gold: 0,
     characterClass: "",
-    currentLevel: "VARROCK_MINE",
+    currentLevel: "TUTORIAL_ISLAND",
     totalEnemiesKilled: 0,
     timesClicked: 0,
     damageByClicking: 0,
