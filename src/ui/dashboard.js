@@ -34,6 +34,7 @@ export class DashboardScene extends Phaser.Scene {
         audioPageButton: {},
         sliders: [],
         audioButtons: [],
+        scene: {},
     };
 
     quests = {
@@ -86,7 +87,7 @@ export class DashboardScene extends Phaser.Scene {
 
     create() {
         // Get audio scene
-        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        this.audio.scene = this.scene.get(CONSTANTS.SCENES.AUDIO);
 
         // Get current scene
         this.currentScene = this.scene.get(this.characterData.currentLevel);
@@ -279,7 +280,6 @@ export class DashboardScene extends Phaser.Scene {
                     .setAlpha(0.1)
                     .on("pointerdown", () => {
                         this.changeAudioButton(volumeType, buttonNum);
-                        audioScene.changeVolume(volumeType, buttonNum);
                     });
 
                 audioButtonRow.push(audioButton);
@@ -471,10 +471,13 @@ export class DashboardScene extends Phaser.Scene {
     }
 
     // Hide old button and show new one
-    changeAudioButton(volumeType, newButton) {
-        let previousVolume = this.characterData.audio[volumeType];
-        this.audio.audioButtons[volumeType][previousVolume].setAlpha(0.1);
-        this.audio.audioButtons[volumeType][newButton].setAlpha(1);
+    changeAudioButton(volumeType, buttonNum) {
+        for (let button in this.audio.audioButtons[volumeType]) {
+            this.audio.audioButtons[volumeType][button].setAlpha(0.1);
+        }
+        this.audio.audioButtons[volumeType][buttonNum].setAlpha(1);
+
+        this.audio.scene.changeVolume(volumeType, buttonNum);
     }
 
     hideAllMenus() {
