@@ -35,7 +35,7 @@ export class AutoClicker {
         this.level = data.level;
         this.name = data.name;
 
-        // Damage every .5 seconds
+        // Damage every .1 seconds
         this.damageInterval = 100;
         this.timer = this.scrollWindow.time.addEvent({
             delay: this.damageInterval,

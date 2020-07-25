@@ -94,10 +94,6 @@ export default class Equipment extends Item {
     checkRequiredLevel() {
         let skill = this.skill.toLowerCase();
         let level = calcLevel(this.scene.characterData.skills[skill]);
-        if (level >= this.requiredLevel) {
-            return true;
-        } else {
-            return false;
-        }
+        return (level >= this.requiredLevel);
     }
 }

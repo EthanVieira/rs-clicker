@@ -99,9 +99,6 @@ export class Clan {
             this.scene.currentPanel = CONSTANTS.PANEL.CLAN;
         }
         this.scrollWindow.setVisible(isVisible);
-        // this.clanMembers.forEach((member) => {
-        //     member.setVisible(isVisible);
-        // });
         this.playerNameText.visible = isVisible;
         this.clanNameText.visible = isVisible;
     }
