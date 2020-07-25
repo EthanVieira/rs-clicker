@@ -13,10 +13,10 @@ export class VarrockMineScene extends LevelScene {
             },
             minimap: {
                 name: "varrock_map",
-                path: "src/assets/maps/VarrockMap.png",
+                path: "src/assets/maps/VarrockMineMap.png",
             },
             targets: [TinRock, CopperRock],
-            audio: { bgm: "expanse" },
+            audio: { bgm: "still-night" },
         });
     }
 }
