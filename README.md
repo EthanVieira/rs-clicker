@@ -4,7 +4,7 @@
 
 ## Play online
 
-#### [>Click here to play<](https://ethanvieira.github.io/rs-clicker/)
+#### [>Click here to play<](https://curtisgreen.github.io/rs-clicker/)
 
 ![alt text](/src/assets/screenshots/Login.png "Login Screen")
 ![alt text](/src/assets/screenshots/TutorialIsland.png "Tutorial Island")
