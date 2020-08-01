@@ -1,6 +1,6 @@
 import { Item } from "./item.js";
 import { OBJECT_TYPES } from "../constants/constants.js";
-import { calcLevel } from "../utilities.js";
+import { calcLevel, getItemClass } from "../utilities.js";
 
 export default class Equipment extends Item {
     // Attack bonuses
@@ -28,7 +28,6 @@ export default class Equipment extends Item {
     equipped = false;
     style = "";
     skill = "";
-    stackable = false;
     objectType = OBJECT_TYPES.EQUIPMENT;
 
     constructor() {
@@ -45,21 +44,32 @@ export default class Equipment extends Item {
         }
     }
 
-    equip() {
+    async equip() {
         if (!this.equipped) {
             if (this.checkRequiredLevel()) {
                 console.log("Equipping", this.name);
 
-                // Remove from inventory if it was there
-                if (this.index >= 0) {
-                    this.scene.characterData.inventory[this.index] = {};
-                    this.scene.inventory.obj.inventory[this.index] = {};
-                    this.index = -1;
+                // Move item into equipment
+                let equippedItem = {};
+                if (this.numItems == 1) {
+                    // Remove from inventory if it was there
+                    if (this.index >= 0) {
+                        this.scene.characterData.inventory[this.index] = {};
+                        this.scene.inventory.obj.inventory[this.index] = {};
+                        this.index = -1;
+                    }
+                    equippedItem = this;
+                }
+                // Reduce count and copy to equipment
+                else {
+                    this.setNumItems(this.numItems - 1);
+                    equippedItem = await getItemClass(this.constructor.name, this.scene);
+                    equippedItem.createSprite(0, 0);
                 }
 
-                this.actions[0] = { text: "Unequip", func: "unequip" };
-                this.equipped = true;
-                this.scene.equipment.obj.equipItem(this);
+                equippedItem.equipped = true;
+                equippedItem.actions[0] = { text: "Unequip", func: "unequip" };
+                equippedItem.scene.equipment.obj.equipItem(equippedItem);
             } else {
                 console.log("Not high enough level to equip that.");
             }

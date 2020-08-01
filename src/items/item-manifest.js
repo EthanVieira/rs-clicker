@@ -49,6 +49,12 @@ export var itemManifest = {
         imageName: "bronze-sword",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    Knife: {
+        classPath: "./tools/knife.js",
+        imagePath: "tools/Knife.png",
+        imageName: "knife",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
+    },
     MagicStaff: {
         classPath: "./equipment/magic-staff.js",
         imagePath: "weapons/MagicStaff.png",

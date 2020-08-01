@@ -32,9 +32,9 @@ export class Equipment {
     async refreshEquipment() {
         for (let i in this.playerEquipment) {
             if (Object.keys(this.playerEquipment[i]).length) {
+                console.log(this.playerEquipment[i]);
                 let newEquipment = await getItemClass(
-                    this.playerEquipment[i].item,
-                    this.playerEquipment[i].type,
+                    this.playerEquipment[i],
                     this.scene
                 );
                 newEquipment.createSprite(0, 0);
@@ -52,10 +52,7 @@ export class Equipment {
         }
 
         // Add to saved data
-        this.playerEquipment[item.slot] = {
-            item: item.item,
-            type: item.type,
-        };
+        this.playerEquipment[item.slot] = item.constructor.name;
 
         // Put into the right position
         switch (item.slot) {

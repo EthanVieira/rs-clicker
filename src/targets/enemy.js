@@ -300,6 +300,6 @@ export class Enemy extends Target {
             this.characterData.skills.attack += xpIncrease;
         }
 
-        this.scene.dashboard.updateSkillsText();
+        this.scene.dashboard.skills.obj.updateSkillsText();
     }
 }
