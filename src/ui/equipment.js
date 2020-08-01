@@ -1,5 +1,5 @@
 import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
-import { getItemClass } from "../items/item.js";
+import { getItemClass } from "../utilities.js";
 
 export class Equipment {
     scene;
@@ -11,10 +11,18 @@ export class Equipment {
     equipment = {
         WEAPON: {},
     };
+    slotBg = {
+        WEAPON: {},
+    };
 
     constructor(scene, equipment) {
         this.scene = scene;
         this.playerEquipment = equipment;
+
+        this.slotBg.WEAPON = scene.add
+            .image(587, 304, "equipment-background")
+            .setDepth(2)
+            .setVisible(false);
 
         // Update and show equipment on startup
         this.refreshEquipment();
@@ -63,9 +71,16 @@ export class Equipment {
         // Hide if equipment is not selected
         let showItem = this.scene.currentPanel == CONSTANTS.PANEL.EQUIPMENT;
         item.setVisible(showItem);
+        this.slotBg[item.slot].visible = showItem;
 
         // Add object to the scene
         this.equipment[item.slot] = item;
+    }
+
+    unequipItem(slot) {
+        this.slotBg[slot].visible = false;
+        this.equipment[slot] = {};
+        this.playerEquipment[slot] = {};
     }
 
     showEquipment(isVisible) {
@@ -75,6 +90,9 @@ export class Equipment {
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
             if (Object.keys(itemObj).length) {
                 itemObj.setVisible(isVisible);
+                this.slotBg[item].setVisible(isVisible);
+            } else {
+                this.slotBg[item].setVisible(false);
             }
         });
     }

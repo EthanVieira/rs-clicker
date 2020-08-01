@@ -1,5 +1,6 @@
 import { defaultData } from "./default-data.js";
 import { CONSTANTS } from "./constants/constants.js";
+import { itemManifest } from "./items/item-manifest.js";
 
 export function getDefaultData() {
     // Reset data (deep copy)
@@ -26,4 +27,15 @@ export function storeCookies(characterData) {
     // Turn characterData into a json string and store it in a cookie
     let jsonString = JSON.stringify(characterData);
     document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
+}
+
+var itemClasses = {};
+export async function getItemClass(itemName, type, scene) {
+    let itemClass = itemClasses[type + itemName];
+
+    return new itemClass.default(scene);
+}
+
+export async function setItemClass(key, value) {
+    itemClasses[key] = value;
 }

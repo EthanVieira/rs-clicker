@@ -2,9 +2,16 @@ import { CONSTANTS } from "../constants/constants.js";
 import { getDefaultData } from "../utilities.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
+import { setItemClass } from "../utilities.js";
 
 export class LoadScene extends Phaser.Scene {
     characterData = {};
+
+    // Loading bar info
+    fullyLoaded = false;
+    numItemsLoaded = 0;
+    totalItems = 0;
+    percentImagesLoaded = 0.0;
 
     constructor() {
         super({
@@ -25,14 +32,18 @@ export class LoadScene extends Phaser.Scene {
     preload() {
         this.add.image(750, 600, "lesser-demon");
 
-        var progressBar = this.add.graphics();
-        var progressBox = this.add.graphics();
-        progressBox.fillStyle("#ED1C24", 0.2);
-        progressBox.fillRect(240, 270, 320, 50);
+        // Load item classes
+        this.totalItems = Object.keys(itemManifest).length;
+        this.loadItems(this.loadData);
+
+        this.progressBar = this.add.graphics();
+        this.progressBox = this.add.graphics();
+        this.progressBox.fillStyle("#ED1C24", 0.2);
+        this.progressBox.fillRect(240, 270, 320, 50);
 
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
-        var loadingText = this.make.text({
+        this.loadingText = this.make.text({
             x: Math.floor(width / 2),
             y: Math.floor(height / 2) - 50,
             text: "RS Clicker is loading - Please Wait...",
@@ -41,9 +52,9 @@ export class LoadScene extends Phaser.Scene {
                 fill: "#ffffff",
             },
         });
-        loadingText.setOrigin(0.5, 0.5);
+        this.loadingText.setOrigin(0.5, 0.5);
 
-        var percentText = this.make.text({
+        this.percentText = this.make.text({
             x: Math.floor(width / 2),
             y: Math.floor(height / 2) - 5,
             text: "0%",
@@ -52,10 +63,10 @@ export class LoadScene extends Phaser.Scene {
                 fill: "#ffffff",
             },
         });
-        percentText.setOrigin(0.5, 0.5);
+        this.percentText.setOrigin(0.5, 0.5);
 
         // Display asset text on loading bar
-        var assetText = this.make.text({
+        this.assetText = this.make.text({
             x: Math.floor(width / 2),
             y: Math.floor(height / 2) + 42,
             text: "Loading asset",
@@ -64,27 +75,16 @@ export class LoadScene extends Phaser.Scene {
                 fill: "#ffffff",
             },
         });
-        assetText.setOrigin(0.5, 0.5);
+        this.assetText.setOrigin(0.5, 0.5);
 
+        let _this = this;
         this.load.on("fileprogress", function (file) {
-            assetText.text = "Loading asset: " + file.key;
+            _this.assetText.text = "Loading asset: " + file.key;
         });
 
         this.load.on("progress", function (value, file) {
-            percentText.setText(
-                "Loading good ol rs stuff " + parseInt(value * 100) + "%"
-            );
-            progressBar.clear();
-            progressBar.fillStyle(0xed1c24, 1);
-            progressBar.fillRect(250, 280, 300 * value, 30);
-        });
-
-        this.load.on("complete", function () {
-            progressBar.destroy();
-            progressBox.destroy();
-            loadingText.destroy();
-            percentText.destroy();
-            assetText.destroy();
+            _this.percentImagesLoaded = value;
+            _this.updateProgress();
         });
 
         // Effects
@@ -121,6 +121,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
         this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
         this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
+        this.load.image("equipment-background", "src/assets/ui/EquipmentBackground.png");
         this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
         this.load.image("clan-panel", "src/assets/ui/ClanPanel.png");
         this.load.image("clan-button", "src/assets/ui/buttons/ClanButton.png");
@@ -161,19 +162,6 @@ export class LoadScene extends Phaser.Scene {
         this.scene.launch(CONSTANTS.SCENES.AUDIO, this.characterData);
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
         audioScene.playBgm("scape-main");
-
-        this.add.text(250, 300, "Welcome to RS Clicker!", { font: "24px runescape" });
-        this.add.text(250, 340, "Click the lesser demon to continue.", {
-            font: "18px runescape",
-        });
-
-        let lesserDemonSprite = this.add.image(750, 600, "lesser-demon");
-        lesserDemonSprite.setInteractive();
-
-        // Start main menu scene on demon click
-        lesserDemonSprite.on("pointerup", () => {
-            this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
-        });
     }
 
     getCookies() {
@@ -191,5 +179,45 @@ export class LoadScene extends Phaser.Scene {
                 }
             }
         }
+    }
+
+    updateProgress() {
+        let itemLoadPercent = this.numItemsLoaded / this.totalItems;
+        let totalLoadPercent = this.percentImagesLoaded / 2 + itemLoadPercent / 2;
+        this.percentText.setText(
+            "Loading good ol rs stuff " + parseInt(totalLoadPercent * 100) + "%"
+        );
+        this.progressBar.clear();
+        this.progressBar.fillStyle(0xed1c24, 1);
+        this.progressBar.fillRect(250, 280, 300 * totalLoadPercent, 30);
+    }
+
+    // Load item classes
+    async loadItems() {
+        for (let i in itemManifest) {
+            setItemClass(i, await import("../items/" + itemManifest[i].classPath));
+            this.numItemsLoaded++;
+            this.assetText.text = "Loading asset: " + i;
+            this.updateProgress();
+        }
+
+        // Remove loading stuff and create start screen
+        this.progressBar.destroy();
+        this.progressBox.destroy();
+        this.loadingText.destroy();
+        this.percentText.destroy();
+        this.assetText.destroy();
+
+        this.add.text(250, 300, "Welcome to RS Clicker!", { font: "24px runescape" });
+        this.add.text(250, 340, "Click the lesser demon to continue.", {
+            font: "18px runescape",
+        });
+
+        let lesserDemonSprite = this.add
+            .image(750, 600, "lesser-demon")
+            .setInteractive()
+            .on("pointerup", () => {
+                this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
+            });
     }
 }
