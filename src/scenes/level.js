@@ -219,7 +219,7 @@ export class LevelScene extends Phaser.Scene {
                             break;
                     }
 
-                    if (curWeapon.item == "Axe") {
+                    if (curWeapon.item == "Axe" || curWeapon.item == "Pickaxe") {
                         flipX = true;
                         startX = 450;
                         startY = 200;

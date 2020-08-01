@@ -12,6 +12,7 @@ export const CONSTANTS = {
         TUTORIAL_ISLAND: "TUTORIAL_ISLAND",
         LUMBRIDGE: "LUMBRIDGE",
         LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
+        VARROCK_MINE: "VARROCK_MINE",
         VARROCK: "VARROCK",
         BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE",
     },
@@ -29,6 +30,7 @@ export const CONSTANTS = {
         WEAPON: "WEAPON",
         TOOL: "TOOL",
         CONSUMABLE: "CONSUMABLE",
+        RESOURCE: "RESOURCE",
     },
     LEVEL_TYPE: {
         ENEMY: "ENEMY",
@@ -101,6 +103,10 @@ export const MAP = {
     LUMBRIDGE_TREES: {
         X: 2820,
         Y: 3075,
+    },
+    VARROCK_MINE: {
+        X: 3250,
+        Y: 2450,
     },
     VARROCK: {
         X: 2980,

@@ -37,6 +37,12 @@ export var itemManifest = {
         imageName: "bronze-knife",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    BronzePickaxe: {
+        classPath: "./equipment/bronze-pickaxe.js",
+        imagePath: "weapons/BronzePickaxe.png",
+        imageName: "bronze-pickaxe",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
+    },
     BronzeScimitar: {
         classPath: "./equipment/bronze-scimitar.js",
         imagePath: "weapons/BronzeScimitar.png",
@@ -48,6 +54,12 @@ export var itemManifest = {
         imagePath: "weapons/BronzeSword.png",
         imageName: "bronze-sword",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    CopperOre: {
+        classPath: "./ore/copper-ore.js",
+        imagePath: "resources/CopperOre.png",
+        imageName: "copper-ore",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     Knife: {
         classPath: "./tools/knife.js",
@@ -77,6 +89,7 @@ export var itemManifest = {
         classPath: "./logs/normal-logs.js",
         imagePath: "resources/Logs.png",
         imageName: "logs",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     NormalBones: {
         classPath: "./bones/normal-bones.js",
@@ -119,6 +132,12 @@ export var itemManifest = {
         imageName: "steel-knife",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    SteelPickaxe: {
+        classPath: "./equipment/steel-pickaxe.js",
+        imagePath: "weapons/SteelPickaxe.png",
+        imageName: "steel-pickaxe",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
+    },
     SteelScimitar: {
         classPath: "./equipment/steel-scimitar.js",
         imagePath: "weapons/SteelScimitar.png",
@@ -130,5 +149,11 @@ export var itemManifest = {
         imagePath: "weapons/SteelSword.png",
         imageName: "steel-sword",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    TinOre: {
+        classPath: "./ore/tin-ore.js",
+        imagePath: "resources/TinOre.png",
+        imageName: "tin-ore",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
 };

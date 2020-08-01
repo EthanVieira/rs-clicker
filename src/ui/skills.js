@@ -274,7 +274,17 @@ export class Skills {
         if (this.statsScene == undefined) {
             this.statsScene = this.scene.scene.get(CONSTANTS.SCENES.STATS);
         }
-        this.statsScene.show(!isVisible);
+// <<<<<<< HEAD
+        if (isVisible) {
+            this.statsScene.show(false);
+        } else {
+            // Put correct stats per scene
+            this.statsScene.showStats();
+        }
+
+// =======
+//         this.statsScene.show(!isVisible);
+// >>>>>>> master
         for (let obj in this.skillInfo) {
             this.skillInfo[obj].visible = isVisible;
         }

@@ -38,6 +38,7 @@ export class ShopScene extends Phaser.Scene {
     }
 
     create() {
+        console.log("shop create");
         // Add background
         this.background = this.add
             .image(0, 0, "shop-interface")
@@ -213,9 +214,6 @@ export class ShopScene extends Phaser.Scene {
             scrollY = 100;
 
         if (itemType == "CLAN") {
-            // Get dashboard scene
-            let dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
-
             for (let clickerName in autoclickerManifest) {
                 let clicker = await getAutoclickerClass(clickerName, this.scrollWindow);
                 clicker.createText(true);
@@ -226,10 +224,7 @@ export class ShopScene extends Phaser.Scene {
             // Load all items in that category
             for (let item in itemManifest) {
                 if (itemManifest[item].type == itemType) {
-                    // Get item class
-                    let path = itemManifest[item].classPath;
-                    let itemClass = await import("../../src/items/" + path);
-                    let newItem = new itemClass.default(this.scrollWindow);
+                    let newItem = await getItemClass(item, this.scrollWindow);
 
                     // Create sprite
                     newItem.createShopSprite(scrollX, scrollY);

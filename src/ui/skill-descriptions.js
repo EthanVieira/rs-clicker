@@ -33,8 +33,8 @@ export function getSkillDescription(skill) {
             body += "Lv 5: Oak Shortbow (50 Oak Logs)\n";
             break;
         case "woodcutting":
-            description = "Chop down stronger trees, faster.\n";
-            description += "Use stronger axes.\n";
+            description += "Chop down stronger trees, faster.\n";
+            description += "Use stronger axes.";
             body += "Lv 1: Normal trees\n";
             body += "Lv 1: Equip bronze axes\n";
             body += "Lv 5: Oak trees\n";
