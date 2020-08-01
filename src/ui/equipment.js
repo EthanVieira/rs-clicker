@@ -11,7 +11,7 @@ export class Equipment {
     equipment = {
         WEAPON: {},
     };
-    bg = {
+    slotBg = {
         WEAPON: {},
     };
 
@@ -19,7 +19,7 @@ export class Equipment {
         this.scene = scene;
         this.playerEquipment = equipment;
 
-        this.bg.WEAPON = scene.add
+        this.slotBg.WEAPON = scene.add
             .image(587, 304, "equipment-background")
             .setDepth(2)
             .setVisible(false);
@@ -71,14 +71,14 @@ export class Equipment {
         // Hide if equipment is not selected
         let showItem = this.scene.currentPanel == CONSTANTS.PANEL.EQUIPMENT;
         item.setVisible(showItem);
-        this.bg[item.slot].visible = showItem;
+        this.slotBg[item.slot].visible = showItem;
 
         // Add object to the scene
         this.equipment[item.slot] = item;
     }
 
     unequipItem(slot) {
-        this.bg[slot].visible = false;
+        this.slotBg[slot].visible = false;
         this.equipment[slot] = {};
         this.playerEquipment[slot] = {};
     }
@@ -90,9 +90,9 @@ export class Equipment {
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
             if (Object.keys(itemObj).length) {
                 itemObj.setVisible(isVisible);
-                this.bg[item].setVisible(isVisible);
+                this.slotBg[item].setVisible(isVisible);
             } else {
-                this.bg[item].setVisible(false);
+                this.slotBg[item].setVisible(false);
             }
         });
     }
