@@ -1,4 +1,5 @@
 import { Item } from "./item.js";
+import { characterData } from "../cookie-io.js";
 
 export default class Bones extends Item {
     prayerXp = 0;
@@ -15,7 +16,7 @@ export default class Bones extends Item {
 
     bury() {
         console.log("bury", this.name, "xp added:", this.prayerXp);
-        this.scene.characterData.skills.prayer += this.prayerXp;
+        characterData.addSkillXp("prayer", this.prayerXp);
         this.scene.skills.obj.updateSkillsText();
 
         // Reduce stack or destroy object

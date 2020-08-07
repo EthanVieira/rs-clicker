@@ -2,6 +2,7 @@ import { HealthBar } from "../ui/health-bar.js";
 import { Target } from "./target.js";
 import { OBJECT_TYPES, CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { calcLevel } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 
 export class Enemy extends Target {
     blueHitsplat;
@@ -250,26 +251,22 @@ export class Enemy extends Target {
 
     getDamageLevel() {
         if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
+            const skill = this.equipment.obj.equipment.WEAPON.skill;
+            // Todo: organize so switch isn't needed
             switch (this.equipment.obj.equipment.WEAPON.skill) {
                 case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                    return calcLevel(this.characterData.skills.magic);
+                    return calcLevel(characterData.getSkillXp("magic"));
                     break;
                 case EQUIPMENT.WEAPON_TYPES.RANGED:
-                    return calcLevel(this.characterData.skills.ranged);
+                    return calcLevel(characterData.getSkillXp("ranged"));
                     break;
                 case EQUIPMENT.WEAPON_TYPES.MELEE:
-                    return calcLevel(this.characterData.skills.attack);
-                    break;
-                default:
-                    console.log(
-                        "Error, incorrect weapon type",
-                        this.equipment.obj.equipment.WEAPON
-                    );
+                    return calcLevel(characterData.getSkillXp("attack"));
                     break;
             }
         } else {
             // Unarmed
-            return calcLevel(this.characterData.skills.attack);
+            return calcLevel(characterData.getSkillXp("attack"));
         }
     }
 
@@ -278,26 +275,23 @@ export class Enemy extends Target {
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
         if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
+            const skill = this.equipment.obj.equipment.WEAPON.skill;
+
+            // Todo: organize so switch isn't needed
             switch (this.equipment.obj.equipment.WEAPON.skill) {
                 case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                    this.characterData.skills.magic += xpIncrease;
+                    characterData.addSkillXp("magic", xpIncrease);
                     break;
                 case EQUIPMENT.WEAPON_TYPES.RANGED:
-                    this.characterData.skills.ranged += xpIncrease;
+                    characterData.addSkillXp("ranged", xpIncrease);
                     break;
                 case EQUIPMENT.WEAPON_TYPES.MELEE:
-                    this.characterData.skills.attack += xpIncrease;
-                    break;
-                default:
-                    console.log(
-                        "Error, incorrect weapon type",
-                        this.equipment.obj.equipment.WEAPON
-                    );
+                    characterData.addSkillXp("attack", xpIncrease);
                     break;
             }
         } else {
             // Unarmed
-            this.characterData.skills.attack += xpIncrease;
+            characterData.addSkillXp("attack", xpIncrease);
         }
 
         this.scene.dashboard.skills.obj.updateSkillsText();

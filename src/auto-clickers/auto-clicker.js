@@ -1,5 +1,6 @@
 import { autoclickerManifest } from "./auto-clicker-manifest.js";
 import { CONSTANTS, OBJECT_TYPES } from "../constants/constants.js";
+import { characterData } from "../cookie-io.js";
 
 export async function getAutoclickerClass(className, scene) {
     let path = autoclickerManifest[className].classPath;
@@ -76,7 +77,7 @@ export class AutoClicker {
                 }
             })
             .on("pointerup", () => {
-                if (isShop && this.scrollWindow.characterData.gold >= this.cost) {
+                if (isShop && characterData.getGold() >= this.cost) {
                     this.buy();
                 }
             });
@@ -84,7 +85,7 @@ export class AutoClicker {
     }
 
     async buy() {
-        this.scrollWindow.characterData.gold -= this.cost;
+        characterData.addGold(-1 * this.cost);
         if (this.dashboard == undefined) {
             this.dashboard = this.scrollWindow.scene.get(CONSTANTS.SCENES.DASHBOARD);
         }

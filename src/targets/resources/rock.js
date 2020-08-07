@@ -13,10 +13,6 @@ export class Rock extends Resource {
 
     isClickable() {
         let curWeapon = this.scene.dashboard.equipment.obj.equipment.WEAPON;
-        if (curWeapon.item == "Pickaxe") {
-            return true;
-        } else {
-            return false;
-        }
+        return curWeapon.item == "Pickaxe";
     }
 }

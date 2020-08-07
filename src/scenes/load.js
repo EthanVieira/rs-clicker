@@ -1,12 +1,10 @@
 import { CONSTANTS } from "../constants/constants.js";
-import { getDefaultData } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
 import { setItemClass } from "../utilities.js";
 
 export class LoadScene extends Phaser.Scene {
-    characterData = {};
-
     // Loading bar info
     fullyLoaded = false;
     numItemsLoaded = 0;
@@ -153,35 +151,14 @@ export class LoadScene extends Phaser.Scene {
     }
 
     create() {
-        // Initialize save data
-        this.characterData = getDefaultData();
-
         // Check for previous play data
-        this.getCookies();
+        characterData.getCookies();
 
         // Launch audio scene in parallel
-        this.scene.launch(CONSTANTS.SCENES.AUDIO, this.characterData);
+        this.scene.launch(CONSTANTS.SCENES.AUDIO);
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
         audioScene.playBgm("scape-main");
     }
-
-    getCookies() {
-        // Pull out first cookie
-        let decodedCookies = decodeURIComponent(document.cookie).split(";");
-        if (decodedCookies[0] != "") {
-            for (let i = 0; i < decodedCookies.length; i++) {
-                // Split into (0)name|(1)value
-                let cookieCrumbs = decodedCookies[i].split("=");
-                if (
-                    cookieCrumbs[i] == "characterData" ||
-                    cookieCrumbs[i] == " characterData"
-                ) {
-                    this.characterData = JSON.parse(cookieCrumbs[1]);
-                }
-            }
-        }
-    }
-
     updateProgress() {
         let itemLoadPercent = this.numItemsLoaded / this.totalItems;
         let totalLoadPercent = this.percentImagesLoaded / 2 + itemLoadPercent / 2;
@@ -196,7 +173,6 @@ export class LoadScene extends Phaser.Scene {
     // Load item classes
     async loadItems() {
         for (let i in itemManifest) {
-            console.log(i);
             setItemClass(i, await import("../items/" + itemManifest[i].classPath));
             this.numItemsLoaded++;
             this.assetText.text = "Loading asset: " + i;
@@ -219,7 +195,7 @@ export class LoadScene extends Phaser.Scene {
             .image(750, 600, "lesser-demon")
             .setInteractive()
             .on("pointerup", () => {
-                this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
+                this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
             });
     }
 }

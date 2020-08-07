@@ -27,10 +27,6 @@ export class ChatScene extends Phaser.Scene {
         super({ key: CONSTANTS.SCENES.CHAT });
     }
 
-    init(characterData) {
-        this.characterData = characterData;
-    }
-
     preload() {
         this.load.image("chat-window", "src/assets/ui/ChatWindow.png");
         this.load.image("shop-chat-window", "src/assets/ui/ShopChatWindow.png");

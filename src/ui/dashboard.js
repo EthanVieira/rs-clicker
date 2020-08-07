@@ -6,6 +6,7 @@ import { Skills } from "./skills.js";
 import { ScrollWindow } from "./scroll-window.js";
 import { Button } from "./button.js";
 import { calcLevel } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -57,9 +58,6 @@ export class DashboardScene extends Phaser.Scene {
         scrollWindow: {},
     };
 
-    // Save data
-    characterData;
-
     // Hotbar
     prayerHotbarText;
 
@@ -70,16 +68,12 @@ export class DashboardScene extends Phaser.Scene {
         super({ key: CONSTANTS.SCENES.DASHBOARD });
     }
 
-    init(characterData) {
-        this.characterData = characterData;
-    }
-
     create() {
         // Get audio scene
         this.audio.scene = this.scene.get(CONSTANTS.SCENES.AUDIO);
 
         // Get current scene
-        this.currentScene = this.scene.get(this.characterData.currentLevel);
+        this.currentScene = this.scene.get(characterData.getCurrentLevel());
 
         // Disable right click popup
         this.input.mouse.disableContextMenu();
@@ -101,24 +95,21 @@ export class DashboardScene extends Phaser.Scene {
         if (Object.entries(this.inventory.obj).length) {
             this.inventory.obj.destroy();
         }
-        this.inventory.obj = new Inventory(this, this.characterData.inventory);
+        this.inventory.obj = new Inventory(this);
         this.inventory.obj.showInventory(true);
 
         // Shop
         let shopButton = new Button(this, 595, 466, 33, 35);
         shopButton.on("pointerup", () => {
             console.log("Going to Shop");
-            this.currentScene.scene.start(CONSTANTS.SCENES.SHOP, [
-                this.characterData,
-                this.characterData.currentLevel,
-            ]);
+            this.currentScene.scene.start(CONSTANTS.SCENES.SHOP);
         });
 
         // Logout
         let logoutButton = new Button(this, 630, 466, 27, 35);
         logoutButton.on("pointerup", () => {
             console.log("Going to main menu");
-            this.currentScene.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
+            this.currentScene.scene.start(CONSTANTS.SCENES.MAIN_MENU);
         });
 
         // Skills
@@ -134,7 +125,7 @@ export class DashboardScene extends Phaser.Scene {
         this.skills.button.on("pointerdown", () => {
             this.skills.obj.showSkills(true);
         });
-        this.skills.obj = new Skills(this, this.characterData.skills);
+        this.skills.obj = new Skills(this);
 
         // Set and hide skills page on startup
         this.skills.obj.updateSkillsText();
@@ -271,7 +262,7 @@ export class DashboardScene extends Phaser.Scene {
         if (Object.entries(this.equipment.obj).length) {
             this.equipment.obj.destroy();
         }
-        this.equipment.obj = new Equipment(this, this.characterData.equipment);
+        this.equipment.obj = new Equipment(this);
         this.showEquipment(false);
 
         // Clan chat
@@ -290,7 +281,7 @@ export class DashboardScene extends Phaser.Scene {
 
         // Add scrollable window for clan members
         this.clan.scrollWindow = new ScrollWindow("clans");
-        this.scene.add("scroll-window", this.clan.scrollWindow, true, this.characterData);
+        this.scene.add("scroll-window", this.clan.scrollWindow, true);
 
         // Clear out and reinstatiate clan members
         if (Object.entries(this.clan.obj).length) {
@@ -339,9 +330,9 @@ export class DashboardScene extends Phaser.Scene {
             this.audio.audioPageButton.setAlpha(1);
 
             // Show current volume buttons
-            this.characterData.audio.forEach((volume, volumeType) => {
-                this.audio.audioButtons[volumeType][volume].setAlpha(1);
-            });
+            for (let i = 0; i < 3; i++) {
+                this.audio.audioButtons[i][characterData.getVolume(i)].setAlpha(1);
+            }
         } else {
             this.audio.audioPageButton.setAlpha(0.1);
         }
@@ -408,14 +399,13 @@ export class DashboardScene extends Phaser.Scene {
 
     updateKillQuestText() {
         this.killQuestText.text = "";
+        let curLevel = characterData.getCurrentLevel();
         this.currentScene.targets.forEach((enemy, index) => {
             // Add text
             // TODO: Since there are currently no quests for tree levels those
             // will show up as undefined/undefined
             this.killQuestText.text +=
-                this.characterData[this.currentScene.currentLevel].enemiesKilled[
-                    enemy.varName
-                ] +
+                characterData.getEnemiesKilled(curLevel, enemy.varName) +
                 "/" +
                 this.currentScene.killQuest +
                 " " +
@@ -429,7 +419,7 @@ export class DashboardScene extends Phaser.Scene {
         });
 
         // Add quest complete text
-        if (this.characterData[this.currentScene.currentLevel].questCompleted) {
+        if (characterData.getQuestCompleted(curLevel)) {
             this.killQuestText.text += "\n\nQuest Complete!";
         }
     }

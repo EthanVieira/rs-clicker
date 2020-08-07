@@ -1,12 +1,10 @@
 import { defaultData } from "../default-data.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
+import { characterData } from "../cookie-io.js";
 
 export class StatsScene extends Phaser.Scene {
     // Target: enemy, tree, etc.
     levelType = "";
-
-    // Character
-    characterData;
 
     // Text
     goldText = "";
@@ -26,7 +24,6 @@ export class StatsScene extends Phaser.Scene {
     }
 
     init(data) {
-        this.characterData = data.characterData;
         this.levelType = data.levelType;
     }
 
@@ -68,20 +65,20 @@ export class StatsScene extends Phaser.Scene {
     }
 
     addGold(addedGold) {
-        this.characterData.gold += addedGold;
-        this.goldText.text = "Gold: " + this.characterData.gold;
+        characterData.addGold(addedGold);
+        this.goldText.text = "Gold: " + characterData.getGold();
     }
 
     updateClickedTargetStat(amount = 1) {
-        this.characterData.timesClicked += amount;
-        this.timesClickedText.text = "Times clicked: " + this.characterData.timesClicked;
+        characterData.addTimesClicked(amount);
+        this.timesClickedText.text = "Times clicked: " + characterData.getTimesClicked();
     }
 
     updateClickDamageStat(damageDone) {
         // Increase click damage
-        this.characterData.damageByClicking += damageDone;
+        characterData.addDamageByClicking(damageDone);
         this.damageByClickingText.text =
-            "Damage done by clicking: " + this.characterData.damageByClicking;
+            "Damage done by clicking: " + characterData.getDamageByClicking();
 
         // Collect damage for dps
         this.recentDamage += damageDone;
@@ -92,17 +89,15 @@ export class StatsScene extends Phaser.Scene {
         this.recentDamage = 0;
     }
 
-    updateEnemiesKilledStat(amount = 1) {
-        this.characterData.totalEnemiesKilled += amount;
+    updateEnemiesKilledStat() {
         this.enemiesKilledText.text =
-            "Enemies killed: " + this.characterData.totalEnemiesKilled;
+            "Enemies killed: " + characterData.getTotalEnemiesKilled();
     }
 
     updateAutoClickDamageStat(damageDone) {
-        this.characterData.damageByAutoClick += damageDone;
+        characterData.addDamageByAutoClicker(damageDone);
         this.damageByAutoClickText.text =
-            "Damage done by autoclickers: " +
-            Math.floor(this.characterData.damageByAutoClick);
+            "Damage done by autoclickers: " + characterData.getDamageByAutoclicker();
     }
 
     updateAutoClickerDPS(dps) {

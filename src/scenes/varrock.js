@@ -14,7 +14,7 @@ export class VarrockScene extends LevelScene {
                 path: "src/assets/backgrounds/VarrockBackground.png",
             },
             minimap: {
-                name: "varrock_map",
+                name: "varrock-map",
                 path: "src/assets/maps/VarrockMap.png",
             },
             targets: [DarkWizard, Guard],

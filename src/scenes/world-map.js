@@ -1,19 +1,17 @@
 import { CONSTANTS, SCREEN, MAP, FONTS } from "../constants/constants.js";
+import { characterData } from "../cookie-io.js";
 
 export class WorldMapScene extends Phaser.Scene {
-    characterData = {};
     currentHeight = 0;
     currentWidth = 0;
     exitButton;
+
     constructor() {
         super({
             key: CONSTANTS.SCENES.MAP,
         });
     }
-    init(characterData) {
-        // Carry along character data
-        this.characterData = characterData;
-    }
+
     preload() {
         // Background
         this.load.image("world-map", "src/assets/maps/WorldMap.png");
@@ -21,6 +19,7 @@ export class WorldMapScene extends Phaser.Scene {
         // Exit button
         this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
     }
+
     create() {
         // Get current width/height without scrollbars
         this.currentWidth = window.innerWidth - 10;
@@ -35,7 +34,7 @@ export class WorldMapScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive()
             .on("pointerup", () => {
-                this.scene.start(this.characterData.currentLevel, this.characterData);
+                this.scene.start(characterData.getCurrentLevel());
             });
 
         let levelConfig = [
@@ -48,35 +47,39 @@ export class WorldMapScene extends Phaser.Scene {
             },
             {
                 text: "Lumbridge",
-                condition: this.characterData.TUTORIAL_ISLAND.questCompleted,
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.SCENES.TUTORIAL_ISLAND
+                ),
                 x: MAP.LUMBRIDGE.X,
                 y: MAP.LUMBRIDGE.Y,
                 key: CONSTANTS.SCENES.LUMBRIDGE,
             },
             {
                 text: "Lumbridge\nForest",
-                condition: this.characterData.TUTORIAL_ISLAND.questCompleted,
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.SCENES.TUTORIAL_ISLAND
+                ),
                 x: MAP.LUMBRIDGE_TREES.X,
                 y: MAP.LUMBRIDGE_TREES.Y,
                 key: CONSTANTS.SCENES.LUMBRIDGE_TREES,
             },
             {
                 text: "Varrock Mine",
-                condition: this.characterData.LUMBRIDGE.questCompleted,
+                condition: characterData.getQuestCompleted(CONSTANTS.SCENES.LUMBRIDGE),
                 x: MAP.VARROCK_MINE.X,
                 y: MAP.VARROCK_MINE.Y,
                 key: CONSTANTS.SCENES.VARROCK_MINE,
             },
             {
                 text: "Varrock",
-                condition: this.characterData.LUMBRIDGE.questCompleted,
+                condition: characterData.getQuestCompleted(CONSTANTS.SCENES.LUMBRIDGE),
                 x: MAP.VARROCK.X,
                 y: MAP.VARROCK.Y,
                 key: CONSTANTS.SCENES.VARROCK,
             },
             {
                 text: "Barbarian Village",
-                condition: this.characterData.VARROCK.questCompleted,
+                condition: characterData.getQuestCompleted(CONSTANTS.SCENES.VARROCK),
                 x: MAP.BARBARIAN_VILLAGE.X,
                 y: MAP.BARBARIAN_VILLAGE.Y,
                 key: CONSTANTS.SCENES.BARBARIAN_VILLAGE,
@@ -106,7 +109,7 @@ export class WorldMapScene extends Phaser.Scene {
                 .setInteractive()
                 .on("pointerup", () => {
                     if (level.condition) {
-                        this.scene.start(level.key, this.characterData);
+                        this.scene.start(level.key);
                         console.log("Going to " + level.text);
                     } else {
                         console.log(level.text + " is not unlocked yet.");
@@ -156,8 +159,8 @@ export class WorldMapScene extends Phaser.Scene {
     // Center map and make sure it isn't off screen
     setMapLocation() {
         // Center around current level
-        let startX = this.currentWidth / 2 - MAP[this.characterData.currentLevel].X;
-        let startY = this.currentHeight / 2 - MAP[this.characterData.currentLevel].Y;
+        let startX = this.currentWidth / 2 - MAP[characterData.getCurrentLevel()].X;
+        let startY = this.currentHeight / 2 - MAP[characterData.getCurrentLevel()].Y;
 
         // Check if map is off screen
         // Right

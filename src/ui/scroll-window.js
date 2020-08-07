@@ -1,7 +1,5 @@
 export class ScrollWindow extends Phaser.Scene {
     name = "";
-    characterData;
-
     // Input data
     data = {
         x: 0,
@@ -27,10 +25,6 @@ export class ScrollWindow extends Phaser.Scene {
         super("scroll-window" + name);
 
         this.name = "scroll-window" + name;
-    }
-
-    init(characterData) {
-        this.characterData = characterData;
     }
 
     addObject(object) {

@@ -1,6 +1,7 @@
 import { Item } from "./item.js";
 import { OBJECT_TYPES } from "../constants/constants.js";
 import { calcLevel, getItemClass } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 
 export default class Equipment extends Item {
     // Attack bonuses
@@ -54,7 +55,7 @@ export default class Equipment extends Item {
                 if (this.numItems == 1) {
                     // Remove from inventory if it was there
                     if (this.index >= 0) {
-                        this.scene.characterData.inventory[this.index] = {};
+                        characterData.setInventory(this.index, {});
                         this.scene.inventory.obj.inventory[this.index] = {};
                         this.index = -1;
                     }
@@ -103,7 +104,11 @@ export default class Equipment extends Item {
     // TODO: be able to have multiple different required levels for different skills
     checkRequiredLevel() {
         let skill = this.skill.toLowerCase();
-        let level = calcLevel(this.scene.characterData.skills[skill]);
-        return (level >= this.requiredLevel);
+        if (skill == "melee") {
+            skill = "attack";
+        }
+
+        let level = calcLevel(characterData.getSkillXp(skill));
+        return level >= this.requiredLevel;
     }
 }

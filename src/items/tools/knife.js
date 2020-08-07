@@ -48,6 +48,8 @@ export default class Knife extends Tool {
                 this.scene.characterData.skills.fletching += xpGiven;
                 this.scene.skills.obj.updateSkillsText();
             }
+        } else if (className != "" && item.numItems < numRequiredItems) {
+            console.log(numRequiredItems, "are needed to craft that");
         }
     }
 }

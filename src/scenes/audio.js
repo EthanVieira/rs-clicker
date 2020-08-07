@@ -1,4 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
+import { characterData } from "../cookie-io.js";
 
 const BGM = 0;
 const SFX = 1;
@@ -13,16 +14,10 @@ export class AudioScene extends Phaser.Scene {
     currentSongName = "";
     queuedSongName = "";
 
-    characterData = {};
-
     constructor() {
         super({
             key: CONSTANTS.SCENES.AUDIO,
         });
-    }
-
-    init(data) {
-        this.characterData = data;
     }
 
     preload() {
@@ -40,13 +35,15 @@ export class AudioScene extends Phaser.Scene {
             "purchase",
             "src/assets/audio/sfx/GrandExchangeOfferComplete.mp3"
         );
+        this.load.audio("quest-complete-1", "src/assets/audio/sfx/QuestCompleted1.ogg");
+        this.load.audio("quest-complete-2", "src/assets/audio/sfx/QuestCompleted2.ogg");
     }
 
     create() {
         // Don't pause BGM when clicking off the window
         this.sound.pauseOnBlur = false;
-        this.changeVolume(BGM, this.characterData.audio[BGM]);
-        this.changeVolume(SFX, this.characterData.audio[SFX]);
+        this.changeVolume(BGM, characterData.getVolume(BGM));
+        this.changeVolume(SFX, characterData.getVolume(SFX));
     }
 
     playBgm(audioName) {
@@ -77,8 +74,9 @@ export class AudioScene extends Phaser.Scene {
 
     // Pause BGM while playing SFX
     playSfx(audioName) {
+        console.log("playing", audioName);
         this.currentSong.pause();
-        if (this.sfx != undefined && this.sfx.isPlaying) {
+        if (this.sfx?.isPlaying) {
             this.sfx.stop();
             this.currentSong.pause();
         }
@@ -93,7 +91,7 @@ export class AudioScene extends Phaser.Scene {
     // 0: BGM, 1: SFX, 2: Environment
     changeVolume(volumeType, value) {
         // Set volume and show button
-        this.characterData.audio[volumeType] = value;
+        characterData.setVolume(BGM, value);
         this.currentVolume[volumeType] = value;
 
         // Lower volume of currently playing BGM

@@ -1,11 +1,9 @@
 import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { getItemClass } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 
 export class Equipment {
     scene;
-
-    // Pointer to cookies, stores item name/type
-    playerEquipment = {};
 
     // Images
     equipment = {
@@ -15,9 +13,8 @@ export class Equipment {
         WEAPON: {},
     };
 
-    constructor(scene, equipment) {
+    constructor(scene) {
         this.scene = scene;
-        this.playerEquipment = equipment;
 
         this.slotBg.WEAPON = scene.add
             .image(587, 304, "equipment-background")
@@ -30,13 +27,11 @@ export class Equipment {
 
     // Load equipment on startup
     async refreshEquipment() {
-        for (let i in this.playerEquipment) {
-            if (Object.keys(this.playerEquipment[i]).length) {
-                console.log(this.playerEquipment[i]);
-                let newEquipment = await getItemClass(
-                    this.playerEquipment[i],
-                    this.scene
-                );
+        const playerEquipment = characterData.getAllEquipment();
+
+        for (let i in playerEquipment) {
+            if (Object.keys(playerEquipment[i]).length) {
+                let newEquipment = await getItemClass(playerEquipment[i], this.scene);
                 newEquipment.createSprite(0, 0);
                 newEquipment.equip();
             }
@@ -52,7 +47,7 @@ export class Equipment {
         }
 
         // Add to saved data
-        this.playerEquipment[item.slot] = item.constructor.name;
+        characterData.setEquipment(item.slot, item.constructor.name);
 
         // Put into the right position
         switch (item.slot) {
@@ -77,7 +72,7 @@ export class Equipment {
     unequipItem(slot) {
         this.slotBg[slot].visible = false;
         this.equipment[slot] = {};
-        this.playerEquipment[slot] = {};
+        characterData.setEquipment(slot, {});
     }
 
     showEquipment(isVisible) {
