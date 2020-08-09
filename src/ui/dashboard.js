@@ -33,10 +33,10 @@ export class DashboardScene extends Phaser.Scene {
 
     audio = {
         bgm: "",
-        audioPage: {},
-        audioPageButton: {},
+        page: {},
+        pageButton: {},
         sliders: [],
-        audioButtons: [],
+        buttons: [],
         scene: {},
     };
 
@@ -157,11 +157,11 @@ export class DashboardScene extends Phaser.Scene {
         // Audio settings
         let audioWindowX = 550;
         let audioWindowY = 205;
-        this.audio.audioPage = this.add
+        this.audio.page = this.add
             .image(audioWindowX, audioWindowY, "audio-settings")
             .setOrigin(0, 0)
             .setDepth(1);
-        this.audio.audioPageButton = this.add
+        this.audio.pageButton = this.add
             .image(659, 466, "audio-settings-button")
             .setOrigin(0, 0)
             .setDepth(2)
@@ -193,7 +193,7 @@ export class DashboardScene extends Phaser.Scene {
         );
 
         // Set 5 buttons for each of the 3 sliders
-        this.audio.audioButtons = [];
+        this.audio.buttons = [];
         for (let volumeType = 0; volumeType < 3; volumeType++) {
             let audioButtonRow = [];
             for (let buttonNum = 0; buttonNum < 5; buttonNum++) {
@@ -214,7 +214,7 @@ export class DashboardScene extends Phaser.Scene {
                 audioButtonRow.push(audioButton);
             }
             // Save 2d array of buttons (3 x 5)
-            this.audio.audioButtons.push(audioButtonRow);
+            this.audio.buttons.push(audioButtonRow);
         }
         // Hide audio page on startup
         this.showAudioSettings(false);
@@ -327,21 +327,21 @@ export class DashboardScene extends Phaser.Scene {
         if (isVisible) {
             this.hideAllMenus();
             this.currentPanel = CONSTANTS.PANEL.SETTINGS;
-            this.audio.audioPageButton.setAlpha(1);
+            this.audio.pageButton.setAlpha(1);
 
             // Show current volume buttons
             for (let i = 0; i < 3; i++) {
-                this.audio.audioButtons[i][characterData.getVolume(i)].setAlpha(1);
+                this.audio.buttons[i][characterData.getVolume(i)].setAlpha(1);
             }
         } else {
-            this.audio.audioPageButton.setAlpha(0.1);
+            this.audio.pageButton.setAlpha(0.1);
         }
 
-        this.audio.audioPage.visible = isVisible;
+        this.audio.page.visible = isVisible;
         this.audio.sliders.forEach((slider) => {
             slider.visible = isVisible;
         });
-        this.audio.audioButtons.forEach((buttonRow) => {
+        this.audio.buttons.forEach((buttonRow) => {
             buttonRow.forEach((button) => {
                 button.visible = isVisible;
             });
@@ -377,10 +377,10 @@ export class DashboardScene extends Phaser.Scene {
 
     // Hide old button and show new one
     changeAudioButton(volumeType, buttonNum) {
-        for (let button in this.audio.audioButtons[volumeType]) {
-            this.audio.audioButtons[volumeType][button].setAlpha(0.1);
+        for (let button in this.audio.buttons[volumeType]) {
+            this.audio.buttons[volumeType][button].setAlpha(0.1);
         }
-        this.audio.audioButtons[volumeType][buttonNum].setAlpha(1);
+        this.audio.buttons[volumeType][buttonNum].setAlpha(1);
 
         this.audio.scene.changeVolume(volumeType, buttonNum);
     }

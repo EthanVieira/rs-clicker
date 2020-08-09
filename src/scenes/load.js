@@ -153,6 +153,7 @@ export class LoadScene extends Phaser.Scene {
     create() {
         // Check for previous play data
         characterData.getCookies();
+        characterData.init(this);
 
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO);

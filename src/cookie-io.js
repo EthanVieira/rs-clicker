@@ -1,5 +1,6 @@
 import { defaultData } from "./default-data.js";
 import { CONSTANTS } from "./constants/constants.js";
+import { calcLevel } from "./utilities.js";
 
 function getDefaultData() {
     // Reset data (deep copy)
@@ -8,6 +9,11 @@ function getDefaultData() {
 
 class CharacterData {
     characterData = getDefaultData();
+    scene;
+
+    init(scene) {
+        this.scene = scene;
+    }
 
     getName() {
         return this.characterData.name;
@@ -118,17 +124,28 @@ class CharacterData {
     getVolume(typeIndex) {
         if (typeIndex < this.characterData.audio.length) {
             return this.characterData.audio[typeIndex];
+        } else {
+            console.log("Error: getVolume() index out of range:", typeIndex);
         }
     }
     setVolume(typeIndex, volume) {
         if (typeIndex < this.characterData.audio.length) {
             this.characterData.audio[typeIndex] = volume;
+        } else {
+            console.log("Error: setVolume() index out of range:", typeIndex);
         }
     }
 
     addSkillXp(skill, xp) {
         if (this.characterData.skills[skill] != undefined) {
+            const prevLevel = calcLevel(this.characterData.skills[skill]);
             this.characterData.skills[skill] += xp;
+            const curLevel = calcLevel(this.characterData.skills[skill]);
+
+            if (curLevel > prevLevel) {
+                const audioScene = this.scene.scene.get(CONSTANTS.SCENES.AUDIO);
+                audioScene.playSfx(skill + "-level-up");
+            }
         } else {
             console.log("Error: setting invalid skill", skill, xp);
         }
@@ -219,7 +236,9 @@ class CharacterData {
     }
 
     reset() {
+        console.log("before reset:", this.characterData.audio);
         this.characterData = getDefaultData();
+        console.log("after:", this.characterData.audio);
     }
 }
 

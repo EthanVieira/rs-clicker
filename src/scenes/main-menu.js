@@ -12,6 +12,8 @@ export class MainMenuScene extends Phaser.Scene {
     mutedButton;
     unmutedButton;
 
+    audioScene;
+
     constructor() {
         super({
             key: CONSTANTS.SCENES.MAIN_MENU,
@@ -96,6 +98,8 @@ export class MainMenuScene extends Phaser.Scene {
                 characterData.storeCookies();
                 this.toggleSettings(false);
                 this.showMuteButton(false);
+                const BGM = 0;
+                this.audioScene.changeVolume(BGM, characterData.getVolume(BGM));
             }
         });
 
@@ -108,8 +112,8 @@ export class MainMenuScene extends Phaser.Scene {
         });
 
         // Get audio scene
-        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-        audioScene.playBgm("scape-main");
+        this.audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        this.audioScene.playBgm("scape-main");
 
         // Muted button
         this.mutedButton = this.add
