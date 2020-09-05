@@ -121,10 +121,11 @@ export class LevelScene extends Phaser.Scene {
         this.targets[this.currentTargetIndex].show();
 
         // Scene destructor
-        this.events.on("shutdown", () => {
+        this.events.once("shutdown", () => {
             this.targets = [];
 
             // Hide dashboard and stats
+            this.scene.stop(CONSTANTS.SCENES.CHAT);
             this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.stop(CONSTANTS.SCENES.STATS);
         });

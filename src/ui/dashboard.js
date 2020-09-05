@@ -280,8 +280,17 @@ export class DashboardScene extends Phaser.Scene {
             });
 
         // Add scrollable window for clan members
-        this.clan.scrollWindow = new ScrollWindow("clans");
-        this.scene.add("scroll-window", this.clan.scrollWindow, true);
+        this.clan.scrollWindow = new ScrollWindow({
+            name: "clans",
+            x: 535,
+            y: 280,
+            width: 175,
+            height: 140,
+            numColumns: 1,
+            padding: 10,
+        });
+        this.scene.add(this.clan.scrollWindow.name, this.clan.scrollWindow, true);
+        this.clan.scrollWindow.refresh();
 
         // Clear out and reinstatiate clan members
         if (Object.entries(this.clan.obj).length) {
@@ -291,7 +300,7 @@ export class DashboardScene extends Phaser.Scene {
         this.showClanChat(false);
 
         // Scene destructor
-        this.events.on("shutdown", () => {
+        this.events.once("shutdown", () => {
             this.scene.remove(this.clan.scrollWindow.name);
         });
     }

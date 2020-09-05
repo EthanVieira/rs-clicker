@@ -57,6 +57,7 @@ export class Clan {
             member.setVisible(false);
             member.start(this.scene.currentScene);
             this.clanMembers.push(member);
+            this.scrollWindow.addObject(member);
         }
     }
 
@@ -82,16 +83,8 @@ export class Clan {
     }
 
     show(isVisible) {
-        this.scrollWindow.refresh({
-            x: 535,
-            y: 280,
-            width: 175,
-            height: 140,
-            numColumns: 1,
-            padding: 10,
-            objects: this.clanMembers,
-        });
         if (isVisible) {
+            this.scrollWindow.refresh();
             this.scene.currentPanel = CONSTANTS.PANEL.CLAN;
         }
         this.scrollWindow.setVisible(isVisible);

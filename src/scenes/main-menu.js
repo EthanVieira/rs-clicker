@@ -126,7 +126,7 @@ export class MainMenuScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerup", () => {
                 this.showMuteButton(false);
-                audioScene.mute(false);
+                this.audioScene.mute(false);
                 characterData.storeCookies();
             });
 
@@ -141,7 +141,7 @@ export class MainMenuScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerup", () => {
                 this.showMuteButton(true);
-                audioScene.mute(true);
+                this.audioScene.mute(true);
                 characterData.storeCookies();
             });
 

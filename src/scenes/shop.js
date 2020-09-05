@@ -51,7 +51,13 @@ export class ShopScene extends Phaser.Scene {
     }
 
     create() {
-        console.log("shop create");
+        // Run chat scene but hide the bottom buttons after create
+        this.scene.run(CONSTANTS.SCENES.CHAT);
+        let chatScene = this.scene.get(CONSTANTS.SCENES.CHAT);
+        chatScene.events.once("create", () => {
+            chatScene.hideButtons();
+        });
+
         // Add background
         this.background = this.add
             .image(0, 0, "shop-interface")
@@ -64,8 +70,16 @@ export class ShopScene extends Phaser.Scene {
         this.loadingText.visible = false;
 
         // Add scrollable window for items
-        this.scrollWindow = new ScrollWindow("shop");
-        this.scene.add("scroll-window", this.scrollWindow, true);
+        this.scrollWindow = new ScrollWindow({
+            name: "shop",
+            x: 0,
+            y: 100,
+            width: 450,
+            height: 214,
+            numColumns: 3,
+            padding: 35,
+        });
+        this.scene.add(this.scrollWindow.name, this.scrollWindow, true);
 
         // Display the shop (weapons displayed by default)
         this.loadShop(CONSTANTS.ITEM_TYPES.WEAPON);
@@ -224,10 +238,6 @@ export class ShopScene extends Phaser.Scene {
 
     // Display the loaded images in the shop
     async displayItems(itemType) {
-        // Scroll window offsets from the main window, used to position right-click menu
-        let scrollX = 20,
-            scrollY = 100;
-
         if (itemType == "CLAN") {
             for (let clickerName in autoclickerManifest) {
                 let clicker = await getAutoclickerClass(clickerName, this.scrollWindow);
@@ -242,7 +252,7 @@ export class ShopScene extends Phaser.Scene {
                     let newItem = await getItemClass(item, this.scrollWindow);
 
                     // Create sprite
-                    newItem.createShopSprite(scrollX, scrollY);
+                    newItem.createShopSprite(20, 100);
                     newItem.setVisible(false);
                     this.shopIcons.push(newItem);
                 }
@@ -250,15 +260,9 @@ export class ShopScene extends Phaser.Scene {
         }
 
         // Attach to the scroll window
-        this.scrollWindow.addObjects({
-            x: scrollX,
-            y: scrollY,
-            width: 450,
-            height: 214,
-            numColumns: 3,
-            padding: 35,
-            objects: this.shopIcons,
-        });
+        this.scrollWindow.clearObjects();
+        this.scrollWindow.addObjects(this.shopIcons);
+        this.scrollWindow.refresh();
         this.loadingText.visible = false;
     }
 
