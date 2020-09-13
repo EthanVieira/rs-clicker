@@ -1,7 +1,7 @@
 import { OBJECT_TYPES, CONSTANTS, FONTS } from "../constants/constants.js";
 import { ScrollWindow } from "./scroll-window.js";
 import { TextRow } from "./text-row.js";
-import { Button } from "./Button.js";
+import { Button } from "./button.js";
 
 export class ChatScene extends Phaser.Scene {
     chatWindow;
