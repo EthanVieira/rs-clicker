@@ -6,10 +6,12 @@ const ENV = 2;
 
 export class AudioScene extends Phaser.Scene {
     currentSong = {};
+    sfx = {};
     audioLoaded = false;
     currentVolume = [2, 2, 2];
     previousVolume = [2, 2, 2];
     currentSongName = "";
+    queuedSongName = "";
 
     characterData = {};
 
@@ -43,6 +45,7 @@ export class AudioScene extends Phaser.Scene {
         // Don't pause BGM when clicking off the window
         this.sound.pauseOnBlur = false;
         this.changeVolume(BGM, this.characterData.audio[BGM]);
+        this.changeVolume(SFX, this.characterData.audio[SFX]);
     }
 
     playBgm(audioName) {
@@ -63,8 +66,9 @@ export class AudioScene extends Phaser.Scene {
                 this.changeVolume(BGM, this.currentVolume[BGM]);
             } else {
                 // If called before load, play once loaded
+                this.queuedSongName = audioName;
                 this.events.once("create", () => {
-                    this.playBgm(audioName);
+                    this.playBgm(this.queuedSongName);
                 });
             }
         }
@@ -73,10 +77,14 @@ export class AudioScene extends Phaser.Scene {
     // Pause BGM while playing SFX
     playSfx(audioName) {
         this.currentSong.pause();
-        let sfx = this.sound.add(audioName);
-        sfx.setVolume(this.currentVolume[SFX] / 4);
-        sfx.play();
-        sfx.once("complete", () => {
+        if (this.sfx != undefined && this.sfx.isPlaying) {
+            this.sfx.stop();
+            this.currentSong.pause();
+        }
+        this.sfx = this.sound.add(audioName);
+        this.sfx.setVolume(this.currentVolume[SFX] / 4);
+        this.sfx.play();
+        this.sfx.once("complete", () => {
             this.currentSong.resume();
         });
     }
