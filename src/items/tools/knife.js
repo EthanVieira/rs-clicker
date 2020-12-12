@@ -1,6 +1,7 @@
 import Tool from "../tool.js";
 import { CONSTANTS } from "../../constants/constants.js";
 import { getItemClass } from "../../utilities.js";
+import { characterData } from "../../cookie-io.js";
 
 export default class Knife extends Tool {
     // Text data
@@ -45,7 +46,7 @@ export default class Knife extends Tool {
             let newItem = await getItemClass(className, this.dashboard);
             if (this.dashboard.inventory.obj.addToInventory(newItem)) {
                 item.setNumItems(item.numItems - numRequiredItems);
-                this.scene.characterData.skills.fletching += xpGiven;
+                characterData.addSkillXp("fletching", xpGiven);
                 this.scene.skills.obj.updateSkillsText();
             }
         } else if (className != "" && item.numItems < numRequiredItems) {

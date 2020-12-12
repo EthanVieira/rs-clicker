@@ -147,6 +147,12 @@ export class Item extends ClickableObject {
         } else {
             this.numItems = num;
 
+            // Update saved data
+            characterData.setInventory(this.index, {
+                item: this.constructor.name,
+                count: this.numItems,
+            });
+
             // Update text
             if (this.numItemsText != undefined) {
                 let visualNum = "0";
