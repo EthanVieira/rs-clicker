@@ -25,12 +25,12 @@ export default class Knife extends Tool {
             case "Logs":
                 className = "NormalShortbow";
                 numRequiredItems = 50;
-                xpGiven = 50;
+                xpGiven = 250;
                 break;
             case "Oak Logs":
                 className = "OakShortbow";
                 numRequiredItems = 50;
-                xpGiven = 100;
+                xpGiven = 500;
                 break;
             default:
                 console.log("Not a valid crafting combination.");
