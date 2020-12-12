@@ -250,9 +250,7 @@ class CharacterData {
     }
 
     reset() {
-        console.log("before reset:", this.characterData.audio);
         this.characterData = getDefaultData();
-        console.log("after:", this.characterData.audio);
     }
 }
 
