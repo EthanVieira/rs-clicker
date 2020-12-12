@@ -47,7 +47,6 @@ export default class Knife extends Tool {
             if (this.dashboard.inventory.obj.addToInventory(newItem)) {
                 item.setNumItems(item.numItems - numRequiredItems);
                 characterData.addSkillXp("fletching", xpGiven);
-                this.scene.skills.obj.updateSkillsText();
             }
         } else if (className != "" && item.numItems < numRequiredItems) {
             console.log(numRequiredItems, "are needed to craft that");

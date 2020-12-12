@@ -293,7 +293,5 @@ export class Enemy extends Target {
             // Unarmed
             characterData.addSkillXp("attack", xpIncrease);
         }
-
-        this.scene.dashboard.skills.obj.updateSkillsText();
     }
 }

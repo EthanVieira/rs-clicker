@@ -34,8 +34,6 @@ export class Resource extends Target {
     onClick(clickValue) {}
 
     onCompletion() {
-        // Increase skill xp
         characterData.addSkillXp(this.skill, this.neededClicks);
-        this.scene.dashboard.skills.obj.updateSkillsText();
     }
 }
