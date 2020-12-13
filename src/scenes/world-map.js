@@ -38,108 +38,50 @@ export class WorldMapScene extends Phaser.Scene {
                 this.scene.start(this.characterData.currentLevel, this.characterData);
             });
 
-        // Color links if they haven't been unlocked yet
-        let fontStyle = FONTS.UNLOCKED_FONT;
-        if (!this.characterData.TUTORIAL_ISLAND.questCompleted) {
-            fontStyle = FONTS.LOCKED_FONT;
-        }
-
-        // Tutorial Island
-        let tutorialIsland = this.add
-            .text(
-                MAP.TUTORIAL_ISLAND.X,
-                MAP.TUTORIAL_ISLAND.Y,
-                "Tutorial Island",
-                FONTS.UNLOCKED_FONT
-            )
-            .setDepth(1)
-            .setInteractive()
-            .on("pointerup", () => {
-                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData);
-                console.log("Going to Tutorial Island");
-            });
-
-        // Lumbridge
-        let lumbridge = this.add
-            .text(MAP.LUMBRIDGE.X, MAP.LUMBRIDGE.Y, "Lumbridge", fontStyle)
-            .setDepth(1)
-            .setInteractive()
-            .on("pointerup", () => {
-                if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
-                    this.scene.start(CONSTANTS.SCENES.LUMBRIDGE, this.characterData);
-                    console.log("Going to Lumbridge");
-                } else {
-                    console.log("Lumbridge not unlocked yet");
-                }
-            });
-
-        // Lumbridge Trees
-        let lumbridgeTrees = this.add
-            .text(
-                MAP.LUMBRIDGE_TREES.X,
-                MAP.LUMBRIDGE_TREES.Y,
-                "Lumbridge\nTrees",
-                fontStyle
-            )
-            .setDepth(1)
-            .setInteractive()
-            .on("pointerup", () => {
-                if (this.characterData.TUTORIAL_ISLAND.questCompleted) {
-                    this.scene.start(
-                        CONSTANTS.SCENES.LUMBRIDGE_TREES,
-                        this.characterData
-                    );
-                    console.log("Going to Lumbridge Trees");
-                } else {
-                    console.log("Lumbridge not unlocked yet");
-                }
-            });
-
-        // Color link if they haven't been unlocked yet
-        if (!this.characterData.LUMBRIDGE.questCompleted) {
-            fontStyle = FONTS.LOCKED_FONT;
-        }
-
-        // Varrock
-        let varrock = this.add
-            .text(MAP.VARROCK.X, MAP.VARROCK.Y, "Varrock", fontStyle)
-            .setDepth(1)
-            .setInteractive()
-            .on("pointerup", () => {
-                if (this.characterData.LUMBRIDGE.questCompleted) {
-                    this.scene.start(CONSTANTS.SCENES.VARROCK, this.characterData);
-                    console.log("Going to Varrock");
-                } else {
-                    console.log("Varrock not unlocked yet");
-                }
-            });
-
-        // Color link if they haven't been unlocked yet
-        if (!this.characterData.VARROCK.questCompleted) {
-            fontStyle = FONTS.LOCKED_FONT;
-        }
-
-        // Barbarian Village
-        let barbarianVillage = this.add
-            .text(
-                MAP.BARBARIAN_VILLAGE.X,
-                MAP.BARBARIAN_VILLAGE.Y,
-                "Barbarian Village",
-                fontStyle
-            )
-            .setDepth(1)
-            .setInteractive()
-            .on("pointerup", () => {
-                if (this.characterData.VARROCK.questCompleted) {
-                    this.scene.start(
-                        CONSTANTS.SCENES.BARBARIAN_VILLAGE,
-                        this.characterData
-                    );
-                    console.log("Going to Barbarian Village");
-                } else {
-                    console.log("Barbarian Village not unlocked yet");
-                }
-            });
+        let levelConfig = [
+            {
+                text: "Tutorial Island",
+                condition: true,
+                x: MAP.TUTORIAL_ISLAND.X,
+                y: MAP.TUTORIAL_ISLAND.Y,
+                key: CONSTANTS.SCENES.TUTORIAL_ISLAND,
+            },
+            {
+                text: "Lumbridge",
+                condition: this.characterData.TUTORIAL_ISLAND.questCompleted,
+                x: MAP.LUMBRIDGE.X,
+                y: MAP.LUMBRIDGE.Y,
+                key: CONSTANTS.SCENES.LUMBRIDGE,
+            },
+            {
+                text: "Lumbridge\nForest",
+                condition: this.characterData.TUTORIAL_ISLAND.questCompleted,
+                x: MAP.LUMBRIDGE_TREES.X,
+                y: MAP.LUMBRIDGE_TREES.Y,
+                key: CONSTANTS.SCENES.LUMBRIDGE_TREES,
+            },
+            {
+                text: "Varrock Mine",
+                condition: this.characterData.LUMBRIDGE.questCompleted,
+                x: MAP.VARROCK_MINE.X,
+                y: MAP.VARROCK_MINE.Y,
+                key: CONSTANTS.SCENES.VARROCK_MINE,
+            },
+            {
+                text: "Varrock",
+                condition: this.characterData.LUMBRIDGE.questCompleted,
+                x: MAP.VARROCK.X,
+                y: MAP.VARROCK.Y,
+                key: CONSTANTS.SCENES.VARROCK,
+            },
+            {
+                text: "Barbarian Village",
+                condition: this.characterData.VARROCK.questCompleted,
+                x: MAP.BARBARIAN_VILLAGE.X,
+                y: MAP.BARBARIAN_VILLAGE.Y,
+                key: CONSTANTS.SCENES.BARBARIAN_VILLAGE,
+            },
+        ];
 
         // Tutorial Island and Lumbridge use default starting location, others are centered
         const { startX, startY } = this.setMapLocation();
@@ -147,11 +89,31 @@ export class WorldMapScene extends Phaser.Scene {
         // Group objects together
         let container = this.add.container(startX, startY);
         container.add(map);
-        container.add(tutorialIsland);
-        container.add(lumbridge);
-        container.add(lumbridgeTrees);
-        container.add(varrock);
-        container.add(barbarianVillage);
+
+        levelConfig.forEach((level) => {
+            // Color links if they haven't been unlocked yet
+            let fontStyle = {};
+            if (level.condition) {
+                fontStyle = FONTS.UNLOCKED_FONT;
+            } else {
+                fontStyle = FONTS.LOCKED_FONT;
+            }
+
+            // Create text
+            let text = this.add
+                .text(level.x, level.y, level.text, fontStyle)
+                .setDepth(1)
+                .setInteractive()
+                .on("pointerup", () => {
+                    if (level.condition) {
+                        this.scene.start(level.key, this.characterData);
+                        console.log("Going to " + level.text);
+                    } else {
+                        console.log(level.text + " is not unlocked yet.");
+                    }
+                });
+            container.add(text);
+        });
 
         // Setup drag limits
         container.setInteractive(

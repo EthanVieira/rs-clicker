@@ -33,6 +33,7 @@ export class AudioScene extends Phaser.Scene {
         this.load.audio("expanse", "src/assets/audio/bgm/Expanse.mp3");
         this.load.audio("barbarianism", "src/assets/audio/bgm/Barbarianism.ogg");
         this.load.audio("the-trade-parade", "src/assets/audio/bgm/TheTradeParade.ogg");
+        this.load.audio("still-night", "src/assets/audio/bgm/StillNight.mp3");
 
         // SFX
         this.load.audio(

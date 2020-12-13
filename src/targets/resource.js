@@ -23,12 +23,7 @@ export class Resource extends Target {
     }
 
     isClickable() {
-        let curWeapon = this.scene.dashboard.equipment.obj.equipment.WEAPON;
-        if (this.skill == "woodcutting" && curWeapon.item != "Axe") {
-            return false;
-        } else {
-            return true;
-        }
+        return true;
     }
 
     getClickValue() {

@@ -19,6 +19,14 @@ export var targetManifest = {
         imagePath: "Tree2.png",
         imageName: "tree2",
     },
+    CopperRock: {
+        imagePath: "CopperRock.png",
+        imageName: "copper-rock",
+    },
+    TinRock: {
+        imagePath: "TinRock.png",
+        imageName: "tin-rock",
+    },
     DarkWizard: {
         imagePath: "DarkWizard.png",
         imageName: "dark-wizard",
