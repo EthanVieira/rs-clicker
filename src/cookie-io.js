@@ -10,6 +10,7 @@ function getDefaultData() {
 class CharacterData {
     characterData = getDefaultData();
     scene;
+    otherScenes = {}; // Hold dictionary of other scenes
 
     init(scene) {
         this.scene = scene;
@@ -142,10 +143,16 @@ class CharacterData {
             this.characterData.skills[skill] += xp;
             const curLevel = calcLevel(this.characterData.skills[skill]);
 
+            // Play level up sfx
             if (curLevel > prevLevel) {
-                const audioScene = this.scene.scene.get(CONSTANTS.SCENES.AUDIO);
+                const audioScene = this.getScene(CONSTANTS.SCENES.AUDIO);
                 audioScene.playSfx(skill + "-level-up");
             }
+
+            // Update xp text on dashboard
+            const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
+            dashboardScene.skills.obj.updateSkillsText();
+
         } else {
             console.log("Error: setting invalid skill", skill, xp);
         }
@@ -204,6 +211,13 @@ class CharacterData {
         }
     }
 
+    getScene(sceneName) {
+        if (this.otherScenes[sceneName] == undefined) {
+            this.otherScenes[sceneName] = this.scene.scene.get(sceneName);
+        }
+        return this.otherScenes[sceneName];
+    }
+
     getCookies() {
         // Pull out first cookie
         let decodedCookies = decodeURIComponent(document.cookie).split(";");
@@ -236,9 +250,7 @@ class CharacterData {
     }
 
     reset() {
-        console.log("before reset:", this.characterData.audio);
         this.characterData = getDefaultData();
-        console.log("after:", this.characterData.audio);
     }
 }
 

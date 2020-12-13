@@ -46,7 +46,7 @@ export const defaultData = {
         slayer: 0,
         farming: 0,
         construction: 0,
-        trapping: 0,
+        hunter: 0,
     },
     audio: [2, 2, 2], // BGM, SFX, Environment
     // Can be accessed with characterData[this.currentLevel].questCompleted, etc.

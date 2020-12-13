@@ -77,9 +77,6 @@ export class Inventory {
                 // Update the item in the game
                 curItem.setNumItems(curItem.numItems + item.numItems);
 
-                // Update it in the cookies
-                playerItems[index].count += item.numItems;
-
                 // Delete old item
                 item.destroy();
 

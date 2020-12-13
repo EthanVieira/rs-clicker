@@ -147,6 +147,12 @@ export class Item extends ClickableObject {
         } else {
             this.numItems = num;
 
+            // Update saved data
+            characterData.setInventory(this.index, {
+                item: this.constructor.name,
+                count: this.numItems,
+            });
+
             // Update text
             if (this.numItemsText != undefined) {
                 let visualNum = "0";
@@ -154,16 +160,16 @@ export class Item extends ClickableObject {
 
                 // Set format/color based on the amount
                 switch (true) {
-                    case num < 1000:
+                    case num < 99999:
                         visualNum = num;
                         fillColor = "orange";
                         break;
-                    case num < 10000:
-                        visualNum = (num / 1000).toFixed(1) + " k";
+                    case num < 9999999:
+                        visualNum = (num / 1000).toFixed(1) + "k";
                         fillColor = "white";
                         break;
                     default:
-                        visualNum = (num / 1000000).toFixed(1) + " m";
+                        visualNum = (num / 1000000).toFixed(1) + "m";
                         fillColor = "green";
                         break;
                 }
