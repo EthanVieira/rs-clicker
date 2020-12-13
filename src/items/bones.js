@@ -16,7 +16,7 @@ export default class Bones extends Item {
     bury() {
         console.log("bury", this.name, "xp added:", this.prayerXp);
         this.scene.characterData.skills.prayer += this.prayerXp;
-        this.scene.updateSkillsText();
+        this.scene.skills.obj.updateSkillsText();
 
         // Reduce stack or destroy object
         if (this.numItems > 1) {

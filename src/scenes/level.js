@@ -81,6 +81,11 @@ export class LevelScene extends Phaser.Scene {
         let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
         audioScene.playBgm(this.audio.bgm);
 
+        // Initialize volume levels
+        audioScene.changeVolume(0, this.characterData.audio[0]);
+        audioScene.changeVolume(1, this.characterData.audio[1]);
+        audioScene.changeVolume(2, this.characterData.audio[2]);
+
         // Launch dashboard, stats, and chat scenes in parallel
         this.scene.run(CONSTANTS.SCENES.DASHBOARD, this.characterData);
         this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);

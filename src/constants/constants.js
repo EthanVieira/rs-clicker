@@ -176,6 +176,20 @@ export const FONTS = {
             fill: true,
         },
     },
+    SKILLS: {
+        font: "12px runescape",
+        fill: "yellow",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
+    SKILL_HOVER: {
+        font: "14px runescape",
+        fill: "black",
+    },
     SHOP: {
         font: "19px runescape",
         fill: "#e9921e",

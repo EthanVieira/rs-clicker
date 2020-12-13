@@ -2,7 +2,7 @@ import { CONSTANTS } from "../constants/constants.js";
 import { getDefaultData } from "../utilities.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
-import { setItemClass } from "../utilities.js";
+import { itemClasses } from "../items/get-item-class.js";
 
 export class LoadScene extends Phaser.Scene {
     characterData = {};
@@ -109,6 +109,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
         this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
+        this.load.image("skills-info", "src/assets/ui/SkillsInfo.png");
         this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
         this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
         this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
@@ -195,7 +196,7 @@ export class LoadScene extends Phaser.Scene {
     // Load item classes
     async loadItems() {
         for (let i in itemManifest) {
-            setItemClass(i, await import("../items/" + itemManifest[i].classPath));
+            itemClasses[i] = await import("../items/" + itemManifest[i].classPath);
             this.numItemsLoaded++;
             this.assetText.text = "Loading asset: " + i;
             this.updateProgress();

@@ -1,5 +1,5 @@
 import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
-import { getItemClass } from "../utilities.js";
+import { getItemClass } from "../items/get-item-class.js";
 
 export class Equipment {
     scene;
@@ -11,7 +11,7 @@ export class Equipment {
     equipment = {
         WEAPON: {},
     };
-    equipmentSlotBg = {
+    bg = {
         WEAPON: {},
     };
 
@@ -19,7 +19,7 @@ export class Equipment {
         this.scene = scene;
         this.playerEquipment = equipment;
 
-        this.equipmentSlotBg.WEAPON = scene.add
+        this.bg.WEAPON = scene.add
             .image(587, 304, "equipment-background")
             .setDepth(2)
             .setVisible(false);
@@ -32,9 +32,9 @@ export class Equipment {
     async refreshEquipment() {
         for (let i in this.playerEquipment) {
             if (Object.keys(this.playerEquipment[i]).length) {
+                console.log(this.playerEquipment[i]);
                 let newEquipment = await getItemClass(
-                    this.playerEquipment[i].item,
-                    this.playerEquipment[i].type,
+                    this.playerEquipment[i],
                     this.scene
                 );
                 newEquipment.createSprite(0, 0);
@@ -52,10 +52,7 @@ export class Equipment {
         }
 
         // Add to saved data
-        this.playerEquipment[item.slot] = {
-            item: item.item,
-            type: item.type,
-        };
+        this.playerEquipment[item.slot] = item.constructor.name;
 
         // Put into the right position
         switch (item.slot) {
@@ -71,14 +68,14 @@ export class Equipment {
         // Hide if equipment is not selected
         let showItem = this.scene.currentPanel == CONSTANTS.PANEL.EQUIPMENT;
         item.setVisible(showItem);
-        this.equipmentSlotBg[item.slot].visible = showItem;
+        this.bg[item.slot].visible = showItem;
 
         // Add object to the scene
         this.equipment[item.slot] = item;
     }
 
     unequipItem(slot) {
-        this.equipmentSlotBg[slot].visible = false;
+        this.bg[slot].visible = false;
         this.equipment[slot] = {};
         this.playerEquipment[slot] = {};
     }
@@ -90,9 +87,9 @@ export class Equipment {
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
             if (Object.keys(itemObj).length) {
                 itemObj.setVisible(isVisible);
-                this.equipmentSlotBg[item].setVisible(isVisible);
+                this.bg[item].setVisible(isVisible);
             } else {
-                this.equipmentSlotBg[item].setVisible(false);
+                this.bg[item].setVisible(false);
             }
         });
     }

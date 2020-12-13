@@ -45,7 +45,6 @@ export class AudioScene extends Phaser.Scene {
         // Don't pause BGM when clicking off the window
         this.sound.pauseOnBlur = false;
         this.changeVolume(BGM, this.characterData.audio[BGM]);
-        this.changeVolume(SFX, this.characterData.audio[SFX]);
     }
 
     playBgm(audioName) {

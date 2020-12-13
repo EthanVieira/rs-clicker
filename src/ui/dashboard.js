@@ -2,6 +2,7 @@ import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { Inventory } from "./inventory.js";
 import { Equipment } from "./equipment.js";
 import { Clan } from "./clan.js";
+import { Skills } from "./skills.js";
 import { ScrollWindow } from "./scroll-window.js";
 import { Button } from "./button.js";
 import { calcLevel } from "../utilities.js";
@@ -19,6 +20,7 @@ export class DashboardScene extends Phaser.Scene {
     skills = {
         button: {},
         panel: {},
+        obj: {},
     };
 
     prayer = {
@@ -34,7 +36,6 @@ export class DashboardScene extends Phaser.Scene {
         audioPageButton: {},
         sliders: [],
         audioButtons: [],
-        scene: {},
     };
 
     quests = {
@@ -61,19 +62,6 @@ export class DashboardScene extends Phaser.Scene {
     // Hotbar
     prayerHotbarText;
 
-    // Skill text
-    attackText;
-    attackBottomText;
-    rangedText;
-    rangedBottomText;
-    magicText;
-    magicBottomText;
-    totalLevelText;
-    woodcuttingText;
-    woodcuttingBottomText;
-    prayerText;
-    prayerBottomText;
-
     // TODO: Quests text probably for each enemy
     killQuestText;
 
@@ -87,7 +75,7 @@ export class DashboardScene extends Phaser.Scene {
 
     create() {
         // Get audio scene
-        this.audio.scene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
 
         // Get current scene
         this.currentScene = this.scene.get(this.characterData.currentLevel);
@@ -143,64 +131,13 @@ export class DashboardScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive();
         this.skills.button.on("pointerdown", () => {
-            this.showSkills(true);
+            this.skills.obj.showSkills(true);
         });
-
-        // Hotbar skills text (the top part)
-        this.prayerHotbarText = this.add
-            .text(532, 97, "1", FONTS.HOTBAR)
-            .setOrigin(0.5)
-            .setDepth(3);
-
-        // Skills text
-        this.attackText = this.add
-            .text(585, 220, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.attackBottomText = this.add
-            .text(600, 230, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.rangedText = this.add
-            .text(585, 310, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.rangedBottomText = this.add
-            .text(600, 320, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.prayerText = this.add
-            .text(585, 342, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.prayerBottomText = this.add
-            .text(600, 352, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.magicText = this.add
-            .text(585, 375, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.magicBottomText = this.add
-            .text(600, 385, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.woodcuttingText = this.add
-            .text(710, 375, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.woodcuttingBottomText = this.add
-            .text(725, 385, "1", { fontSize: "12px" })
-            .setOrigin(0.5)
-            .setDepth(2);
-        this.totalLevelText = this.add
-            .text(705, 450, "1", { fontSize: "12px", fill: "yellow" })
-            .setOrigin(0.5)
-            .setDepth(2);
+        this.skills.obj = new Skills(this, this.characterData.skills);
 
         // Set and hide skills page on startup
-        this.updateSkillsText();
-        this.showSkills(false);
+        this.skills.obj.updateSkillsText();
+        this.skills.obj.showSkills(false);
 
         // Prayer
         this.prayer.panel = this.add
@@ -280,6 +217,7 @@ export class DashboardScene extends Phaser.Scene {
                     .setAlpha(0.1)
                     .on("pointerdown", () => {
                         this.changeAudioButton(volumeType, buttonNum);
+                        audioScene.changeVolume(volumeType, buttonNum);
                     });
 
                 audioButtonRow.push(audioButton);
@@ -367,30 +305,6 @@ export class DashboardScene extends Phaser.Scene {
         });
     }
 
-    showSkills(isVisible) {
-        if (isVisible) {
-            this.hideAllMenus();
-            this.skills.button.setAlpha(1);
-            this.currentPanel = CONSTANTS.PANEL.SKILLS;
-        } else {
-            this.skills.button.setAlpha(0.1);
-        }
-
-        // Show panel and all skill text
-        this.skills.panel.visible = isVisible;
-        this.attackText.visible = isVisible;
-        this.attackBottomText.visible = isVisible;
-        this.rangedText.visible = isVisible;
-        this.rangedBottomText.visible = isVisible;
-        this.prayerText.visible = isVisible;
-        this.prayerBottomText.visible = isVisible;
-        this.magicText.visible = isVisible;
-        this.magicBottomText.visible = isVisible;
-        this.totalLevelText.visible = isVisible;
-        this.woodcuttingText.visible = isVisible;
-        this.woodcuttingBottomText.visible = isVisible;
-    }
-
     showPrayer(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
@@ -471,18 +385,15 @@ export class DashboardScene extends Phaser.Scene {
     }
 
     // Hide old button and show new one
-    changeAudioButton(volumeType, buttonNum) {
-        for (let button in this.audio.audioButtons[volumeType]) {
-            this.audio.audioButtons[volumeType][button].setAlpha(0.1);
-        }
-        this.audio.audioButtons[volumeType][buttonNum].setAlpha(1);
-
-        this.audio.scene.changeVolume(volumeType, buttonNum);
+    changeAudioButton(volumeType, newButton) {
+        let previousVolume = this.characterData.audio[volumeType];
+        this.audio.audioButtons[volumeType][previousVolume].setAlpha(0.1);
+        this.audio.audioButtons[volumeType][newButton].setAlpha(1);
     }
 
     hideAllMenus() {
         this.showAudioSettings(false);
-        this.showSkills(false);
+        this.skills.obj.showSkills(false);
         this.showPrayer(false);
         this.showQuests(false);
         this.showEquipment(false);
@@ -490,52 +401,6 @@ export class DashboardScene extends Phaser.Scene {
         this.equipment.obj.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
-    }
-
-    updateSkillsText() {
-        if (this.scene.isActive()) {
-            let totalLevel = 0;
-
-            // Attack
-            let level = calcLevel(this.characterData.skills.attack);
-            this.attackText.text = level;
-            this.attackBottomText.text = level;
-            totalLevel += level;
-
-            // Ranged
-            level = calcLevel(this.characterData.skills.ranged);
-            this.rangedText.text = level;
-            this.rangedBottomText.text = level;
-            totalLevel += level;
-
-            // Prayer
-            level = calcLevel(this.characterData.skills.prayer);
-            this.prayerText.text = level;
-            this.prayerBottomText.text = level;
-            this.prayerHotbarText.text = level;
-            this.prayer.curPrayerText.text = level;
-            this.prayer.maxPrayerText.text = level;
-            totalLevel += level;
-
-            // Magic
-            level = calcLevel(this.characterData.skills.magic);
-            this.magicText.text = level;
-            this.magicBottomText.text = level;
-            totalLevel += level;
-
-            // Woodcutting
-            level = calcLevel(this.characterData.skills.woodcutting);
-            this.woodcuttingText.text = level;
-            this.woodcuttingBottomText.text = level;
-            totalLevel += level;
-
-            this.totalLevelText.text = totalLevel;
-        } else {
-            // If called before load, update once loaded
-            this.events.once("create", () => {
-                this.updateSkillsText();
-            });
-        }
     }
 
     updateKillQuestText() {

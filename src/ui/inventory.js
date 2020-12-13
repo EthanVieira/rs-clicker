@@ -1,5 +1,5 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { getItemClass } from "../utilities.js";
+import { getItemClass } from "../items/get-item-class.js";
 
 export class Inventory {
     scene;
@@ -22,7 +22,7 @@ export class Inventory {
             let item = this.playerItems[index];
             if (Object.keys(item).length) {
                 // Create item from name
-                let itemObj = await getItemClass(item.item, item.type, this.scene);
+                let itemObj = await getItemClass(item.item, this.scene);
                 itemObj.setNumItems(item.count);
                 this.addToInventoryAtIndex(itemObj, index);
             }
@@ -33,8 +33,7 @@ export class Inventory {
     addToInventoryAtIndex(item, index, createSprite = true) {
         // Add to saved data
         this.playerItems[index] = {
-            item: item.item,
-            type: item.type,
+            item: item.constructor.name,
             count: item.numItems,
         };
 
@@ -69,8 +68,7 @@ export class Inventory {
             if (
                 itemExists &&
                 item.stackable &&
-                this.playerItems[index].item == item.item &&
-                this.playerItems[index].type == item.type
+                this.playerItems[index].item == item.constructor.name
             ) {
                 let curItem = this.inventory[index];
 
@@ -79,6 +77,9 @@ export class Inventory {
 
                 // Update it in the cookies
                 this.playerItems[index].count += item.numItems;
+
+                // Delete old item
+                item.destroy();
 
                 return true;
             }
@@ -105,18 +106,30 @@ export class Inventory {
         }
     }
 
-    highlightItem(index) {
+    selectItem(index) {
+        let item1 = this.inventory[this.curSelectedItemIndex];
+
+        // Unselect item
         if (index == this.curSelectedItemIndex) {
             this.curSelectedItemIndex = -1;
-        } else {
-            // Use this ugly method to see if obj is empty
-            if (
-                this.curSelectedItemIndex >= 0 &&
-                Object.keys(this.inventory[this.curSelectedItemIndex]).length
-            ) {
-                this.inventory[this.curSelectedItemIndex].highlightItem();
-            }
+        }
+        // Select item
+        else if (this.curSelectedItemIndex < 0 || !Object.keys(item1).length) {
             this.curSelectedItemIndex = index;
+        }
+        // Combine items
+        else {
+            let item2 = this.inventory[index];
+
+            // Attempt to craft
+            if (item1.canCraft) {
+                item1.craft(item2);
+            } else if (item2.canCraft) {
+                item2.craft(item1);
+            }
+            this.curSelectedItemIndex = -1;
+            item1.setHighlight(false);
+            item2.setHighlight(false);
         }
     }
 
