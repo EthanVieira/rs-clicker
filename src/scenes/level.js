@@ -1,6 +1,5 @@
 import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
-import { defaultData } from "../default-data.js";
-import { storeCookies } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -18,18 +17,16 @@ export class LevelScene extends Phaser.Scene {
         path: "",
     };
 
-    // targets: enemy, tree, etc.
+    // Targets: enemy, tree, etc.
     targets = [];
     targetMetaData = [];
     currentTargetIndex = 0;
     levelType = "";
 
-    // Character
-    characterData;
-
-    // Dashboard for inventory, skills, etc.
+    // Scenes
     dashboard;
     stats;
+    audioScene;
 
     // For enemy levels
     killQuest = 0;
@@ -54,11 +51,6 @@ export class LevelScene extends Phaser.Scene {
         }
     }
 
-    init(characterData) {
-        // Receive cookies if they exist
-        this.characterData = characterData;
-    }
-
     preload() {
         // Background
         this.load.image(this.background.name, this.background.path);
@@ -74,27 +66,20 @@ export class LevelScene extends Phaser.Scene {
     }
 
     create() {
-        // Set current level
-        this.characterData.currentLevel = this.currentLevel;
+        characterData.setCurrentLevel(this.currentLevel);
 
         // Play music
-        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-        audioScene.playBgm(this.audio.bgm);
-
-        // Initialize volume levels
-        audioScene.changeVolume(0, this.characterData.audio[0]);
-        audioScene.changeVolume(1, this.characterData.audio[1]);
-        audioScene.changeVolume(2, this.characterData.audio[2]);
+        this.audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        this.audioScene.playBgm(this.audio.bgm);
 
         // Launch dashboard, stats, and chat scenes in parallel
-        this.scene.run(CONSTANTS.SCENES.DASHBOARD, this.characterData);
+        this.scene.run(CONSTANTS.SCENES.DASHBOARD);
         this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
         this.scene.run(CONSTANTS.SCENES.STATS, {
-            characterData: this.characterData,
             levelType: this.levelType,
         });
         this.stats = this.scene.get(CONSTANTS.SCENES.STATS);
-        this.scene.run(CONSTANTS.SCENES.CHAT, this.characterData);
+        this.scene.run(CONSTANTS.SCENES.CHAT);
 
         // Helper vars
         this.width = this.cameras.main.width;
@@ -115,7 +100,7 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(0);
         this.minimap.obj.setInteractive();
         this.minimap.obj.on("pointerup", () => {
-            this.scene.start(CONSTANTS.SCENES.MAP, this.characterData);
+            this.scene.start(CONSTANTS.SCENES.MAP);
             console.log("Going to World Map");
         });
 
@@ -129,17 +114,18 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive();
         exitButton.on("pointerup", () => {
-            this.scene.start(CONSTANTS.SCENES.MAIN_MENU, this.characterData);
+            this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
         });
 
         // Display first click object
         this.targets[this.currentTargetIndex].show();
 
         // Scene destructor
-        this.events.on("shutdown", () => {
+        this.events.once("shutdown", () => {
             this.targets = [];
 
             // Hide dashboard and stats
+            this.scene.stop(CONSTANTS.SCENES.CHAT);
             this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.stop(CONSTANTS.SCENES.STATS);
         });
@@ -148,7 +134,7 @@ export class LevelScene extends Phaser.Scene {
     update(time, delta) {
         // Update cookies every second
         if (this.timeDelta >= 1000) {
-            storeCookies(this.characterData);
+            characterData.storeCookies();
             this.timeDelta = 0;
         } else {
             this.timeDelta += delta;
@@ -162,22 +148,28 @@ export class LevelScene extends Phaser.Scene {
 
     enemyKilled(name) {
         // Update kill quest score
-        if (this.characterData[this.currentLevel].enemiesKilled[name] < this.killQuest) {
-            this.characterData[this.currentLevel].enemiesKilled[name]++;
+        if (characterData.getEnemiesKilled(this.currentLevel, name) < this.killQuest) {
+            characterData.incEnemiesKilled(this.currentLevel, name);
 
             let questCompleted = true;
-            this.targetMetaData.forEach((enemy, index) => {
+            this.targets.forEach((enemy, index) => {
                 // Check for quest completion
                 if (
-                    this.characterData[this.currentLevel].enemiesKilled[name] <
+                    characterData.getEnemiesKilled(this.currentLevel, enemy.varName) <
                     this.killQuest
                 ) {
                     questCompleted = false;
                 }
                 // Set as complete if all passed on last index
-                else if (questCompleted && index == this.targetMetaData.length - 1) {
-                    this.characterData[this.currentLevel].questCompleted = true;
+                else if (questCompleted && index == this.targets.length - 1) {
                     console.log("Quest complete!");
+                    characterData.setQuestCompleted(this.currentLevel);
+
+                    if (Math.random() < 0.5) {
+                        this.audioScene.playSfx("quest-complete-1");
+                    } else {
+                        this.audioScene.playSfx("quest-complete-2");
+                    }
                 }
             });
         }

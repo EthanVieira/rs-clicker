@@ -1,28 +1,22 @@
 import { CONSTANTS } from "../constants/constants.js";
+import { characterData } from "../cookie-io.js";
 
 const BGM = 0;
 const SFX = 1;
 const ENV = 2;
 
 export class AudioScene extends Phaser.Scene {
-    currentSong = {};
+    bgm = {};
     sfx = {};
     audioLoaded = false;
-    currentVolume = [2, 2, 2];
     previousVolume = [2, 2, 2];
     currentSongName = "";
     queuedSongName = "";
-
-    characterData = {};
 
     constructor() {
         super({
             key: CONSTANTS.SCENES.AUDIO,
         });
-    }
-
-    init(data) {
-        this.characterData = data;
     }
 
     preload() {
@@ -40,12 +34,31 @@ export class AudioScene extends Phaser.Scene {
             "purchase",
             "src/assets/audio/sfx/GrandExchangeOfferComplete.mp3"
         );
+        this.load.audio("quest-complete-1", "src/assets/audio/sfx/QuestCompleted1.ogg");
+        this.load.audio("quest-complete-2", "src/assets/audio/sfx/QuestCompleted2.ogg");
+
+        const skills = [
+            "Attack",
+            "Fletching",
+            "Magic",
+            "Mining",
+            "Prayer",
+            "Ranged",
+            "Woodcutting",
+        ];
+        for (let skill of skills) {
+            this.load.audio(
+                skill.toLowerCase() + "-level-up",
+                "src/assets/audio/sfx/" + skill + "LevelUp.ogg"
+            );
+        }
     }
 
     create() {
         // Don't pause BGM when clicking off the window
         this.sound.pauseOnBlur = false;
-        this.changeVolume(BGM, this.characterData.audio[BGM]);
+        this.changeVolume(BGM, characterData.getVolume(BGM));
+        this.changeVolume(SFX, characterData.getVolume(SFX));
     }
 
     playBgm(audioName) {
@@ -56,14 +69,14 @@ export class AudioScene extends Phaser.Scene {
                 console.log("playing music", audioName);
                 if (this.audioLoaded) {
                     console.log("stopped prev song");
-                    this.currentSong.stop();
+                    this.bgm.stop();
                 }
                 this.currentSongName = audioName;
-                this.currentSong = this.sound.add(audioName);
-                this.currentSong.setLoop(true);
-                this.currentSong.play();
+                this.bgm = this.sound.add(audioName);
+                this.bgm.setLoop(true);
+                this.bgm.play();
                 this.audioLoaded = true;
-                this.changeVolume(BGM, this.currentVolume[BGM]);
+                this.changeVolume(BGM, characterData.getVolume(BGM));
             } else {
                 // If called before load, play once loaded
                 this.queuedSongName = audioName;
@@ -76,36 +89,38 @@ export class AudioScene extends Phaser.Scene {
 
     // Pause BGM while playing SFX
     playSfx(audioName) {
-        this.currentSong.pause();
-        if (this.sfx != undefined && this.sfx.isPlaying) {
+        console.log("playing", audioName);
+        this.bgm.pause();
+        if (this.sfx?.isPlaying) {
             this.sfx.stop();
-            this.currentSong.pause();
+            this.bgm.pause();
         }
         this.sfx = this.sound.add(audioName);
-        this.sfx.setVolume(this.currentVolume[SFX] / 4);
+        this.sfx.setVolume(characterData.getVolume(SFX) / 4);
         this.sfx.play();
         this.sfx.once("complete", () => {
-            this.currentSong.resume();
+            this.bgm.resume();
         });
     }
 
     // 0: BGM, 1: SFX, 2: Environment
     changeVolume(volumeType, value) {
         // Set volume and show button
-        this.characterData.audio[volumeType] = value;
-        this.currentVolume[volumeType] = value;
+        characterData.setVolume(volumeType, value);
 
         // Lower volume of currently playing BGM
-        if (volumeType == BGM && this.audioLoaded) {
-            this.currentSong.setVolume(value / 4); // 0-4 = 0-100
+        if (volumeType == BGM && this.bgm?.isPlaying) {
+            this.bgm.setVolume(value / 4); // 0-4 = 0-100
+        } else if (volumeType == SFX && this.sfx?.isPlaying) {
+            this.sfx.setVolume(value / 4);
         }
     }
 
     mute(isMuted) {
         if (isMuted) {
-            this.previousVolume[BGM] = this.currentVolume[BGM];
-            this.previousVolume[SFX] = this.currentVolume[SFX];
-            this.previousVolume[ENV] = this.currentVolume[ENV];
+            this.previousVolume[BGM] = characterData.getVolume(BGM);
+            this.previousVolume[SFX] = characterData.getVolume(SFX);
+            this.previousVolume[ENV] = characterData.getVolume(ENV);
             this.changeVolume(BGM, 0);
             this.changeVolume(SFX, 0);
             this.changeVolume(ENV, 0);

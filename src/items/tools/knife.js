@@ -1,6 +1,7 @@
 import Tool from "../tool.js";
 import { CONSTANTS } from "../../constants/constants.js";
-import { getItemClass } from "../get-item-class.js";
+import { getItemClass } from "../../utilities.js";
+import { characterData } from "../../cookie-io.js";
 
 export default class Knife extends Tool {
     // Text data
@@ -25,12 +26,12 @@ export default class Knife extends Tool {
             case "Logs":
                 className = "NormalShortbow";
                 numRequiredItems = 50;
-                xpGiven = 50;
+                xpGiven = 250;
                 break;
             case "Oak Logs":
                 className = "OakShortbow";
                 numRequiredItems = 50;
-                xpGiven = 100;
+                xpGiven = 500;
                 break;
             default:
                 console.log("Not a valid crafting combination.");
@@ -45,9 +46,10 @@ export default class Knife extends Tool {
             let newItem = await getItemClass(className, this.dashboard);
             if (this.dashboard.inventory.obj.addToInventory(newItem)) {
                 item.setNumItems(item.numItems - numRequiredItems);
-                this.scene.characterData.skills.fletching += xpGiven;
-                this.scene.skills.obj.updateSkillsText();
+                characterData.addSkillXp("fletching", xpGiven);
             }
+        } else if (className != "" && item.numItems < numRequiredItems) {
+            console.log(numRequiredItems, "are needed to craft that");
         }
     }
 }

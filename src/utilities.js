@@ -1,11 +1,3 @@
-import { defaultData } from "./default-data.js";
-import { CONSTANTS } from "./constants/constants.js";
-
-export function getDefaultData() {
-    // Reset data (deep copy)
-    return JSON.parse(JSON.stringify(defaultData));
-}
-
 // Returns XP needed for given level, not total xp
 function calcLevelUpXp(lv) {
     return Math.floor(0.25 * (lv + 300 * Math.pow(2, lv / 7)));
@@ -29,15 +21,13 @@ export function calcRemainingXp(xp) {
     return levelUpXp - xp + 1;
 }
 
-export function storeCookies(characterData) {
-    characterData.hasCookies = true;
+var itemClasses = {};
+export async function getItemClass(itemName, scene) {
+    let itemClass = itemClasses[itemName];
 
-    // Lasts for one year
-    let dateTime = new Date();
-    dateTime.setTime(dateTime.getTime() + CONSTANTS.UTILS.MILLIS_IN_YEAR);
-    let expireString = "expires=" + dateTime.toUTCString();
+    return new itemClass.default(scene);
+}
 
-    // Turn characterData into a json string and store it in a cookie
-    let jsonString = JSON.stringify(characterData);
-    document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
+export async function setItemClass(key, value) {
+    itemClasses[key] = value;
 }

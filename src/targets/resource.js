@@ -2,6 +2,7 @@ import { ProgressBar } from "../ui/progress-bar.js";
 import { CONSTANTS } from "../constants/constants.js";
 import { calcLevel } from "../utilities.js";
 import { Target } from "./target.js";
+import { characterData } from "../cookie-io.js";
 
 export class Resource extends Target {
     skill = "";
@@ -27,14 +28,12 @@ export class Resource extends Target {
     }
 
     getClickValue() {
-        return calcLevel(this.characterData.skills[this.skill]);
+        return calcLevel(characterData.getSkillXp(this.skill));
     }
 
     onClick(clickValue) {}
 
     onCompletion() {
-        // Increase skill xp
-        this.characterData.skills[this.skill] += this.neededClicks;
-        this.scene.dashboard.skills.obj.updateSkillsText();
+        characterData.addSkillXp(this.skill, this.neededClicks);
     }
 }

@@ -12,7 +12,6 @@ export class Target extends ClickableObject {
 
     scene;
     stats;
-    characterData;
 
     constructor(data) {
         super();
@@ -56,7 +55,6 @@ export class Target extends ClickableObject {
         this.images = data.images;
         this.scene = data.scene;
         this.stats = data.scene.stats;
-        this.characterData = data.scene.characterData;
         this.equipment = data.scene.dashboard.equipment;
     }
 

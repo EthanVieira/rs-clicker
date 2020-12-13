@@ -1,25 +1,37 @@
 // TODO: gray out items that are too expensive
-import { calcLevel } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
+import { calcLevel, getItemClass } from "../utilities.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { getItemClass } from "../items/get-item-class.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
 import { autoclickerManifest } from "../auto-clickers/auto-clicker-manifest.js";
 import { ScrollWindow } from "../ui/scroll-window.js";
 
 export class ShopScene extends Phaser.Scene {
+    // Scenes
+    audio;
+    scrollWindow;
+
+    background;
+    loadingText;
+    exitButton;
+
+    shopIcons = [];
+    currentGold = 0;
+
+    weaponsButton;
+    weaponsText;
+    toolsButton;
+    toolsText;
+    consumablesButton;
+    consumablesText;
+    clanButton;
+    clanText;
+
     constructor() {
         super({
             key: CONSTANTS.SCENES.SHOP,
         });
-    }
-
-    init(data) {
-        // Carry along character data
-        this.characterData = data[0];
-        this.currentLevel = data[1];
-        this.shopIcons = [];
-        this.currentGold = this.characterData.gold;
     }
 
     preload() {
@@ -39,7 +51,13 @@ export class ShopScene extends Phaser.Scene {
     }
 
     create() {
-        console.log("shop create");
+        // Run chat scene but hide the bottom buttons after create
+        this.scene.run(CONSTANTS.SCENES.CHAT);
+        let chatScene = this.scene.get(CONSTANTS.SCENES.CHAT);
+        chatScene.events.once("create", () => {
+            chatScene.hideButtons();
+        });
+
         // Add background
         this.background = this.add
             .image(0, 0, "shop-interface")
@@ -52,8 +70,16 @@ export class ShopScene extends Phaser.Scene {
         this.loadingText.visible = false;
 
         // Add scrollable window for items
-        this.scrollWindow = new ScrollWindow("shop");
-        this.scene.add("scroll-window", this.scrollWindow, true, this.characterData);
+        this.scrollWindow = new ScrollWindow({
+            name: "shop",
+            x: 0,
+            y: 100,
+            width: 450,
+            height: 214,
+            numColumns: 3,
+            padding: 35,
+        });
+        this.scene.add(this.scrollWindow.name, this.scrollWindow, true);
 
         // Display the shop (weapons displayed by default)
         this.loadShop(CONSTANTS.ITEM_TYPES.WEAPON);
@@ -65,9 +91,9 @@ export class ShopScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerup", () => {
                 // Pass in the current level to know which level to return to upon exiting the shop.
-                this.scene.start(this.currentLevel, this.characterData);
+                this.scene.start(characterData.getCurrentLevel());
                 this.scene.remove(this.scrollWindow.name);
-                console.log("Going back to", this.currentLevel);
+                console.log("Going back to", characterData.getCurrentLevel());
             });
 
         // Buttons to switch between weapons/tools/consumables/clan members (autoclickers)
@@ -131,23 +157,25 @@ export class ShopScene extends Phaser.Scene {
 
     // Update the shop to display current gold
     update() {
-        if (this.currentGold != this.characterData.gold) {
+        if (this.currentGold != characterData.getGold()) {
             this.audio.playSfx("purchase");
-            this.displayGold(this.characterData.gold);
-            this.currentGold = this.characterData.gold;
+            this.displayGold();
         }
     }
 
     loadShop(type) {
         // Displays cash stack
-        this.displayGold(this.characterData.gold);
+        this.displayGold();
 
         // Loads items into shopItems and displays items on screen
-        this.loadItems(type, this.characterData.skills);
+        this.loadItems(type);
     }
 
     // Outputs the gold text in RS format: 1m = 1000k, 10m = green text, 1b = 1000m
-    displayGold(gold) {
+    displayGold() {
+        let gold = characterData.getGold();
+        this.currentGold = gold;
+
         if (this.goldImage != undefined) {
             this.goldImage.destroy();
             this.goldText.destroy();
@@ -179,7 +207,7 @@ export class ShopScene extends Phaser.Scene {
 
         // Pick text color and style based on # of coins
         let color = "white";
-        let goldText = this.characterData.gold;
+        let goldText = gold;
         if (gold > 99999 && gold < 10000000) {
             goldText = gold / 1000 + "k";
         } else if (gold > 10000000) {
@@ -194,8 +222,8 @@ export class ShopScene extends Phaser.Scene {
         });
     }
 
-    // Load items based on the character's levels
-    loadItems(itemType, characterSkills) {
+    // Load items
+    loadItems(itemType) {
         console.log("Loading " + itemType);
         this.loadingText.visible = true;
 
@@ -210,10 +238,6 @@ export class ShopScene extends Phaser.Scene {
 
     // Display the loaded images in the shop
     async displayItems(itemType) {
-        // Scroll window offsets from the main window, used to position right-click menu
-        let scrollX = 20,
-            scrollY = 100;
-
         if (itemType == "CLAN") {
             for (let clickerName in autoclickerManifest) {
                 let clicker = await getAutoclickerClass(clickerName, this.scrollWindow);
@@ -228,7 +252,7 @@ export class ShopScene extends Phaser.Scene {
                     let newItem = await getItemClass(item, this.scrollWindow);
 
                     // Create sprite
-                    newItem.createShopSprite(scrollX, scrollY);
+                    newItem.createShopSprite(20, 100);
                     newItem.setVisible(false);
                     this.shopIcons.push(newItem);
                 }
@@ -236,15 +260,9 @@ export class ShopScene extends Phaser.Scene {
         }
 
         // Attach to the scroll window
-        this.scrollWindow.addObjects({
-            x: scrollX,
-            y: scrollY,
-            width: 450,
-            height: 214,
-            numColumns: 3,
-            padding: 35,
-            objects: this.shopIcons,
-        });
+        this.scrollWindow.clearObjects();
+        this.scrollWindow.addObjects(this.shopIcons);
+        this.scrollWindow.refresh();
         this.loadingText.visible = false;
     }
 

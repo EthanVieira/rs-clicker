@@ -1,7 +1,8 @@
 import { ClickableObject } from "../clickable-object.js";
 import { OBJECT_TYPES, CONSTANTS } from "../constants/constants.js";
 import { itemManifest } from "./item-manifest.js";
-import { getItemClass } from "./get-item-class.js";
+import { getItemClass } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 
 export class Item extends ClickableObject {
     // Text data
@@ -96,17 +97,17 @@ export class Item extends ClickableObject {
     }
 
     async buy() {
-        if (this.scene.characterData.gold >= this.cost) {
+        if (characterData.getGold() >= this.cost) {
             console.log("Buying", this.name);
             let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
 
             // Create new non-shop item
             let boughtItem = await getItemClass(this.constructor.name, dashboard);
             if (dashboard.inventory.obj.addToInventory(boughtItem)) {
-                this.scene.characterData.gold -= this.cost;
+                characterData.addGold(-1 * this.cost);
             }
         } else {
-            console.log("not enough mulah", this.scene.characterData.gold, this.cost);
+            console.log("not enough mulah", characterData.getGold(), this.cost);
         }
     }
 
@@ -146,6 +147,12 @@ export class Item extends ClickableObject {
         } else {
             this.numItems = num;
 
+            // Update saved data
+            characterData.setInventory(this.index, {
+                item: this.constructor.name,
+                count: this.numItems,
+            });
+
             // Update text
             if (this.numItemsText != undefined) {
                 let visualNum = "0";
@@ -153,21 +160,25 @@ export class Item extends ClickableObject {
 
                 // Set format/color based on the amount
                 switch (true) {
-                    case num < 1000:
+                    case num < 99999:
                         visualNum = num;
                         fillColor = "orange";
                         break;
-                    case num < 10000:
-                        visualNum = (num / 1000).toFixed(1) + " k";
+                    case num < 9999999:
+                        visualNum = (num / 1000).toFixed(1) + "k";
                         fillColor = "white";
                         break;
                     default:
-                        visualNum = (num / 1000000).toFixed(1) + " m";
+                        visualNum = (num / 1000000).toFixed(1) + "m";
                         fillColor = "green";
                         break;
                 }
-                this.numItemsText.text = visualNum;
-                this.numItemsText.setFill(fillColor);
+
+                // Can't change text while in different scene (like the shop)
+                if (this.scene.scene.isActive()) {
+                    this.numItemsText.text = visualNum;
+                    this.numItemsText.setFill(fillColor);
+                }
 
                 // Make visible if item is also visible
                 if (num <= 1) {
@@ -194,7 +205,7 @@ export class Item extends ClickableObject {
     destroy(deleteCookies = true) {
         // Remove from inventory
         if (deleteCookies && this.index >= 0) {
-            this.scene.characterData.inventory[this.index] = "";
+            characterData.setInventory(this.index, "");
         }
 
         // Destroy objects

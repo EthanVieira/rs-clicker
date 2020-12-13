@@ -8,11 +8,11 @@ export class VarrockMineScene extends LevelScene {
         super({
             key: CONSTANTS.SCENES.VARROCK_MINE,
             background: {
-                name: "varrock",
+                name: "varrock-mine",
                 path: "src/assets/backgrounds/VarrockMineBackground.png",
             },
             minimap: {
-                name: "varrock_map",
+                name: "varrock-mine-map",
                 path: "src/assets/maps/VarrockMineMap.png",
             },
             targets: [TinRock, CopperRock],

@@ -1,11 +1,11 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { calcLevel, calcRemainingXp } from "../utilities.js";
 import { getSkillDescription } from "./skill-descriptions.js";
+import { characterData } from "../cookie-io.js";
 
 export class Skills {
     scene;
     statsScene;
-    saveData = {};
     skillText = {};
 
     hoverGraphics;
@@ -26,16 +26,15 @@ export class Skills {
     skillWidth = 64;
     skillHeight = 31;
 
-    constructor(scene, skillData) {
+    constructor(scene) {
         this.scene = scene;
-        this.saveData = skillData;
 
         let startX = 585,
             startY = 220,
             index = 0;
 
         // Add level text for skills
-        for (let skill in this.saveData) {
+        for (let skill in characterData.getSkills()) {
             let row = index % 3;
             let column = Math.floor(index / 3);
             let x = startX + row * this.skillWidth;
@@ -147,9 +146,10 @@ export class Skills {
     updateSkillsText() {
         if (this.scene.scene.isActive()) {
             let totalLevel = 0;
+            const skills = characterData.getSkills();
 
-            for (let skill in this.saveData) {
-                let level = calcLevel(this.saveData[skill]);
+            for (let skill in skills) {
+                let level = calcLevel(skills[skill]);
                 this.skillText[skill].text = level;
                 this.skillText[skill + "Bottom"].text = level;
 
@@ -182,7 +182,7 @@ export class Skills {
             column = Math.floor((x - 550) / this.skillWidth);
             row = Math.floor((y - 205) / this.skillHeight);
             index = column + row * 3;
-            skill = Object.keys(this.saveData)[index];
+            skill = Object.keys(characterData.getSkills())[index];
 
             return { skill, index, row, column };
         }
@@ -199,8 +199,8 @@ export class Skills {
             if (index < 23) {
                 this.hoverNameText.text = skill[0].toUpperCase() + skill.substring(1);
                 this.hoverXpText.text =
-                    "Total XP: " + this.saveData[skill].toLocaleString();
-                let remainingXp = calcRemainingXp(this.saveData[skill]);
+                    "Total XP: " + characterData.getSkillXp(skill).toLocaleString();
+                let remainingXp = calcRemainingXp(characterData.getSkillXp(skill));
                 this.hoverRemainingXpText.text =
                     "Remaining: " + remainingXp.toLocaleString();
             } else {
@@ -208,8 +208,8 @@ export class Skills {
 
                 // Get cumulative XP
                 let sum = 0;
-                for (let curSkill in this.saveData) {
-                    sum += this.saveData[curSkill];
+                for (let [curSkill, xp] of Object.entries(characterData.getSkills())) {
+                    sum += xp;
                 }
                 this.hoverXpText.text = "Total XP: " + sum.toLocaleString();
                 this.hoverRemainingXpText.text = "";
@@ -274,13 +274,13 @@ export class Skills {
         if (this.statsScene == undefined) {
             this.statsScene = this.scene.scene.get(CONSTANTS.SCENES.STATS);
         }
+
         if (isVisible) {
             this.statsScene.show(false);
         } else {
             // Put correct stats per scene
             this.statsScene.showStats();
         }
-
         for (let obj in this.skillInfo) {
             this.skillInfo[obj].visible = isVisible;
         }

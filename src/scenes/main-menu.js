@@ -1,10 +1,8 @@
 import { CONSTANTS } from "../constants/constants.js";
-import { getDefaultData, storeCookies } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 import { Button } from "../ui/button.js";
 
 export class MainMenuScene extends Phaser.Scene {
-    characterData = {};
-
     settingsWindow;
     settingsOpen = false;
     settingsTitle;
@@ -14,14 +12,12 @@ export class MainMenuScene extends Phaser.Scene {
     mutedButton;
     unmutedButton;
 
+    audioScene;
+
     constructor() {
         super({
             key: CONSTANTS.SCENES.MAIN_MENU,
         });
-    }
-
-    init(characterData) {
-        this.characterData = characterData;
     }
 
     preload() {
@@ -77,16 +73,9 @@ export class MainMenuScene extends Phaser.Scene {
             // Prevent play while settings are open
             if (this.settingsOpen) {
                 this.toggleSettings(false);
-            } else if (
-                this.characterData.hasCookies &&
-                this.characterData.currentLevel != "" &&
-                typeof this.characterData.currentLevel != undefined
-            ) {
-                this.scene.start(this.characterData.currentLevel, this.characterData);
-                console.log("Going to", this.characterData.currentLevel);
             } else {
-                this.scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND, this.characterData);
-                console.log("Going to Tutorial Island");
+                this.scene.start(characterData.getCurrentLevel());
+                console.log("Going to", characterData.getCurrentLevel());
             }
         });
 
@@ -105,10 +94,12 @@ export class MainMenuScene extends Phaser.Scene {
         let yesButton = new Button(this, 332, 232, 60, 30, { depth: 4 });
         yesButton.on("pointerup", () => {
             if (this.settingsOpen) {
-                this.characterData = getDefaultData();
+                characterData.reset();
+                characterData.storeCookies();
                 this.toggleSettings(false);
-                storeCookies(this.characterData);
-                this.characterData.currentLevel = CONSTANTS.SCENES.TUTORIAL_ISLAND;
+                this.showMuteButton(false);
+                const BGM = 0;
+                this.audioScene.changeVolume(BGM, characterData.getVolume(BGM));
             }
         });
 
@@ -121,8 +112,8 @@ export class MainMenuScene extends Phaser.Scene {
         });
 
         // Get audio scene
-        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-        audioScene.playBgm("scape-main");
+        this.audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        this.audioScene.playBgm("scape-main");
 
         // Muted button
         this.mutedButton = this.add
@@ -135,8 +126,8 @@ export class MainMenuScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerup", () => {
                 this.showMuteButton(false);
-                audioScene.mute(false);
-                storeCookies(this.characterData);
+                this.audioScene.mute(false);
+                characterData.storeCookies();
             });
 
         // Unmuted button
@@ -150,12 +141,12 @@ export class MainMenuScene extends Phaser.Scene {
             .setInteractive()
             .on("pointerup", () => {
                 this.showMuteButton(true);
-                audioScene.mute(true);
-                storeCookies(this.characterData);
+                this.audioScene.mute(true);
+                characterData.storeCookies();
             });
 
         // Check if audio is muted
-        if (this.characterData.audio[0] > 0) {
+        if (characterData.getVolume(0) > 0) {
             this.showMuteButton(false);
         } else {
             this.showMuteButton(true);

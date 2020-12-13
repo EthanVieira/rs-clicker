@@ -11,7 +11,7 @@ export class LumbridgeTreeScene extends LevelScene {
                 path: "src/assets/backgrounds/LumbridgeBackground.jpg",
             },
             minimap: {
-                name: "lumbridgeMap",
+                name: "lumbridge-map",
                 path: "src/assets/maps/LumbridgeMap.png",
             },
             targets: [NormalTree],

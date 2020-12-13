@@ -1,16 +1,15 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { getItemClass } from "../items/get-item-class.js";
+import { getItemClass } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 
 export class Inventory {
     scene;
     menu;
-    playerItems = []; // Pointer to cookies, store item name/type/count
     inventory = []; // Images
     curSelectedItemIndex = -1;
 
-    constructor(scene, inventory) {
+    constructor(scene) {
         this.scene = scene;
-        this.playerItems = inventory;
 
         // Update and show inventory on startup
         this.refreshInventory();
@@ -18,8 +17,9 @@ export class Inventory {
 
     // Load inventory on startup
     async refreshInventory() {
-        for (let index = 0; index < this.playerItems.length; index++) {
-            let item = this.playerItems[index];
+        let playerItems = characterData.getInventory();
+        for (let index = 0; index < playerItems.length; index++) {
+            let item = playerItems[index];
             if (Object.keys(item).length) {
                 // Create item from name
                 let itemObj = await getItemClass(item.item, this.scene);
@@ -32,10 +32,10 @@ export class Inventory {
     // Add to specific index
     addToInventoryAtIndex(item, index, createSprite = true) {
         // Add to saved data
-        this.playerItems[index] = {
+        characterData.setInventory(index, {
             item: item.constructor.name,
             count: item.numItems,
-        };
+        });
 
         // Add item images
         const column = index % 4;
@@ -60,23 +60,22 @@ export class Inventory {
 
     // Add to first available slot
     addToInventory(item, createSprite = true) {
+        let playerItems = characterData.getInventory();
+
         // Check all slots to see if the item can stack
-        for (let index = 0; index < this.playerItems.length; index++) {
-            const itemExists = Object.keys(this.playerItems[index]).length;
+        for (let index = 0; index < playerItems.length; index++) {
+            const itemExists = Object.keys(playerItems[index]).length;
 
             // Check if it can stack with other items
             if (
                 itemExists &&
                 item.stackable &&
-                this.playerItems[index].item == item.constructor.name
+                playerItems[index].item == item.constructor.name
             ) {
                 let curItem = this.inventory[index];
 
                 // Update the item in the game
                 curItem.setNumItems(curItem.numItems + item.numItems);
-
-                // Update it in the cookies
-                this.playerItems[index].count += item.numItems;
 
                 // Delete old item
                 item.destroy();
@@ -86,8 +85,8 @@ export class Inventory {
         }
 
         // Search for empty slot
-        for (let index = 0; index < this.playerItems.length; index++) {
-            const itemExists = Object.keys(this.playerItems[index]).length;
+        for (let index = 0; index < playerItems.length; index++) {
+            const itemExists = Object.keys(playerItems[index]).length;
 
             // Check if slot is empty
             if (!itemExists) {
@@ -97,8 +96,8 @@ export class Inventory {
         }
 
         // Add to end
-        if (this.playerItems.length < 28) {
-            this.addToInventoryAtIndex(item, this.playerItems.length, createSprite);
+        if (playerItems.length < 28) {
+            this.addToInventoryAtIndex(item, playerItems.length, createSprite);
             return true;
         } else {
             console.log("Inventory is full");

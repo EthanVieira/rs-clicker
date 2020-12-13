@@ -1,14 +1,11 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
+import { characterData } from "../cookie-io.js";
 
 // Clan members function as autoclickers
 export class Clan {
     scene;
     scrollWindow;
-
-    // Pointer to cookies, stores clan name and member names
-    clanCookies;
-    characterData;
 
     // Phaser objects
     playerNameText;
@@ -18,8 +15,6 @@ export class Clan {
     constructor(scene, scrollWindow) {
         this.scene = scene;
         this.scrollWindow = scrollWindow;
-        this.characterData = scene.characterData;
-        this.clanCookies = this.characterData.clan;
 
         // Update and show clan info on startup
         this.refreshClan();
@@ -29,13 +24,13 @@ export class Clan {
     async refreshClan() {
         // Load clan name and player name
         this.clanNameText = this.scene.add
-            .text(610, 228, this.clanCookies.name, {
+            .text(610, 228, characterData.getClanName(), {
                 font: "15.5px runescape",
                 fill: "yellow",
             })
             .setDepth(3);
         this.playerNameText = this.scene.add
-            .text(610, 242, this.characterData.name, {
+            .text(610, 242, characterData.getName(), {
                 font: "15.5px runescape",
             })
             .setDepth(3);
@@ -45,7 +40,7 @@ export class Clan {
             startY = 280,
             yDiff = 18;
         let playerName = this.scrollWindow.add
-            .text(startX, startY, this.characterData.name, {
+            .text(startX, startY, characterData.getName(), {
                 font: "16px runescape",
             })
             .setDepth(3)
@@ -54,13 +49,15 @@ export class Clan {
 
         // Reset dps counter before refreshing autoclickers
         this.scene.currentScene.stats.resetAutoclickerDps();
-        for (let index = 0; index < this.clanCookies.members.length; index++) {
-            let memberName = this.clanCookies.members[index];
+        let savedClanMembers = characterData.getClanMembers();
+        for (let index = 0; index < savedClanMembers.length; index++) {
+            let memberName = savedClanMembers[index];
             let member = await getAutoclickerClass(memberName, this.scrollWindow);
             member.createText(false, startX, startY + (index + 1) * yDiff);
             member.setVisible(false);
             member.start(this.scene.currentScene);
             this.clanMembers.push(member);
+            this.scrollWindow.addObject(member);
         }
     }
 
@@ -76,7 +73,7 @@ export class Clan {
         this.clanMembers.push(member);
 
         // Add to saved data
-        this.clanCookies.members.push(member.name);
+        characterData.addClanMember(member.name);
 
         // Hide if clan tab is not selected
         let show = this.scene.currentPanel == CONSTANTS.PANEL.CLAN;
@@ -86,22 +83,11 @@ export class Clan {
     }
 
     show(isVisible) {
-        this.scrollWindow.refresh({
-            x: 535,
-            y: 280,
-            width: 175,
-            height: 140,
-            numColumns: 1,
-            padding: 10,
-            objects: this.clanMembers,
-        });
         if (isVisible) {
+            this.scrollWindow.refresh();
             this.scene.currentPanel = CONSTANTS.PANEL.CLAN;
         }
         this.scrollWindow.setVisible(isVisible);
-        // this.clanMembers.forEach((member) => {
-        //     member.setVisible(isVisible);
-        // });
         this.playerNameText.visible = isVisible;
         this.clanNameText.visible = isVisible;
     }
