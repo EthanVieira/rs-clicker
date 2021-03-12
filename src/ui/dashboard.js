@@ -5,7 +5,6 @@ import { Clan } from "./clan.js";
 import { Skills } from "./skills.js";
 import { ScrollWindow } from "./scroll-window.js";
 import { Button } from "./button.js";
-import { calcLevel } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
 
 export class DashboardScene extends Phaser.Scene {
@@ -43,6 +42,7 @@ export class DashboardScene extends Phaser.Scene {
     quests = {
         button: {},
         panel: {},
+        scrollWindow: {},
     };
 
     equipment = {
@@ -238,6 +238,19 @@ export class DashboardScene extends Phaser.Scene {
             this.showQuests(true);
         });
 
+        // Add scrollable window for quests
+        this.quests.scrollWindow = new ScrollWindow({
+            name: "quests",
+            x: 535,
+            y: 280,
+            width: 175,
+            height: 140,
+            numColumns: 1,
+            padding: 10,
+        });
+        this.scene.add(this.quests.scrollWindow.name, this.quests.scrollWindow, true);
+        this.quests.scrollWindow.refresh();
+
         // Set and hide quests on startup
         this.updateKillQuestText();
         this.showQuests(false);
@@ -302,6 +315,7 @@ export class DashboardScene extends Phaser.Scene {
         // Scene destructor
         this.events.once("shutdown", () => {
             this.scene.remove(this.clan.scrollWindow.name);
+            this.scene.remove(this.quests.scrollWindow.name);
         });
     }
 

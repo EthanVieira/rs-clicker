@@ -84,7 +84,7 @@ export class ChatScene extends Phaser.Scene {
         );
         this.reportButton = new Button(this, 402, 480, 115, 22);
         this.reportButton.on("pointerup", () => {
-            window.open("https://github.com/CurtisGreen/rs-clicker/issues", "_blank");
+            window.open("https://github.com/EthanVieira/rs-clicker/issues", "_blank");
         });
 
         this.show(false);
