@@ -181,11 +181,21 @@ class CharacterData {
                     !this.characterData.levels[level].unlocked &&
                     CONSTANTS.PREREQUISITES[level] == scene
                 ) {
-                    this.characterData.levels[scene].unlocked = true;
+                    this.characterData.levels[level].unlocked = true;
                     console.log("unlocking %s", level);
                 }
             }
         }
+    }
+
+    getUnlockedLevels() {
+        let unlockedLevels = [];
+        for (var level in this.characterData.levels) {
+            if (this.characterData.levels[level].unlocked) {
+                unlockedLevels.push(CONSTANTS.SCENES[level]);
+            }
+        }
+        return unlockedLevels;
     }
 
     incEnemiesKilled(scene, enemy) {

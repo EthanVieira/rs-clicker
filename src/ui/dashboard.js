@@ -6,6 +6,7 @@ import { Skills } from "./skills.js";
 import { ScrollWindow } from "./scroll-window.js";
 import { Button } from "./button.js";
 import { characterData } from "../cookie-io.js";
+import { QuestList } from "./quest-list.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -42,6 +43,7 @@ export class DashboardScene extends Phaser.Scene {
     quests = {
         button: {},
         panel: {},
+        list: {},
         scrollWindow: {},
     };
 
@@ -228,15 +230,10 @@ export class DashboardScene extends Phaser.Scene {
             .image(592, 168, "quests-button")
             .setOrigin(0, 0)
             .setDepth(2)
-            .setInteractive();
-
-        // Quest text
-        // TODO: show all quests
-        this.killQuestText = this.add.text(555, 256, "", { fill: "white" }).setDepth(3);
-
-        this.quests.button.on("pointerdown", () => {
-            this.showQuests(true);
-        });
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.showQuests(true);
+            });
 
         // Add scrollable window for quests
         this.quests.scrollWindow = new ScrollWindow({
@@ -251,8 +248,7 @@ export class DashboardScene extends Phaser.Scene {
         this.scene.add(this.quests.scrollWindow.name, this.quests.scrollWindow, true);
         this.quests.scrollWindow.refresh();
 
-        // Set and hide quests on startup
-        this.updateKillQuestText();
+        this.quests.list = new QuestList(this, this.quests.scrollWindow);
         this.showQuests(false);
 
         // Equipment
@@ -380,9 +376,8 @@ export class DashboardScene extends Phaser.Scene {
             this.quests.button.setAlpha(0.1);
         }
 
-        // Show panel and quest text
+        this.quests.list.show(isVisible);
         this.quests.panel.visible = isVisible;
-        this.killQuestText.visible = isVisible;
     }
 
     showClanChat(isVisible) {
