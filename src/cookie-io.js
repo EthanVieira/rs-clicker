@@ -178,7 +178,7 @@ class CharacterData {
             this.characterData.levels[scene].questCompleted = true;
             for (var level in this.characterData.levels) {
                 if (
-                    this.characterData.levels[level].unlocked == false &&
+                    !this.characterData.levels[level].unlocked &&
                     CONSTANTS.PREREQUISITES[level] == scene
                 ) {
                     this.characterData.levels[scene].unlocked = true;
