@@ -238,10 +238,10 @@ export class DashboardScene extends Phaser.Scene {
         // Add scrollable window for quests
         this.quests.scrollWindow = new ScrollWindow({
             name: "quests",
-            x: 535,
-            y: 280,
+            x: 541,
+            y: 250,
             width: 175,
-            height: 140,
+            height: 213,
             numColumns: 1,
             padding: 10,
         });
@@ -413,32 +413,5 @@ export class DashboardScene extends Phaser.Scene {
         this.equipment.obj.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
-    }
-
-    updateKillQuestText() {
-        this.killQuestText.text = "";
-        let curLevel = characterData.getCurrentLevel();
-        this.currentScene.targets.forEach((enemy, index) => {
-            // Add text
-            // TODO: Since there are currently no quests for tree levels those
-            // will show up as undefined/undefined
-            this.killQuestText.text +=
-                characterData.getEnemiesKilled(curLevel, enemy.varName) +
-                "/" +
-                this.currentScene.killQuest +
-                " " +
-                enemy.name +
-                "s";
-
-            // Check to see if there are multiple enemies
-            if (index + 1 < this.currentScene.targetMetaData.length) {
-                this.killQuestText.text += "\n";
-            }
-        });
-
-        // Add quest complete text
-        if (characterData.getQuestCompleted(curLevel)) {
-            this.killQuestText.text += "\n\nQuest Complete!";
-        }
     }
 }

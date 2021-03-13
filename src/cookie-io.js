@@ -198,6 +198,12 @@ class CharacterData {
         return unlockedLevels;
     }
 
+    getEnemiesInLevel(scene) {
+        if (this.checkScene(scene)) {
+            return this.characterData.levels[scene].enemiesKilled;
+        }
+    }
+
     incEnemiesKilled(scene, enemy) {
         if (this.checkEnemy(scene, enemy)) {
             this.characterData.levels[scene].enemiesKilled[enemy]++;

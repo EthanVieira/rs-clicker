@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
 import { characterData } from "../cookie-io.js";
+import { prettyPrintCamelCase } from "../utilities.js";
 
 export class QuestList {
     scene;
@@ -17,24 +18,24 @@ export class QuestList {
     }
 
     async refreshQuests() {
-        const startX = 555,
-            startY = 256,
-            yDiff = 18;
         this.questText.text = "";
         characterData.getUnlockedLevels().forEach((level) => {
             console.log("level: %s", level);
+
             let currentLevel = this.scene.scene.get(level);
             console.log("currentLevel: %s", currentLevel);
-            currentLevel.targets.forEach((enemy) => {
-                console.log("enemy: %s", enemy.name);
+
+            let enemies = characterData.getEnemiesInLevel(level);
+            for (var enemy in enemies) {
+                console.log("enemy: %s", enemy);
                 this.questText.text +=
-                    characterData.getEnemiesKilled(level, enemy.varName) +
+                    characterData.getEnemiesKilled(level, enemy) +
                     "/" +
                     currentLevel.killQuest +
                     " " +
-                    enemy.name +
+                    prettyPrintCamelCase(enemy) +
                     "s\n";
-            });
+            }
             console.log(this.questText.text);
         });
     }
