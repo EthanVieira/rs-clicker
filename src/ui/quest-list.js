@@ -20,14 +20,9 @@ export class QuestList {
     async refreshQuests() {
         this.questText.text = "";
         characterData.getUnlockedLevels().forEach((level) => {
-            console.log("level: %s", level);
-
             let currentLevel = this.scene.scene.get(level);
-            console.log("currentLevel: %s", currentLevel);
-
             let enemies = characterData.getEnemiesInLevel(level);
             for (var enemy in enemies) {
-                console.log("enemy: %s", enemy);
                 this.questText.text +=
                     characterData.getEnemiesKilled(level, enemy) +
                     "/" +
@@ -36,7 +31,6 @@ export class QuestList {
                     prettyPrintCamelCase(enemy) +
                     "s\n";
             }
-            console.log(this.questText.text);
         });
     }
 

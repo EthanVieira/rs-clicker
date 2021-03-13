@@ -45,6 +45,5 @@ export function prettyPrintCamelCase(str) {
             resultStr += str.charAt(i);
         }
     }
-    console.log(resultStr);
     return resultStr;
 }
