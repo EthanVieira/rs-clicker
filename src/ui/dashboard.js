@@ -3,7 +3,6 @@ import { Inventory } from "./inventory.js";
 import { Equipment } from "./equipment.js";
 import { Clan } from "./clan.js";
 import { Skills } from "./skills.js";
-import { ScrollWindow } from "./scroll-window.js";
 import { Button } from "./button.js";
 import { characterData } from "../cookie-io.js";
 import { QuestList } from "./quest-list.js";
@@ -44,7 +43,6 @@ export class DashboardScene extends Phaser.Scene {
         button: {},
         panel: {},
         list: {},
-        scrollWindow: {},
     };
 
     equipment = {
@@ -57,7 +55,6 @@ export class DashboardScene extends Phaser.Scene {
         button: {},
         panel: {},
         obj: {},
-        scrollWindow: {},
     };
 
     // Hotbar
@@ -235,20 +232,7 @@ export class DashboardScene extends Phaser.Scene {
                 this.showQuests(true);
             });
 
-        // Add scrollable window for quests
-        this.quests.scrollWindow = new ScrollWindow({
-            name: "quests",
-            x: 541,
-            y: 250,
-            width: 175,
-            height: 213,
-            numColumns: 1,
-            padding: 10,
-        });
-        this.scene.add(this.quests.scrollWindow.name, this.quests.scrollWindow, true);
-        this.quests.scrollWindow.refresh();
-
-        this.quests.list = new QuestList(this, this.quests.scrollWindow);
+        this.quests.list = new QuestList(this);
         this.showQuests(false);
 
         // Equipment
@@ -288,30 +272,17 @@ export class DashboardScene extends Phaser.Scene {
                 this.showClanChat(true);
             });
 
-        // Add scrollable window for clan members
-        this.clan.scrollWindow = new ScrollWindow({
-            name: "clans",
-            x: 535,
-            y: 280,
-            width: 175,
-            height: 140,
-            numColumns: 1,
-            padding: 10,
-        });
-        this.scene.add(this.clan.scrollWindow.name, this.clan.scrollWindow, true);
-        this.clan.scrollWindow.refresh();
-
         // Clear out and reinstatiate clan members
         if (Object.entries(this.clan.obj).length) {
             this.clan.obj.destroy();
         }
-        this.clan.obj = new Clan(this, this.clan.scrollWindow);
+        this.clan.obj = new Clan(this);
         this.showClanChat(false);
 
         // Scene destructor
         this.events.once("shutdown", () => {
-            this.scene.remove(this.clan.scrollWindow.name);
-            this.scene.remove(this.quests.scrollWindow.name);
+            this.scene.remove(this.clan.obj.scrollWindow.name);
+            this.scene.remove(this.quests.list.scrollWindow.name);
         });
     }
 
