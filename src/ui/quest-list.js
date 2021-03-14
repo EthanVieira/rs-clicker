@@ -4,13 +4,13 @@ import { characterData } from "../cookie-io.js";
 import { prettyPrintCamelCase } from "../utilities.js";
 
 export class QuestList {
-    scene;
+    dashboard;
     scrollWindow;
 
     questText;
 
-    constructor(scene) {
-        this.scene = scene;
+    constructor(dashboard) {
+        this.dashboard = dashboard;
 
         this.scrollWindow = new ScrollWindow({
             name: "quests",
@@ -21,10 +21,12 @@ export class QuestList {
             numColumns: 1,
             padding: 10,
         });
-        this.scene.scene.add(this.scrollWindow.name, this.scrollWindow, true);
+        this.dashboard.scene.add(this.scrollWindow.name, this.scrollWindow, true);
         this.scrollWindow.refresh();
 
-        this.questText = this.scene.add.text(555, 256, "", { fill: "white" }).setDepth(3);
+        this.questText = this.dashboard.add
+            .text(555, 256, "", { fill: "white" })
+            .setDepth(3);
 
         this.refreshQuests();
     }
@@ -32,7 +34,7 @@ export class QuestList {
     async refreshQuests() {
         this.questText.text = "";
         characterData.getUnlockedLevels().forEach((level) => {
-            let currentLevel = this.scene.scene.get(level);
+            let currentLevel = this.dashboard.scene.get(level);
             let enemies = characterData.getEnemiesInLevel(level);
             for (var enemy in enemies) {
                 this.questText.text +=
@@ -49,7 +51,7 @@ export class QuestList {
     show(isVisible) {
         if (isVisible) {
             this.scrollWindow.refresh();
-            this.scene.currentPanel = CONSTANTS.PANEL.QUESTS;
+            this.dashboard.currentPanel = CONSTANTS.PANEL.QUESTS;
         }
         this.scrollWindow.setVisible(isVisible);
         this.questText.visible = isVisible;
