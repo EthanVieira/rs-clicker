@@ -25,9 +25,7 @@ export class Clan {
             numColumns: 1,
             padding: 10,
         });
-        console.log("adding stuff ok ok ok");
         this.dashboard.scene.add(this.scrollWindow.name, this.scrollWindow, true);
-        console.log("added");
         this.scrollWindow.refresh();
 
         // Update and show clan info on startup
