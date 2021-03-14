@@ -31,3 +31,19 @@ export async function getItemClass(itemName, scene) {
 export async function setItemClass(key, value) {
     itemClasses[key] = value;
 }
+
+// transforms camelCase -> Camel Case
+export function prettyPrintCamelCase(str) {
+    let resultStr = "";
+    for (var i = 0; i < str.length; i++) {
+        if (i == 0) {
+            resultStr += str.charAt(i).toUpperCase();
+        } else if (str.charAt(i) == str.charAt(i).toUpperCase()) {
+            resultStr += " ";
+            resultStr += str.charAt(i);
+        } else {
+            resultStr += str.charAt(i);
+        }
+    }
+    return resultStr;
+}

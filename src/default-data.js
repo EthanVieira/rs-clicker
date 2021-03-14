@@ -53,12 +53,14 @@ export const defaultData = {
     levels: {
         TUTORIAL_ISLAND: {
             questCompleted: false,
+            unlocked: true,
             enemiesKilled: {
                 giantRat: 0,
             },
         },
         LUMBRIDGE: {
             questCompleted: false,
+            unlocked: false,
             enemiesKilled: {
                 cow: 0,
                 goblin: 0,
@@ -69,12 +71,14 @@ export const defaultData = {
             // Didn't want to implement the logic to discern between levels for this yet as the
             // Quest text will soon change anyway
             questCompleted: false,
+            unlocked: false,
             enemiesKilled: {
                 tree: 0,
             },
         },
         VARROCK_MINE: {
             questCompleted: false,
+            unlocked: false,
             enemiesKilled: {
                 copperRock: 0,
                 tinRock: 0,
@@ -82,6 +86,7 @@ export const defaultData = {
         },
         VARROCK: {
             questCompleted: false,
+            unlocked: false,
             enemiesKilled: {
                 darkWizard: 0,
                 guard: 0,
@@ -89,6 +94,7 @@ export const defaultData = {
         },
         BARBARIAN_VILLAGE: {
             questCompleted: false,
+            unlocked: false,
             enemiesKilled: {
                 barbarian: 0,
             },

@@ -3,10 +3,9 @@ import { Inventory } from "./inventory.js";
 import { Equipment } from "./equipment.js";
 import { Clan } from "./clan.js";
 import { Skills } from "./skills.js";
-import { ScrollWindow } from "./scroll-window.js";
 import { Button } from "./button.js";
-import { calcLevel } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
+import { QuestList } from "./quest-list.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -43,6 +42,7 @@ export class DashboardScene extends Phaser.Scene {
     quests = {
         button: {},
         panel: {},
+        list: {},
     };
 
     equipment = {
@@ -55,7 +55,6 @@ export class DashboardScene extends Phaser.Scene {
         button: {},
         panel: {},
         obj: {},
-        scrollWindow: {},
     };
 
     // Hotbar
@@ -228,18 +227,12 @@ export class DashboardScene extends Phaser.Scene {
             .image(592, 168, "quests-button")
             .setOrigin(0, 0)
             .setDepth(2)
-            .setInteractive();
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.showQuests(true);
+            });
 
-        // Quest text
-        // TODO: show all quests
-        this.killQuestText = this.add.text(555, 256, "", { fill: "white" }).setDepth(3);
-
-        this.quests.button.on("pointerdown", () => {
-            this.showQuests(true);
-        });
-
-        // Set and hide quests on startup
-        this.updateKillQuestText();
+        this.quests.list = new QuestList(this);
         this.showQuests(false);
 
         // Equipment
@@ -279,29 +272,17 @@ export class DashboardScene extends Phaser.Scene {
                 this.showClanChat(true);
             });
 
-        // Add scrollable window for clan members
-        this.clan.scrollWindow = new ScrollWindow({
-            name: "clans",
-            x: 535,
-            y: 280,
-            width: 175,
-            height: 140,
-            numColumns: 1,
-            padding: 10,
-        });
-        this.scene.add(this.clan.scrollWindow.name, this.clan.scrollWindow, true);
-        this.clan.scrollWindow.refresh();
-
         // Clear out and reinstatiate clan members
         if (Object.entries(this.clan.obj).length) {
             this.clan.obj.destroy();
         }
-        this.clan.obj = new Clan(this, this.clan.scrollWindow);
+        this.clan.obj = new Clan(this);
         this.showClanChat(false);
 
         // Scene destructor
         this.events.once("shutdown", () => {
-            this.scene.remove(this.clan.scrollWindow.name);
+            this.scene.remove(this.clan.obj.scrollWindow.name);
+            this.scene.remove(this.quests.list.scrollWindow.name);
         });
     }
 
@@ -366,9 +347,8 @@ export class DashboardScene extends Phaser.Scene {
             this.quests.button.setAlpha(0.1);
         }
 
-        // Show panel and quest text
+        this.quests.list.show(isVisible);
         this.quests.panel.visible = isVisible;
-        this.killQuestText.visible = isVisible;
     }
 
     showClanChat(isVisible) {
@@ -404,32 +384,5 @@ export class DashboardScene extends Phaser.Scene {
         this.equipment.obj.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
-    }
-
-    updateKillQuestText() {
-        this.killQuestText.text = "";
-        let curLevel = characterData.getCurrentLevel();
-        this.currentScene.targets.forEach((enemy, index) => {
-            // Add text
-            // TODO: Since there are currently no quests for tree levels those
-            // will show up as undefined/undefined
-            this.killQuestText.text +=
-                characterData.getEnemiesKilled(curLevel, enemy.varName) +
-                "/" +
-                this.currentScene.killQuest +
-                " " +
-                enemy.name +
-                "s";
-
-            // Check to see if there are multiple enemies
-            if (index + 1 < this.currentScene.targetMetaData.length) {
-                this.killQuestText.text += "\n";
-            }
-        });
-
-        // Add quest complete text
-        if (characterData.getQuestCompleted(curLevel)) {
-            this.killQuestText.text += "\n\nQuest Complete!";
-        }
     }
 }

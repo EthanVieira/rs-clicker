@@ -48,7 +48,7 @@ export class WorldMapScene extends Phaser.Scene {
             {
                 text: "Lumbridge",
                 condition: characterData.getQuestCompleted(
-                    CONSTANTS.SCENES.TUTORIAL_ISLAND
+                    CONSTANTS.PREREQUISITES.LUMBRIDGE
                 ),
                 x: MAP.LUMBRIDGE.X,
                 y: MAP.LUMBRIDGE.Y,
@@ -57,7 +57,7 @@ export class WorldMapScene extends Phaser.Scene {
             {
                 text: "Lumbridge\nForest",
                 condition: characterData.getQuestCompleted(
-                    CONSTANTS.SCENES.TUTORIAL_ISLAND
+                    CONSTANTS.PREREQUISITES.LUMBRIDGE_TREES
                 ),
                 x: MAP.LUMBRIDGE_TREES.X,
                 y: MAP.LUMBRIDGE_TREES.Y,
@@ -65,21 +65,27 @@ export class WorldMapScene extends Phaser.Scene {
             },
             {
                 text: "Varrock Mine",
-                condition: characterData.getQuestCompleted(CONSTANTS.SCENES.LUMBRIDGE),
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.VARROCK_MINE
+                ),
                 x: MAP.VARROCK_MINE.X,
                 y: MAP.VARROCK_MINE.Y,
                 key: CONSTANTS.SCENES.VARROCK_MINE,
             },
             {
                 text: "Varrock",
-                condition: characterData.getQuestCompleted(CONSTANTS.SCENES.LUMBRIDGE),
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.VARROCK
+                ),
                 x: MAP.VARROCK.X,
                 y: MAP.VARROCK.Y,
                 key: CONSTANTS.SCENES.VARROCK,
             },
             {
                 text: "Barbarian Village",
-                condition: characterData.getQuestCompleted(CONSTANTS.SCENES.VARROCK),
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.BARBARIAN_VILLAGE
+                ),
                 x: MAP.BARBARIAN_VILLAGE.X,
                 y: MAP.BARBARIAN_VILLAGE.Y,
                 key: CONSTANTS.SCENES.BARBARIAN_VILLAGE,

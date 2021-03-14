@@ -175,7 +175,7 @@ export class LevelScene extends Phaser.Scene {
         }
 
         // Update text
-        this.dashboard.updateKillQuestText();
+        this.dashboard.quests.list.refreshQuests();
         this.stats.updateEnemiesKilledStat();
     }
 

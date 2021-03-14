@@ -152,7 +152,6 @@ class CharacterData {
             // Update xp text on dashboard
             const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
             dashboardScene.skills.obj.updateSkillsText();
-
         } else {
             console.log("Error: setting invalid skill", skill, xp);
         }
@@ -177,6 +176,31 @@ class CharacterData {
     setQuestCompleted(scene) {
         if (this.checkScene(scene)) {
             this.characterData.levels[scene].questCompleted = true;
+            for (var level in this.characterData.levels) {
+                if (
+                    !this.characterData.levels[level].unlocked &&
+                    CONSTANTS.PREREQUISITES[level] == scene
+                ) {
+                    this.characterData.levels[level].unlocked = true;
+                    console.log("unlocking %s", level);
+                }
+            }
+        }
+    }
+
+    getUnlockedLevels() {
+        let unlockedLevels = [];
+        for (var level in this.characterData.levels) {
+            if (this.characterData.levels[level].unlocked) {
+                unlockedLevels.push(CONSTANTS.SCENES[level]);
+            }
+        }
+        return unlockedLevels;
+    }
+
+    getEnemiesInLevel(scene) {
+        if (this.checkScene(scene)) {
+            return this.characterData.levels[scene].enemiesKilled;
         }
     }
 
