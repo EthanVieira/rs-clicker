@@ -25,7 +25,7 @@ export class QuestList {
         this.scrollWindow.refresh();
 
         this.questText = this.dashboard.add
-            .text(555, 256, "", { fill: "white" })
+            .text(555, 256, "", { fill: "white", fontSize: 12 })
             .setDepth(3);
 
         this.refreshQuests();
@@ -34,16 +34,24 @@ export class QuestList {
     async refreshQuests() {
         this.questText.text = "";
         characterData.getUnlockedLevels().forEach((level) => {
-            let currentLevel = this.dashboard.scene.get(level);
+            let scene = this.dashboard.scene.get(level);
             let enemies = characterData.getEnemiesInLevel(level);
             for (var enemy in enemies) {
-                this.questText.text +=
-                    characterData.getEnemiesKilled(level, enemy) +
-                    "/" +
-                    currentLevel.killQuest +
-                    " " +
-                    prettyPrintCamelCase(enemy) +
-                    "s\n";
+                let enemiesKilled = characterData.getEnemiesKilled(level, enemy);
+                for (
+                    var tier = 1;
+                    tier <= characterData.getQuestTier(scene.currentLevel, enemy);
+                    tier++
+                ) {
+                    let questAmount = scene.questAmounts[enemy][tier - 1];
+                    this.questText.text +=
+                        (enemiesKilled > questAmount ? questAmount : enemiesKilled) +
+                        "/" +
+                        questAmount +
+                        " " +
+                        prettyPrintCamelCase(enemy) +
+                        "s\n";
+                }
             }
         });
     }

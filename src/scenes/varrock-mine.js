@@ -16,6 +16,10 @@ export class VarrockMineScene extends LevelScene {
                 path: "src/assets/maps/VarrockMineMap.png",
             },
             targets: [TinRock, CopperRock],
+            questAmounts: {
+                tinRock: [15],
+                copperRock: [15],
+            },
             audio: { bgm: "still-night" },
         });
     }

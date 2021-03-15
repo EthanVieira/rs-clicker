@@ -174,18 +174,28 @@ class CharacterData {
         }
     }
     setQuestCompleted(scene) {
-        if (this.checkScene(scene)) {
-            this.characterData.levels[scene].questCompleted = true;
+        if (this.checkScene(scene.currentLevel)) {
+            this.characterData.levels[scene.currentLevel].questCompleted = true;
+
+            // Unlock levels
             for (var level in this.characterData.levels) {
                 if (
                     !this.characterData.levels[level].unlocked &&
-                    CONSTANTS.PREREQUISITES[level] == scene
+                    CONSTANTS.PREREQUISITES[level] == scene.currentLevel
                 ) {
                     this.characterData.levels[level].unlocked = true;
                     console.log("unlocking %s", level);
                 }
             }
         }
+    }
+
+    incQuestTier(scene, name) {
+        this.characterData.levels[scene].questTier[name]++;
+    }
+
+    getQuestTier(scene, name) {
+        return this.characterData.levels[scene].questTier[name];
     }
 
     getUnlockedLevels() {

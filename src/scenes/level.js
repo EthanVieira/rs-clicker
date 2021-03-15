@@ -22,14 +22,15 @@ export class LevelScene extends Phaser.Scene {
     targetMetaData = [];
     currentTargetIndex = 0;
     levelType = "";
+    // For enemy levels
+    // varName: amount
+    // giantRat: 10
+    questAmounts = {};
 
     // Scenes
     dashboard;
     stats;
     audioScene;
-
-    // For enemy levels
-    killQuest = 0;
 
     constructor(data) {
         super({
@@ -41,14 +42,11 @@ export class LevelScene extends Phaser.Scene {
         this.minimap = data.minimap;
         this.audio = data.audio;
         this.targetMetaData = data.targets;
+        this.questAmounts = data.questAmounts;
 
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
         this.levelType = data.levelType;
-
-        if (this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-            this.killQuest = data.killQuest;
-        }
     }
 
     preload() {
@@ -148,30 +146,55 @@ export class LevelScene extends Phaser.Scene {
 
     enemyKilled(name) {
         // Update kill quest score
-        if (characterData.getEnemiesKilled(this.currentLevel, name) < this.killQuest) {
+        if (
+            characterData.getEnemiesKilled(this.currentLevel, name) <
+            this.questAmounts[name][this.questAmounts[name].length - 1]
+        ) {
             characterData.incEnemiesKilled(this.currentLevel, name);
 
-            let questCompleted = true;
-            this.targets.forEach((enemy, index) => {
-                // Check for quest completion
-                if (
-                    characterData.getEnemiesKilled(this.currentLevel, enemy.varName) <
-                    this.killQuest
-                ) {
-                    questCompleted = false;
-                }
-                // Set as complete if all passed on last index
-                else if (questCompleted && index == this.targets.length - 1) {
-                    console.log("Quest complete!");
-                    characterData.setQuestCompleted(this.currentLevel);
+            // Upgrade quest tier
+            let currentTier = characterData.getQuestTier(this.currentLevel, name);
+            console.log("enemy: %s", name);
+            console.log("tier: %s", characterData.getQuestTier(this.currentLevel, name));
+            console.log(
+                "current tier goal: %s",
+                this.questAmounts[name][currentTier - 1]
+            );
+            console.log("length: %s", this.questAmounts[name].length);
 
-                    if (Math.random() < 0.5) {
-                        this.audioScene.playSfx("quest-complete-1");
-                    } else {
-                        this.audioScene.playSfx("quest-complete-2");
+            if (
+                currentTier < this.questAmounts[name].length &&
+                characterData.getEnemiesKilled(this.currentLevel, name) >=
+                    this.questAmounts[name][currentTier - 1]
+            ) {
+                characterData.incQuestTier(this.currentLevel, name);
+            }
+
+            if (!characterData.getQuestCompleted(this.currentLevel)) {
+                let questCompleted = true;
+                this.targets.forEach((enemy, index) => {
+                    // Check for level completion.
+                    // A level is considered complete when
+                    // all of the tier 1 (index 0) quests are complete.
+                    if (
+                        characterData.getEnemiesKilled(this.currentLevel, enemy.varName) <
+                        this.questAmounts[enemy.varName][0]
+                    ) {
+                        questCompleted = false;
                     }
-                }
-            });
+                    // Set as complete if all passed on last index
+                    else if (questCompleted && index == this.targets.length - 1) {
+                        console.log("Quest complete!");
+                        characterData.setQuestCompleted(this);
+
+                        if (Math.random() < 0.5) {
+                            this.audioScene.playSfx("quest-complete-1");
+                        } else {
+                            this.audioScene.playSfx("quest-complete-2");
+                        }
+                    }
+                });
+            }
         }
 
         // Update text

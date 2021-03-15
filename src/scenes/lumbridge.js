@@ -8,7 +8,6 @@ export class LumbridgeScene extends LevelScene {
         super({
             levelType: CONSTANTS.LEVEL_TYPE.ENEMY,
             key: CONSTANTS.SCENES.LUMBRIDGE,
-            killQuest: 10,
             background: {
                 name: "lumbridge",
                 path: "src/assets/backgrounds/LumbridgeBackground.jpg",
@@ -18,6 +17,10 @@ export class LumbridgeScene extends LevelScene {
                 path: "src/assets/maps/LumbridgeMap.png",
             },
             targets: [Cow, Goblin],
+            questAmounts: {
+                cow: [10, 100, 1000],
+                goblin: [10, 100, 1000],
+            },
             audio: { bgm: "harmony" },
         });
     }

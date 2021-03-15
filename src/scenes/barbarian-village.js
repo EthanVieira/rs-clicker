@@ -7,7 +7,6 @@ export class BarbarianVillageScene extends LevelScene {
         super({
             levelType: CONSTANTS.LEVEL_TYPE.ENEMY,
             key: CONSTANTS.SCENES.BARBARIAN_VILLAGE,
-            killQuest: 20,
             background: {
                 name: "barbarian-village",
                 path: "src/assets/backgrounds/BarbarianVillageBackground.png",
@@ -17,6 +16,9 @@ export class BarbarianVillageScene extends LevelScene {
                 path: "src/assets/maps/BarbarianVillageMap.png",
             },
             targets: [Barbarian],
+            questAmounts: {
+                barbarian: [20],
+            },
             audio: { bgm: "barbarianism" },
         });
     }
