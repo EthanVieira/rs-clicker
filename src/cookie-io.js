@@ -174,14 +174,14 @@ class CharacterData {
         }
     }
     setQuestCompleted(scene) {
-        if (this.checkScene(scene.currentLevel)) {
-            this.characterData.levels[scene.currentLevel].questCompleted = true;
+        if (this.checkScene(scene)) {
+            this.characterData.levels[scene].questCompleted = true;
 
             // Unlock levels
             for (var level in this.characterData.levels) {
                 if (
                     !this.characterData.levels[level].unlocked &&
-                    CONSTANTS.PREREQUISITES[level] == scene.currentLevel
+                    CONSTANTS.PREREQUISITES[level] == scene
                 ) {
                     this.characterData.levels[level].unlocked = true;
                     console.log("unlocking %s", level);

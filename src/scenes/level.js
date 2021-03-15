@@ -146,18 +146,16 @@ export class LevelScene extends Phaser.Scene {
 
     enemyKilled(name) {
         // Update kill quest score
-        if (
-            characterData.getEnemiesKilled(this.currentLevel, name) <
-            this.questAmounts[name][this.questAmounts[name].length - 1]
-        ) {
+        const enemiesKilled = characterData.getEnemiesKilled(this.currentLevel, name);
+        const maxKillCount = this.questAmounts[name][this.questAmounts[name].length - 1];
+        if (enemiesKilled < maxKillCount) {
             characterData.incEnemiesKilled(this.currentLevel, name);
 
             // Upgrade quest tier
             let currentTier = characterData.getQuestTier(this.currentLevel, name);
             if (
                 currentTier < this.questAmounts[name].length &&
-                characterData.getEnemiesKilled(this.currentLevel, name) >=
-                    this.questAmounts[name][currentTier - 1]
+                enemiesKilled >= this.questAmounts[name][currentTier - 1]
             ) {
                 characterData.incQuestTier(this.currentLevel, name);
             }
@@ -177,7 +175,7 @@ export class LevelScene extends Phaser.Scene {
                     // Set as complete if all passed on last index
                     else if (questCompleted && index == this.targets.length - 1) {
                         console.log("Quest complete!");
-                        characterData.setQuestCompleted(this);
+                        characterData.setQuestCompleted(this.currentLevel);
 
                         if (Math.random() < 0.5) {
                             this.audioScene.playSfx("quest-complete-1");
