@@ -154,14 +154,6 @@ export class LevelScene extends Phaser.Scene {
 
             // Upgrade quest tier
             let currentTier = characterData.getQuestTier(this.currentLevel, name);
-            console.log("enemy: %s", name);
-            console.log("tier: %s", characterData.getQuestTier(this.currentLevel, name));
-            console.log(
-                "current tier goal: %s",
-                this.questAmounts[name][currentTier - 1]
-            );
-            console.log("length: %s", this.questAmounts[name].length);
-
             if (
                 currentTier < this.questAmounts[name].length &&
                 characterData.getEnemiesKilled(this.currentLevel, name) >=

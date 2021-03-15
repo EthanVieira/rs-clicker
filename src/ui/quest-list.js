@@ -7,7 +7,7 @@ export class QuestList {
     dashboard;
     scrollWindow;
 
-    questText;
+    textGroup;
 
     constructor(dashboard) {
         this.dashboard = dashboard;
@@ -24,15 +24,14 @@ export class QuestList {
         this.dashboard.scene.add(this.scrollWindow.name, this.scrollWindow, true);
         this.scrollWindow.refresh();
 
-        this.questText = this.dashboard.add
-            .text(555, 256, "", { fill: "white", fontSize: 12 })
-            .setDepth(3);
+        this.textGroup = [];
 
         this.refreshQuests();
     }
 
     async refreshQuests() {
-        this.questText.text = "";
+        let numRows = 0;
+        this.clearText();
         characterData.getUnlockedLevels().forEach((level) => {
             let scene = this.dashboard.scene.get(level);
             let enemies = characterData.getEnemiesInLevel(level);
@@ -44,13 +43,32 @@ export class QuestList {
                     tier++
                 ) {
                     let questAmount = scene.questAmounts[enemy][tier - 1];
-                    this.questText.text +=
-                        (enemiesKilled > questAmount ? questAmount : enemiesKilled) +
-                        "/" +
-                        questAmount +
-                        " " +
-                        prettyPrintCamelCase(enemy) +
-                        "s\n";
+                    let printedAmount =
+                        enemiesKilled > questAmount ? questAmount : enemiesKilled;
+                    // TODO: make the quests text align so it looks better
+                    this.textGroup.push(
+                        this.dashboard.add
+                            .text(
+                                555,
+                                256 + 15 * numRows,
+                                printedAmount +
+                                    "/" +
+                                    questAmount +
+                                    " " +
+                                    prettyPrintCamelCase(enemy) +
+                                    "s",
+                                {
+                                    fill:
+                                        enemiesKilled >= questAmount
+                                            ? "#00ff00"
+                                            : "yellow",
+                                    fontSize: 12,
+                                }
+                            )
+                            .setDepth(3)
+                    );
+                    numRows++;
+                    //Array(4 - printedAmount.toString().length).join(" ") +
                 }
             }
         });
@@ -62,6 +80,15 @@ export class QuestList {
             this.dashboard.currentPanel = CONSTANTS.PANEL.QUESTS;
         }
         this.scrollWindow.setVisible(isVisible);
-        this.questText.visible = isVisible;
+        this.textGroup.forEach((text) => {
+            text.visible = isVisible;
+        });
+    }
+
+    clearText() {
+        this.textGroup.forEach((text) => {
+            text.destroy();
+        });
+        this.textGroup = [];
     }
 }

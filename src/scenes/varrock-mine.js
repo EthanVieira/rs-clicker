@@ -17,8 +17,8 @@ export class VarrockMineScene extends LevelScene {
             },
             targets: [TinRock, CopperRock],
             questAmounts: {
-                tinRock: [15],
-                copperRock: [15],
+                tinRock: [15, 150, 1500],
+                copperRock: [15, 150, 1500],
             },
             audio: { bgm: "still-night" },
         });

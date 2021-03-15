@@ -18,8 +18,8 @@ export class VarrockScene extends LevelScene {
             },
             targets: [DarkWizard, Guard],
             questAmounts: {
-                darkWizard: [15],
-                guard: [15],
+                darkWizard: [15, 150, 1500],
+                guard: [15, 150, 1500],
             },
             audio: { bgm: "expanse" },
         });
