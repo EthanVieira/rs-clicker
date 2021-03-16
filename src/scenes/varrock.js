@@ -8,7 +8,6 @@ export class VarrockScene extends LevelScene {
         super({
             levelType: CONSTANTS.LEVEL_TYPE.ENEMY,
             key: CONSTANTS.SCENES.VARROCK,
-            killQuest: 15,
             background: {
                 name: "varrock",
                 path: "src/assets/backgrounds/VarrockBackground.png",
@@ -18,6 +17,10 @@ export class VarrockScene extends LevelScene {
                 path: "src/assets/maps/VarrockMap.png",
             },
             targets: [DarkWizard, Guard],
+            questAmounts: {
+                darkWizard: [15, 150, 1500],
+                guard: [15, 150, 1500],
+            },
             audio: { bgm: "expanse" },
         });
     }

@@ -7,7 +7,6 @@ export class TutorialIslandScene extends LevelScene {
         super({
             levelType: CONSTANTS.LEVEL_TYPE.ENEMY,
             key: CONSTANTS.SCENES.TUTORIAL_ISLAND,
-            killQuest: 10,
             background: {
                 name: "tutorial-island",
                 path: "src/assets/backgrounds/TutorialIslandBackground.png",
@@ -17,6 +16,9 @@ export class TutorialIslandScene extends LevelScene {
                 path: "src/assets/maps/TutorialIslandMap.png",
             },
             targets: [GiantRat],
+            questAmounts: {
+                giantRat: [10],
+            },
             audio: { bgm: "newbie-melody" },
         });
     }

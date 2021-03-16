@@ -60,9 +60,6 @@ export class DashboardScene extends Phaser.Scene {
     // Hotbar
     prayerHotbarText;
 
-    // TODO: Quests text probably for each enemy
-    killQuestText;
-
     constructor() {
         super({ key: CONSTANTS.SCENES.DASHBOARD });
     }

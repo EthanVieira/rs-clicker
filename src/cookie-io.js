@@ -176,6 +176,8 @@ class CharacterData {
     setQuestCompleted(scene) {
         if (this.checkScene(scene)) {
             this.characterData.levels[scene].questCompleted = true;
+
+            // Unlock levels
             for (var level in this.characterData.levels) {
                 if (
                     !this.characterData.levels[level].unlocked &&
@@ -186,6 +188,15 @@ class CharacterData {
                 }
             }
         }
+    }
+
+    calcQuestTier(numKilled, tiers) {
+        for (const [index, tier] of tiers.slice(0, -1).reverse().entries()) {
+            if (numKilled >= tier) {
+                return tiers.length - index;
+            }
+        }
+        return 1;
     }
 
     getUnlockedLevels() {

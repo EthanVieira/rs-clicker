@@ -15,6 +15,7 @@ export class LumbridgeTreeScene extends LevelScene {
                 path: "src/assets/maps/LumbridgeMap.png",
             },
             targets: [NormalTree],
+            questAmounts: { tree: [10, 100, 1000] },
             audio: { bgm: "harmony" },
         });
     }

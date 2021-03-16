@@ -22,14 +22,15 @@ export class LevelScene extends Phaser.Scene {
     targetMetaData = [];
     currentTargetIndex = 0;
     levelType = "";
+    // For enemy levels
+    // varName: amount
+    // giantRat: 10
+    questAmounts = {};
 
     // Scenes
     dashboard;
     stats;
     audioScene;
-
-    // For enemy levels
-    killQuest = 0;
 
     constructor(data) {
         super({
@@ -41,14 +42,11 @@ export class LevelScene extends Phaser.Scene {
         this.minimap = data.minimap;
         this.audio = data.audio;
         this.targetMetaData = data.targets;
+        this.questAmounts = data.questAmounts;
 
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
         this.levelType = data.levelType;
-
-        if (this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY) {
-            this.killQuest = data.killQuest;
-        }
     }
 
     preload() {
@@ -148,20 +146,25 @@ export class LevelScene extends Phaser.Scene {
 
     enemyKilled(name) {
         // Update kill quest score
-        if (characterData.getEnemiesKilled(this.currentLevel, name) < this.killQuest) {
+        const enemiesKilled = characterData.getEnemiesKilled(this.currentLevel, name);
+        const maxKillCount = this.questAmounts[name][this.questAmounts[name].length - 1];
+        if (enemiesKilled < maxKillCount) {
             characterData.incEnemiesKilled(this.currentLevel, name);
 
-            let questCompleted = true;
-            this.targets.forEach((enemy, index) => {
-                // Check for quest completion
-                if (
-                    characterData.getEnemiesKilled(this.currentLevel, enemy.varName) <
-                    this.killQuest
-                ) {
-                    questCompleted = false;
-                }
-                // Set as complete if all passed on last index
-                else if (questCompleted && index == this.targets.length - 1) {
+            if (!characterData.getQuestCompleted(this.currentLevel)) {
+                let questCompleted = true;
+                this.targets.forEach((enemy) => {
+                    // Check for level completion.
+                    // A level is considered complete when
+                    // all of the tier 1 (index 0) quests are complete.
+                    questCompleted &=
+                        characterData.getEnemiesKilled(
+                            this.currentLevel,
+                            enemy.varName
+                        ) >= this.questAmounts[enemy.varName][0];
+                });
+                // Set as complete if all passed
+                if (questCompleted) {
                     console.log("Quest complete!");
                     characterData.setQuestCompleted(this.currentLevel);
 
@@ -171,7 +174,7 @@ export class LevelScene extends Phaser.Scene {
                         this.audioScene.playSfx("quest-complete-2");
                     }
                 }
-            });
+            }
         }
 
         // Update text
