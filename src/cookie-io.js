@@ -190,12 +190,13 @@ class CharacterData {
         }
     }
 
-    incQuestTier(scene, name) {
-        this.characterData.levels[scene].questTier[name]++;
-    }
-
-    getQuestTier(scene, name) {
-        return this.characterData.levels[scene].questTier[name];
+    calcQuestTier(numKilled, tiers) {
+        for (const [index, tier] of tiers.slice(0, -1).reverse().entries()) {
+            if (numKilled >= tier) {
+                return tiers.length - index;
+            }
+        }
+        return 1;
     }
 
     getUnlockedLevels() {

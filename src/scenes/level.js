@@ -151,39 +151,29 @@ export class LevelScene extends Phaser.Scene {
         if (enemiesKilled < maxKillCount) {
             characterData.incEnemiesKilled(this.currentLevel, name);
 
-            // Upgrade quest tier
-            let currentTier = characterData.getQuestTier(this.currentLevel, name);
-            if (
-                currentTier < this.questAmounts[name].length &&
-                enemiesKilled >= this.questAmounts[name][currentTier - 1]
-            ) {
-                characterData.incQuestTier(this.currentLevel, name);
-            }
-
             if (!characterData.getQuestCompleted(this.currentLevel)) {
                 let questCompleted = true;
-                this.targets.forEach((enemy, index) => {
+                this.targets.forEach((enemy) => {
                     // Check for level completion.
                     // A level is considered complete when
                     // all of the tier 1 (index 0) quests are complete.
-                    if (
-                        characterData.getEnemiesKilled(this.currentLevel, enemy.varName) <
-                        this.questAmounts[enemy.varName][0]
-                    ) {
-                        questCompleted = false;
-                    }
-                    // Set as complete if all passed on last index
-                    else if (questCompleted && index == this.targets.length - 1) {
-                        console.log("Quest complete!");
-                        characterData.setQuestCompleted(this.currentLevel);
-
-                        if (Math.random() < 0.5) {
-                            this.audioScene.playSfx("quest-complete-1");
-                        } else {
-                            this.audioScene.playSfx("quest-complete-2");
-                        }
-                    }
+                    questCompleted &=
+                        characterData.getEnemiesKilled(
+                            this.currentLevel,
+                            enemy.varName
+                        ) >= this.questAmounts[enemy.varName][0];
                 });
+                // Set as complete if all passed
+                if (questCompleted) {
+                    console.log("Quest complete!");
+                    characterData.setQuestCompleted(this.currentLevel);
+
+                    if (Math.random() < 0.5) {
+                        this.audioScene.playSfx("quest-complete-1");
+                    } else {
+                        this.audioScene.playSfx("quest-complete-2");
+                    }
+                }
             }
         }
 

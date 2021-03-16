@@ -8,6 +8,7 @@ export class QuestList {
     scrollWindow;
 
     textGroup;
+    isTextVisible = false;
 
     constructor(dashboard) {
         this.dashboard = dashboard;
@@ -37,44 +38,43 @@ export class QuestList {
             let enemies = characterData.getEnemiesInLevel(level);
             for (var enemy in enemies) {
                 let enemiesKilled = characterData.getEnemiesKilled(level, enemy);
+
                 for (
                     var tier = 1;
-                    tier <= characterData.getQuestTier(scene.currentLevel, enemy);
+                    tier <=
+                    characterData.calcQuestTier(enemiesKilled, scene.questAmounts[enemy]);
                     tier++
                 ) {
                     let questAmount = scene.questAmounts[enemy][tier - 1];
                     let printedAmount =
                         enemiesKilled > questAmount ? questAmount : enemiesKilled;
                     // TODO: make the quests text align so it looks better
-                    this.textGroup.push(
-                        this.dashboard.add
-                            .text(
-                                555,
-                                256 + 15 * numRows,
-                                printedAmount +
-                                    "/" +
-                                    questAmount +
-                                    " " +
-                                    prettyPrintCamelCase(enemy) +
-                                    "s",
-                                {
-                                    fill:
-                                        enemiesKilled >= questAmount
-                                            ? "#00ff00"
-                                            : "yellow",
-                                    fontSize: 12,
-                                }
-                            )
-                            .setDepth(3)
-                    );
+                    let questText = this.dashboard.add
+                        .text(
+                            555,
+                            256 + 15 * numRows,
+                            printedAmount +
+                                "/" +
+                                questAmount +
+                                " " +
+                                prettyPrintCamelCase(enemy) +
+                                "s",
+                            {
+                                fill: enemiesKilled >= questAmount ? "#00ff00" : "yellow",
+                                fontSize: 12,
+                            }
+                        )
+                        .setDepth(3);
+                    questText.visible = this.isTextVisible;
+                    this.textGroup.push(questText);
                     numRows++;
-                    //Array(4 - printedAmount.toString().length).join(" ") +
                 }
             }
         });
     }
 
     show(isVisible) {
+        this.isTextVisible = isVisible;
         if (isVisible) {
             this.scrollWindow.refresh();
             this.dashboard.currentPanel = CONSTANTS.PANEL.QUESTS;

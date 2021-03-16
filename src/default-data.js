@@ -54,9 +54,6 @@ export const defaultData = {
         TUTORIAL_ISLAND: {
             questCompleted: false,
             unlocked: true,
-            questTier: {
-                giantRat: 1,
-            },
             enemiesKilled: {
                 giantRat: 0,
             },
@@ -64,10 +61,6 @@ export const defaultData = {
         LUMBRIDGE: {
             questCompleted: false,
             unlocked: false,
-            questTier: {
-                cow: 1,
-                goblin: 1,
-            },
             enemiesKilled: {
                 cow: 0,
                 goblin: 0,
@@ -79,9 +72,6 @@ export const defaultData = {
             // Quest text will soon change anyway
             questCompleted: false,
             unlocked: false,
-            questTier: {
-                tree: 1,
-            },
             enemiesKilled: {
                 tree: 0,
             },
@@ -89,10 +79,6 @@ export const defaultData = {
         VARROCK_MINE: {
             questCompleted: false,
             unlocked: false,
-            questTier: {
-                copperRock: 1,
-                tinRock: 1,
-            },
             enemiesKilled: {
                 copperRock: 0,
                 tinRock: 0,
@@ -101,10 +87,6 @@ export const defaultData = {
         VARROCK: {
             questCompleted: false,
             unlocked: false,
-            questTier: {
-                darkWizard: 1,
-                guard: 1,
-            },
             enemiesKilled: {
                 darkWizard: 0,
                 guard: 0,
@@ -113,9 +95,6 @@ export const defaultData = {
         BARBARIAN_VILLAGE: {
             questCompleted: false,
             unlocked: false,
-            questTier: {
-                barbarian: 1,
-            },
             enemiesKilled: {
                 barbarian: 0,
             },
