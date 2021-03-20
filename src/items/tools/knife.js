@@ -1,7 +1,4 @@
 import Tool from "../tool.js";
-import { CONSTANTS, FONTS } from "../../constants/constants.js";
-import { getItemClass } from "../../utilities.js";
-import { characterData } from "../../cookie-io.js";
 
 export default class Knife extends Tool {
     // Item data
@@ -18,50 +15,26 @@ export default class Knife extends Tool {
         this.scene = scene;
     }
 
-    async craft(item) {
-        console.log("Combining", this.name, item.name);
-        let className = "";
-        let numRequiredItems = 0;
-        let xpGiven = 0;
-        let outputString = "";
-        switch (item.name) {
+    getRecipe(itemName) {
+        let output = {
+            className: "",
+            numRequiredItems: 0,
+            xpGiven: 0,
+        };
+
+        switch (itemName) {
             case "Logs":
-                className = "NormalShortbow";
-                numRequiredItems = 50;
-                xpGiven = 250;
+                output.className = "NormalShortbow";
+                output.numRequiredItems = 50;
+                output.xpGiven = 250;
                 break;
             case "Oak Logs":
-                className = "OakShortbow";
-                numRequiredItems = 50;
-                xpGiven = 500;
-                break;
-            default:
-                outputString = "Not a valid crafting combination.";
+                output.className = "OakShortbow";
+                output.numRequiredItems = 50;
+                output.xpGiven = 500;
                 break;
         }
 
-        // Craft item if possible
-        if (className != "" && item.numItems >= numRequiredItems) {
-            const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
-            let newItem = await getItemClass(className, dashboard);
-            const newItemName = newItem.name;
-
-            // Item was added
-            if (dashboard.inventory.obj.addToInventory(newItem)) {
-                item.setNumItems(item.numItems - numRequiredItems);
-
-                outputString = "Crafted " + newItemName + ", added " + xpGiven + "xp";
-                characterData.addSkillXp("fletching", xpGiven);
-            }
-        }
-        // Insufficient materials 
-        else if (className != "" && item.numItems < numRequiredItems) {
-            outputString = numRequiredItems + " " + item.name + " are needed to craft that";
-        }
-
-        // Write to chat window
-        const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
-        chatScene.writeText(outputString);
-        console.log(outputString);
+        return output;
     }
 }
