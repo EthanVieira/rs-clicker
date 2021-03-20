@@ -57,7 +57,7 @@ export function prettyPrintConstant(str) {
             resultStr += spaceStr.charAt(i).toUpperCase();
         }
         else {
-            resultStr += spaceStr[i].toLowerCase();
+            resultStr += spaceStr.charAt(i).toLowerCase();
         }
     }
 
