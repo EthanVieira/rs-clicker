@@ -50,13 +50,16 @@ export function prettyPrintCamelCase(str) {
 
 // Transforms VARROCK_MINE -> Varrock Mine
 export function prettyPrintConstant(str) {
-    let resultStr = str.replace("_", " ");
-    resultStr = resultStr.toLowerCase();
-    [...resultStr].forEach((char, i) => {
-        if (i == 0 || resultStr[i-1] == " ") {
-            char = char.toUpperCase();
+    let resultStr = "";
+    const spaceStr = str.replace("_", " ");
+    for (let i = 0; i < spaceStr.length; i++) {
+        if (i == 0 || spaceStr.charAt(i-1) == " ") {
+            resultStr += spaceStr[i].toUpperCase();
         }
-    });
+        else {
+            resultStr += spaceStr[i].toLowerCase();
+        }
+    }
 
     return resultStr;
 }
