@@ -54,7 +54,7 @@ export function prettyPrintConstant(str) {
     const spaceStr = str.replace("_", " ");
     for (let i = 0; i < spaceStr.length; i++) {
         if (i == 0 || spaceStr.charAt(i-1) == " ") {
-            resultStr += spaceStr[i].toUpperCase();
+            resultStr += spaceStr.charAt(i).toUpperCase();
         }
         else {
             resultStr += spaceStr[i].toLowerCase();
