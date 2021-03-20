@@ -1,16 +1,19 @@
 import Tool from "../tool.js";
-import { CONSTANTS } from "../../constants/constants.js";
+import { CONSTANTS, FONTS } from "../../constants/constants.js";
 import { getItemClass } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 
 export default class Knife extends Tool {
-    // Text data
+    // Item data
     name = "Knife";
     item = "Knife";
     examineText = "A dangerous looking knife.";
-
-    // Other
     cost = 6;
+    
+    // Scenes
+    scene;
+    dashboard;
+    chat;
 
     constructor(scene) {
         super();
@@ -18,10 +21,15 @@ export default class Knife extends Tool {
     }
 
     async craft(item) {
+        if (this.chat == undefined) {
+            this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        }
+
         console.log("Combining", this.name, item.name);
         let className = "";
         let numRequiredItems = 0;
         let xpGiven = 0;
+        let outputString = "";
         switch (item.name) {
             case "Logs":
                 className = "NormalShortbow";
@@ -34,10 +42,11 @@ export default class Knife extends Tool {
                 xpGiven = 500;
                 break;
             default:
-                console.log("Not a valid crafting combination.");
+                outputString = "Not a valid crafting combination.";
                 break;
         }
 
+        // Craft item if possible
         if (className != "" && item.numItems >= numRequiredItems) {
             if (this.dashboard == undefined) {
                 this.dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
@@ -47,9 +56,17 @@ export default class Knife extends Tool {
             if (this.dashboard.inventory.obj.addToInventory(newItem)) {
                 item.setNumItems(item.numItems - numRequiredItems);
                 characterData.addSkillXp("fletching", xpGiven);
+
+                outputString = "Crafted " + item.name + ", added " + xpGiven + "xp";
             }
-        } else if (className != "" && item.numItems < numRequiredItems) {
-            console.log(numRequiredItems, "are needed to craft that");
         }
+        // Insufficient materials 
+        else if (className != "" && item.numItems < numRequiredItems) {
+            outputString = numRequiredItems + " " + item.name + " are needed to craft that";
+        }
+
+        // Write to chat window
+        this.chat.writeText(outputString);
+        console.log(outputString);
     }
 }

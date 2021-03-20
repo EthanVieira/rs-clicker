@@ -90,7 +90,18 @@ export class ChatScene extends Phaser.Scene {
         this.show(false);
     }
 
-    // Create a row of text on the scroll window
+    // Takes in text and refreshes the display
+    writeText(text) {
+        this.show();
+        this.writeStrings(
+            { x: 0, text, format: FONTS.ITEM_STATS },
+        );
+        this.scrollWindow.refresh();
+        this.scrollWindow.scrollToBottom();
+        this.chatWindow.visible = true;
+    }
+
+    // Create a row of text on the scroll window, needs refresh after
     writeStrings(...textObjs) {
         let textLine = [];
         let curX = 0;
