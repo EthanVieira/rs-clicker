@@ -12,8 +12,6 @@ export default class Knife extends Tool {
     
     // Scenes
     scene;
-    dashboard;
-    chat;
 
     constructor(scene) {
         super();
@@ -21,10 +19,6 @@ export default class Knife extends Tool {
     }
 
     async craft(item) {
-        if (this.chat == undefined) {
-            this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
-        }
-
         console.log("Combining", this.name, item.name);
         let className = "";
         let numRequiredItems = 0;
@@ -48,16 +42,16 @@ export default class Knife extends Tool {
 
         // Craft item if possible
         if (className != "" && item.numItems >= numRequiredItems) {
-            if (this.dashboard == undefined) {
-                this.dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
-            }
+            const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
+            let newItem = await getItemClass(className, dashboard);
+            const newItemName = newItem.name;
 
-            let newItem = await getItemClass(className, this.dashboard);
-            if (this.dashboard.inventory.obj.addToInventory(newItem)) {
+            // Item was added
+            if (dashboard.inventory.obj.addToInventory(newItem)) {
                 item.setNumItems(item.numItems - numRequiredItems);
-                characterData.addSkillXp("fletching", xpGiven);
 
-                outputString = "Crafted " + item.name + ", added " + xpGiven + "xp";
+                outputString = "Crafted " + newItemName + ", added " + xpGiven + "xp";
+                characterData.addSkillXp("fletching", xpGiven);
             }
         }
         // Insufficient materials 
@@ -66,7 +60,8 @@ export default class Knife extends Tool {
         }
 
         // Write to chat window
-        this.chat.writeText(outputString);
+        const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+        chatScene.writeText(outputString);
         console.log(outputString);
     }
 }

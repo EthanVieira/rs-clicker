@@ -32,7 +32,7 @@ export async function setItemClass(key, value) {
     itemClasses[key] = value;
 }
 
-// transforms camelCase -> Camel Case
+// Transforms camelCase -> Camel Case
 export function prettyPrintCamelCase(str) {
     let resultStr = "";
     for (var i = 0; i < str.length; i++) {
@@ -45,5 +45,18 @@ export function prettyPrintCamelCase(str) {
             resultStr += str.charAt(i);
         }
     }
+    return resultStr;
+}
+
+// Transforms VARROCK_MINE -> Varrock Mine
+export function prettyPrintConstant(str) {
+    let resultStr = str.replace("_", " ");
+    resultStr = resultStr.toLowerCase();
+    [...resultStr].forEach((char, i) => {
+        if (i == 0 || resultStr[i-1] == " ") {
+            char = char.toUpperCase();
+        }
+    });
+
     return resultStr;
 }

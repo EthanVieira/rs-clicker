@@ -91,14 +91,14 @@ export class ChatScene extends Phaser.Scene {
     }
 
     // Takes in text and refreshes the display
-    writeText(text) {
+    writeText(text, format = FONTS.ITEM_HEADER) {
         this.show();
+        this.chatWindow.visible = true;
         this.writeStrings(
-            { x: 0, text, format: FONTS.ITEM_STATS },
+            { x: 0, text, format },
         );
         this.scrollWindow.refresh();
         this.scrollWindow.scrollToBottom();
-        this.chatWindow.visible = true;
     }
 
     // Create a row of text on the scroll window, needs refresh after
