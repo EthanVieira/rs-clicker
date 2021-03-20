@@ -29,7 +29,6 @@ export class ChatScene extends Phaser.Scene {
     }
 
     create() {
-        console.log("create");
         this.col1 = 120;
 
         // Setup scroll window
@@ -99,6 +98,8 @@ export class ChatScene extends Phaser.Scene {
         );
         this.scrollWindow.refresh();
         this.scrollWindow.scrollToBottom();
+
+        console.log(text);
     }
 
     // Create a row of text on the scroll window, needs refresh after

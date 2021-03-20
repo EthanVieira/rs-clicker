@@ -53,6 +53,5 @@ export default class Tool extends Item {
         // Write to chat window
         const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
         chatScene.writeText(outputString);
-        console.log(outputString);
     }
 }

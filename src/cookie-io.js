@@ -150,10 +150,8 @@ class CharacterData {
 
                 // Write level up text to chat
                 const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
-                chatScene.writeText(
-                    Utilities.prettyPrintCamelCase(skill) + " leveled up to " + curLevel, 
-                    FONTS.ITEM_STATS
-                );
+                const logString = Utilities.prettyPrintCamelCase(skill) + " leveled up to " + curLevel;
+                chatScene.writeText(logString, FONTS.ITEM_STATS);
             }
 
             // Update xp text on dashboard
@@ -191,7 +189,6 @@ class CharacterData {
                     CONSTANTS.PREREQUISITES[level] == scene
                 ) {
                     this.characterData.levels[level].unlocked = true;
-                    console.log("unlocking %s", level);
 
                     // Write level up text to chat
                     const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
