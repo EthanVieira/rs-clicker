@@ -31,7 +31,7 @@ export class Item extends ClickableObject {
     cost = 0;
     actions = [
         { text: "Use", func: "use" },
-        { text: "Drop", func: "drop" },
+        { text: "Sell", func: "sell" },
         { text: "Examine", func: "examine" },
     ];
 
@@ -128,8 +128,9 @@ export class Item extends ClickableObject {
         }
     }
 
-    drop() {
-        console.log("Drop", this.name);
+    sell() {
+        console.log("Sell", this.name);
+        charcterData.addGold(1 * this.cost);
         this.destroy();
     }
 
