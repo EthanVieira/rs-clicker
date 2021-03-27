@@ -1,6 +1,6 @@
 import { defaultData } from "./default-data.js";
-import { CONSTANTS } from "./constants/constants.js";
-import { calcLevel } from "./utilities.js";
+import { CONSTANTS, FONTS } from "./constants/constants.js";
+import * as Utilities from "./utilities.js";
 
 function getDefaultData() {
     // Reset data (deep copy)
@@ -139,14 +139,19 @@ class CharacterData {
 
     addSkillXp(skill, xp) {
         if (this.characterData.skills[skill] != undefined) {
-            const prevLevel = calcLevel(this.characterData.skills[skill]);
+            const prevLevel = Utilities.calcLevel(this.characterData.skills[skill]);
             this.characterData.skills[skill] += xp;
-            const curLevel = calcLevel(this.characterData.skills[skill]);
+            const curLevel = Utilities.calcLevel(this.characterData.skills[skill]);
 
             // Play level up sfx
             if (curLevel > prevLevel) {
                 const audioScene = this.getScene(CONSTANTS.SCENES.AUDIO);
                 audioScene.playSfx(skill + "-level-up");
+
+                // Write level up text to chat
+                const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
+                const logString = Utilities.prettyPrintCamelCase(skill) + " leveled up to " + curLevel;
+                chatScene.writeText(logString, FONTS.ITEM_STATS);
             }
 
             // Update xp text on dashboard
@@ -184,7 +189,13 @@ class CharacterData {
                     CONSTANTS.PREREQUISITES[level] == scene
                 ) {
                     this.characterData.levels[level].unlocked = true;
-                    console.log("unlocking %s", level);
+
+                    // Write level up text to chat
+                    const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
+                    chatScene.writeText(
+                        "Unlocked " + Utilities.prettyPrintConstant(level), 
+                        FONTS.ITEM_STATS
+                    );
                 }
             }
         }
