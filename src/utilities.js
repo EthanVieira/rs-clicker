@@ -53,13 +53,31 @@ export function prettyPrintConstant(str) {
     let resultStr = "";
     const spaceStr = str.replace("_", " ");
     for (let i = 0; i < spaceStr.length; i++) {
-        if (i == 0 || spaceStr.charAt(i-1) == " ") {
+        if (i == 0 || spaceStr.charAt(i - 1) == " ") {
             resultStr += spaceStr.charAt(i).toUpperCase();
-        }
-        else {
+        } else {
             resultStr += spaceStr.charAt(i).toLowerCase();
         }
     }
 
     return resultStr;
+}
+
+export function getGoldStackType(goldAmount) {
+    switch (true) {
+        case goldAmount < 5:
+            return goldAmount.toString();
+        case goldAmount < 25:
+            return "5";
+        case goldAmount < 100:
+            return "25";
+        case goldAmount < 250:
+            return "100";
+        case goldAmount < 1000:
+            return "250";
+        case goldAmount < 10000:
+            return "1k";
+        default:
+            return "10k";
+    }
 }

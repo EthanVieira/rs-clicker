@@ -77,7 +77,7 @@ export class AutoClicker {
                 }
             })
             .on("pointerup", () => {
-                if (isShop && characterData.getGold() >= this.cost) {
+                if (isShop && this.dashboard.inventory.obj.getGold() >= this.cost) {
                     this.buy();
                 }
             });
@@ -85,7 +85,7 @@ export class AutoClicker {
     }
 
     async buy() {
-        characterData.addGold(-1 * this.cost);
+        this.dashboard.inventory.obj.addGold(-1 * this.cost);
         if (this.dashboard == undefined) {
             this.dashboard = this.scrollWindow.scene.get(CONSTANTS.SCENES.DASHBOARD);
         }

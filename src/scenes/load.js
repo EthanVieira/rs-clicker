@@ -140,6 +140,12 @@ export class LoadScene extends Phaser.Scene {
         path = "src/assets/items/icons/";
         let modelPath = "src/assets/items/models/";
         Object.entries(itemManifest).forEach(([item, itemObj]) => {
+            if (itemObj.type == CONSTANTS.ITEM_TYPES.CURRENCY) {
+                itemObj.imageName.forEach((name, i) => {
+                    this.load.image(name, path + itemObj.imagePath[i]);
+                    this.load.image(name + "-model", modelPath + itemObj.imagePath[i]);
+                });
+            }
             this.load.image(itemObj.imageName, path + itemObj.imagePath);
             this.load.image(itemObj.imageName + "-model", modelPath + itemObj.imagePath);
         });

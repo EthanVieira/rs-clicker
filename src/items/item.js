@@ -1,7 +1,7 @@
 import { ClickableObject } from "../clickable-object.js";
 import { OBJECT_TYPES, CONSTANTS } from "../constants/constants.js";
 import { itemManifest } from "./item-manifest.js";
-import { getItemClass } from "../utilities.js";
+import { getItemClass, getGoldStackType } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
 
 export class Item extends ClickableObject {
@@ -21,7 +21,7 @@ export class Item extends ClickableObject {
     numItems = 1;
 
     // Objects
-    sprite;
+    sprite = null;
     numItemsText;
     scene;
 
@@ -40,8 +40,18 @@ export class Item extends ClickableObject {
         this.y = y;
         this.index = index;
 
+        if (this.sprite != null) {
+            this.sprite.destroy();
+            this.numItemsText.destroy();
+        }
+
+        let spritePath =
+            this.name == "Coin"
+                ? getGoldStackType(this.numItems) + "-stack"
+                : itemManifest[this.constructor.name].imageName;
+
         this.sprite = this.scene.add
-            .image(x, y, itemManifest[this.constructor.name].imageName)
+            .image(x, y, spritePath)
             .setScale(this.scale)
             .setDepth(4)
             .setInteractive()
@@ -97,17 +107,17 @@ export class Item extends ClickableObject {
     }
 
     async buy() {
-        if (characterData.getGold() >= this.cost) {
+        let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        if (dashboard.inventory.obj.getGold() >= this.cost) {
             console.log("Buying", this.name);
-            let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
 
             // Create new non-shop item
             let boughtItem = await getItemClass(this.constructor.name, dashboard);
             if (dashboard.inventory.obj.addToInventory(boughtItem)) {
-                characterData.addGold(-1 * this.cost);
+                dashboard.inventory.obj.addGold(-1 * this.cost);
             }
         } else {
-            console.log("not enough mulah", characterData.getGold(), this.cost);
+            console.log("not enough mulah", dashboard.inventory.obj.getGold(), this.cost);
         }
     }
 
@@ -130,7 +140,9 @@ export class Item extends ClickableObject {
 
     sell() {
         console.log("Sell", this.name);
-        charcterData.addGold(1 * this.cost);
+        this.scene.scene
+            .get(CONSTANTS.SCENES.DASHBOARD)
+            .inventory.obj.addGold(1 * this.cost);
         this.destroy();
     }
 

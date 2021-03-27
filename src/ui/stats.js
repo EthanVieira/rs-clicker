@@ -15,6 +15,7 @@ export class StatsScene extends Phaser.Scene {
     damageByAutoClickText;
     autoClickDpsText;
     autoClickDps = 0;
+    totalGoldEarned = 25;
 
     recentDamage = 0;
     timer;
@@ -55,7 +56,7 @@ export class StatsScene extends Phaser.Scene {
     }
 
     initText() {
-        this.addGold(0);
+        this.updateTotalEarnedGold(0);
         this.updateClickedTargetStat(0);
         this.updateClickDamageStat(0);
         this.updateClickDpsStat(0);
@@ -64,9 +65,11 @@ export class StatsScene extends Phaser.Scene {
         this.updateAutoClickerDPS(0);
     }
 
-    addGold(addedGold) {
-        characterData.addGold(addedGold);
-        this.goldText.text = "Gold: " + characterData.getGold();
+    updateTotalEarnedGold(addedGold) {
+        if (addedGold > 0) {
+            this.totalGoldEarned += addedGold;
+            this.goldText.text = "Total Gold Earned: " + this.totalGoldEarned;
+        }
     }
 
     updateClickedTargetStat(amount = 1) {

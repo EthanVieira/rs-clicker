@@ -23,18 +23,6 @@ class CharacterData {
         this.characterData.name = name;
     }
 
-    addGold(amount) {
-        if (this.characterData.gold + amount >= 0) {
-            this.characterData.gold += amount;
-        } else {
-            console.log(
-                "Error: tried to set gold to negative number, amount:",
-                amount,
-                "current gold:",
-                this.characterData.gold
-            );
-        }
-    }
     getGold() {
         return this.characterData.gold;
     }
@@ -150,7 +138,8 @@ class CharacterData {
 
                 // Write level up text to chat
                 const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
-                const logString = Utilities.prettyPrintCamelCase(skill) + " leveled up to " + curLevel;
+                const logString =
+                    Utilities.prettyPrintCamelCase(skill) + " leveled up to " + curLevel;
                 chatScene.writeText(logString, FONTS.ITEM_STATS);
             }
 
@@ -193,7 +182,7 @@ class CharacterData {
                     // Write level up text to chat
                     const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
                     chatScene.writeText(
-                        "Unlocked " + Utilities.prettyPrintConstant(level), 
+                        "Unlocked " + Utilities.prettyPrintConstant(level),
                         FONTS.ITEM_STATS
                     );
                 }
