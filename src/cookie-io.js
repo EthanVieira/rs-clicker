@@ -23,10 +23,6 @@ class CharacterData {
         this.characterData.name = name;
     }
 
-    getGold() {
-        return this.characterData.gold;
-    }
-
     getCurrentLevel() {
         return this.characterData.currentLevel;
     }

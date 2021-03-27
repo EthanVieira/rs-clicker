@@ -145,9 +145,13 @@ export class LoadScene extends Phaser.Scene {
                     this.load.image(name, path + itemObj.imagePath[i]);
                     this.load.image(name + "-model", modelPath + itemObj.imagePath[i]);
                 });
+            } else {
+                this.load.image(itemObj.imageName, path + itemObj.imagePath);
+                this.load.image(
+                    itemObj.imageName + "-model",
+                    modelPath + itemObj.imagePath
+                );
             }
-            this.load.image(itemObj.imageName, path + itemObj.imagePath);
-            this.load.image(itemObj.imageName + "-model", modelPath + itemObj.imagePath);
         });
 
         // For attack animations
