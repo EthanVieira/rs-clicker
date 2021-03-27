@@ -98,8 +98,11 @@ export class ChatScene extends Phaser.Scene {
         );
         this.scrollWindow.refresh();
         this.scrollWindow.scrollToBottom();
-        this.show(false);
-        this.showNotification();
+
+        if (!this.visible) {
+            this.show(false);
+            this.showNotification();
+        }
 
         console.log(text);
     }
