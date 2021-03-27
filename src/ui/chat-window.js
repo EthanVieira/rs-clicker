@@ -26,6 +26,7 @@ export class ChatScene extends Phaser.Scene {
         this.load.image("chat-window", "src/assets/ui/ChatWindow.png");
         this.load.image("shop-chat-window", "src/assets/ui/ShopChatWindow.png");
         this.load.image("chat-button", "src/assets/ui/buttons/ChatButton.png");
+        this.load.image("chat-button-notification", "src/assets/ui/buttons/ChatButtonNotification.png");
     }
 
     create() {
@@ -64,6 +65,7 @@ export class ChatScene extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(0);
         this.chatButtonImage = this.add.image(32, 490, "chat-button").setDepth(0);
+        this.chatButtonNotificationImage = this.add.image(32, 491, "chat-button-notification").setDepth(0);
         this.playerNameText = this.add.text(10, 459, "You", FONTS.ITEM_HEADER);
 
         // Add chat toggle button
@@ -89,15 +91,15 @@ export class ChatScene extends Phaser.Scene {
         this.show(false);
     }
 
-    // Takes in text and refreshes the display
+    // Takes in text, refreshes display, and shows notification button
     writeText(text, format = FONTS.ITEM_HEADER) {
-        this.show();
-        this.chatWindow.visible = true;
         this.writeStrings(
             { x: 0, text, format },
         );
         this.scrollWindow.refresh();
         this.scrollWindow.scrollToBottom();
+        this.show(false);
+        this.showNotification();
 
         console.log(text);
     }
@@ -241,6 +243,7 @@ export class ChatScene extends Phaser.Scene {
         this.scrollWindow.setVisible(isVisible);
         this.playerNameText.visible = isVisible;
         this.chatButtonImage.visible = isVisible;
+        this.chatButtonNotificationImage.visible = false;
 
         if (!isVisible) {
             this.chatWindow.visible = isVisible;
@@ -252,6 +255,12 @@ export class ChatScene extends Phaser.Scene {
         this.chatButtonImage.visible = false;
         this.chatButtonText.visible = false;
         this.reportButtonText.visible = false;
+        this.chatButtonNotificationImage.visible = false;
+    }
+
+    showNotification() {
+        this.chatButtonNotificationImage.visible = true;
+        this.chatButtonImage.visible = true;
     }
 
     // Show object info in chat window
