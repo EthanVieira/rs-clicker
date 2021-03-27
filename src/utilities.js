@@ -32,7 +32,7 @@ export async function setItemClass(key, value) {
     itemClasses[key] = value;
 }
 
-// transforms camelCase -> Camel Case
+// Transforms camelCase -> Camel Case
 export function prettyPrintCamelCase(str) {
     let resultStr = "";
     for (var i = 0; i < str.length; i++) {
@@ -45,5 +45,21 @@ export function prettyPrintCamelCase(str) {
             resultStr += str.charAt(i);
         }
     }
+    return resultStr;
+}
+
+// Transforms VARROCK_MINE -> Varrock Mine
+export function prettyPrintConstant(str) {
+    let resultStr = "";
+    const spaceStr = str.replace("_", " ");
+    for (let i = 0; i < spaceStr.length; i++) {
+        if (i == 0 || spaceStr.charAt(i-1) == " ") {
+            resultStr += spaceStr.charAt(i).toUpperCase();
+        }
+        else {
+            resultStr += spaceStr.charAt(i).toLowerCase();
+        }
+    }
+
     return resultStr;
 }
