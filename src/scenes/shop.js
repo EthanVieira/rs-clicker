@@ -1,6 +1,6 @@
 // TODO: gray out items that are too expensive
 import { characterData } from "../cookie-io.js";
-import { calcLevel, getItemClass } from "../utilities.js";
+import { getItemClass, getGoldStackType } from "../utilities.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
@@ -39,15 +39,6 @@ export class ShopScene extends Phaser.Scene {
         this.load.image("shop-interface", "src/assets/ui/ShopInterface.png");
         this.load.image("shop-button", "src/assets/ui/buttons/ShopButton.png");
         this.load.image("shop-exit-button", "src/assets/ui/buttons/ShopExitButton.png");
-
-        // Cash Stack Images
-        let stacks = ["5", "25", "100", "250", "1k", "10k"];
-        for (let i = 0; i < stacks.length; i++) {
-            this.load.image(
-                stacks[i],
-                "src/assets/coin-stacks/" + stacks[i] + "-Stack.png"
-            );
-        }
     }
 
     create() {
@@ -155,71 +146,9 @@ export class ShopScene extends Phaser.Scene {
         this.audio.playBgm("the-trade-parade");
     }
 
-    // Update the shop to display current gold
-    update() {
-        if (this.currentGold != characterData.getGold()) {
-            this.audio.playSfx("purchase");
-            this.displayGold();
-        }
-    }
-
     loadShop(type) {
-        // Displays cash stack
-        this.displayGold();
-
         // Loads items into shopItems and displays items on screen
         this.loadItems(type);
-    }
-
-    // Outputs the gold text in RS format: 1m = 1000k, 10m = green text, 1b = 1000m
-    displayGold() {
-        let gold = characterData.getGold();
-        this.currentGold = gold;
-
-        if (this.goldImage != undefined) {
-            this.goldImage.destroy();
-            this.goldText.destroy();
-        }
-        // Pick gold image based on # of coins
-        let stack = "";
-        switch (true) {
-            case gold < 25:
-                stack = "5";
-                break;
-            case gold < 100:
-                stack = "25";
-                break;
-            case gold < 250:
-                stack = "100";
-                break;
-            case gold < 1000:
-                stack = "250";
-                break;
-            case gold < 10000:
-                stack = "1k";
-                break;
-            default:
-                stack = "10k";
-                break;
-        }
-        this.goldImage = this.add.image(48, 76, stack).setInteractive();
-        this.goldImage.scale = 1.3;
-
-        // Pick text color and style based on # of coins
-        let color = "white";
-        let goldText = gold;
-        if (gold > 99999 && gold < 10000000) {
-            goldText = gold / 1000 + "k";
-        } else if (gold > 10000000) {
-            goldText = gold / 1000000 + "M";
-            color = "#06c663";
-        }
-        this.goldText = this.add.text(35, 50, goldText, {
-            fontFamily: "runescape",
-            fill: color,
-            stroke: "#000000",
-            strokeThickness: 2,
-        });
     }
 
     // Load items

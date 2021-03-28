@@ -7,7 +7,7 @@ export class StatsScene extends Phaser.Scene {
     levelType = "";
 
     // Text
-    goldText = "";
+    goldText;
     enemiesKilledText;
     timesClickedText;
     damageByClickingText;
@@ -15,6 +15,7 @@ export class StatsScene extends Phaser.Scene {
     damageByAutoClickText;
     autoClickDpsText;
     autoClickDps = 0;
+    totalGoldEarned = 25;
 
     recentDamage = 0;
     timer;
@@ -28,10 +29,8 @@ export class StatsScene extends Phaser.Scene {
     }
 
     create() {
-        // Gold
-        this.goldText = this.add.text(10, 10, "", FONTS.GOLD).setDepth(3);
-
         // Show stats
+        this.goldText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
         this.enemiesKilledText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
         this.timesClickedText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
         this.damageByClickingText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
@@ -55,7 +54,7 @@ export class StatsScene extends Phaser.Scene {
     }
 
     initText() {
-        this.addGold(0);
+        this.updateTotalEarnedGold(0);
         this.updateClickedTargetStat(0);
         this.updateClickDamageStat(0);
         this.updateClickDpsStat(0);
@@ -64,9 +63,11 @@ export class StatsScene extends Phaser.Scene {
         this.updateAutoClickerDPS(0);
     }
 
-    addGold(addedGold) {
-        characterData.addGold(addedGold);
-        this.goldText.text = "Gold: " + characterData.getGold();
+    updateTotalEarnedGold(addedGold) {
+        if (addedGold >= 0) {
+            this.totalGoldEarned += addedGold;
+            this.goldText.text = "Total Gold Earned: " + this.totalGoldEarned;
+        }
     }
 
     updateClickedTargetStat(amount = 1) {
@@ -116,6 +117,7 @@ export class StatsScene extends Phaser.Scene {
         switch (this.levelType) {
             case CONSTANTS.LEVEL_TYPE.ENEMY:
                 this.orderStats([
+                    this.goldText,
                     this.enemiesKilledText,
                     this.autoClickDpsText,
                     this.damageByAutoClickText,

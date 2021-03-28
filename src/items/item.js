@@ -1,7 +1,7 @@
 import { ClickableObject } from "../clickable-object.js";
 import { OBJECT_TYPES, CONSTANTS } from "../constants/constants.js";
 import { itemManifest } from "./item-manifest.js";
-import { getItemClass } from "../utilities.js";
+import { getItemClass, getGoldStackType } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
 
 export class Item extends ClickableObject {
@@ -21,7 +21,7 @@ export class Item extends ClickableObject {
     numItems = 1;
 
     // Objects
-    sprite;
+    sprite = null;
     numItemsText;
     scene;
 
@@ -31,17 +31,28 @@ export class Item extends ClickableObject {
     cost = 0;
     actions = [
         { text: "Use", func: "use" },
-        { text: "Drop", func: "drop" },
+        { text: "Sell", func: "sell" },
         { text: "Examine", func: "examine" },
     ];
+    isVisible = false;
 
     createSprite(x, y, index = -1) {
         this.x = x;
         this.y = y;
         this.index = index;
 
+        if (this.sprite != null) {
+            this.sprite.destroy();
+            this.numItemsText.destroy();
+        }
+
+        let spritePath =
+            this.name == "Coin"
+                ? getGoldStackType(this.numItems) + "-stack"
+                : itemManifest[this.constructor.name].imageName;
+
         this.sprite = this.scene.add
-            .image(x, y, itemManifest[this.constructor.name].imageName)
+            .image(x, y, spritePath)
             .setScale(this.scale)
             .setDepth(4)
             .setInteractive()
@@ -55,17 +66,17 @@ export class Item extends ClickableObject {
         this.displayHeight = this.sprite.displayHeight;
 
         // Add text in top left for stackable items
+        let [visualNum, fillColor] = this.getItemText(this.numItems);
         this.numItemsText = this.scene.add
-            .text(x - 15, y - 15, this.numItems, {
-                font: "10px runescape",
-                fill: "orange",
+            .text(x - 15, y - 18, visualNum, {
+                font: "12px runescape",
+                fill: fillColor,
             })
             .setDepth(5);
 
-        // Hide unless item is stacked
-        if (this.numItems <= 1) {
-            this.numItemsText.visible = false;
-        }
+        let isVisible = this.numItems <= 1 ? false : this.isVisible;
+        this.numItemsText.visible = isVisible;
+        this.sprite.visible = isVisible;
     }
 
     // Need offset for where scroll window is placed as coordinates are relative
@@ -97,17 +108,18 @@ export class Item extends ClickableObject {
     }
 
     async buy() {
-        if (characterData.getGold() >= this.cost) {
+        let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        if (dashboard.inventory.obj.getGold() >= this.cost) {
             console.log("Buying", this.name);
-            let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+            this.scene.scene.get(CONSTANTS.SCENES.AUDIO).playSfx("purchase");
 
             // Create new non-shop item
             let boughtItem = await getItemClass(this.constructor.name, dashboard);
             if (dashboard.inventory.obj.addToInventory(boughtItem)) {
-                characterData.addGold(-1 * this.cost);
+                dashboard.inventory.obj.addGold(-1 * this.cost);
             }
         } else {
-            console.log("not enough mulah", characterData.getGold(), this.cost);
+            console.log("not enough mulah", dashboard.inventory.obj.getGold(), this.cost);
         }
     }
 
@@ -128,8 +140,11 @@ export class Item extends ClickableObject {
         }
     }
 
-    drop() {
-        console.log("Drop", this.name);
+    sell() {
+        console.log("Sell", this.name);
+        this.scene.scene
+            .get(CONSTANTS.SCENES.DASHBOARD)
+            .inventory.obj.addGold(Math.round(this.cost / 2));
         this.destroy();
     }
 
@@ -155,24 +170,8 @@ export class Item extends ClickableObject {
 
             // Update text
             if (this.numItemsText != undefined) {
-                let visualNum = "0";
-                let fillColor = "";
-
                 // Set format/color based on the amount
-                switch (true) {
-                    case num < 99999:
-                        visualNum = num;
-                        fillColor = "orange";
-                        break;
-                    case num < 9999999:
-                        visualNum = (num / 1000).toFixed(1) + "k";
-                        fillColor = "white";
-                        break;
-                    default:
-                        visualNum = (num / 1000000).toFixed(1) + "m";
-                        fillColor = "green";
-                        break;
-                }
+                let [visualNum, fillColor] = this.getItemText(num);
 
                 // Can't change text while in different scene (like the shop)
                 if (this.scene.scene.isActive()) {
@@ -191,6 +190,7 @@ export class Item extends ClickableObject {
     }
 
     setVisible(isVisible) {
+        this.isVisible = isVisible;
         if (this.sprite != undefined && this.sprite != null) {
             this.sprite.visible = isVisible;
         }
@@ -216,5 +216,17 @@ export class Item extends ClickableObject {
             this.numItemsText.destroy();
         }
         this.name = "";
+    }
+
+    // Returns (string, color)
+    getItemText(amount) {
+        switch (true) {
+            case amount < 99999:
+                return [amount, "orange"];
+            case amount < 9999999:
+                return [Math.floor(amount / 1000) + "K", "white"];
+            default:
+                return [Math.floor(amount / 1000000) + "M", "#00FF7F"];
+        }
     }
 }

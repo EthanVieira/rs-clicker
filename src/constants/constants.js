@@ -38,6 +38,7 @@ export const CONSTANTS = {
         TOOL: "TOOL",
         CONSUMABLE: "CONSUMABLE",
         RESOURCE: "RESOURCE",
+        CURRENCY: "CURRENCY",
     },
     LEVEL_TYPE: {
         ENEMY: "ENEMY",

@@ -3,6 +3,7 @@ import { Target } from "./target.js";
 import { OBJECT_TYPES, CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { calcLevel } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
+import Coin from "../items/currencies/coin.js";
 
 export class Enemy extends Target {
     blueHitsplat;
@@ -216,7 +217,8 @@ export class Enemy extends Target {
 
     onClick(hitValue) {
         // Get bonus gold for using mouseclick to encourage user interaction
-        this.stats.addGold(hitValue);
+
+        this.scene.dashboard.inventory.obj.addGold(hitValue);
 
         // Update stats
         this.stats.updateClickDamageStat(hitValue);
@@ -242,7 +244,7 @@ export class Enemy extends Target {
 
     onCompletion() {
         // Give extra gold if unit is killed
-        this.stats.addGold(this.killGold);
+        this.scene.dashboard.inventory.obj.addGold(this.killGold);
         console.log(this.name + " killed, getting " + this.killGold + " extra gold");
 
         // Update quest and stats

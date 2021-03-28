@@ -1,6 +1,7 @@
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { getItemClass } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
+import Coin from "../items/currencies/coin.js";
 
 export class Inventory {
     scene;
@@ -10,6 +11,7 @@ export class Inventory {
 
     constructor(scene) {
         this.scene = scene;
+        this.stats = this.scene.scene.get(CONSTANTS.SCENES.STATS);
 
         // Update and show inventory on startup
         this.refreshInventory();
@@ -76,6 +78,13 @@ export class Inventory {
 
                 // Update the item in the game
                 curItem.setNumItems(curItem.numItems + item.numItems);
+                if (curItem.constructor.name == "Coin") {
+                    const column = index % 4;
+                    const row = Math.floor(index / 4);
+                    const x = 570 + column * 45;
+                    const y = 225 + row * 35;
+                    curItem.createSprite(x, y, index);
+                }
 
                 // Delete old item
                 item.destroy();
@@ -103,6 +112,26 @@ export class Inventory {
             console.log("Inventory is full");
             return false;
         }
+    }
+
+    addGold(amount) {
+        let gold = new Coin(this.scene);
+        gold.numItems = amount;
+        this.addToInventory(gold);
+        this.stats.updateTotalEarnedGold(amount);
+    }
+
+    getGold() {
+        let playerItems = characterData.getInventory();
+        for (let index = 0; index < playerItems.length; index++) {
+            const itemExists = Object.keys(playerItems[index]).length;
+
+            if (itemExists && playerItems[index].item == Coin.name) {
+                return this.inventory[index].numItems;
+            }
+        }
+
+        return 0;
     }
 
     selectItem(index) {
