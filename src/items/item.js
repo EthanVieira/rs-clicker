@@ -34,7 +34,6 @@ export class Item extends ClickableObject {
         { text: "Sell", func: "sell" },
         { text: "Examine", func: "examine" },
     ];
-    boughtFromStore = false;
     isVisible = false;
 
     createSprite(x, y, index = -1) {
