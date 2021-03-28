@@ -241,6 +241,17 @@ export class ChatScene extends Phaser.Scene {
         );
     }
 
+    writeAutoClickerInfo(autoClicker) {
+        this.writeStrings(
+            { x: 0, text: "Sells for:", format: FONTS.ITEM_HEADER },
+            { x: this.col1, text: autoClicker.cost + "gp", format: FONTS.ITEM_STATS }
+        );
+        this.writeStrings(
+            { x: 0, text: "DPS:", format: FONTS.ITEM_HEADER },
+            { x: this.col1, text: autoClicker.dps, format: FONTS.ITEM_STATS }
+        );
+    }
+
     show(isVisible = true) {
         this.visible = isVisible;
         this.scrollWindow.setVisible(isVisible);
@@ -302,7 +313,7 @@ export class ChatScene extends Phaser.Scene {
                     this.writeEnemyInfo(object);
                     break;
                 case OBJECT_TYPES.AUTOCLICKER:
-                    //this.writeItemInfo(object);
+                    this.writeAutoClickerInfo(object);
                     break;
             }
 
