@@ -1,6 +1,5 @@
 import { autoclickerManifest } from "./auto-clicker-manifest.js";
 import { CONSTANTS, OBJECT_TYPES } from "../constants/constants.js";
-import { characterData } from "../cookie-io.js";
 
 export async function getAutoclickerClass(className, scene) {
     let path = autoclickerManifest[className].classPath;
@@ -35,6 +34,7 @@ export class AutoClicker {
         this.dps = data.dps;
         this.level = data.level;
         this.name = data.name;
+        this.dashboard = data.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
 
         // Damage every .1 seconds
         this.damageInterval = 100;

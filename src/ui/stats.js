@@ -7,7 +7,7 @@ export class StatsScene extends Phaser.Scene {
     levelType = "";
 
     // Text
-    goldText = "";
+    goldText;
     enemiesKilledText;
     timesClickedText;
     damageByClickingText;
@@ -29,10 +29,8 @@ export class StatsScene extends Phaser.Scene {
     }
 
     create() {
-        // Gold
-        this.goldText = this.add.text(10, 10, "", FONTS.GOLD).setDepth(3);
-
         // Show stats
+        this.goldText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
         this.enemiesKilledText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
         this.timesClickedText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
         this.damageByClickingText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
@@ -66,7 +64,7 @@ export class StatsScene extends Phaser.Scene {
     }
 
     updateTotalEarnedGold(addedGold) {
-        if (addedGold > 0) {
+        if (addedGold >= 0) {
             this.totalGoldEarned += addedGold;
             this.goldText.text = "Total Gold Earned: " + this.totalGoldEarned;
         }
@@ -119,6 +117,7 @@ export class StatsScene extends Phaser.Scene {
         switch (this.levelType) {
             case CONSTANTS.LEVEL_TYPE.ENEMY:
                 this.orderStats([
+                    this.goldText,
                     this.enemiesKilledText,
                     this.autoClickDpsText,
                     this.damageByAutoClickText,
