@@ -81,3 +81,13 @@ export function getGoldStackType(goldAmount) {
             return "10k";
     }
 }
+
+export function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function aOrAn(followingWord) {
+    return ["a", "e", "i", "o", "u"].includes(followingWord.charAt(0).toLowerCase())
+        ? "an"
+        : "a";
+}

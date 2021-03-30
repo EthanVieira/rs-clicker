@@ -1,6 +1,6 @@
 import { Item } from "./item.js";
-import { OBJECT_TYPES } from "../constants/constants.js";
-import { calcLevel, getItemClass } from "../utilities.js";
+import { CONSTANTS, FONTS, OBJECT_TYPES, EQUIPMENT } from "../constants/constants.js";
+import { calcLevel, getItemClass, capitalize, aOrAn } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
 
 export default class Equipment extends Item {
@@ -73,6 +73,18 @@ export default class Equipment extends Item {
                 equippedItem.scene.equipment.obj.equipItem(equippedItem);
             } else {
                 console.log("Not high enough level to equip that.");
+                let skillText = this.getRequiredCombatSkill();
+                this.scene.scene
+                    .get(CONSTANTS.SCENES.CHAT)
+                    .writeText(
+                        "You need " +
+                            aOrAn(skillText) +
+                            " " +
+                            capitalize(skillText) +
+                            " level of " +
+                            this.requiredLevel +
+                            " to equip this item."
+                    );
             }
         } else {
             console.log("Error, trying to equip when already equipped");
@@ -101,14 +113,25 @@ export default class Equipment extends Item {
         console.log("use", this.name);
     }
 
-    // TODO: be able to have multiple different required levels for different skills
     checkRequiredLevel() {
-        let skill = this.skill.toLowerCase();
-        if (skill == "melee") {
-            skill = "attack";
-        }
+        return (
+            calcLevel(characterData.getSkillXp(this.getRequiredCombatSkill())) >=
+            this.requiredLevel
+        );
+    }
 
-        let level = calcLevel(characterData.getSkillXp(skill));
-        return level >= this.requiredLevel;
+    getRequiredCombatSkill() {
+        let skill = "";
+        switch (this.skill) {
+            case EQUIPMENT.WEAPON_TYPES.MELEE:
+                skill = "attack";
+                break;
+            case EQUIPMENT.WEAPON_TYPES.RANGED:
+                skill = "ranged";
+                break;
+            case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                skill = "magic";
+        }
+        return skill;
     }
 }
