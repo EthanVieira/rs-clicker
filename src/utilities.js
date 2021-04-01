@@ -107,7 +107,10 @@ export function getRequiredCombatSkill(skillConstant) {
             skill = "magic";
             break;
         default:
-            console.log("Could not find the required combat skill.");
+            skill = "attack";
+            console.log(
+                "Could not find the required combat skill. Defaulting to unarmed."
+            );
     }
     return skill;
 }

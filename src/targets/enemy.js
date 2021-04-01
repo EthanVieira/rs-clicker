@@ -251,24 +251,20 @@ export class Enemy extends Target {
     }
 
     getDamageLevel() {
-        if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
-            return calcLevel(
-                characterData.getSkillXp(
-                    getRequiredCombatSkill(this.equipment.obj.equipment.WEAPON.skill)
-                )
-            );
-        }
+        return calcLevel(
+            characterData.getSkillXp(
+                getRequiredCombatSkill(this.equipment.obj.equipment.WEAPON.skill)
+            )
+        );
     }
 
     increaseXp(hitValue) {
         // Increase attack/ranged/magic XP
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
-        if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
-            characterData.addSkillXp(
-                getRequiredCombatSkill(this.equipment.obj.equipment.WEAPON.skill),
-                xpIncrease
-            );
-        }
+        characterData.addSkillXp(
+            getRequiredCombatSkill(this.equipment.obj.equipment.WEAPON.skill),
+            xpIncrease
+        );
     }
 }
