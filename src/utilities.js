@@ -95,19 +95,14 @@ export function aOrAn(followingWord) {
 }
 
 export function getRequiredCombatSkill(skillConstant) {
-    let skill = "";
     switch (skillConstant) {
         case EQUIPMENT.WEAPON_TYPES.MELEE:
-            skill = "attack";
-            break;
+            return "attack";
         case EQUIPMENT.WEAPON_TYPES.RANGED:
-            skill = "ranged";
-            break;
+            return "ranged";
         case EQUIPMENT.WEAPON_TYPES.MAGIC:
-            skill = "magic";
-            break;
+            return "magic";
         default:
-            skill = "attack";
+            return "attack";
     }
-    return skill;
 }
