@@ -1,3 +1,5 @@
+import { EQUIPMENT } from "./constants/constants.js";
+
 // Returns XP needed for given level, not total xp
 function calcLevelUpXp(lv) {
     return Math.floor(0.25 * (lv + 300 * Math.pow(2, lv / 7)));
@@ -90,4 +92,19 @@ export function aOrAn(followingWord) {
     return ["a", "e", "i", "o", "u"].includes(followingWord.charAt(0).toLowerCase())
         ? "an"
         : "a";
+}
+
+export function getRequiredCombatSkill(skillConstant) {
+    let skill = "";
+    switch (skillConstant) {
+        case EQUIPMENT.WEAPON_TYPES.MELEE:
+            skill = "attack";
+            break;
+        case EQUIPMENT.WEAPON_TYPES.RANGED:
+            skill = "ranged";
+            break;
+        case EQUIPMENT.WEAPON_TYPES.MAGIC:
+            skill = "magic";
+    }
+    return skill;
 }

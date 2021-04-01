@@ -1,6 +1,12 @@
 import { Item } from "./item.js";
-import { CONSTANTS, FONTS, OBJECT_TYPES, EQUIPMENT } from "../constants/constants.js";
-import { calcLevel, getItemClass, capitalize, aOrAn } from "../utilities.js";
+import { CONSTANTS, OBJECT_TYPES } from "../constants/constants.js";
+import {
+    calcLevel,
+    getItemClass,
+    capitalize,
+    aOrAn,
+    getRequiredCombatSkill,
+} from "../utilities.js";
 import { characterData } from "../cookie-io.js";
 
 export default class Equipment extends Item {
@@ -73,7 +79,7 @@ export default class Equipment extends Item {
                 equippedItem.scene.equipment.obj.equipItem(equippedItem);
             } else {
                 console.log("Not high enough level to equip that.");
-                let skillText = this.getRequiredCombatSkill();
+                let skillText = getRequiredCombatSkill(this.skill);
                 this.scene.scene
                     .get(CONSTANTS.SCENES.CHAT)
                     .writeText(
@@ -115,23 +121,8 @@ export default class Equipment extends Item {
 
     checkRequiredLevel() {
         return (
-            calcLevel(characterData.getSkillXp(this.getRequiredCombatSkill())) >=
+            calcLevel(characterData.getSkillXp(getRequiredCombatSkill(this.skill))) >=
             this.requiredLevel
         );
-    }
-
-    getRequiredCombatSkill() {
-        let skill = "";
-        switch (this.skill) {
-            case EQUIPMENT.WEAPON_TYPES.MELEE:
-                skill = "attack";
-                break;
-            case EQUIPMENT.WEAPON_TYPES.RANGED:
-                skill = "ranged";
-                break;
-            case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                skill = "magic";
-        }
-        return skill;
     }
 }
