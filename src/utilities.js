@@ -105,6 +105,9 @@ export function getRequiredCombatSkill(skillConstant) {
             break;
         case EQUIPMENT.WEAPON_TYPES.MAGIC:
             skill = "magic";
+            break;
+        default:
+            console.log("Could not find the required combat skill.");
     }
     return skill;
 }
