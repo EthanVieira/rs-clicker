@@ -1,6 +1,12 @@
 import { Item } from "./item.js";
-import { OBJECT_TYPES } from "../constants/constants.js";
-import { calcLevel, getItemClass } from "../utilities.js";
+import { CONSTANTS, OBJECT_TYPES } from "../constants/constants.js";
+import {
+    calcLevel,
+    getItemClass,
+    capitalize,
+    aOrAn,
+    getRequiredCombatSkill,
+} from "../utilities.js";
 import { characterData } from "../cookie-io.js";
 
 export default class Equipment extends Item {
@@ -73,6 +79,18 @@ export default class Equipment extends Item {
                 equippedItem.scene.equipment.obj.equipItem(equippedItem);
             } else {
                 console.log("Not high enough level to equip that.");
+                let skillText = getRequiredCombatSkill(this.skill);
+                this.scene.scene
+                    .get(CONSTANTS.SCENES.CHAT)
+                    .writeText(
+                        "You need " +
+                            aOrAn(skillText) +
+                            " " +
+                            capitalize(skillText) +
+                            " level of " +
+                            this.requiredLevel +
+                            " to equip this item."
+                    );
             }
         } else {
             console.log("Error, trying to equip when already equipped");
@@ -101,14 +119,10 @@ export default class Equipment extends Item {
         console.log("use", this.name);
     }
 
-    // TODO: be able to have multiple different required levels for different skills
     checkRequiredLevel() {
-        let skill = this.skill.toLowerCase();
-        if (skill == "melee") {
-            skill = "attack";
-        }
-
-        let level = calcLevel(characterData.getSkillXp(skill));
-        return level >= this.requiredLevel;
+        return (
+            calcLevel(characterData.getSkillXp(getRequiredCombatSkill(this.skill))) >=
+            this.requiredLevel
+        );
     }
 }

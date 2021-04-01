@@ -1,9 +1,8 @@
 import { HealthBar } from "../ui/health-bar.js";
 import { Target } from "./target.js";
-import { OBJECT_TYPES, CONSTANTS, EQUIPMENT } from "../constants/constants.js";
-import { calcLevel } from "../utilities.js";
+import { OBJECT_TYPES, EQUIPMENT } from "../constants/constants.js";
+import { calcLevel, getRequiredCombatSkill } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
-import Coin from "../items/currencies/coin.js";
 
 export class Enemy extends Target {
     blueHitsplat;
@@ -252,48 +251,20 @@ export class Enemy extends Target {
     }
 
     getDamageLevel() {
-        if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
-            const skill = this.equipment.obj.equipment.WEAPON.skill;
-            // Todo: organize so switch isn't needed
-            switch (this.equipment.obj.equipment.WEAPON.skill) {
-                case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                    return calcLevel(characterData.getSkillXp("magic"));
-                    break;
-                case EQUIPMENT.WEAPON_TYPES.RANGED:
-                    return calcLevel(characterData.getSkillXp("ranged"));
-                    break;
-                case EQUIPMENT.WEAPON_TYPES.MELEE:
-                    return calcLevel(characterData.getSkillXp("attack"));
-                    break;
-            }
-        } else {
-            // Unarmed
-            return calcLevel(characterData.getSkillXp("attack"));
-        }
+        return calcLevel(
+            characterData.getSkillXp(
+                getRequiredCombatSkill(this.equipment.obj.equipment.WEAPON.skill)
+            )
+        );
     }
 
     increaseXp(hitValue) {
         // Increase attack/ranged/magic XP
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
-        if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
-            const skill = this.equipment.obj.equipment.WEAPON.skill;
-
-            // Todo: organize so switch isn't needed
-            switch (this.equipment.obj.equipment.WEAPON.skill) {
-                case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                    characterData.addSkillXp("magic", xpIncrease);
-                    break;
-                case EQUIPMENT.WEAPON_TYPES.RANGED:
-                    characterData.addSkillXp("ranged", xpIncrease);
-                    break;
-                case EQUIPMENT.WEAPON_TYPES.MELEE:
-                    characterData.addSkillXp("attack", xpIncrease);
-                    break;
-            }
-        } else {
-            // Unarmed
-            characterData.addSkillXp("attack", xpIncrease);
-        }
+        characterData.addSkillXp(
+            getRequiredCombatSkill(this.equipment.obj.equipment.WEAPON.skill),
+            xpIncrease
+        );
     }
 }
