@@ -26,8 +26,10 @@ http://192.168.1.2:8000
 or
 http://127.0.0.1:8000
 
-## TODO
+### Planning
 
 [Trello board for tasks](https://trello.com/b/hJYfFDMr)
 
 [Google doc for future ideas](https://docs.google.com/document/d/14aIu6_-7gJhgkLuyItdyquUk115mISjRNwYPJmxmUm0/edit?usp=sharing)
+
+#### [>Code documentation<](src/)
