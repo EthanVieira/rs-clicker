@@ -33,8 +33,29 @@ http://127.0.0.1:8000
 [Google doc for future ideas](https://docs.google.com/document/d/14aIu6_-7gJhgkLuyItdyquUk115mISjRNwYPJmxmUm0/edit?usp=sharing)
 
 ## Code execution flow
-`main.js` -> `scenes/load.js` -> `scenes/main-menu.js` -> `scenes/tutorial-island.js : level.js` -> any other level
+| File execution           | Internal references... | &#8595;         |
+|--------------------------|------------------------|-----------------|
+| `main`                   |                        |                 |
+| `scenes/load`            |                        |                 |
+|                          | `cookie-io`            |                 |
+| `scenes/main-menu`       |                        |                 |
+|                          | `scenes/audio`         |                 |
+| `scenes/tutorial-island` |                        |                 |
+|                          | `scenes/audio`         |                 |
+|                          | `ui/dashboard`         |                 |
+|                          |                        | `scenes/audio`  |
+|                          |                        | `ui/inventory`  |
+|                          |                        | `scenes/shop`   |
+|                          |                        | `ui/skills`     |
+|                          |                        | `ui/quest-list` |
+|                          |                        | `ui/equipment`  |
+|                          |                        | `ui/clan`       |
+|                          | `ui/stats`             |                 |
+|                          | `ui/chat`              |                 |
+|                          | `targets/target`       |                 |
   
+  
+### Main file descriptions
 | File           | Description                                                                                                                             |
 |----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | `main.js`      | Sets up phaser and loads all of the scenes. Scene load order affects the z-index                                                        |
