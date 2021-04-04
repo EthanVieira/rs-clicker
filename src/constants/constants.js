@@ -46,6 +46,7 @@ export const CONSTANTS = {
     },
     PANEL: {
         INVENTORY: "INVENTORY",
+        MUSIC: "MUSIC",
         SKILLS: "SKILLS",
         PRAYER: "PRAYER",
         EQUIPMENT: "EQUIPMENT",
