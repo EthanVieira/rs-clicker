@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../constants/constants.js";
+import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { ScrollWindow } from "./scroll-window.js";
 import { characterData } from "../cookie-io.js";
 import { prettyPrintCamelCase } from "../utilities.js";
@@ -15,15 +15,33 @@ export class MusicPanel {
         // Add scroll window
         this.scrollWindow = new ScrollWindow({
             name: "music",
-            x: 536,
+            x: 527,
             y: 262,
-            width: 175,
+            width: 185,
             height: 186,
             numColumns: 1,
-            padding: 10,
+            padding: 5,
         });
         dashboard.scene.add(this.scrollWindow.name, this.scrollWindow, true);
         this.scrollWindow.refresh();
+
+        // Add song names to scroll window
+        const songNames = [
+            "Barbarianism",
+            "Expanse",
+            "Harmony",
+            "Newbie Melody",
+            "Scape Main",
+            "Still Night",
+            "The Trade Parade",
+        ];
+        const songTexts = songNames.map((song) =>
+            this.scrollWindow.add
+                .text(0, 0, song, FONTS.HOTBAR)
+                .setInteractive()
+                .on("pointerup", () => console.log(song))
+        );
+        this.scrollWindow.addObjects(songTexts);
 
         // Add button / panel
         this.panel = dashboard.add
