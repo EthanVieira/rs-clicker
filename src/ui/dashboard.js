@@ -58,11 +58,7 @@ export class DashboardScene extends Phaser.Scene {
         obj: {},
     };
 
-    music = {
-        button: {},
-        panel: {},
-        obj: {},
-    };
+    musicPanel = {};
 
     // Hotbar
     prayerHotbarText;
@@ -283,26 +279,12 @@ export class DashboardScene extends Phaser.Scene {
         this.clan.obj = new Clan(this);
         this.showClanChat(false);
 
-        // Music panel
-        this.music.panel = this.add
-            .image(545, 205, "music-panel")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.music.button = this.add
-            .image(725, 466, "music-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.showMusic(true);
-            });
-
         // Clear out and reinstatiate songs
-        if (Object.entries(this.music.obj).length) {
-            this.music.obj.destroy();
+        if (Object.entries(this.musicPanel).length) {
+            this.musicPanel.destroy();
         }
-        this.music.obj = new MusicPanel(this);
-        this.showMusic(false);
+        this.musicPanel = new MusicPanel(this);
+        this.musicPanel.show(false);
 
         // Scene destructor
         this.events.once("shutdown", () => {
@@ -389,19 +371,6 @@ export class DashboardScene extends Phaser.Scene {
         this.clan.panel.visible = isVisible;
     }
 
-    showMusic(isVisible) {
-        if (isVisible) {
-            this.hideAllMenus();
-            this.music.button.setAlpha(1);
-            this.currentPanel = CONSTANTS.PANEL.MUSIC;
-        } else {
-            this.music.button.setAlpha(0.1);
-        }
-
-        this.music.obj.show(isVisible);
-        this.music.panel.visible = isVisible;
-    }
-
     // Hide old button and show new one
     changeAudioButton(volumeType, buttonNum) {
         for (let button in this.audio.buttons[volumeType]) {
@@ -419,7 +388,7 @@ export class DashboardScene extends Phaser.Scene {
         this.showQuests(false);
         this.showEquipment(false);
         this.showClanChat(false);
-        this.showMusic(false);
+        this.musicPanel.show(false);
         this.equipment.obj.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
