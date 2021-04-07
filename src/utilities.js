@@ -51,7 +51,7 @@ export function prettyPrintCamelCase(str) {
 // Transforms VARROCK_MINE -> Varrock Mine
 export function prettyPrintConstant(str) {
     let resultStr = "";
-    const spaceStr = str.replace("_", " ");
+    const spaceStr = str.replaceAll("_", " ");
     for (let i = 0; i < spaceStr.length; i++) {
         if (i == 0 || spaceStr.charAt(i - 1) == " ") {
             resultStr += spaceStr.charAt(i).toUpperCase();
@@ -61,6 +61,12 @@ export function prettyPrintConstant(str) {
     }
 
     return resultStr;
+}
+
+// Transforms newbie-melody -> Newbie Melody
+export function prettyPrintDash(str) {
+    const spaceStr = str.replaceAll("-", " ");
+    return prettyPrintConstant(spaceStr);
 }
 
 export function getGoldStackType(goldAmount) {

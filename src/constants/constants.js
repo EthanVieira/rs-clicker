@@ -215,4 +215,34 @@ export const FONTS = {
             fill: true,
         },
     },
+    SONG_UNLOCKED: {
+        font: "15.5px runescape",
+        fill: "#00ff00",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
+    SONG_LOCKED: {
+        font: "15.5px runescape",
+        fill: "#ff0000",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
+    SONG_COUNT: {
+        font: "14px runescape",
+        fill: "orange",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
 };

@@ -293,6 +293,10 @@ export class DashboardScene extends Phaser.Scene {
         });
     }
 
+    update(time, delta) {
+        this.musicPanel.update();
+    }
+
     showPrayer(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
