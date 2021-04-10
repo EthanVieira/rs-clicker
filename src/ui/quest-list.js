@@ -5,14 +5,34 @@ import { prettyPrintCamelCase } from "../utilities.js";
 
 export class QuestList {
     dashboard;
+
+    panel;
+    button;
     scrollWindow;
 
-    textGroup;
+    textGroup = [];
     isTextVisible = false;
 
     constructor(dashboard) {
         this.dashboard = dashboard;
 
+        // Panel
+        this.panel = dashboard.add
+            .image(548, 208, "quests-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+
+        // Button
+        this.button = dashboard.add
+            .image(592, 168, "quests-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.show();
+            });
+
+        // Quest list scroll window
         this.scrollWindow = new ScrollWindow({
             name: "quests",
             x: 542,
@@ -25,9 +45,15 @@ export class QuestList {
         this.dashboard.scene.add(this.scrollWindow.name, this.scrollWindow, true);
         this.scrollWindow.refresh();
 
-        this.textGroup = [];
-
         this.refreshQuests();
+
+        // Default to hidden
+        this.show(false);
+
+        // Scene destructor
+        dashboard.events.once("shutdown", () => {
+            this.dashboard.scene.remove(this.scrollWindow.name);
+        });
     }
 
     async refreshQuests() {
@@ -73,16 +99,23 @@ export class QuestList {
         });
     }
 
-    show(isVisible) {
-        this.isTextVisible = isVisible;
+    show(isVisible = true) {
         if (isVisible) {
+            this.dashboard.hideAllMenus();
             this.scrollWindow.refresh();
             this.dashboard.currentPanel = CONSTANTS.PANEL.QUESTS;
+            this.button.setAlpha(1);
+        } else {
+            this.button.setAlpha(0.1);
         }
+
+        this.panel.visible = isVisible;
         this.scrollWindow.setVisible(isVisible);
         this.textGroup.forEach((text) => {
             text.visible = isVisible;
         });
+
+        this.isTextVisible = isVisible;
     }
 
     clearText() {

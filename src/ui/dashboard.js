@@ -8,6 +8,7 @@ import { characterData } from "../cookie-io.js";
 import { QuestList } from "./quest-list.js";
 import { MusicPanel } from "./music.js";
 import { Prayer } from "./prayer.js";
+import { Settings } from "./settings.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -17,21 +18,8 @@ export class DashboardScene extends Phaser.Scene {
     inventory = {};
     skills = {};
     prayer = {};
-
-    audio = {
-        bgm: "",
-        page: {},
-        pageButton: {},
-        sliders: [],
-        buttons: [],
-        scene: {},
-    };
-
-    quests = {
-        button: {},
-        panel: {},
-        list: {},
-    };
+    settings = {};
+    quests = {};
 
     equipment = {
         button: {},
@@ -52,9 +40,6 @@ export class DashboardScene extends Phaser.Scene {
     }
 
     create() {
-        // Get audio scene
-        this.audio.scene = this.scene.get(CONSTANTS.SCENES.AUDIO);
-
         // Get current scene
         this.currentScene = this.scene.get(characterData.getCurrentLevel());
 
@@ -89,87 +74,11 @@ export class DashboardScene extends Phaser.Scene {
         // Prayer
         this.prayer = new Prayer(this);
 
-        // Audio settings
-        let audioWindowX = 550;
-        let audioWindowY = 205;
-        this.audio.page = this.add
-            .image(audioWindowX, audioWindowY, "audio-settings")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.audio.pageButton = this.add
-            .image(659, 466, "audio-settings-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.showAudioSettings(true);
-            });
-
-        // Place sliders
-        let barXOffset = 53;
-        this.audio.sliders = [];
-        this.audio.sliders.push(
-            this.add
-                .image(audioWindowX + barXOffset, audioWindowY + 80, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-        this.audio.sliders.push(
-            this.add
-                .image(audioWindowX + barXOffset, audioWindowY + 125, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-        this.audio.sliders.push(
-            this.add
-                .image(audioWindowX + barXOffset, audioWindowY + 170, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-
-        // Set 5 buttons for each of the 3 sliders
-        this.audio.buttons = [];
-        for (let volumeType = 0; volumeType < 3; volumeType++) {
-            let audioButtonRow = [];
-            for (let buttonNum = 0; buttonNum < 5; buttonNum++) {
-                let audioButton = this.add
-                    .image(
-                        audioWindowX + barXOffset + 10 + buttonNum * 22,
-                        audioWindowY + 80 + volumeType * 45,
-                        "audio-button"
-                    )
-                    .setOrigin(0, 0)
-                    .setDepth(3)
-                    .setInteractive()
-                    .setAlpha(0.1)
-                    .on("pointerdown", () => {
-                        this.changeAudioButton(volumeType, buttonNum);
-                    });
-
-                audioButtonRow.push(audioButton);
-            }
-            // Save 2d array of buttons (3 x 5)
-            this.audio.buttons.push(audioButtonRow);
-        }
-        // Hide audio page on startup
-        this.showAudioSettings(false);
+        // Settings (just audio for now)
+        this.settings = new Settings(this);
 
         // Quests
-        this.quests.panel = this.add
-            .image(548, 208, "quests-panel")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.quests.button = this.add
-            .image(592, 168, "quests-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.showQuests(true);
-            });
-
-        this.quests.list = new QuestList(this);
-        this.showQuests(false);
+        this.quests = new QuestList(this);
 
         // Equipment
         this.equipment.panel = this.add
@@ -226,7 +135,6 @@ export class DashboardScene extends Phaser.Scene {
         // Scene destructor
         this.events.once("shutdown", () => {
             this.scene.remove(this.clan.obj.scrollWindow.name);
-            this.scene.remove(this.quests.list.scrollWindow.name);
         });
     }
 
@@ -246,44 +154,6 @@ export class DashboardScene extends Phaser.Scene {
         this.equipment.panel.visible = isVisible;
     }
 
-    showAudioSettings(isVisible) {
-        if (isVisible) {
-            this.hideAllMenus();
-            this.currentPanel = CONSTANTS.PANEL.SETTINGS;
-            this.audio.pageButton.setAlpha(1);
-
-            // Show current volume buttons
-            for (let i = 0; i < 3; i++) {
-                this.audio.buttons[i][characterData.getVolume(i)].setAlpha(1);
-            }
-        } else {
-            this.audio.pageButton.setAlpha(0.1);
-        }
-
-        this.audio.page.visible = isVisible;
-        this.audio.sliders.forEach((slider) => {
-            slider.visible = isVisible;
-        });
-        this.audio.buttons.forEach((buttonRow) => {
-            buttonRow.forEach((button) => {
-                button.visible = isVisible;
-            });
-        });
-    }
-
-    showQuests(isVisible) {
-        if (isVisible) {
-            this.hideAllMenus();
-            this.quests.button.setAlpha(1);
-            this.currentPanel = CONSTANTS.PANEL.QUESTS;
-        } else {
-            this.quests.button.setAlpha(0.1);
-        }
-
-        this.quests.list.show(isVisible);
-        this.quests.panel.visible = isVisible;
-    }
-
     showClanChat(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
@@ -297,21 +167,11 @@ export class DashboardScene extends Phaser.Scene {
         this.clan.panel.visible = isVisible;
     }
 
-    // Hide old button and show new one
-    changeAudioButton(volumeType, buttonNum) {
-        for (let button in this.audio.buttons[volumeType]) {
-            this.audio.buttons[volumeType][button].setAlpha(0.1);
-        }
-        this.audio.buttons[volumeType][buttonNum].setAlpha(1);
-
-        this.audio.scene.changeVolume(volumeType, buttonNum);
-    }
-
     hideAllMenus() {
-        this.showAudioSettings(false);
+        this.settings.show(false);
         this.skills.show(false);
         this.prayer.show(false);
-        this.showQuests(false);
+        this.quests.show(false);
         this.showEquipment(false);
         this.showClanChat(false);
         this.musicPanel.show(false);

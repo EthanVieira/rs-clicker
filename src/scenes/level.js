@@ -180,7 +180,7 @@ export class LevelScene extends Phaser.Scene {
         }
 
         // Update text
-        this.dashboard.quests.list.refreshQuests();
+        this.dashboard.quests.refreshQuests();
         this.stats.updateEnemiesKilledStat();
     }
 
