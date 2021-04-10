@@ -9,6 +9,8 @@ export class Clan {
     scrollWindow;
 
     // Phaser objects
+    panel;
+    button;
     playerNameText;
     clanNameText;
     clanMembers = [];
@@ -16,6 +18,23 @@ export class Clan {
     constructor(dashboard) {
         this.dashboard = dashboard;
 
+        // Panel
+        this.panel = dashboard.add
+            .image(550, 204, "clan-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+
+        // Button
+        this.button = dashboard.add
+            .image(522, 466, "clan-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.show();
+            });
+
+        // Clan member scroll window
         this.scrollWindow = new ScrollWindow({
             name: "clans",
             x: 535,
@@ -30,6 +49,14 @@ export class Clan {
 
         // Update and show clan info on startup
         this.refreshClan();
+
+        // Default to hidden
+        this.show(false);
+
+        // Scene destructor
+        dashboard.events.once("shutdown", () => {
+            dashboard.scene.remove(this.scrollWindow.name);
+        });
     }
 
     // Load clan data on startup
@@ -94,11 +121,17 @@ export class Clan {
         this.scrollWindow.addObject(member);
     }
 
-    show(isVisible) {
+    show(isVisible = true) {
         if (isVisible) {
+            this.dashboard.hideAllMenus();
             this.scrollWindow.refresh();
             this.dashboard.currentPanel = CONSTANTS.PANEL.CLAN;
+            this.button.setAlpha(1);
+        } else {
+            this.button.setAlpha(0.1);
         }
+
+        this.panel.visible = isVisible;
         this.scrollWindow.setVisible(isVisible);
         this.playerNameText.visible = isVisible;
         this.clanNameText.visible = isVisible;

@@ -90,7 +90,7 @@ export class AutoClicker {
             this.dashboard = this.scrollWindow.scene.get(CONSTANTS.SCENES.DASHBOARD);
         }
         let newMember = await getAutoclickerClass(this.name, this.dashboard);
-        this.dashboard.clan.obj.addClanMember(newMember);
+        this.dashboard.clan.addClanMember(newMember);
     }
 
     examine(isShop) {

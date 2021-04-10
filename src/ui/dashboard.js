@@ -21,12 +21,7 @@ export class DashboardScene extends Phaser.Scene {
     settings = {};
     quests = {};
     equipment = {};
-
-    clan = {
-        button: {},
-        panel: {},
-        obj: {},
-    };
+    clan = {};
 
     musicPanel = {};
 
@@ -83,25 +78,11 @@ export class DashboardScene extends Phaser.Scene {
         this.equipment = new Equipment(this);
 
         // Clan chat
-        this.clan.panel = this.add
-            .image(550, 204, "clan-panel")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.clan.button = this.add
-            .image(522, 466, "clan-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.showClanChat(true);
-            });
-
         // Clear out and reinstatiate clan members
-        if (Object.entries(this.clan.obj).length) {
-            this.clan.obj.destroy();
+        if (Object.entries(this.clan).length) {
+            this.clan.destroy();
         }
-        this.clan.obj = new Clan(this);
-        this.showClanChat(false);
+        this.clan = new Clan(this);
 
         // Music
         // Clear out and reinstatiate songs
@@ -109,29 +90,10 @@ export class DashboardScene extends Phaser.Scene {
             this.musicPanel.destroy();
         }
         this.musicPanel = new MusicPanel(this);
-        this.musicPanel.show(false);
-
-        // Scene destructor
-        this.events.once("shutdown", () => {
-            this.scene.remove(this.clan.obj.scrollWindow.name);
-        });
     }
 
     update(time, delta) {
         this.musicPanel.update();
-    }
-
-    showClanChat(isVisible) {
-        if (isVisible) {
-            this.hideAllMenus();
-            this.clan.button.setAlpha(1);
-            this.currentPanel = CONSTANTS.PANEL.CLAN;
-        } else {
-            this.clan.button.setAlpha(0.1);
-        }
-
-        this.clan.obj.show(isVisible);
-        this.clan.panel.visible = isVisible;
     }
 
     hideAllMenus() {
@@ -140,7 +102,7 @@ export class DashboardScene extends Phaser.Scene {
         this.prayer.show(false);
         this.quests.show(false);
         this.equipment.show(false);
-        this.showClanChat(false);
+        this.clan.show(false);
         this.musicPanel.show(false);
         this.inventory.show(false);
     }
