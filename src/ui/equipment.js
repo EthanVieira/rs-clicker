@@ -5,6 +5,9 @@ import { characterData } from "../cookie-io.js";
 export class Equipment {
     scene;
 
+    panel;
+    button;
+
     // Images
     equipment = {
         WEAPON: {},
@@ -16,6 +19,22 @@ export class Equipment {
     constructor(scene) {
         this.scene = scene;
 
+        // Panel
+        this.panel = scene.add
+            .image(548, 204, "equipment-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+
+        // Button
+        this.button = scene.add
+            .image(659, 168, "equipment-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.show();
+            });
+
         this.slotBg.WEAPON = scene.add
             .image(587, 304, "equipment-background")
             .setDepth(2)
@@ -23,6 +42,9 @@ export class Equipment {
 
         // Update and show equipment on startup
         this.refreshEquipment();
+
+        // Default to hidden
+        this.show(false);
     }
 
     // Load equipment on startup
@@ -75,10 +97,15 @@ export class Equipment {
         characterData.setEquipment(slot, {});
     }
 
-    showEquipment(isVisible) {
+    show(isVisible = true) {
         if (isVisible) {
+            this.scene.hideAllMenus();
             this.scene.currentPanel = CONSTANTS.PANEL.EQUIPMENT;
+            this.button.setAlpha(1);
+        } else {
+            this.button.setAlpha(0.1);
         }
+
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
             if (Object.keys(itemObj).length) {
                 itemObj.setVisible(isVisible);
@@ -87,6 +114,8 @@ export class Equipment {
                 this.slotBg[item].setVisible(false);
             }
         });
+
+        this.panel.visible = isVisible;
     }
 
     destroy() {

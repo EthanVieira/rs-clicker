@@ -20,12 +20,7 @@ export class DashboardScene extends Phaser.Scene {
     prayer = {};
     settings = {};
     quests = {};
-
-    equipment = {
-        button: {},
-        panel: {},
-        obj: {},
-    };
+    equipment = {};
 
     clan = {
         button: {},
@@ -81,27 +76,11 @@ export class DashboardScene extends Phaser.Scene {
         this.quests = new QuestList(this);
 
         // Equipment
-        this.equipment.panel = this.add
-            .image(548, 204, "equipment-panel")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.equipment.button = this.add
-            .image(659, 168, "equipment-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.showEquipment(true);
-
-                this.equipment.obj.showEquipment(true);
-            });
-
         // Clear out and reinstantiate equipment
-        if (Object.entries(this.equipment.obj).length) {
-            this.equipment.obj.destroy();
+        if (Object.entries(this.equipment).length) {
+            this.equipment.destroy();
         }
-        this.equipment.obj = new Equipment(this);
-        this.showEquipment(false);
+        this.equipment = new Equipment(this);
 
         // Clan chat
         this.clan.panel = this.add
@@ -142,18 +121,6 @@ export class DashboardScene extends Phaser.Scene {
         this.musicPanel.update();
     }
 
-    showEquipment(isVisible) {
-        if (isVisible) {
-            this.hideAllMenus();
-            this.equipment.button.setAlpha(1);
-            this.currentPanel = CONSTANTS.PANEL.EQUIPMENT;
-        } else {
-            this.equipment.button.setAlpha(0.1);
-        }
-
-        this.equipment.panel.visible = isVisible;
-    }
-
     showClanChat(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
@@ -172,10 +139,9 @@ export class DashboardScene extends Phaser.Scene {
         this.skills.show(false);
         this.prayer.show(false);
         this.quests.show(false);
-        this.showEquipment(false);
+        this.equipment.show(false);
         this.showClanChat(false);
         this.musicPanel.show(false);
-        this.equipment.obj.showEquipment(false);
         this.inventory.show(false);
     }
 }

@@ -12,7 +12,7 @@ export class Rock extends Resource {
     }
 
     isClickable() {
-        let curWeapon = this.scene.dashboard.equipment.obj.equipment.WEAPON;
+        let curWeapon = this.scene.dashboard.equipment.equipment.WEAPON;
         return curWeapon.item == "Pickaxe";
     }
 }
