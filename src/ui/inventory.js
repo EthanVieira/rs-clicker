@@ -6,12 +6,27 @@ import Coin from "../items/currencies/coin.js";
 export class Inventory {
     scene;
     menu;
+    button;
     inventory = []; // Images
     curSelectedItemIndex = -1;
 
     constructor(scene) {
         this.scene = scene;
         this.stats = this.scene.scene.get(CONSTANTS.SCENES.STATS);
+
+        // Create inventory button
+        this.button = scene.add
+            .image(626, 168, "inventory-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .setAlpha(0.1)
+            .on("pointerdown", () => {
+                this.scene.hideAllMenus();
+
+                this.show(true);
+                this.button.setAlpha(0.1);
+            });
 
         // Update and show inventory on startup
         this.refreshInventory();
@@ -161,10 +176,14 @@ export class Inventory {
         }
     }
 
-    showInventory(isVisible) {
+    show(isVisible) {
         if (isVisible) {
             this.scene.currentPanel = CONSTANTS.PANEL.INVENTORY;
+            this.button.setAlpha(0.1); // Unselected inventory icon
+        } else {
+            this.button.setAlpha(1); // Unselected inventory icon
         }
+
         this.inventory.forEach((item) => {
             if (Object.keys(item).length) {
                 item.setVisible(isVisible);

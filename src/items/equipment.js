@@ -62,7 +62,7 @@ export default class Equipment extends Item {
                     // Remove from inventory if it was there
                     if (this.index >= 0) {
                         characterData.setInventory(this.index, {});
-                        this.scene.inventory.obj.inventory[this.index] = {};
+                        this.scene.inventory.inventory[this.index] = {};
                         this.index = -1;
                     }
                     equippedItem = this;
@@ -101,7 +101,7 @@ export default class Equipment extends Item {
         if (this.equipped) {
             console.log("Trying to unequip", this.name, this.index);
 
-            let wasAdded = this.scene.inventory.obj.addToInventory(this, false);
+            let wasAdded = this.scene.inventory.addToInventory(this, false);
             if (wasAdded) {
                 this.scene.equipment.obj.unequipItem(this.slot);
 

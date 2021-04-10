@@ -13,10 +13,7 @@ export class DashboardScene extends Phaser.Scene {
     currentLevel = "";
     currentPanel = "";
 
-    inventory = {
-        button: {},
-        obj: {},
-    };
+    inventory = {};
 
     skills = {
         button: {},
@@ -78,24 +75,12 @@ export class DashboardScene extends Phaser.Scene {
         this.input.mouse.disableContextMenu();
 
         // Inventory
-        this.inventory.button = this.add
-            .image(626, 168, "inventory-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive()
-            .setAlpha(0.1)
-            .on("pointerdown", () => {
-                this.hideAllMenus();
-
-                this.inventory.obj.showInventory(true);
-                this.inventory.button.setAlpha(0.1);
-            });
         // Clear out and reinstantiate inventory
-        if (Object.entries(this.inventory.obj).length) {
-            this.inventory.obj.destroy();
+        if (Object.entries(this.inventory).length) {
+            this.inventory.destroy();
         }
-        this.inventory.obj = new Inventory(this);
-        this.inventory.obj.showInventory(true);
+        this.inventory = new Inventory(this);
+        this.inventory.show(true);
 
         // Shop
         let shopButton = new Button(this, 595, 466, 33, 35);
@@ -279,6 +264,7 @@ export class DashboardScene extends Phaser.Scene {
         this.clan.obj = new Clan(this);
         this.showClanChat(false);
 
+        // Music
         // Clear out and reinstatiate songs
         if (Object.entries(this.musicPanel).length) {
             this.musicPanel.destroy();
@@ -394,7 +380,6 @@ export class DashboardScene extends Phaser.Scene {
         this.showClanChat(false);
         this.musicPanel.show(false);
         this.equipment.obj.showEquipment(false);
-        this.inventory.obj.showInventory(false);
-        this.inventory.button.setAlpha(1); // Unselected inventory icon
+        this.inventory.show(false);
     }
 }

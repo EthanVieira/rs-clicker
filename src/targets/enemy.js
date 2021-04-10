@@ -216,8 +216,7 @@ export class Enemy extends Target {
 
     onClick(hitValue) {
         // Get bonus gold for using mouseclick to encourage user interaction
-
-        this.scene.dashboard.inventory.obj.addGold(hitValue);
+        this.scene.dashboard.inventory.addGold(hitValue);
 
         // Update stats
         this.stats.updateClickDamageStat(hitValue);
@@ -243,7 +242,7 @@ export class Enemy extends Target {
 
     onCompletion() {
         // Give extra gold if unit is killed
-        this.scene.dashboard.inventory.obj.addGold(this.killGold);
+        this.scene.dashboard.inventory.addGold(this.killGold);
         console.log(this.name + " killed, getting " + this.killGold + " extra gold");
 
         // Update quest and stats

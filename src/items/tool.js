@@ -29,21 +29,23 @@ export default class Tool extends Item {
             const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
             let newItem = await getItemClass(recipe.className, dashboard);
 
-            // Get name before adding it to inventory because 
+            // Get name before adding it to inventory because
             // if it's a duplicate it will be destroyed
-            const newItemName = newItem.name;   
+            const newItemName = newItem.name;
 
             // Item was added
-            if (dashboard.inventory.obj.addToInventory(newItem)) {
+            if (dashboard.inventory.addToInventory(newItem)) {
                 item.setNumItems(item.numItems - recipe.numRequiredItems);
 
-                outputString = "Crafted " + newItemName + ", added " + recipe.xpGiven + "xp";
+                outputString =
+                    "Crafted " + newItemName + ", added " + recipe.xpGiven + "xp";
                 characterData.addSkillXp("fletching", recipe.xpGiven);
             }
         }
-        // Insufficient materials 
+        // Insufficient materials
         else if (recipe.className != "" && item.numItems < recipe.numRequiredItems) {
-            outputString = recipe.numRequiredItems + " " + item.name + " are needed to craft that";
+            outputString =
+                recipe.numRequiredItems + " " + item.name + " are needed to craft that";
         }
         // Invalid selection
         else {
