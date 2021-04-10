@@ -11,10 +11,12 @@ export class MusicPanel {
     button;
     currentSongText;
     songTexts = [];
+    previousUnlocked = 0;
 
     constructor(dashboard) {
         this.dashboard = dashboard;
         this.audio = dashboard.scene.get(CONSTANTS.SCENES.AUDIO);
+        this.chat = dashboard.scene.get(CONSTANTS.SCENES.CHAT);
 
         // Add scroll window
         this.scrollWindow = new ScrollWindow({
@@ -88,7 +90,7 @@ export class MusicPanel {
             return textObj;
         });
         this.scrollWindow.addObjects(this.songTexts);
-        this.updateSongUnlocks();
+        this.updateSongUnlocks(false);
 
         // Add num unlocks at the bottom
         this.numUnlockedText = dashboard.add
@@ -131,22 +133,36 @@ export class MusicPanel {
         this.updateSongUnlocks();
     }
 
-    updateSongUnlocks() {
+    updateSongUnlocks(log = true) {
         // Update song name color
         this.songTexts.forEach((textObj) => {
             if (!textObj.unlocked && characterData.getQuestCompleted(textObj.prereq)) {
                 textObj.unlocked = true;
                 textObj.setStyle(FONTS.SONG_UNLOCKED);
-                console.log("unlocked", textObj.text);
+                if (log) {
+                    this.chat.writeText(
+                        "Unlocked song: " + prettyPrintDash(textObj.text)
+                    );
+                }
             }
         });
 
         // Update current / total unlocked
         if (this.numUnlockedText != undefined) {
-            this.numUnlockedText.text = this.songTexts.filter(
-                (textObj) => textObj.unlocked
-            ).length;
+            const numUnlocked = this.songTexts.filter((textObj) => textObj.unlocked)
+                .length;
+            this.numUnlockedText.text = numUnlocked;
             this.totalText.text = this.songTexts.length;
+
+            // All songs unlocked
+            if (
+                log &&
+                this.previousUnlocked < numUnlocked &&
+                numUnlocked == this.songTexts.length
+            ) {
+                this.chat.writeText("Congratulations, you have unlocked all songs!");
+            }
+            this.previousUnlocked = numUnlocked;
         }
     }
 
