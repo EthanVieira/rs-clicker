@@ -14,12 +14,7 @@ export class DashboardScene extends Phaser.Scene {
     currentPanel = "";
 
     inventory = {};
-
-    skills = {
-        button: {},
-        panel: {},
-        obj: {},
-    };
+    skills = {};
 
     prayer = {
         button: {},
@@ -97,23 +92,7 @@ export class DashboardScene extends Phaser.Scene {
         });
 
         // Skills
-        this.skills.panel = this.add
-            .image(548, 208, "skills-panel")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.skills.button = this.add
-            .image(560, 168, "skills-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive();
-        this.skills.button.on("pointerdown", () => {
-            this.skills.obj.showSkills(true);
-        });
-        this.skills.obj = new Skills(this);
-
-        // Set and hide skills page on startup
-        this.skills.obj.updateSkillsText();
-        this.skills.obj.showSkills(false);
+        this.skills = new Skills(this);
 
         // Prayer
         this.prayer.panel = this.add
@@ -373,7 +352,7 @@ export class DashboardScene extends Phaser.Scene {
 
     hideAllMenus() {
         this.showAudioSettings(false);
-        this.skills.obj.showSkills(false);
+        this.skills.show(false);
         this.showPrayer(false);
         this.showQuests(false);
         this.showEquipment(false);

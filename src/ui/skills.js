@@ -29,6 +29,22 @@ export class Skills {
     constructor(scene) {
         this.scene = scene;
 
+        // Panel
+        this.panel = scene.add
+            .image(548, 208, "skills-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+
+        // Button
+        this.button = scene.add
+            .image(560, 168, "skills-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.show();
+            });
+
         let startX = 585,
             startY = 220,
             index = 0;
@@ -120,22 +136,26 @@ export class Skills {
             .on("pointerup", () => {
                 this.showSkillInfo(false);
             });
+
+        // Set and hide skills page on startup
+        this.updateSkillsText();
+        this.show(false);
     }
 
-    showSkills(isVisible) {
+    show(isVisible = true) {
         if (isVisible) {
             this.scene.hideAllMenus();
-            this.scene.skills.button.setAlpha(1);
+            this.button.setAlpha(1);
             this.scene.currentPanel = CONSTANTS.PANEL.SKILLS;
         } else {
-            this.scene.skills.button.setAlpha(0.1);
+            this.button.setAlpha(0.1);
         }
 
         // Show panel and all skill text
         for (let skill in this.skillText) {
             this.skillText[skill].visible = isVisible;
         }
-        this.scene.skills.panel.visible = isVisible;
+        this.panel.visible = isVisible;
         this.totalLevelText.visible = isVisible;
         this.hoverGraphics.visible = false;
         this.hoverXpText.visible = false;
