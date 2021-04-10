@@ -7,6 +7,7 @@ import { Button } from "./button.js";
 import { characterData } from "../cookie-io.js";
 import { QuestList } from "./quest-list.js";
 import { MusicPanel } from "./music.js";
+import { Prayer } from "./prayer.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -15,13 +16,7 @@ export class DashboardScene extends Phaser.Scene {
 
     inventory = {};
     skills = {};
-
-    prayer = {
-        button: {},
-        panel: {},
-        maxPrayerText: "",
-        curPrayerText: "",
-    };
+    prayer = {};
 
     audio = {
         bgm: "",
@@ -51,9 +46,6 @@ export class DashboardScene extends Phaser.Scene {
     };
 
     musicPanel = {};
-
-    // Hotbar
-    prayerHotbarText;
 
     constructor() {
         super({ key: CONSTANTS.SCENES.DASHBOARD });
@@ -95,27 +87,7 @@ export class DashboardScene extends Phaser.Scene {
         this.skills = new Skills(this);
 
         // Prayer
-        this.prayer.panel = this.add
-            .image(548, 205, "prayer-panel")
-            .setOrigin(0, 0)
-            .setDepth(1);
-        this.prayer.button = this.add
-            .image(692, 168, "prayer-button")
-            .setOrigin(0, 0)
-            .setDepth(2)
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.showPrayer(true);
-            });
-        this.prayer.curPrayerText = this.add
-            .text(630, 441, "1", FONTS.PRAYER)
-            .setOrigin(0.5)
-            .setDepth(3);
-        this.prayer.maxPrayerText = this.add
-            .text(646, 441, "1", FONTS.PRAYER)
-            .setOrigin(0.5)
-            .setDepth(3);
-        this.showPrayer(false);
+        this.prayer = new Prayer(this);
 
         // Audio settings
         let audioWindowX = 550;
@@ -262,21 +234,6 @@ export class DashboardScene extends Phaser.Scene {
         this.musicPanel.update();
     }
 
-    showPrayer(isVisible) {
-        if (isVisible) {
-            this.hideAllMenus();
-            this.prayer.button.setAlpha(1);
-            this.currentPanel = CONSTANTS.PANEL.PRAYER;
-        } else {
-            this.prayer.button.setAlpha(0.1);
-        }
-
-        // Show/hide panel
-        this.prayer.panel.visible = isVisible;
-        this.prayer.curPrayerText.visible = isVisible;
-        this.prayer.maxPrayerText.visible = isVisible;
-    }
-
     showEquipment(isVisible) {
         if (isVisible) {
             this.hideAllMenus();
@@ -353,7 +310,7 @@ export class DashboardScene extends Phaser.Scene {
     hideAllMenus() {
         this.showAudioSettings(false);
         this.skills.show(false);
-        this.showPrayer(false);
+        this.prayer.show(false);
         this.showQuests(false);
         this.showEquipment(false);
         this.showClanChat(false);

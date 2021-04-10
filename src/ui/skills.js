@@ -102,12 +102,6 @@ export class Skills {
             .setOrigin(0.5)
             .setDepth(2);
 
-        // Hotbar skills text (the top part)
-        this.prayerHotbarText = scene.add
-            .text(532, 97, "1", FONTS.HOTBAR)
-            .setOrigin(0.5)
-            .setDepth(3);
-
         // Skill description
         this.skillInfo.bg = this.scene.add
             .image(250, 250, "skills-info")
@@ -173,10 +167,9 @@ export class Skills {
                 this.skillText[skill].text = level;
                 this.skillText[skill + "Bottom"].text = level;
 
+                // Prayer has its own panel + hotbar
                 if (skill == "prayer") {
-                    this.prayerHotbarText.text = level;
-                    this.scene.prayer.curPrayerText.text = level;
-                    this.scene.prayer.maxPrayerText.text = level;
+                    this.scene.prayer.setLevel(level);
                 }
 
                 totalLevel += level;
