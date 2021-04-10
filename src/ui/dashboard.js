@@ -6,6 +6,7 @@ import { Skills } from "./skills.js";
 import { Button } from "./button.js";
 import { characterData } from "../cookie-io.js";
 import { QuestList } from "./quest-list.js";
+import { MusicPanel } from "./music.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -56,6 +57,8 @@ export class DashboardScene extends Phaser.Scene {
         panel: {},
         obj: {},
     };
+
+    musicPanel = {};
 
     // Hotbar
     prayerHotbarText;
@@ -276,11 +279,22 @@ export class DashboardScene extends Phaser.Scene {
         this.clan.obj = new Clan(this);
         this.showClanChat(false);
 
+        // Clear out and reinstatiate songs
+        if (Object.entries(this.musicPanel).length) {
+            this.musicPanel.destroy();
+        }
+        this.musicPanel = new MusicPanel(this);
+        this.musicPanel.show(false);
+
         // Scene destructor
         this.events.once("shutdown", () => {
             this.scene.remove(this.clan.obj.scrollWindow.name);
             this.scene.remove(this.quests.list.scrollWindow.name);
         });
+    }
+
+    update(time, delta) {
+        this.musicPanel.update();
     }
 
     showPrayer(isVisible) {
@@ -378,6 +392,7 @@ export class DashboardScene extends Phaser.Scene {
         this.showQuests(false);
         this.showEquipment(false);
         this.showClanChat(false);
+        this.musicPanel.show(false);
         this.equipment.obj.showEquipment(false);
         this.inventory.obj.showInventory(false);
         this.inventory.button.setAlpha(1); // Unselected inventory icon
