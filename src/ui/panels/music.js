@@ -90,7 +90,6 @@ export class MusicPanel {
             return textObj;
         });
         this.scrollWindow.addObjects(this.songTexts);
-        this.updateSongUnlocks(false);
 
         // Add num unlocks at the bottom
         this.numUnlockedText = dashboard.add
@@ -121,6 +120,7 @@ export class MusicPanel {
             .on("pointerdown", () => {
                 this.show(true);
             });
+        this.updateSongUnlocks(false);
 
         // Default to hidden
         this.show(false);

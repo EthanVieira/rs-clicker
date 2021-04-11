@@ -112,3 +112,15 @@ export function getRequiredCombatSkill(skillConstant) {
             return "attack";
     }
 }
+
+// For calling scene functions that might not be ready immediately
+export function runOnLoad(scene, func) {
+    if (scene.scene.isActive()) {
+        func();
+    } else {
+        // If called before load, run once loaded
+        scene.events.once("create", () => {
+            func();
+        });
+    }
+}

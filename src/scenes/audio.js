@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
+import { runOnLoad } from "../utilities.js";
 
 const BGM = 0;
 const SFX = 1;
@@ -62,10 +63,8 @@ export class AudioScene extends Phaser.Scene {
     }
 
     playBgm(audioName) {
-        // Only play if song changes
         if (audioName != this.currentSongName) {
-            // Check if audio has been loaded
-            if (this.scene.isActive()) {
+            runOnLoad(this, () => {
                 console.log("playing music", audioName);
                 if (this.audioLoaded) {
                     console.log("stopped prev song");
@@ -77,13 +76,7 @@ export class AudioScene extends Phaser.Scene {
                 this.bgm.play();
                 this.audioLoaded = true;
                 this.changeVolume(BGM, characterData.getVolume(BGM));
-            } else {
-                // If called before load, play once loaded
-                this.queuedSongName = audioName;
-                this.events.once("create", () => {
-                    this.playBgm(this.queuedSongName);
-                });
-            }
+            });
         }
     }
 
