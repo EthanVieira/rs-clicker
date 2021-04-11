@@ -54,9 +54,7 @@ export class Clan {
         this.show(false);
 
         // Scene destructor
-        dashboard.events.once("shutdown", () => {
-            this.destroy();
-        });
+        dashboard.events.once("shutdown", () => this.destroy());
     }
 
     // Load clan data on startup

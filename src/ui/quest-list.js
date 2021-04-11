@@ -50,10 +50,8 @@ export class QuestList {
         // Default to hidden
         this.show(false);
 
-        // Scene destructor
-        dashboard.events.once("shutdown", () => {
-            this.dashboard.scene.remove(this.scrollWindow.name);
-        });
+        // Destructor
+        dashboard.events.once("shutdown", () => this.destroy());
     }
 
     async refreshQuests() {
@@ -123,5 +121,9 @@ export class QuestList {
             text.destroy();
         });
         this.textGroup = [];
+    }
+
+    destroy() {
+        this.dashboard.scene.remove(this.scrollWindow.name);
     }
 }
