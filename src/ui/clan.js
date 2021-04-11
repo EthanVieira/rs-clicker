@@ -55,7 +55,7 @@ export class Clan {
 
         // Scene destructor
         dashboard.events.once("shutdown", () => {
-            dashboard.scene.remove(this.scrollWindow.name);
+            this.destroy();
         });
     }
 
@@ -138,6 +138,7 @@ export class Clan {
     }
 
     destroy() {
+        this.dashboard.scene.remove(this.scrollWindow.name);
         this.clanMembers.forEach((member) => {
             member.destroy();
         });

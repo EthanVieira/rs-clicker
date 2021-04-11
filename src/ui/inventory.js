@@ -30,6 +30,9 @@ export class Inventory {
 
         // Update and show inventory on startup
         this.refreshInventory();
+
+        // Show by default
+        this.show();
     }
 
     // Load inventory on startup
@@ -176,7 +179,7 @@ export class Inventory {
         }
     }
 
-    show(isVisible) {
+    show(isVisible = true) {
         if (isVisible) {
             this.scene.currentPanel = CONSTANTS.PANEL.INVENTORY;
             this.button.setAlpha(0.1); // Unselected inventory icon

@@ -45,6 +45,9 @@ export class Equipment {
 
         // Default to hidden
         this.show(false);
+
+        // Destructor
+        scene.events.once("shutdown", () => this.destroy());
     }
 
     // Load equipment on startup

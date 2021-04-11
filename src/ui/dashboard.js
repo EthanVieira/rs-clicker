@@ -15,15 +15,15 @@ export class DashboardScene extends Phaser.Scene {
     currentLevel = "";
     currentPanel = "";
 
-    inventory = {};
-    skills = {};
-    prayer = {};
-    settings = {};
-    quests = {};
-    equipment = {};
-    clan = {};
-
-    musicPanel = {};
+    // Panels
+    inventory;
+    skills;
+    prayer;
+    settings;
+    quests;
+    equipment;
+    clan;
+    music;
 
     constructor() {
         super({ key: CONSTANTS.SCENES.DASHBOARD });
@@ -35,14 +35,6 @@ export class DashboardScene extends Phaser.Scene {
 
         // Disable right click popup
         this.input.mouse.disableContextMenu();
-
-        // Inventory
-        // Clear out and reinstantiate inventory
-        if (Object.entries(this.inventory).length) {
-            this.inventory.destroy();
-        }
-        this.inventory = new Inventory(this);
-        this.inventory.show(true);
 
         // Shop
         let shopButton = new Button(this, 595, 466, 33, 35);
@@ -58,42 +50,21 @@ export class DashboardScene extends Phaser.Scene {
             this.currentScene.scene.start(CONSTANTS.SCENES.MAIN_MENU);
         });
 
-        // Skills
+        // Panels
+        // TODO inventory can't be destroyed with dashboard like others because it's needed when you buy items
+        this.inventory?.destroy();
+        this.inventory = new Inventory(this);
         this.skills = new Skills(this);
-
-        // Prayer
         this.prayer = new Prayer(this);
-
-        // Settings (just audio for now)
-        this.settings = new Settings(this);
-
-        // Quests
+        this.settings = new Settings(this); // Just audio for now
         this.quests = new QuestList(this);
-
-        // Equipment
-        // Clear out and reinstantiate equipment
-        if (Object.entries(this.equipment).length) {
-            this.equipment.destroy();
-        }
         this.equipment = new Equipment(this);
-
-        // Clan chat
-        // Clear out and reinstatiate clan members
-        if (Object.entries(this.clan).length) {
-            this.clan.destroy();
-        }
         this.clan = new Clan(this);
-
-        // Music
-        // Clear out and reinstatiate songs
-        if (Object.entries(this.musicPanel).length) {
-            this.musicPanel.destroy();
-        }
-        this.musicPanel = new MusicPanel(this);
+        this.music = new MusicPanel(this);
     }
 
     update(time, delta) {
-        this.musicPanel.update();
+        this.music.update();
     }
 
     hideAllMenus() {
@@ -103,7 +74,7 @@ export class DashboardScene extends Phaser.Scene {
         this.quests.show(false);
         this.equipment.show(false);
         this.clan.show(false);
-        this.musicPanel.show(false);
+        this.music.show(false);
         this.inventory.show(false);
     }
 }

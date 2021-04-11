@@ -125,10 +125,8 @@ export class MusicPanel {
         // Default to hidden
         this.show(false);
 
-        // Setup destructor
-        dashboard.events.once("shutdown", () => {
-            dashboard.scene.remove(this.scrollWindow.name);
-        });
+        // Destructor
+        dashboard.events.once("shutdown", () => this.destroy());
     }
 
     update() {
@@ -190,5 +188,7 @@ export class MusicPanel {
         this.scrollWindow.setVisible(isVisible);
     }
 
-    destroy() {}
+    destroy() {
+        this.dashboard.scene.remove(this.scrollWindow.name);
+    }
 }
