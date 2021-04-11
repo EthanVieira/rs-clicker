@@ -1,7 +1,7 @@
-import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { ScrollWindow } from "./scroll-window.js";
-import { characterData } from "../cookie-io.js";
-import { prettyPrintDash } from "../utilities.js";
+import { CONSTANTS, FONTS } from "../../constants/constants.js";
+import { ScrollWindow } from "../scroll-window.js";
+import { characterData } from "../../cookie-io.js";
+import { prettyPrintDash } from "../../utilities.js";
 
 export class MusicPanel {
     dashboard;

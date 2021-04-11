@@ -1,7 +1,7 @@
-import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { getItemClass } from "../utilities.js";
-import { characterData } from "../cookie-io.js";
-import Coin from "../items/currencies/coin.js";
+import { CONSTANTS, FONTS } from "../../constants/constants.js";
+import { getItemClass } from "../../utilities.js";
+import { characterData } from "../../cookie-io.js";
+import Coin from "../../items/currencies/coin.js";
 
 export class Inventory {
     scene;

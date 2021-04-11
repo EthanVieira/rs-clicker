@@ -1,4 +1,4 @@
-import { CONSTANTS, FONTS } from "../constants/constants.js";
+import { CONSTANTS, FONTS } from "../../constants/constants.js";
 
 export class Prayer {
     dashboard;

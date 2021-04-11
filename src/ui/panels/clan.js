@@ -1,7 +1,7 @@
-import { CONSTANTS } from "../constants/constants.js";
-import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
-import { characterData } from "../cookie-io.js";
-import { ScrollWindow } from "./scroll-window.js";
+import { CONSTANTS } from "../../constants/constants.js";
+import { getAutoclickerClass } from "../../auto-clickers/auto-clicker.js";
+import { characterData } from "../../cookie-io.js";
+import { ScrollWindow } from "../scroll-window.js";
 
 // Clan members function as autoclickers
 export class Clan {

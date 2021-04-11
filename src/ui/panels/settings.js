@@ -1,5 +1,5 @@
-import { CONSTANTS } from "../constants/constants.js";
-import { characterData } from "../cookie-io.js";
+import { CONSTANTS } from "../../constants/constants.js";
+import { characterData } from "../../cookie-io.js";
 
 export class Settings {
     dashboard;

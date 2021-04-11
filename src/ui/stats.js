@@ -1,4 +1,3 @@
-import { defaultData } from "../default-data.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
 

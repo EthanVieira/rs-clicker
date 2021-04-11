@@ -1,6 +1,6 @@
-import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
-import { getItemClass } from "../utilities.js";
-import { characterData } from "../cookie-io.js";
+import { CONSTANTS, EQUIPMENT } from "../../constants/constants.js";
+import { getItemClass } from "../../utilities.js";
+import { characterData } from "../../cookie-io.js";
 
 export class Equipment {
     scene;

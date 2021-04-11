@@ -1,14 +1,14 @@
-import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { Inventory } from "./inventory.js";
-import { Equipment } from "./equipment.js";
-import { Clan } from "./clan.js";
-import { Skills } from "./skills.js";
+import { CONSTANTS } from "../constants/constants.js";
 import { Button } from "./button.js";
 import { characterData } from "../cookie-io.js";
-import { QuestList } from "./quest-list.js";
-import { MusicPanel } from "./music.js";
-import { Prayer } from "./prayer.js";
-import { Settings } from "./settings.js";
+import { Inventory } from "./panels/inventory.js";
+import { Equipment } from "./panels/equipment.js";
+import { Clan } from "./panels/clan.js";
+import { Skills } from "./panels/skills.js";
+import { QuestList } from "./panels/quest-list.js";
+import { MusicPanel } from "./panels/music.js";
+import { Prayer } from "./panels/prayer.js";
+import { Settings } from "./panels/settings.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;

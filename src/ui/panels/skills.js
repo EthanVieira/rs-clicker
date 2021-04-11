@@ -1,7 +1,7 @@
-import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { calcLevel, calcRemainingXp } from "../utilities.js";
+import { CONSTANTS, FONTS } from "../../constants/constants.js";
+import { calcLevel, calcRemainingXp } from "../../utilities.js";
 import { getSkillDescription } from "./skill-descriptions.js";
-import { characterData } from "../cookie-io.js";
+import { characterData } from "../../cookie-io.js";
 
 export class Skills {
     scene;

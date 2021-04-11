@@ -1,7 +1,7 @@
-import { CONSTANTS } from "../constants/constants.js";
-import { ScrollWindow } from "./scroll-window.js";
-import { characterData } from "../cookie-io.js";
-import { prettyPrintCamelCase } from "../utilities.js";
+import { CONSTANTS } from "../../constants/constants.js";
+import { ScrollWindow } from "../scroll-window.js";
+import { characterData } from "../../cookie-io.js";
+import { prettyPrintCamelCase } from "../../utilities.js";
 
 export class QuestList {
     dashboard;
