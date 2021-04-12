@@ -180,7 +180,7 @@ export class LevelScene extends Phaser.Scene {
         }
 
         // Update text
-        this.dashboard.quests.list.refreshQuests();
+        this.dashboard.quests.refreshQuests();
         this.stats.updateEnemiesKilledStat();
     }
 
@@ -196,7 +196,7 @@ export class LevelScene extends Phaser.Scene {
             flipX = false;
 
         // Get current weapon image
-        let curWeapon = this.dashboard.equipment.obj.equipment.WEAPON;
+        let curWeapon = this.dashboard.equipment.equipment.WEAPON;
         if (Object.keys(curWeapon).length) {
             // Set animation based on current weapon
             switch (curWeapon.skill) {

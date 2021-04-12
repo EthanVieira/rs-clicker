@@ -55,7 +55,6 @@ export class Target extends ClickableObject {
         this.images = data.images;
         this.scene = data.scene;
         this.stats = data.scene.stats;
-        this.equipment = data.scene.dashboard.equipment;
     }
 
     clickTarget() {
@@ -85,7 +84,7 @@ export class Target extends ClickableObject {
                 if (item.rate > Math.random()) {
                     let droppedItem = new item.item(this.scene.dashboard);
                     console.log(this.name, "dropped", droppedItem.name);
-                    this.scene.dashboard.inventory.obj.addToInventory(droppedItem);
+                    this.scene.dashboard.inventory.addToInventory(droppedItem);
                 }
             });
 

@@ -109,17 +109,17 @@ export class Item extends ClickableObject {
 
     async buy() {
         let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
-        if (dashboard.inventory.obj.getGold() >= this.cost) {
+        if (dashboard.inventory.getGold() >= this.cost) {
             console.log("Buying", this.name);
             this.scene.scene.get(CONSTANTS.SCENES.AUDIO).playSfx("purchase");
 
             // Create new non-shop item
             let boughtItem = await getItemClass(this.constructor.name, dashboard);
-            if (dashboard.inventory.obj.addToInventory(boughtItem)) {
-                dashboard.inventory.obj.addGold(-1 * this.cost);
+            if (dashboard.inventory.addToInventory(boughtItem)) {
+                dashboard.inventory.addGold(-1 * this.cost);
             }
         } else {
-            console.log("not enough mulah", dashboard.inventory.obj.getGold(), this.cost);
+            console.log("not enough mulah", dashboard.inventory.getGold(), this.cost);
         }
     }
 
@@ -128,7 +128,7 @@ export class Item extends ClickableObject {
         this.setHighlight(!this.selected);
 
         // Un-highlight prev item
-        this.scene.inventory.obj.selectItem(this.index);
+        this.scene.inventory.selectItem(this.index);
     }
 
     setHighlight(isSelected) {
@@ -144,7 +144,7 @@ export class Item extends ClickableObject {
         console.log("Sell", this.name);
         this.scene.scene
             .get(CONSTANTS.SCENES.DASHBOARD)
-            .inventory.obj.addGold(Math.round(this.cost / 2));
+            .inventory.addGold(Math.round(this.cost / 2));
         this.destroy();
     }
 

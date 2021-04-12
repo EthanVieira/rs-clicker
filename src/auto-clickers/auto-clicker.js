@@ -77,7 +77,7 @@ export class AutoClicker {
                 }
             })
             .on("pointerup", () => {
-                if (isShop && this.dashboard.inventory.obj.getGold() >= this.cost) {
+                if (isShop && this.dashboard.inventory.getGold() >= this.cost) {
                     this.buy();
                 }
             });
@@ -85,12 +85,12 @@ export class AutoClicker {
     }
 
     async buy() {
-        this.dashboard.inventory.obj.addGold(-1 * this.cost);
+        this.dashboard.inventory.addGold(-1 * this.cost);
         if (this.dashboard == undefined) {
             this.dashboard = this.scrollWindow.scene.get(CONSTANTS.SCENES.DASHBOARD);
         }
         let newMember = await getAutoclickerClass(this.name, this.dashboard);
-        this.dashboard.clan.obj.addClanMember(newMember);
+        this.dashboard.clan.addClanMember(newMember);
     }
 
     examine(isShop) {

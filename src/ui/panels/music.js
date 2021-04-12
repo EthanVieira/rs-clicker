@@ -1,7 +1,7 @@
-import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { ScrollWindow } from "./scroll-window.js";
-import { characterData } from "../cookie-io.js";
-import { prettyPrintDash } from "../utilities.js";
+import { CONSTANTS, FONTS } from "../../constants/constants.js";
+import { ScrollWindow } from "../scroll-window.js";
+import { characterData } from "../../cookie-io.js";
+import { prettyPrintDash } from "../../utilities.js";
 
 export class MusicPanel {
     dashboard;
@@ -90,7 +90,6 @@ export class MusicPanel {
             return textObj;
         });
         this.scrollWindow.addObjects(this.songTexts);
-        this.updateSongUnlocks(false);
 
         // Add num unlocks at the bottom
         this.numUnlockedText = dashboard.add
@@ -121,11 +120,13 @@ export class MusicPanel {
             .on("pointerdown", () => {
                 this.show(true);
             });
+        this.updateSongUnlocks(false);
 
-        // Setup destructor
-        dashboard.events.once("shutdown", () => {
-            dashboard.scene.remove(this.scrollWindow.name);
-        });
+        // Default to hidden
+        this.show(false);
+
+        // Destructor
+        dashboard.events.once("shutdown", () => this.destroy());
     }
 
     update() {
@@ -187,5 +188,7 @@ export class MusicPanel {
         this.scrollWindow.setVisible(isVisible);
     }
 
-    destroy() {}
+    destroy() {
+        this.dashboard.scene.remove(this.scrollWindow.name);
+    }
 }

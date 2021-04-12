@@ -1,7 +1,7 @@
-import { CONSTANTS, FONTS } from "../constants/constants.js";
-import { calcLevel, calcRemainingXp } from "../utilities.js";
+import { CONSTANTS, FONTS } from "../../constants/constants.js";
+import { calcLevel, calcRemainingXp } from "../../utilities.js";
 import { getSkillDescription } from "./skill-descriptions.js";
-import { characterData } from "../cookie-io.js";
+import { characterData } from "../../cookie-io.js";
 
 export class Skills {
     scene;
@@ -28,6 +28,22 @@ export class Skills {
 
     constructor(scene) {
         this.scene = scene;
+
+        // Panel
+        this.panel = scene.add
+            .image(548, 208, "skills-panel")
+            .setOrigin(0, 0)
+            .setDepth(1);
+
+        // Button
+        this.button = scene.add
+            .image(560, 168, "skills-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.show();
+            });
 
         let startX = 585,
             startY = 220,
@@ -86,12 +102,6 @@ export class Skills {
             .setOrigin(0.5)
             .setDepth(2);
 
-        // Hotbar skills text (the top part)
-        this.prayerHotbarText = scene.add
-            .text(532, 97, "1", FONTS.HOTBAR)
-            .setOrigin(0.5)
-            .setDepth(3);
-
         // Skill description
         this.skillInfo.bg = this.scene.add
             .image(250, 250, "skills-info")
@@ -120,22 +130,26 @@ export class Skills {
             .on("pointerup", () => {
                 this.showSkillInfo(false);
             });
+
+        // Set and hide skills page on startup
+        this.updateSkillsText();
+        this.show(false);
     }
 
-    showSkills(isVisible) {
+    show(isVisible = true) {
         if (isVisible) {
             this.scene.hideAllMenus();
-            this.scene.skills.button.setAlpha(1);
+            this.button.setAlpha(1);
             this.scene.currentPanel = CONSTANTS.PANEL.SKILLS;
         } else {
-            this.scene.skills.button.setAlpha(0.1);
+            this.button.setAlpha(0.1);
         }
 
         // Show panel and all skill text
         for (let skill in this.skillText) {
             this.skillText[skill].visible = isVisible;
         }
-        this.scene.skills.panel.visible = isVisible;
+        this.panel.visible = isVisible;
         this.totalLevelText.visible = isVisible;
         this.hoverGraphics.visible = false;
         this.hoverXpText.visible = false;
@@ -153,10 +167,9 @@ export class Skills {
                 this.skillText[skill].text = level;
                 this.skillText[skill + "Bottom"].text = level;
 
+                // Prayer has its own panel + hotbar
                 if (skill == "prayer") {
-                    this.prayerHotbarText.text = level;
-                    this.scene.prayer.curPrayerText.text = level;
-                    this.scene.prayer.maxPrayerText.text = level;
+                    this.scene.prayer.setLevel(level);
                 }
 
                 totalLevel += level;

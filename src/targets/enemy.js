@@ -106,6 +106,8 @@ export class Enemy extends Target {
     // Player: (strength/items/bonuses) affect max hit
     // Equal chance to deal (1 - max hit) damage if it hits
     getClickValue() {
+        const weapon = this.scene.dashboard.equipment.equipment.WEAPON;
+
         // Get damage based on level
         // Normally for melee you would use strength for damage and attack for accuracy
         // But for now we'll use attack for both
@@ -115,37 +117,32 @@ export class Enemy extends Target {
         let equipmenStrength = 0;
         let equipmentAttack = 0;
         let enemyBonus = 0;
-        if (Object.entries(this.equipment.obj.equipment.WEAPON).length) {
-            switch (this.equipment.obj.equipment.WEAPON.skill) {
+        if (Object.entries(weapon).length) {
+            switch (weapon.skill) {
                 case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                    equipmentAttack = this.equipment.obj.equipment.WEAPON.magicBonus;
-                    equipmenStrength = this.equipment.obj.equipment.WEAPON
-                        .magicStrengthBonus;
+                    equipmentAttack = weapon.magicBonus;
+                    equipmenStrength = weapon.magicStrengthBonus;
                     enemyBonus = this.magicDefense;
                     break;
                 case EQUIPMENT.WEAPON_TYPES.RANGED:
-                    equipmentAttack = this.equipment.obj.equipment.WEAPON.rangedBonus;
-                    equipmenStrength = this.equipment.obj.equipment.WEAPON
-                        .rangedStrengthBonus;
+                    equipmentAttack = weapon.rangedBonus;
+                    equipmenStrength = weapon.rangedStrengthBonus;
                     enemyBonus = this.rangedDefense;
                     break;
                 case EQUIPMENT.WEAPON_TYPES.MELEE: {
-                    equipmenStrength = this.equipment.obj.equipment.WEAPON.strengthBonus;
+                    equipmenStrength = weapon.strengthBonus;
 
-                    switch (this.equipment.obj.equipment.WEAPON.style) {
+                    switch (weapon.style) {
                         case EQUIPMENT.ATTACK_STYLE.STAB:
-                            equipmentAttack = this.equipment.obj.equipment.WEAPON
-                                .stabBonus;
+                            equipmentAttack = weapon.stabBonus;
                             enemyBonus = this.stabDefense;
                             break;
                         case EQUIPMENT.ATTACK_STYLE.SLASH:
-                            equipmentAttack = this.equipment.obj.equipment.WEAPON
-                                .slashBonus;
+                            equipmentAttack = weapon.slashBonus;
                             enemyBonus = this.slashDefense;
                             break;
                         case EQUIPMENT.ATTACK_STYLE.CRUSH:
-                            equipmentAttack = this.equipment.obj.equipment.WEAPON
-                                .crushBonus;
+                            equipmentAttack = weapon.crushBonus;
                             enemyBonus = this.crushDefense;
                             break;
                     }
@@ -216,8 +213,7 @@ export class Enemy extends Target {
 
     onClick(hitValue) {
         // Get bonus gold for using mouseclick to encourage user interaction
-
-        this.scene.dashboard.inventory.obj.addGold(hitValue);
+        this.scene.dashboard.inventory.addGold(hitValue);
 
         // Update stats
         this.stats.updateClickDamageStat(hitValue);
@@ -243,7 +239,7 @@ export class Enemy extends Target {
 
     onCompletion() {
         // Give extra gold if unit is killed
-        this.scene.dashboard.inventory.obj.addGold(this.killGold);
+        this.scene.dashboard.inventory.addGold(this.killGold);
         console.log(this.name + " killed, getting " + this.killGold + " extra gold");
 
         // Update quest and stats
@@ -251,20 +247,16 @@ export class Enemy extends Target {
     }
 
     getDamageLevel() {
-        return calcLevel(
-            characterData.getSkillXp(
-                getRequiredCombatSkill(this.equipment.obj.equipment.WEAPON.skill)
-            )
-        );
+        const skill = this.scene.dashboard.equipment.equipment.WEAPON.skill;
+        return calcLevel(characterData.getSkillXp(getRequiredCombatSkill(skill)));
     }
 
     increaseXp(hitValue) {
+        const skill = this.scene.dashboard.equipment.equipment.WEAPON.skill;
+
         // Increase attack/ranged/magic XP
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
-        characterData.addSkillXp(
-            getRequiredCombatSkill(this.equipment.obj.equipment.WEAPON.skill),
-            xpIncrease
-        );
+        characterData.addSkillXp(getRequiredCombatSkill(skill), xpIncrease);
     }
 }
