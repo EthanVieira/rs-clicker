@@ -100,23 +100,26 @@ export class Clan {
 
     // Add clan member to list
     addClanMember(member) {
-        const startX = 560,
-            startY = 280,
-            yDiff = 18;
-
-        // Add text to the list
-        let index = this.clanMembers.length;
-        member.createText(false, startX, startY + index * yDiff);
-        this.clanMembers.push(member);
-
         // Add to saved data
         characterData.addClanMember(member.name);
 
-        // Hide if clan tab is not selected
-        let show = this.dashboard.currentPanel == CONSTANTS.PANEL.CLAN;
-        member.setVisible(show);
+        // Add visuals if the dashboard is up
+        if (this.dashboard.scene.isActive()) {
+            const startX = 560,
+                startY = 280,
+                yDiff = 18;
 
-        this.scrollWindow.addObject(member);
+            // Add text to the list
+            let index = this.clanMembers.length;
+            member.createText(false, startX, startY + index * yDiff);
+            this.clanMembers.push(member);
+
+            // Hide if clan tab is not selected
+            let show = this.dashboard.currentPanel == CONSTANTS.PANEL.CLAN;
+            member.setVisible(show);
+
+            this.scrollWindow.addObject(member);
+        }
     }
 
     show(isVisible = true) {
