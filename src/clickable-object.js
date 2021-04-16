@@ -1,16 +1,19 @@
-import { CONSTANTS, FONTS } from "./constants/constants.js";
+import { CONSTANTS, FONTS, SCREEN } from "./constants/constants.js";
 
 export class ClickableObject {
     // Basic info
     examineText = "";
 
     // Objects
-    menu;
     scene;
     chat;
 
     // Right click actions
     actions = [{ text: "Examine", func: "examine" }];
+
+    // Right click menu half-dimensions in pixels
+    RCM_HALF_WIDTH = 163 / 2;
+    RCM_HALF_HEIGHTS = [53 / 2, 68 / 2, 82 / 2, 97 / 2]; // 2-5 options including cancel
 
     examine(isShop) {
         console.log(this.examineText);
@@ -22,35 +25,50 @@ export class ClickableObject {
     }
 
     createRightClickMenu(x, y, actions) {
+        let menu = this.scene.add.container(0, 0).setDepth(5);
+
+        let numActions = actions.length; // not including cancel
+        let halfHeight = this.RCM_HALF_HEIGHTS[numActions - 1];
+
+        y += halfHeight;
+
+        // Ensure the menu doesn't go off screen
+        if (x + this.RCM_HALF_WIDTH > SCREEN.WIDTH) {
+            x = SCREEN.WIDTH - this.RCM_HALF_WIDTH;
+        } else if (x - this.RCM_HALF_WIDTH < 0) {
+            x = this.RCM_HALF_WIDTH;
+        }
+
+        if (y + 2 * halfHeight > SCREEN.HEIGHT) {
+            y = SCREEN.HEIGHT - 2 * halfHeight;
+        } else if (y < 0) {
+            y = 0;
+        }
         let menuBox = this.scene.add
-            .image(x, y, "right-click-menu")
-            .setDepth(4)
+            .image(x, y, "right-click-menu-" + (numActions + 1).toString())
+            .setDepth(6)
             .setInteractive()
             .on("pointerout", (pointer) => {
-                // Check to ensure it doesn't trigger when hovering over text options
                 if (
-                    pointer.worldX > x + menuBox.width / 2 ||
-                    pointer.worldY > y + menuBox.height / 2 ||
-                    pointer.worldX < x - menuBox.width / 2 ||
-                    pointer.worldY < y - menuBox.height / 2
+                    pointer.worldX > x + this.RCM_HALF_WIDTH ||
+                    pointer.worldY > y + halfHeight ||
+                    pointer.worldX < x - this.RCM_HALF_WIDTH ||
+                    pointer.worldY < y - 10 // buffer
                 ) {
-                    this.menu.destroy();
+                    menu.destroy();
                 }
+            })
+            .on("pointerdown", () => {
+                menu.destroy();
             });
-
-        // Get chat scene
-        if (this.chat == undefined) {
-            this.chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
-        }
 
         // Add text options
         // Have to use two separate texts per option for different colors
-        let options = [menuBox];
-        let optionsY = y - 45;
+        menu.add(menuBox);
+        let optionsY = 20 + (y - menuBox.height / 2);
 
         // Generate dynamic list of actions (wield, bury, etc.)
         actions.forEach((action) => {
-            optionsY += 15;
             let itemText = this.scene.add.text(
                 x - 20,
                 optionsY,
@@ -60,27 +78,25 @@ export class ClickableObject {
             let actionText = this.scene.add
                 .text(x - 78, optionsY, action.text, FONTS.OPTIONS_MENU)
                 .setInteractive()
-                .setDepth(5)
+                .setDepth(6)
                 .on("pointerdown", () => {
                     this[action.func]();
-                    this.menu.destroy();
+                    menu.destroy();
                 });
 
-            options.push(actionText);
-            options.push(itemText);
+            menu.add(actionText);
+            menu.add(itemText);
+            optionsY += 15;
         });
 
         let cancelText = this.scene.add
-            .text(x - 78, optionsY + 15, "Cancel", FONTS.OPTIONS_MENU)
+            .text(x - 78, optionsY, "Cancel", FONTS.OPTIONS_MENU)
             .setInteractive()
+            .setDepth(6)
             .on("pointerdown", () => {
-                console.log("cancel");
-                this.menu.destroy();
+                menu.destroy();
             });
-        options.push(cancelText);
-
-        // Group objects together
-        this.menu = this.scene.add.container(0, 0, options).setDepth(5);
+        menu.add(cancelText);
     }
 
     // Implement getters/setters so it can match the Phaser game object class
