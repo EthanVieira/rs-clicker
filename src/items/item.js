@@ -142,7 +142,7 @@ export class Item extends ClickableObject {
 
     sell() {
         let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
-        if (dashboard.inventory.isInInventory(this.constructor.name) >= 0) {
+        if (dashboard.inventory.getInventoryIndex(this.constructor.name) >= 0) {
             console.log("Selling", this.name);
             this.scene.scene
                 .get(CONSTANTS.SCENES.DASHBOARD)

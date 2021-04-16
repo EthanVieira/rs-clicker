@@ -78,7 +78,7 @@ export class Inventory {
         this.inventory[index] = item;
     }
 
-    isInInventory(itemName) {
+    getInventoryIndex(itemName) {
         let playerItems = characterData.getInventory();
         for (let i = 0; i < playerItems.length; i++) {
             if (Object.keys(playerItems[i]).length && playerItems[i].item == itemName) {
@@ -94,7 +94,7 @@ export class Inventory {
         let playerItems = characterData.getInventory();
 
         // Check if it can stack with other items
-        let i = this.isInInventory(item.constructor.name);
+        let i = this.getInventoryIndex(item.constructor.name);
         if (i >= 0 && item.stackable) {
             let curItem = this.inventory[i];
 
