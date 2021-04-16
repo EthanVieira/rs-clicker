@@ -126,7 +126,10 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("clan-button", "src/assets/ui/buttons/ClanButton.png");
         this.load.image("music-panel", "src/assets/ui/MusicPanel.png");
         this.load.image("music-button", "src/assets/ui/buttons/MusicButton.png");
-        this.load.image("right-click-menu", "src/assets/ui/RightClickMenu.png");
+        this.load.image("right-click-menu-2", "src/assets/ui/RightClickMenu_2.png");
+        this.load.image("right-click-menu-3", "src/assets/ui/RightClickMenu_3.png");
+        this.load.image("right-click-menu-4", "src/assets/ui/RightClickMenu_4.png");
+        this.load.image("right-click-menu-5", "src/assets/ui/RightClickMenu_5.png");
         this.load.image("scroll-background", "src/assets/ui/ScrollBackground.png");
         this.load.image("scroll-header", "src/assets/ui/ScrollHeader.png");
         this.load.image("scroll-footer", "src/assets/ui/ScrollFooter.png");
@@ -185,10 +188,10 @@ export class LoadScene extends Phaser.Scene {
 
     // Load item classes
     async loadItems() {
-        for (let i in itemManifest) {
-            setItemClass(i, await import("../items/" + itemManifest[i].classPath));
+        for (let item in itemManifest) {
+            setItemClass(item, await import("../items/" + itemManifest[item].classPath));
             this.numItemsLoaded++;
-            this.assetText.text = "Loading asset: " + i;
+            this.assetText.text = "Loading asset: " + item;
             this.updateProgress();
         }
 

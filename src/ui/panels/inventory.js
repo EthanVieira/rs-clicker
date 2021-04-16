@@ -38,13 +38,13 @@ export class Inventory {
     // Load inventory on startup
     async refreshInventory() {
         let playerItems = characterData.getInventory();
-        for (let index = 0; index < playerItems.length; index++) {
-            let item = playerItems[index];
+        for (let i = 0; i < playerItems.length; i++) {
+            let item = playerItems[i];
             if (Object.keys(item).length) {
                 // Create item from name
                 let itemObj = await getItemClass(item.item, this.scene);
                 itemObj.setNumItems(item.count);
-                this.addToInventoryAtIndex(itemObj, index);
+                this.addToInventoryAtIndex(itemObj, i);
             }
         }
     }
@@ -78,46 +78,49 @@ export class Inventory {
         this.inventory[index] = item;
     }
 
+    getInventoryIndex(itemName) {
+        let playerItems = characterData.getInventory();
+        for (let i = 0; i < playerItems.length; i++) {
+            if (Object.keys(playerItems[i]).length && playerItems[i].item == itemName) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     // Add to first available slot
     addToInventory(item, createSprite = true) {
         let playerItems = characterData.getInventory();
 
-        // Check all slots to see if the item can stack
-        for (let index = 0; index < playerItems.length; index++) {
-            const itemExists = Object.keys(playerItems[index]).length;
+        // Check if it can stack with other items
+        let i = this.getInventoryIndex(item.constructor.name);
+        if (i >= 0 && item.stackable) {
+            let curItem = this.inventory[i];
 
-            // Check if it can stack with other items
-            if (
-                itemExists &&
-                item.stackable &&
-                playerItems[index].item == item.constructor.name
-            ) {
-                let curItem = this.inventory[index];
-
-                // Update the item in the game
-                curItem.setNumItems(curItem.numItems + item.numItems);
-                if (curItem.constructor.name == "Coin") {
-                    const column = index % 4;
-                    const row = Math.floor(index / 4);
-                    const x = 570 + column * 45;
-                    const y = 225 + row * 35;
-                    curItem.createSprite(x, y, index);
-                }
-
-                // Delete old item
-                item.destroy();
-
-                return true;
+            // Update the item in the game
+            curItem.setNumItems(curItem.numItems + item.numItems);
+            if (curItem.constructor.name == "Coin") {
+                const column = i % 4;
+                const row = Math.floor(i / 4);
+                const x = 570 + column * 45;
+                const y = 225 + row * 35;
+                curItem.createSprite(x, y, i);
             }
+
+            // Delete old item
+            item.destroy();
+
+            return true;
         }
 
         // Search for empty slot
-        for (let index = 0; index < playerItems.length; index++) {
-            const itemExists = Object.keys(playerItems[index]).length;
+        for (let i = 0; i < playerItems.length; i++) {
+            const itemExists = Object.keys(playerItems[i]).length;
 
             // Check if slot is empty
             if (!itemExists) {
-                this.addToInventoryAtIndex(item, index, createSprite);
+                this.addToInventoryAtIndex(item, i, createSprite);
                 return true;
             }
         }
@@ -141,11 +144,11 @@ export class Inventory {
 
     getGold() {
         let playerItems = characterData.getInventory();
-        for (let index = 0; index < playerItems.length; index++) {
-            const itemExists = Object.keys(playerItems[index]).length;
+        for (let i = 0; i < playerItems.length; i++) {
+            const itemExists = Object.keys(playerItems[i]).length;
 
-            if (itemExists && playerItems[index].item == Coin.name) {
-                return this.inventory[index].numItems;
+            if (itemExists && playerItems[i].item == Coin.name) {
+                return this.inventory[i].numItems;
             }
         }
 

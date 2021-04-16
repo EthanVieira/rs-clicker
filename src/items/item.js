@@ -141,11 +141,16 @@ export class Item extends ClickableObject {
     }
 
     sell() {
-        console.log("Sell", this.name);
-        this.scene.scene
-            .get(CONSTANTS.SCENES.DASHBOARD)
-            .inventory.addGold(Math.round(this.cost / 2));
-        this.destroy();
+        let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        if (dashboard.inventory.getInventoryIndex(this.constructor.name) >= 0) {
+            console.log("Selling", this.name);
+            this.scene.scene
+                .get(CONSTANTS.SCENES.DASHBOARD)
+                .inventory.addGold(Math.round(this.cost / 2));
+            this.destroy();
+        } else {
+            console.log("Error, attempting to sell nonexistent item.");
+        }
     }
 
     move(x, y, index = -1) {
