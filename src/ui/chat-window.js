@@ -44,7 +44,6 @@ export class ChatScene extends Phaser.Scene {
 
         this.input.keyboard.on("keydown", function (event) {
             // enter
-            console.log(event.keyCode);
             if (event.keyCode == 13) {
                 let inputValue = parseInt(
                     promptInput.text.substr(1, promptInput.text.length)
