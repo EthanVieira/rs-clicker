@@ -148,10 +148,13 @@ export class Item extends ClickableObject {
 
     sellX(x) {
         let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        let chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
         let numSold = Math.min(this.numItems, x);
         let sellAmount = Math.round(this.cost / 2) * numSold;
-        console.log("Selling", numSold, this.name, "for", sellAmount, "gold.");
+        chat.writeText(
+            "Selling " + numSold + " " + this.name + " for " + sellAmount + " gold."
+        );
 
         if (dashboard.inventory.getInventoryIndex(this.constructor.name) >= 0) {
             dashboard.inventory.addGold(sellAmount);
