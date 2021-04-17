@@ -27,7 +27,7 @@ export class ChatScene extends Phaser.Scene {
     // TODO: if we need more prompts we should reuse a lot of this
     // Right now it is specifically for selling X amount of an item
     prompt(promptText, item) {
-        let originallyVisible = this.visible;
+        const originallyVisible = this.visible;
         this.show(false);
         this.isPromptOpen = true;
 
@@ -83,6 +83,17 @@ export class ChatScene extends Phaser.Scene {
                     promptInput.text += event.key;
                     promptInput.x -= 4;
                 }
+            }
+
+            // esc
+            if (event.keyCode == 27) {
+                promptWindow.destroy();
+                prompt.destroy();
+                promptInput.destroy();
+                this.removeAllListeners();
+
+                this.scene.isPromptOpen = false;
+                this.scene.show(originallyVisible);
             }
         });
     }

@@ -249,7 +249,6 @@ export const FONTS = {
         font: "16px runescape",
         fill: "black",
     },
-
     PROMPT_INPUT: {
         font: "16px runescape",
         fill: "blue",
