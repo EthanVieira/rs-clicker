@@ -36,6 +36,7 @@ export default class BronzeAxe extends Equipment {
     // Other
     cost = 16;
     requiredLevel = 1;
+    requiredWCLevel = 1;
 
     constructor(scene) {
         super();

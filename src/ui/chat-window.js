@@ -372,7 +372,6 @@ export class ChatScene extends Phaser.Scene {
                 }
 
                 item.sellX(inputValue);
-
                 this.scene.destroyPrompt(promptObjs, keyboardInput, originallyVisible);
             }
 

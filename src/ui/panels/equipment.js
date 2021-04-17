@@ -56,7 +56,7 @@ export class Equipment {
 
         for (let i in playerEquipment) {
             if (Object.keys(playerEquipment[i]).length) {
-                let newEquipment = await getItemClass(playerEquipment[i], this.scene);
+                let newEquipment = getItemClass(playerEquipment[i], this.scene);
                 newEquipment.createSprite(0, 0);
                 newEquipment.equip();
             }

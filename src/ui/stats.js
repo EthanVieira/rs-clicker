@@ -113,22 +113,15 @@ export class StatsScene extends Phaser.Scene {
         this.show(false);
 
         // Show level-relevant stats
-        switch (this.levelType) {
-            case CONSTANTS.LEVEL_TYPE.ENEMY:
-                this.orderStats([
-                    this.goldText,
-                    this.enemiesKilledText,
-                    this.autoClickDpsText,
-                    this.damageByAutoClickText,
-                    this.timesClickedText,
-                    this.damageByClickingText,
-                    this.clickDpsText,
-                ]);
-                break;
-            default:
-                this.orderStats([this.timesClickedText]);
-                break;
-        }
+        this.orderStats([
+            this.goldText,
+            this.enemiesKilledText,
+            this.autoClickDpsText,
+            this.damageByAutoClickText,
+            this.timesClickedText,
+            this.damageByClickingText,
+            this.clickDpsText,
+        ]);
     }
 
     // Takes in array of text objects and displays them in order

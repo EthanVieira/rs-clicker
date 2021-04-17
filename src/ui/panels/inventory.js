@@ -42,7 +42,7 @@ export class Inventory {
             let item = playerItems[i];
             if (Object.keys(item).length) {
                 // Create item from name
-                let itemObj = await getItemClass(item.item, this.scene);
+                let itemObj = getItemClass(item.item, this.scene);
                 itemObj.setNumItems(item.count);
                 this.addToInventoryAtIndex(itemObj, i);
             }
@@ -86,6 +86,21 @@ export class Inventory {
             }
         }
 
+        return -1;
+    }
+
+    // Returns first instance of an item in inventory
+    // that contains the given keyword in its name
+    getKeywordInInventory(keyword) {
+        let playerItems = characterData.getInventory();
+        for (let i = 0; i < playerItems.length; i++) {
+            if (
+                Object.keys(playerItems[i]).length &&
+                playerItems[i].item.includes(keyword)
+            ) {
+                return i;
+            }
+        }
         return -1;
     }
 

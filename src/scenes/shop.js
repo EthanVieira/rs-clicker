@@ -178,7 +178,7 @@ export class ShopScene extends Phaser.Scene {
             // Load all items in that category
             for (let item in itemManifest) {
                 if (itemManifest[item].type == itemType) {
-                    let newItem = await getItemClass(item, this.scrollWindow);
+                    let newItem = getItemClass(item, this.scrollWindow);
 
                     // Create sprite
                     newItem.createShopSprite(20, 100);

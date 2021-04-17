@@ -70,7 +70,7 @@ export default class Equipment extends Item {
                 // Reduce count and copy to equipment
                 else {
                     this.setNumItems(this.numItems - 1);
-                    equippedItem = await getItemClass(this.constructor.name, this.scene);
+                    equippedItem = getItemClass(this.constructor.name, this.scene);
                     equippedItem.createSprite(0, 0);
                 }
 

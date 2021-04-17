@@ -24,13 +24,13 @@ export function calcRemainingXp(xp) {
 }
 
 var itemClasses = {};
-export async function getItemClass(itemName, scene) {
+export function getItemClass(itemName, scene) {
     let itemClass = itemClasses[itemName];
 
     return new itemClass.default(scene);
 }
 
-export async function setItemClass(key, value) {
+export function setItemClass(key, value) {
     itemClasses[key] = value;
 }
 
