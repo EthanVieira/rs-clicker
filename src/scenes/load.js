@@ -130,6 +130,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("right-click-menu-3", "src/assets/ui/RightClickMenu_3.png");
         this.load.image("right-click-menu-4", "src/assets/ui/RightClickMenu_4.png");
         this.load.image("right-click-menu-5", "src/assets/ui/RightClickMenu_5.png");
+        this.load.image("right-click-menu-6", "src/assets/ui/RightClickMenu_6.png");
         this.load.image("scroll-background", "src/assets/ui/ScrollBackground.png");
         this.load.image("scroll-header", "src/assets/ui/ScrollHeader.png");
         this.load.image("scroll-footer", "src/assets/ui/ScrollFooter.png");
