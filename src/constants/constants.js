@@ -46,6 +46,7 @@ export const CONSTANTS = {
     },
     PANEL: {
         INVENTORY: "INVENTORY",
+        MUSIC: "MUSIC",
         SKILLS: "SKILLS",
         PRAYER: "PRAYER",
         EQUIPMENT: "EQUIPMENT",
@@ -214,6 +215,25 @@ export const FONTS = {
             fill: true,
         },
     },
+    SONG_UNLOCKED: {
+        font: "15.5px runescape",
+        fill: "#00ff00",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
+    SONG_LOCKED: {
+        font: "15.5px runescape",
+        fill: "#ff0000",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
     PROMPT: {
         font: "16px runescape",
         fill: "black",

@@ -59,7 +59,6 @@ export class ChatScene extends Phaser.Scene {
                 this.removeAllListeners();
 
                 item.sellX(inputValue);
-                console.log(originallyVisible);
 
                 this.scene.isPromptOpen = false;
                 this.scene.show(originallyVisible);
