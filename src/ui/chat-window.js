@@ -403,7 +403,6 @@ export class ChatScene extends Phaser.Scene {
             }
         });
 
-        // keyboard input must be first
         promptObjs = [prompt, promptInput, promptWindow];
     }
 
