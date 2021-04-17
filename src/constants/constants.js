@@ -234,6 +234,17 @@ export const FONTS = {
             color: "black",
             fill: true,
         },
+    },
+    SONG_COUNT: {
+        font: "14px runescape",
+        fill: "orange",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
     PROMPT: {
         font: "16px runescape",
         fill: "black",
