@@ -44,6 +44,7 @@ export class ChatScene extends Phaser.Scene {
 
         this.input.keyboard.on("keydown", function (event) {
             // enter
+            console.log(event.keyCode);
             if (event.keyCode == 13) {
                 let inputValue = parseInt(
                     promptInput.text.substr(1, promptInput.text.length)
@@ -76,7 +77,7 @@ export class ChatScene extends Phaser.Scene {
             // numbers
             if (
                 (event.keyCode <= 57 && event.keyCode >= 48) ||
-                (event.keyCode <= 96 && event.keyCode >= 105)
+                (event.keyCode <= 105 && event.keyCode >= 96)
             ) {
                 // arbitrary input length limit
                 if (promptInput.text.length < 15) {
