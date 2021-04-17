@@ -13,7 +13,7 @@ export class ClickableObject {
 
     // Right click menu half-dimensions in pixels
     RCM_HALF_WIDTH = 163 / 2;
-    RCM_HALF_HEIGHTS = [53 / 2, 68 / 2, 82 / 2, 97 / 2]; // 2-5 options including cancel
+    RCM_HALF_HEIGHTS = [53 / 2, 68 / 2, 82 / 2, 97 / 2, 112 / 2]; // 2-6 options including cancel
 
     examine(isShop) {
         console.log(this.examineText);

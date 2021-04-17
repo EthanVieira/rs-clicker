@@ -18,6 +18,7 @@ export class ChatScene extends Phaser.Scene {
 
     col1 = 0;
     visible = false;
+    isPromptOpen = false;
 
     constructor() {
         super({ key: CONSTANTS.SCENES.CHAT });
@@ -31,6 +32,7 @@ export class ChatScene extends Phaser.Scene {
             "chat-button-notification",
             "src/assets/ui/buttons/ChatButtonNotification.png"
         );
+        this.load.image("prompt-window", "src/assets/ui/PromptWindow.png");
     }
 
     create() {
@@ -259,18 +261,19 @@ export class ChatScene extends Phaser.Scene {
     }
 
     show(isVisible = true) {
-        runOnLoad(this, () => {
-            this.visible = isVisible;
-            this.scrollWindow.setVisible(isVisible);
-            this.playerNameText.visible = isVisible;
-            this.chatButtonImage.visible = isVisible;
-            this.chatButtonNotificationImage.visible = false;
-
-            if (!isVisible) {
+        if (!this.isPromptOpen) {
+            runOnLoad(this, () => {
+                this.visible = isVisible;
+                this.scrollWindow.setVisible(isVisible);
+                this.playerNameText.visible = isVisible;
+                this.chatButtonImage.visible = isVisible;
+                this.chatButtonNotificationImage.visible = false;
                 this.chatWindow.visible = isVisible;
-                this.shopChatWindow.visible = isVisible;
-            }
-        });
+                if (!isVisible) {
+                    this.shopChatWindow.visible = isVisible;
+                }
+            });
+        }
     }
 
     hideButtons() {
@@ -335,5 +338,81 @@ export class ChatScene extends Phaser.Scene {
         } else {
             this.show(false);
         }
+    }
+
+    // TODO: if we need more prompts we should reuse a lot of this
+    // Right now it is specifically for selling X amount of an item
+    prompt(promptText, item) {
+        const originallyVisible = this.visible;
+        this.show(false);
+        this.isPromptOpen = true;
+
+        let promptObjs = [];
+
+        let promptWindow = this.add
+            .image(0, 338, "prompt-window")
+            .setOrigin(0, 0)
+            .setDepth(8);
+
+        // TODO: Current x value is only for the text "Enter Amount:"
+        let prompt = this.add.text(225, 380, promptText, FONTS.PROMPT).setDepth(8);
+        let promptInput = this.add
+            .text(promptWindow.width / 2, 410, "*", FONTS.PROMPT_INPUT)
+            .setDepth(9);
+
+        let keyboardInput = this.input.keyboard.on("keydown", function (event) {
+            // enter
+            if (event.keyCode == 13) {
+                let inputValue = parseInt(
+                    promptInput.text.substr(1, promptInput.text.length)
+                );
+
+                if (isNaN(inputValue)) {
+                    inputValue = 0;
+                }
+
+                item.sellX(inputValue);
+
+                this.scene.destroyPrompt(promptObjs, keyboardInput, originallyVisible);
+            }
+
+            // backspace
+            if (event.keyCode == 8 && promptInput.text.length > 1) {
+                promptInput.text = promptInput.text.substr(
+                    0,
+                    promptInput.text.length - 1
+                );
+                promptInput.x += 4;
+            }
+
+            // numbers
+            if (
+                (event.keyCode <= 57 && event.keyCode >= 48) ||
+                (event.keyCode <= 105 && event.keyCode >= 96)
+            ) {
+                // arbitrary input length limit
+                if (promptInput.text.length < 15) {
+                    promptInput.text += event.key;
+                    promptInput.x -= 4;
+                }
+            }
+
+            // esc
+            if (event.keyCode == 27) {
+                this.scene.destroyPrompt(promptObjs, keyboardInput, originallyVisible);
+            }
+        });
+
+        promptObjs = [prompt, promptInput, promptWindow];
+    }
+
+    destroyPrompt(promptContainer, inputObj, showChat) {
+        inputObj.removeAllListeners();
+        promptContainer.forEach((item) => {
+            item.destroy();
+        });
+
+        this.isPromptOpen = false;
+        this.show(showChat);
     }
 }

@@ -6,7 +6,7 @@ export default class Knife extends Tool {
     item = "Knife";
     examineText = "A dangerous looking knife.";
     cost = 6;
-    
+
     // Scenes
     scene;
 

@@ -31,9 +31,11 @@ export class Item extends ClickableObject {
     cost = 0;
     actions = [
         { text: "Use", func: "use" },
-        { text: "Sell", func: "sell" },
+        { text: "Sell X", func: "promptSellX" },
+        { text: "Sell All", func: "sellAll" },
         { text: "Examine", func: "examine" },
     ];
+
     isVisible = false;
 
     createSprite(x, y, index = -1) {
@@ -140,17 +142,31 @@ export class Item extends ClickableObject {
         }
     }
 
-    sell() {
+    sellAll() {
+        this.sellX(this.numItems);
+    }
+
+    sellX(x) {
         let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        let chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+
+        let numSold = Math.min(this.numItems, x);
+        let sellAmount = Math.round(this.cost / 2) * numSold;
+        chat.writeText(
+            "Selling " + numSold + " " + this.name + " for " + sellAmount + " gold."
+        );
+
         if (dashboard.inventory.getInventoryIndex(this.constructor.name) >= 0) {
-            console.log("Selling", this.name);
-            this.scene.scene
-                .get(CONSTANTS.SCENES.DASHBOARD)
-                .inventory.addGold(Math.round(this.cost / 2));
-            this.destroy();
+            dashboard.inventory.addGold(sellAmount);
+            this.setNumItems(this.numItems - numSold);
         } else {
             console.log("Error, attempting to sell nonexistent item.");
         }
+    }
+
+    promptSellX() {
+        let chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        chat.prompt("Enter Amount:", this);
     }
 
     move(x, y, index = -1) {
