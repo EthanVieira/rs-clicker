@@ -98,31 +98,41 @@ export class Inventory {
             .getInventory()
             .filter((item) => Object.keys(item).length && item.item.includes(keyword));
 
-        const compareMethod = async (a, b) => {
-            (await getItemClass(b.item, this.scene).requiredLevels[skillsRequired[0]]) -
-                (await getItemClass(a.item, this.scene).requiredLevels[
-                    skillsRequired[0]
-                ]);
-        };
+        let itemClasses = [];
+        for (let i = 0; i < playerItems.length; i++) {
+            let itemClass = await getItemClass(playerItems[i].item, this.scene);
+            itemClasses.push(itemClass);
+        }
 
         if (playerItems.length > 0) {
             if (mustBeUsable) {
-                playerItems.sort(compareMethod);
+                itemClasses.sort(
+                    (a, b) =>
+                        b.requiredLevels[skillsRequired[0]] -
+                        a.requiredLevels[skillsRequired[0]]
+                );
 
-                for (let i = 0; i < playerItems.length; i++) {
+                for (let i = 0; i < itemClasses.length; i++) {
                     let canUseItem = true;
-                    let itemClass = await getItemClass(playerItems[i].item, this.scene);
                     for (let j = 0; j < skillsRequired.length; j++) {
                         canUseItem &=
                             calcLevel(characterData.getSkillXp(skillsRequired[j])) >=
-                            itemClass.requiredLevels[skillsRequired[j]];
+                            itemClasses[i].requiredLevels[skillsRequired[j]];
                     }
                     if (canUseItem) {
-                        return characterData.getInventory().indexOf(playerItems[i]);
+                        return characterData
+                            .getInventory()
+                            .indexOf(
+                                playerItems.filter(
+                                    (item) => item.item == itemClasses[i].constructor.name
+                                )[0]
+                            );
                     }
                 }
             } else {
-                return characterData.getInventory().indexOf(playerItems[0]);
+                return characterData
+                    .getInventory()
+                    .indexOf(itemClasses[i].constructor.name);
             }
         }
 

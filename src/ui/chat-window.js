@@ -211,7 +211,7 @@ export class ChatScene extends Phaser.Scene {
                     text: "Required " + skill + " level: ",
                     format: FONTS.ITEM_HEADER,
                 },
-                { x: x[1], text: level, format: FONTS.ITEM_STATS }
+                { x: x[1], text: "   " + level, format: FONTS.ITEM_STATS }
             );
         }
 
