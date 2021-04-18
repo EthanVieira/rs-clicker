@@ -51,7 +51,7 @@ export default class Equipment extends Item {
         }
     }
 
-    async equip() {
+    equip() {
         if (!this.equipped) {
             if (this.checkRequiredLevel()) {
                 console.log("Equipping", this.name);

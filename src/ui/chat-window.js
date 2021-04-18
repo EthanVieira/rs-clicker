@@ -204,10 +204,17 @@ export class ChatScene extends Phaser.Scene {
             { x: x[0], text: "Sells for:", format: FONTS.ITEM_HEADER },
             { x: x[1], text: equipment.cost + "gp", format: FONTS.ITEM_STATS }
         );
-        this.writeStrings(
-            { x: x[0], text: "Required Level:", format: FONTS.ITEM_HEADER },
-            { x: x[1], text: equipment.requiredLevel, format: FONTS.ITEM_STATS }
-        );
+        for (const [skill, level] of Object.entries(equipment.requiredLevels)) {
+            this.writeStrings(
+                {
+                    x: x[0],
+                    text: "Required " + skill + " level: ",
+                    format: FONTS.ITEM_HEADER,
+                },
+                { x: x[1], text: level, format: FONTS.ITEM_STATS }
+            );
+        }
+
         this.writeStrings(
             { x: x[0], text: "Accuracy Bonuses:", format: FONTS.ITEM_HEADER },
             { x: x[1], text: "Stab", format: FONTS.ITEM_STATS },

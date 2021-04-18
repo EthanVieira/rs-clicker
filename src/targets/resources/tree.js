@@ -1,7 +1,4 @@
 import { Resource } from "../resource.js";
-import { CONSTANTS } from "../../constants/constants.js";
-import { calcLevel, getItemClass } from "../../utilities.js";
-import { characterData } from "../../cookie-io.js";
 
 export class Tree extends Resource {
     requiredLevels;
