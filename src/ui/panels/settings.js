@@ -51,29 +51,34 @@ export class Settings {
                 .setDepth(2)
         );
 
-        // Set 5 buttons for each of the 3 sliders
-        for (let volumeType = 0; volumeType < 3; volumeType++) {
-            let audioButtonRow = [];
-            for (let buttonNum = 0; buttonNum < 5; buttonNum++) {
-                let audioButton = dashboard.add
-                    .image(
-                        audioWindowX + barXOffset + 10 + buttonNum * 22,
-                        audioWindowY + 80 + volumeType * 45,
-                        "audio-button"
-                    )
-                    .setOrigin(0, 0)
-                    .setDepth(3)
-                    .setInteractive()
-                    .setAlpha(0.1)
-                    .on("pointerdown", () => {
-                        this.changeAudioButton(volumeType, buttonNum);
-                    });
+        // Volume / SFX / Environment
+        const minX = audioWindowX + barXOffset + 11;
+        const maxX = audioWindowX + barXOffset + 98;
+        this.volumeButton = dashboard.add
+            .image(minX + 1, audioWindowY + 80, "audio-button")
+            .setDepth(3)
+            .setOrigin(0, 0)
+            .setInteractive();
+        this.sfxButton = dashboard.add
+            .image(minX, audioWindowY + 125, "audio-button")
+            .setDepth(3)
+            .setOrigin(0, 0)
+            .setInteractive();
+        this.envButton = dashboard.add
+            .image(minX + 1, audioWindowY + 170, "audio-button")
+            .setDepth(3)
+            .setOrigin(0, 0)
+            .setInteractive();
 
-                audioButtonRow.push(audioButton);
+        // Setup drag
+        dashboard.input.setDraggable(this.volumeButton);
+        dashboard.input.setDraggable(this.sfxButton);
+        dashboard.input.setDraggable(this.envButton);
+        dashboard.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+            if (dragX >= minX && dragX <= maxX) {
+                gameObject.x = dragX;
             }
-            // Save 2d array of buttons (3 x 5)
-            this.buttons.push(audioButtonRow);
-        }
+        });
 
         // Hide settings panel on startup
         this.show(false);
@@ -94,11 +99,7 @@ export class Settings {
             this.dashboard.hideAllMenus();
             this.dashboard.currentPanel = CONSTANTS.PANEL.SETTINGS;
             this.button.setAlpha(1);
-
-            // Show current volume buttons
-            for (let i = 0; i < 3; i++) {
-                this.buttons[i][characterData.getVolume(i)].setAlpha(1);
-            }
+            // characterData.getVolume(i)
         } else {
             this.button.setAlpha(0.1);
         }
@@ -107,10 +108,8 @@ export class Settings {
         this.sliders.forEach((slider) => {
             slider.visible = isVisible;
         });
-        this.buttons.forEach((buttonRow) => {
-            buttonRow.forEach((button) => {
-                button.visible = isVisible;
-            });
-        });
+        this.volumeButton.visible = isVisible;
+        this.sfxButton.visible = isVisible;
+        this.envButton.visible = isVisible;
     }
 }
