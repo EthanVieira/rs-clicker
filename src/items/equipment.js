@@ -51,7 +51,7 @@ export default class Equipment extends Item {
         }
     }
 
-    equip() {
+    async equip() {
         if (!this.equipped) {
             if (this.checkRequiredLevel()) {
                 console.log("Equipping", this.name);
@@ -70,7 +70,7 @@ export default class Equipment extends Item {
                 // Reduce count and copy to equipment
                 else {
                     this.setNumItems(this.numItems - 1);
-                    equippedItem = getItemClass(this.constructor.name, this.scene);
+                    equippedItem = await getItemClass(this.constructor.name, this.scene);
                     equippedItem.createSprite(0, 0);
                 }
 

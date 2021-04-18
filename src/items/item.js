@@ -116,7 +116,7 @@ export class Item extends ClickableObject {
             this.scene.scene.get(CONSTANTS.SCENES.AUDIO).playSfx("purchase");
 
             // Create new non-shop item
-            let boughtItem = getItemClass(this.constructor.name, dashboard);
+            let boughtItem = await getItemClass(this.constructor.name, dashboard);
             if (dashboard.inventory.addToInventory(boughtItem)) {
                 dashboard.inventory.addGold(-1 * this.cost);
             }

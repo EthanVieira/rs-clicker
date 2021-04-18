@@ -23,7 +23,7 @@ export class Resource extends Target {
         );
     }
 
-    isClickable() {
+    async isClickable() {
         let curWeapon = this.scene.dashboard.equipment.equipment.WEAPON;
         let inventory = this.scene.dashboard.inventory;
         let chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
@@ -41,7 +41,7 @@ export class Resource extends Target {
                 console.log("Error: invalid skill.");
         }
 
-        let i = inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
+        let i = await inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
         if (
             !(
                 curWeapon.item == toolKeyword &&

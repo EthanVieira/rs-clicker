@@ -42,7 +42,7 @@ export class Inventory {
             let item = playerItems[i];
             if (Object.keys(item).length) {
                 // Create item from name
-                let itemObj = getItemClass(item.item, this.scene);
+                let itemObj = await getItemClass(item.item, this.scene);
                 itemObj.setNumItems(item.count);
                 this.addToInventoryAtIndex(itemObj, i);
             }
@@ -93,24 +93,25 @@ export class Inventory {
     // that contains the given keyword in its name.
     // The first skill included in skillsRequired will
     // be used for sorting inventory items that match the keyword.
-    getKeywordInInventory(keyword, mustBeUsable = false, skillsRequired = []) {
+    async getKeywordInInventory(keyword, mustBeUsable = false, skillsRequired = []) {
         let playerItems = characterData
             .getInventory()
             .filter((item) => Object.keys(item).length && item.item.includes(keyword));
 
+        const compareMethod = async (a, b) => {
+            (await getItemClass(b.item, this.scene).requiredLevels[skillsRequired[0]]) -
+                (await getItemClass(a.item, this.scene).requiredLevels[
+                    skillsRequired[0]
+                ]);
+        };
+
         if (playerItems.length > 0) {
             if (mustBeUsable) {
-                playerItems.sort(
-                    (a, b) =>
-                        getItemClass(b.item, this.scene).requiredLevels[
-                            skillsRequired[0]
-                        ] -
-                        getItemClass(a.item, this.scene).requiredLevels[skillsRequired[0]]
-                );
+                playerItems.sort(compareMethod);
 
                 for (let i = 0; i < playerItems.length; i++) {
                     let canUseItem = true;
-                    let itemClass = getItemClass(playerItems[i].item, this.scene);
+                    let itemClass = await getItemClass(playerItems[i].item, this.scene);
                     for (let j = 0; j < skillsRequired.length; j++) {
                         canUseItem &=
                             calcLevel(characterData.getSkillXp(skillsRequired[j])) >=

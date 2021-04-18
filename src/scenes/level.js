@@ -187,7 +187,7 @@ export class LevelScene extends Phaser.Scene {
         this.stats.updateEnemiesKilledStat();
     }
 
-    clickAnimation() {
+    async clickAnimation() {
         // Animation settings
         let image = {},
             imageName = "",
@@ -267,14 +267,18 @@ export class LevelScene extends Phaser.Scene {
                     if (curWeapon.item == "Axe") {
                         toolEquipped = true;
                     } else {
-                        i = inventory.getKeywordInInventory("Axe", true, ["woodcutting"]);
+                        i = await inventory.getKeywordInInventory("Axe", true, [
+                            "woodcutting",
+                        ]);
                     }
                     break;
                 case CONSTANTS.RESOURCES.ORE:
                     if (curWeapon.item == "Pickaxe") {
                         toolEquipped = true;
                     } else {
-                        i = inventory.getKeywordInInventory("Pickaxe", true, ["mining"]);
+                        i = await inventory.getKeywordInInventory("Pickaxe", true, [
+                            "mining",
+                        ]);
                     }
                     break;
                 default:
@@ -285,7 +289,7 @@ export class LevelScene extends Phaser.Scene {
             if (toolEquipped) {
                 imageName = curWeapon.sprite.texture.key + "-model";
             } else {
-                let itemObj = getItemClass(
+                let itemObj = await getItemClass(
                     characterData.getInventory()[i].item,
                     this.scene.get(CONSTANTS.SCENES.DASHBOARD)
                 );

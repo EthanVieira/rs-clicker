@@ -27,7 +27,7 @@ export default class Tool extends Item {
         // Craft item if possible
         if (recipe.className != "" && item.numItems >= recipe.numRequiredItems) {
             const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
-            let newItem = getItemClass(recipe.className, dashboard);
+            let newItem = await getItemClass(recipe.className, dashboard);
 
             // Get name before adding it to inventory because
             // if it's a duplicate it will be destroyed
