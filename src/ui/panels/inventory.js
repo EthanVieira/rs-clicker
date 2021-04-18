@@ -1,5 +1,5 @@
-import { CONSTANTS, FONTS } from "../../constants/constants.js";
-import { getItemClass } from "../../utilities.js";
+import { CONSTANTS } from "../../constants/constants.js";
+import { calcLevel, getItemClass } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 import Coin from "../../items/currencies/coin.js";
 
@@ -90,17 +90,41 @@ export class Inventory {
     }
 
     // Returns first instance of an item in inventory
-    // that contains the given keyword in its name
-    getKeywordInInventory(keyword) {
-        let playerItems = characterData.getInventory();
-        for (let i = 0; i < playerItems.length; i++) {
-            if (
-                Object.keys(playerItems[i]).length &&
-                playerItems[i].item.includes(keyword)
-            ) {
-                return i;
+    // that contains the given keyword in its name.
+    // The first skill included in skillsRequired will
+    // be used for sorting inventory items that match the keyword.
+    getKeywordInInventory(keyword, mustBeUsable = false, skillsRequired = []) {
+        let playerItems = characterData
+            .getInventory()
+            .filter((item) => Object.keys(item).length && item.item.includes(keyword));
+
+        if (playerItems.length > 0) {
+            if (mustBeUsable) {
+                playerItems.sort(
+                    (a, b) =>
+                        getItemClass(b.item, this.scene).requiredLevels[
+                            skillsRequired[0]
+                        ] -
+                        getItemClass(a.item, this.scene).requiredLevels[skillsRequired[0]]
+                );
+
+                for (let i = 0; i < playerItems.length; i++) {
+                    let canUseItem = true;
+                    let itemClass = getItemClass(playerItems[i].item, this.scene);
+                    for (let j = 0; j < skillsRequired.length; j++) {
+                        canUseItem &=
+                            calcLevel(characterData.getSkillXp(skillsRequired[j])) >=
+                            itemClass.requiredLevels[skillsRequired[j]];
+                    }
+                    if (canUseItem) {
+                        return characterData.getInventory().indexOf(playerItems[i]);
+                    }
+                }
+            } else {
+                return characterData.getInventory().indexOf(playerItems[0]);
             }
         }
+
         return -1;
     }
 

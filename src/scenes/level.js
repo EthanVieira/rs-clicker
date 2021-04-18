@@ -267,14 +267,14 @@ export class LevelScene extends Phaser.Scene {
                     if (curWeapon.item == "Axe") {
                         toolEquipped = true;
                     } else {
-                        i = inventory.getKeywordInInventory("Axe");
+                        i = inventory.getKeywordInInventory("Axe", true, ["woodcutting"]);
                     }
                     break;
                 case CONSTANTS.RESOURCES.ORE:
                     if (curWeapon.item == "Pickaxe") {
                         toolEquipped = true;
                     } else {
-                        i = inventory.getKeywordInInventory("Pickaxe");
+                        i = inventory.getKeywordInInventory("Pickaxe", true, ["mining"]);
                     }
                     break;
                 default:

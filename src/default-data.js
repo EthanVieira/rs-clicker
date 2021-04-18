@@ -14,7 +14,7 @@ export const defaultData = {
         { item: "BronzeAxe", count: 1 },
         { item: "BronzePickaxe", count: 1 },
         { item: "Knife", count: 1 },
-        { item: "Coin", count: 25 },
+        { item: "Coin", count: 100000000 },
     ],
     equipment: {
         WEAPON: "",
@@ -53,7 +53,7 @@ export const defaultData = {
     // Can be accessed with characterData[this.currentLevel].questCompleted, etc.
     levels: {
         TUTORIAL_ISLAND: {
-            questCompleted: false,
+            questCompleted: true,
             unlocked: true,
             enemiesKilled: {
                 giantRat: 0,

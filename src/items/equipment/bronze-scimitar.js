@@ -35,7 +35,9 @@ export default class BronzeScimitar extends Equipment {
 
     // Other
     cost = 32;
-    requiredLevel = 1;
+    requiredLevels = {
+        attack: 1,
+    };
 
     constructor(scene) {
         super();

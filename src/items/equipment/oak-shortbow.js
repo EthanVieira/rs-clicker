@@ -17,7 +17,9 @@ export default class OakShortbow extends Equipment {
 
     // Other
     cost = 100;
-    requiredLevel = 5;
+    requiredLevels = {
+        ranged: 5,
+    };
 
     constructor(scene) {
         super();

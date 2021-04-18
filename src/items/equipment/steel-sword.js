@@ -35,7 +35,9 @@ export default class SteelSword extends Equipment {
 
     // Other
     cost = 325;
-    requiredLevel = 5;
+    requiredLevels = {
+        attack: 5,
+    };
 
     constructor(scene) {
         super();

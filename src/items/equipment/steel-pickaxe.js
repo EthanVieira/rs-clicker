@@ -35,8 +35,10 @@ export default class SteelPickaxe extends Equipment {
 
     // Other
     cost = 500;
-    requiredLevel = 5;
-    requiredMiningLevel = 6;
+    requiredLevels = {
+        attack: 5,
+        mining: 6,
+    };
 
     constructor(scene) {
         super();

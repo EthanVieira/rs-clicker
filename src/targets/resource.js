@@ -24,7 +24,51 @@ export class Resource extends Target {
     }
 
     isClickable() {
-        return true;
+        let curWeapon = this.scene.dashboard.equipment.equipment.WEAPON;
+        let inventory = this.scene.dashboard.inventory;
+        let chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        let toolKeyword = "";
+        let skillLevel = calcLevel(characterData.getSkillXp(this.skill));
+
+        switch (this.skill) {
+            case "woodcutting":
+                toolKeyword = "Axe";
+                break;
+            case "mining":
+                toolKeyword = "Pickaxe";
+                break;
+            default:
+                console.log("Error: invalid skill.");
+        }
+
+        let i = inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
+        if (
+            !(
+                curWeapon.item == toolKeyword &&
+                skillLevel >= curWeapon.requiredLevels[this.skill]
+            ) &&
+            i == -1
+        ) {
+            chat.writeText(
+                "This action requires a " +
+                    toolKeyword +
+                    " that you have the required " +
+                    this.skill +
+                    " level to use."
+            );
+            return false;
+        }
+
+        if (skillLevel >= this.requiredLevels[this.skill]) {
+            return true;
+        } else {
+            chat.writeText(
+                "You do not have the required " +
+                    this.skill +
+                    " level to perform this action."
+            );
+            return false;
+        }
     }
 
     getClickValue() {

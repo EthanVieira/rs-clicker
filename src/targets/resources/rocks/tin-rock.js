@@ -15,7 +15,9 @@ export class TinRock extends Rock {
             neededClicks: 5,
             drops: [{ item: TinOre, rate: 1 }],
             offsetY: 150,
-            requiredMiningLevel: 1,
+            requiredLevels: {
+                mining: 1,
+            },
         });
     }
 }

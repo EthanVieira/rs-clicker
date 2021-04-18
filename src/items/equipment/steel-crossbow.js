@@ -17,7 +17,9 @@ export default class SteelCrossbow extends Equipment {
 
     // Other
     cost = 360;
-    requiredLevel = 31;
+    requiredLevels = {
+        ranged: 31,
+    };
 
     constructor(scene) {
         super();
