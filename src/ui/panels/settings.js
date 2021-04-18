@@ -52,46 +52,68 @@ export class Settings {
         );
 
         // Volume / SFX / Environment
-        const minX = audioWindowX + barXOffset + 11;
-        const maxX = audioWindowX + barXOffset + 98;
+        this.sliderMin = audioWindowX + barXOffset + 11;
+        this.sliderMax = audioWindowX + barXOffset + 98;
         this.volumeButton = dashboard.add
-            .image(minX + 1, audioWindowY + 80, "audio-button")
+            .image(this.sliderMin + 1, audioWindowY + 80, "audio-button")
             .setDepth(3)
             .setOrigin(0, 0)
             .setInteractive();
         this.sfxButton = dashboard.add
-            .image(minX, audioWindowY + 125, "audio-button")
+            .image(this.sliderMin, audioWindowY + 125, "audio-button")
             .setDepth(3)
             .setOrigin(0, 0)
             .setInteractive();
         this.envButton = dashboard.add
-            .image(minX + 1, audioWindowY + 170, "audio-button")
+            .image(this.sliderMin + 1, audioWindowY + 170, "audio-button")
             .setDepth(3)
             .setOrigin(0, 0)
             .setInteractive();
 
+        // Init slider positions
+        this.setVolume(this.volumeButton, characterData.getVolume(0));
+        this.setVolume(this.sfxButton, characterData.getVolume(1));
+        this.setVolume(this.envButton, characterData.getVolume(2));
+
         // Setup drag
-        dashboard.input.setDraggable(this.volumeButton);
-        dashboard.input.setDraggable(this.sfxButton);
-        dashboard.input.setDraggable(this.envButton);
-        dashboard.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-            if (dragX >= minX && dragX <= maxX) {
-                gameObject.x = dragX;
-            }
-        });
+        dashboard.input
+            .setDraggable(this.volumeButton)
+            .setDraggable(this.sfxButton)
+            .setDraggable(this.envButton)
+            .on("drag", (pointer, gameObject, dragX, dragY) => {
+                if (dragX >= this.sliderMin && dragX <= this.sliderMax) {
+                    gameObject.x = dragX;
+                    this.updateVolume();
+                }
+            });
 
         // Hide settings panel on startup
         this.show(false);
     }
 
-    // Hide old button and show new one
-    changeAudioButton(volumeType, buttonNum) {
-        for (let button in this.buttons[volumeType]) {
-            this.buttons[volumeType][button].setAlpha(0.1);
-        }
-        this.buttons[volumeType][buttonNum].setAlpha(1);
+    updateVolume() {
+        const bgm = this.getVolume(this.volumeButton);
+        const sfx = this.getVolume(this.sfxButton);
+        const env = this.getVolume(this.envButton);
 
-        this.audio.changeVolume(volumeType, buttonNum);
+        this.audio.changeVolume(0, bgm);
+        this.audio.changeVolume(1, sfx);
+        this.audio.changeVolume(2, env);
+    }
+
+    // Convert volume slider coordinates to a 0-1 volume scale
+    getVolume(gameObject) {
+        const diffX = this.sliderMax - this.sliderMin;
+
+        const volume = ((gameObject.x - this.sliderMin) / diffX).toFixed(1);
+        return parseFloat(volume);
+    }
+
+    // Convert volume to X coordinate of slider
+    setVolume(gameObject, volume) {
+        const diffX = this.sliderMax - this.sliderMin;
+
+        gameObject.x = volume * diffX + this.sliderMin;
     }
 
     show(isVisible = true) {
