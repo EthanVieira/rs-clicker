@@ -85,6 +85,10 @@ export class Settings {
                     gameObject.x = dragX;
                     this.updateVolume();
                 }
+            })
+            // Snap volume slider to the closest position
+            .on("dragend", (pointer, gameObject) => {
+                this.setVolume(gameObject, this.getVolume(gameObject));
             });
 
         // Hide settings panel on startup
@@ -103,10 +107,16 @@ export class Settings {
 
     // Convert volume slider coordinates to a 0-1 volume scale
     getVolume(gameObject) {
+        // Convert to 0-1
         const diffX = this.sliderMax - this.sliderMin;
+        let volume = (gameObject.x - this.sliderMin) / diffX;
 
-        const volume = ((gameObject.x - this.sliderMin) / diffX).toFixed(1);
-        return parseFloat(volume);
+        // Convert to 1 of 5 values
+        const possibleValues = [0, 0.25, 0.5, 0.75, 1];
+        volume = possibleValues.reduce((prev, curr) => {
+            return Math.abs(curr - volume) < Math.abs(prev - volume) ? curr : prev;
+        });
+        return volume;
     }
 
     // Convert volume to X coordinate of slider
