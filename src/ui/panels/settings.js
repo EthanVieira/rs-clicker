@@ -30,32 +30,12 @@ export class Settings {
                 this.show();
             });
 
-        // Place sliders (TODO: Remove these and have them part of the image)
-        let barXOffset = 53;
-        this.sliders.push(
-            dashboard.add
-                .image(audioWindowX + barXOffset, audioWindowY + 80, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-        this.sliders.push(
-            dashboard.add
-                .image(audioWindowX + barXOffset, audioWindowY + 125, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-        this.sliders.push(
-            dashboard.add
-                .image(audioWindowX + barXOffset, audioWindowY + 170, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-
-        // Volume / SFX / Environment
+        // Place sliders, Volume / SFX / Environment
+        let barXOffset = 50;
         this.sliderMin = audioWindowX + barXOffset + 11;
         this.sliderMax = audioWindowX + barXOffset + 98;
         this.volumeButton = dashboard.add
-            .image(this.sliderMin + 1, audioWindowY + 80, "audio-button")
+            .image(this.sliderMin, audioWindowY + 77, "audio-button")
             .setDepth(3)
             .setOrigin(0, 0)
             .setInteractive();
@@ -65,7 +45,7 @@ export class Settings {
             .setOrigin(0, 0)
             .setInteractive();
         this.envButton = dashboard.add
-            .image(this.sliderMin + 1, audioWindowY + 170, "audio-button")
+            .image(this.sliderMin, audioWindowY + 171, "audio-button")
             .setDepth(3)
             .setOrigin(0, 0)
             .setInteractive();
