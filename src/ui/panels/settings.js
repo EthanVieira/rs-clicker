@@ -7,7 +7,6 @@ export class Settings {
     panel;
     button;
 
-    sliders = [];
     buttons = [];
 
     constructor(dashboard) {
@@ -30,63 +29,80 @@ export class Settings {
                 this.show();
             });
 
-        // Place sliders (TODO: Remove these and have them part of the image)
-        let barXOffset = 53;
-        this.sliders.push(
-            dashboard.add
-                .image(audioWindowX + barXOffset, audioWindowY + 80, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-        this.sliders.push(
-            dashboard.add
-                .image(audioWindowX + barXOffset, audioWindowY + 125, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
-        this.sliders.push(
-            dashboard.add
-                .image(audioWindowX + barXOffset, audioWindowY + 170, "audio-slider")
-                .setOrigin(0, 0)
-                .setDepth(2)
-        );
+        // Place sliders, Volume / SFX / Environment
+        let barXOffset = 50;
+        this.sliderMin = audioWindowX + barXOffset + 11;
+        this.sliderMax = audioWindowX + barXOffset + 98;
+        this.volumeButton = dashboard.add
+            .image(this.sliderMin, audioWindowY + 77, "audio-button")
+            .setDepth(3)
+            .setOrigin(0, 0)
+            .setInteractive();
+        this.sfxButton = dashboard.add
+            .image(this.sliderMin, audioWindowY + 125, "audio-button")
+            .setDepth(3)
+            .setOrigin(0, 0)
+            .setInteractive();
+        this.envButton = dashboard.add
+            .image(this.sliderMin, audioWindowY + 171, "audio-button")
+            .setDepth(3)
+            .setOrigin(0, 0)
+            .setInteractive();
 
-        // Set 5 buttons for each of the 3 sliders
-        for (let volumeType = 0; volumeType < 3; volumeType++) {
-            let audioButtonRow = [];
-            for (let buttonNum = 0; buttonNum < 5; buttonNum++) {
-                let audioButton = dashboard.add
-                    .image(
-                        audioWindowX + barXOffset + 10 + buttonNum * 22,
-                        audioWindowY + 80 + volumeType * 45,
-                        "audio-button"
-                    )
-                    .setOrigin(0, 0)
-                    .setDepth(3)
-                    .setInteractive()
-                    .setAlpha(0.1)
-                    .on("pointerdown", () => {
-                        this.changeAudioButton(volumeType, buttonNum);
-                    });
+        // Init slider positions
+        this.setVolume(this.volumeButton, characterData.getVolume(0));
+        this.setVolume(this.sfxButton, characterData.getVolume(1));
+        this.setVolume(this.envButton, characterData.getVolume(2));
 
-                audioButtonRow.push(audioButton);
-            }
-            // Save 2d array of buttons (3 x 5)
-            this.buttons.push(audioButtonRow);
-        }
+        // Setup drag
+        dashboard.input
+            .setDraggable(this.volumeButton)
+            .setDraggable(this.sfxButton)
+            .setDraggable(this.envButton)
+            .on("drag", (pointer, gameObject, dragX, dragY) => {
+                if (dragX >= this.sliderMin && dragX <= this.sliderMax) {
+                    gameObject.x = dragX;
+                    this.updateVolume();
+                }
+            })
+            // Snap volume slider to the closest position
+            .on("dragend", (pointer, gameObject) => {
+                this.setVolume(gameObject, this.getVolume(gameObject));
+            });
 
         // Hide settings panel on startup
         this.show(false);
     }
 
-    // Hide old button and show new one
-    changeAudioButton(volumeType, buttonNum) {
-        for (let button in this.buttons[volumeType]) {
-            this.buttons[volumeType][button].setAlpha(0.1);
-        }
-        this.buttons[volumeType][buttonNum].setAlpha(1);
+    updateVolume() {
+        const bgm = this.getVolume(this.volumeButton);
+        const sfx = this.getVolume(this.sfxButton);
+        const env = this.getVolume(this.envButton);
 
-        this.audio.changeVolume(volumeType, buttonNum);
+        this.audio.changeVolume(0, bgm);
+        this.audio.changeVolume(1, sfx);
+        this.audio.changeVolume(2, env);
+    }
+
+    // Convert volume slider coordinates to a 0-1 volume scale
+    getVolume(gameObject) {
+        // Convert to 0-1
+        const diffX = this.sliderMax - this.sliderMin;
+        let volume = (gameObject.x - this.sliderMin) / diffX;
+
+        // Convert to 1 of 5 values
+        const possibleValues = [0, 0.25, 0.5, 0.75, 1];
+        volume = possibleValues.reduce((prev, curr) => {
+            return Math.abs(curr - volume) < Math.abs(prev - volume) ? curr : prev;
+        });
+        return volume;
+    }
+
+    // Convert volume to X coordinate of slider
+    setVolume(gameObject, volume) {
+        const diffX = this.sliderMax - this.sliderMin;
+
+        gameObject.x = volume * diffX + this.sliderMin;
     }
 
     show(isVisible = true) {
@@ -94,23 +110,13 @@ export class Settings {
             this.dashboard.hideAllMenus();
             this.dashboard.currentPanel = CONSTANTS.PANEL.SETTINGS;
             this.button.setAlpha(1);
-
-            // Show current volume buttons
-            for (let i = 0; i < 3; i++) {
-                this.buttons[i][characterData.getVolume(i)].setAlpha(1);
-            }
         } else {
             this.button.setAlpha(0.1);
         }
 
         this.panel.visible = isVisible;
-        this.sliders.forEach((slider) => {
-            slider.visible = isVisible;
-        });
-        this.buttons.forEach((buttonRow) => {
-            buttonRow.forEach((button) => {
-                button.visible = isVisible;
-            });
-        });
+        this.volumeButton.visible = isVisible;
+        this.sfxButton.visible = isVisible;
+        this.envButton.visible = isVisible;
     }
 }

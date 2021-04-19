@@ -49,7 +49,7 @@ export const defaultData = {
         construction: 0,
         hunter: 0,
     },
-    audio: [2, 2, 2], // BGM, SFX, Environment
+    audio: [0.5, 0.5, 0.5], // BGM, SFX, Environment
     // Can be accessed with characterData[this.currentLevel].questCompleted, etc.
     levels: {
         TUTORIAL_ISLAND: {

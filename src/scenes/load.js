@@ -115,7 +115,6 @@ export class LoadScene extends Phaser.Scene {
             "audio-settings-button",
             "src/assets/ui/buttons/AudioSettingsButton.png"
         );
-        this.load.image("audio-slider", "src/assets/ui/buttons/AudioSlider.png");
         this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
         this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
         this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");

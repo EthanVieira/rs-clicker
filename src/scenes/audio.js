@@ -103,9 +103,9 @@ export class AudioScene extends Phaser.Scene {
 
         // Lower volume of currently playing BGM
         if (volumeType == BGM && this.bgm?.isPlaying) {
-            this.bgm.setVolume(value / 4); // 0-4 = 0-100
+            this.bgm.setVolume(value); // 0-1
         } else if (volumeType == SFX && this.sfx?.isPlaying) {
-            this.sfx.setVolume(value / 4);
+            this.sfx.setVolume(value);
         }
     }
 
