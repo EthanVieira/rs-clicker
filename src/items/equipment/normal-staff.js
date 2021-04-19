@@ -28,7 +28,9 @@ export default class NormalStaff extends Equipment {
 
     // Other
     cost = 15;
-    requiredLevel = 1;
+    requiredLevels = {
+        magic: 1,
+    };
 
     constructor(scene) {
         super();

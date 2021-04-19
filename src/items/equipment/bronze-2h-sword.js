@@ -35,7 +35,9 @@ export default class Bronze2hSword extends Equipment {
 
     // Other
     cost = 80;
-    requiredLevel = 1;
+    requiredLevels = {
+        attack: 1,
+    };
 
     constructor(scene) {
         super();

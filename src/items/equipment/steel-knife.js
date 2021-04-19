@@ -20,7 +20,9 @@ export default class SteelKnife extends Equipment {
 
     // Other
     cost = 110;
-    requiredLevel = 5;
+    requiredLevels = {
+        ranged: 5,
+    };
 
     constructor(scene) {
         super();

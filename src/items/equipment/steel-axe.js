@@ -35,7 +35,10 @@ export default class SteelAxe extends Equipment {
 
     // Other
     cost = 200;
-    requiredLevel = 5; // 5 att, 6 woodcutting
+    requiredLevels = {
+        attack: 5,
+        woodcutting: 6,
+    };
 
     constructor(scene) {
         super();

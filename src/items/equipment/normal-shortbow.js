@@ -17,8 +17,9 @@ export default class NormalShortbow extends Equipment {
 
     // Other
     cost = 50;
-    requiredLevel = 1;
-
+    requiredLevels = {
+        ranged: 1,
+    };
     constructor(scene) {
         super();
 

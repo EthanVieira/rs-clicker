@@ -35,7 +35,9 @@ export default class SteelScimitar extends Equipment {
 
     // Other
     cost = 400;
-    requiredLevel = 5;
+    requiredLevels = {
+        attack: 5,
+    };
 
     constructor(scene) {
         super();

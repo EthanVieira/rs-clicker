@@ -23,7 +23,9 @@ export default class SteelDagger extends Equipment {
 
     // Other
     cost = 125;
-    requiredLevel = 5;
+    requiredLevels = {
+        attack: 5,
+    };
 
     constructor(scene) {
         super();

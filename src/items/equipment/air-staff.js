@@ -30,7 +30,9 @@ export default class AirStaff extends Equipment {
 
     // Other
     cost = 1500;
-    requiredLevel = 1;
+    requiredLevels = {
+        magic: 1,
+    };
 
     constructor(scene) {
         super();

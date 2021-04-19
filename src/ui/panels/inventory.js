@@ -1,5 +1,5 @@
-import { CONSTANTS, FONTS } from "../../constants/constants.js";
-import { getItemClass } from "../../utilities.js";
+import { CONSTANTS } from "../../constants/constants.js";
+import { calcLevel, getItemClass } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 import Coin from "../../items/currencies/coin.js";
 
@@ -83,6 +83,56 @@ export class Inventory {
         for (let i = 0; i < playerItems.length; i++) {
             if (Object.keys(playerItems[i]).length && playerItems[i].item == itemName) {
                 return i;
+            }
+        }
+
+        return -1;
+    }
+
+    // Returns first instance of an item in inventory
+    // that contains the given keyword in its name.
+    // The first skill included in skillsRequired will
+    // be used for sorting inventory items that match the keyword.
+    async getKeywordInInventory(keyword, mustBeUsable = false, skillsRequired = []) {
+        let playerItems = characterData
+            .getInventory()
+            .filter((item) => Object.keys(item).length && item.item.includes(keyword));
+
+        let itemClasses = [];
+        for (let i = 0; i < playerItems.length; i++) {
+            let itemClass = await getItemClass(playerItems[i].item, this.scene);
+            itemClasses.push(itemClass);
+        }
+
+        if (playerItems.length > 0) {
+            if (mustBeUsable) {
+                itemClasses.sort(
+                    (a, b) =>
+                        b.requiredLevels[skillsRequired[0]] -
+                        a.requiredLevels[skillsRequired[0]]
+                );
+
+                for (let i = 0; i < itemClasses.length; i++) {
+                    let canUseItem = true;
+                    for (let j = 0; j < skillsRequired.length; j++) {
+                        canUseItem &=
+                            calcLevel(characterData.getSkillXp(skillsRequired[j])) >=
+                            itemClasses[i].requiredLevels[skillsRequired[j]];
+                    }
+                    if (canUseItem) {
+                        return characterData
+                            .getInventory()
+                            .indexOf(
+                                playerItems.filter(
+                                    (item) => item.item == itemClasses[i].constructor.name
+                                )[0]
+                            );
+                    }
+                }
+            } else {
+                return characterData
+                    .getInventory()
+                    .indexOf(itemClasses[i].constructor.name);
             }
         }
 

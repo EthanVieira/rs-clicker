@@ -35,7 +35,10 @@ export default class BronzePickaxe extends Equipment {
 
     // Other
     cost = 15;
-    requiredLevel = 1;
+    requiredLevels = {
+        attack: 1,
+        mining: 1,
+    };
 
     constructor(scene) {
         super();

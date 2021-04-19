@@ -88,7 +88,7 @@ export default class Equipment extends Item {
                             " " +
                             capitalize(skillText) +
                             " level of " +
-                            this.requiredLevel +
+                            this.requiredLevels[skillText] +
                             " to equip this item."
                     );
             }
@@ -120,9 +120,7 @@ export default class Equipment extends Item {
     }
 
     checkRequiredLevel() {
-        return (
-            calcLevel(characterData.getSkillXp(getRequiredCombatSkill(this.skill))) >=
-            this.requiredLevel
-        );
+        let skill = getRequiredCombatSkill(this.skill);
+        return calcLevel(characterData.getSkillXp(skill)) >= this.requiredLevels[skill];
     }
 }

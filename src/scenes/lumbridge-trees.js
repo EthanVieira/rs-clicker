@@ -5,6 +5,8 @@ import { NormalTree } from "../targets/resources/normal-tree.js";
 export class LumbridgeTreeScene extends LevelScene {
     constructor() {
         super({
+            levelType: CONSTANTS.LEVEL_TYPE.RESOURCE,
+            resourceType: CONSTANTS.RESOURCES.WOOD,
             key: CONSTANTS.SCENES.LUMBRIDGE_TREES,
             background: {
                 name: "lumbridge",

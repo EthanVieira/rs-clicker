@@ -1,6 +1,7 @@
 import { Resource } from "../resource.js";
 
 export class Rock extends Resource {
+    requiredLevels;
     actions = [
         { text: "Mine", func: "clickTarget" },
         { text: "Examine", func: "examine" },
@@ -9,10 +10,6 @@ export class Rock extends Resource {
     constructor(data) {
         data.skill = "mining";
         super(data);
-    }
-
-    isClickable() {
-        let curWeapon = this.scene.dashboard.equipment.equipment.WEAPON;
-        return curWeapon.item == "Pickaxe";
+        this.requiredLevels = data.requiredLevels;
     }
 }

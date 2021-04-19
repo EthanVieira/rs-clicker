@@ -2,7 +2,7 @@ import { OBJECT_TYPES, CONSTANTS, FONTS } from "../constants/constants.js";
 import { ScrollWindow } from "./scroll-window.js";
 import { TextRow } from "./text-row.js";
 import { Button } from "./button.js";
-import { runOnLoad } from "../utilities.js";
+import { runOnLoad, capitalize } from "../utilities.js";
 
 export class ChatScene extends Phaser.Scene {
     chatWindow;
@@ -204,10 +204,28 @@ export class ChatScene extends Phaser.Scene {
             { x: x[0], text: "Sells for:", format: FONTS.ITEM_HEADER },
             { x: x[1], text: equipment.cost + "gp", format: FONTS.ITEM_STATS }
         );
-        this.writeStrings(
-            { x: x[0], text: "Required Level:", format: FONTS.ITEM_HEADER },
-            { x: x[1], text: equipment.requiredLevel, format: FONTS.ITEM_STATS }
-        );
+
+        let reqLevelText = [];
+
+        reqLevelText.push({
+            x: x[0],
+            text: "Required Levels:",
+            format: FONTS.ITEM_HEADER,
+        });
+
+        for (
+            var i = 0, keys = Object.keys(equipment.requiredLevels), ii = keys.length;
+            i < ii;
+            i++
+        ) {
+            reqLevelText.push({
+                x: x[i * 2 + 1] + x[i * 2],
+                text: capitalize(keys[i]) + " " + equipment.requiredLevels[keys[i]],
+                format: FONTS.ITEM_STATS,
+            });
+        }
+        this.writeStrings(...reqLevelText);
+
         this.writeStrings(
             { x: x[0], text: "Accuracy Bonuses:", format: FONTS.ITEM_HEADER },
             { x: x[1], text: "Stab", format: FONTS.ITEM_STATS },
@@ -372,7 +390,6 @@ export class ChatScene extends Phaser.Scene {
                 }
 
                 item.sellX(inputValue);
-
                 this.scene.destroyPrompt(promptObjs, keyboardInput, originallyVisible);
             }
 

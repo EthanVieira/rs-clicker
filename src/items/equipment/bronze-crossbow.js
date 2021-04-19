@@ -17,7 +17,9 @@ export default class BronzeCrossbow extends Equipment {
 
     // Other
     cost = 73;
-    requiredLevel = 1;
+    requiredLevels = {
+        ranged: 1,
+    };
 
     constructor(scene) {
         super();

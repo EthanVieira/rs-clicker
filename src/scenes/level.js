@@ -1,5 +1,6 @@
 import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
+import { getItemClass } from "../utilities.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -22,6 +23,7 @@ export class LevelScene extends Phaser.Scene {
     targetMetaData = [];
     currentTargetIndex = 0;
     levelType = "";
+    resourceType = "";
     // For enemy levels
     // varName: amount
     // giantRat: 10
@@ -47,6 +49,7 @@ export class LevelScene extends Phaser.Scene {
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
         this.levelType = data.levelType;
+        this.resourceType = data.resourceType;
     }
 
     preload() {
@@ -184,7 +187,7 @@ export class LevelScene extends Phaser.Scene {
         this.stats.updateEnemiesKilledStat();
     }
 
-    clickAnimation() {
+    async clickAnimation() {
         // Animation settings
         let image = {},
             imageName = "",
@@ -197,7 +200,11 @@ export class LevelScene extends Phaser.Scene {
 
         // Get current weapon image
         let curWeapon = this.dashboard.equipment.equipment.WEAPON;
-        if (Object.keys(curWeapon).length) {
+
+        if (
+            Object.keys(curWeapon).length &&
+            this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY
+        ) {
             // Set animation based on current weapon
             switch (curWeapon.skill) {
                 case EQUIPMENT.WEAPON_TYPES.MELEE:
@@ -250,6 +257,51 @@ export class LevelScene extends Phaser.Scene {
                     console.log("Error: item does not have attack type");
                     break;
             }
+        } else if (this.levelType == CONSTANTS.LEVEL_TYPE.RESOURCE) {
+            let inventory = this.scene.get(CONSTANTS.SCENES.DASHBOARD).inventory;
+            let toolEquipped = false;
+            let i = -1;
+
+            switch (this.resourceType) {
+                case CONSTANTS.RESOURCES.WOOD:
+                    if (curWeapon.item == "Axe") {
+                        toolEquipped = true;
+                    } else {
+                        i = await inventory.getKeywordInInventory("Axe", true, [
+                            "woodcutting",
+                        ]);
+                    }
+                    break;
+                case CONSTANTS.RESOURCES.ORE:
+                    if (curWeapon.item == "Pickaxe") {
+                        toolEquipped = true;
+                    } else {
+                        i = await inventory.getKeywordInInventory("Pickaxe", true, [
+                            "mining",
+                        ]);
+                    }
+                    break;
+                default:
+                    console.log("Error: this resource type does not exist.");
+                    break;
+            }
+
+            if (toolEquipped) {
+                imageName = curWeapon.sprite.texture.key + "-model";
+            } else {
+                let itemObj = await getItemClass(
+                    characterData.getInventory()[i].item,
+                    this.scene.get(CONSTANTS.SCENES.DASHBOARD)
+                );
+                itemObj.createSprite(0, 0);
+
+                imageName = itemObj.sprite.texture.key + "-model";
+            }
+
+            scale = 0.5;
+            flipX = true;
+            startX = 450;
+            startY = 200;
         } else {
             // Fist animation
             imageName = "fist";

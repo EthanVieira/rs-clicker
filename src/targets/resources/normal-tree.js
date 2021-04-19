@@ -15,6 +15,9 @@ export class NormalTree extends Tree {
             ],
             neededClicks: 5,
             drops: [{ item: NormalLogs, rate: 1 }],
+            requiredLevels: {
+                woodcutting: 1,
+            },
         });
     }
 }

@@ -6,6 +6,8 @@ import { CopperRock } from "../targets/resources/rocks/copper-rock.js";
 export class VarrockMineScene extends LevelScene {
     constructor() {
         super({
+            levelType: CONSTANTS.LEVEL_TYPE.RESOURCE,
+            resourceType: CONSTANTS.RESOURCES.ORE,
             key: CONSTANTS.SCENES.VARROCK_MINE,
             background: {
                 name: "varrock-mine",
