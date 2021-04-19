@@ -7,7 +7,6 @@ export class Settings {
     panel;
     button;
 
-    sliders = [];
     buttons = [];
 
     constructor(dashboard) {
@@ -111,15 +110,11 @@ export class Settings {
             this.dashboard.hideAllMenus();
             this.dashboard.currentPanel = CONSTANTS.PANEL.SETTINGS;
             this.button.setAlpha(1);
-            // characterData.getVolume(i)
         } else {
             this.button.setAlpha(0.1);
         }
 
         this.panel.visible = isVisible;
-        this.sliders.forEach((slider) => {
-            slider.visible = isVisible;
-        });
         this.volumeButton.visible = isVisible;
         this.sfxButton.visible = isVisible;
         this.envButton.visible = isVisible;
