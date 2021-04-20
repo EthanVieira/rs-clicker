@@ -15,6 +15,8 @@ export class ChatScene extends Phaser.Scene {
     reportButtonText;
 
     playerNameText;
+    chatInput;
+    userMessage;
 
     col1 = 0;
     visible = false;
@@ -96,6 +98,9 @@ export class ChatScene extends Phaser.Scene {
             window.open("https://github.com/EthanVieira/rs-clicker/issues", "_blank");
         });
 
+        this.userMessage = this.add.text(60, 458, "*", FONTS.PROMPT_INPUT).setDepth(8);
+        this.userMessage.visible = false;
+
         this.show(false);
     }
 
@@ -103,8 +108,6 @@ export class ChatScene extends Phaser.Scene {
     writeText(text, format = FONTS.ITEM_HEADER) {
         runOnLoad(this, () => {
             this.writeStrings({ x: 0, text, format });
-            this.scrollWindow.refresh();
-            this.scrollWindow.scrollToBottom();
 
             if (!this.visible) {
                 this.show(false);
@@ -126,6 +129,8 @@ export class ChatScene extends Phaser.Scene {
             );
         });
         this.writeObjects(...textLine);
+        this.scrollWindow.refresh();
+        this.scrollWindow.scrollToBottom();
     }
 
     writeObjects(...objects) {
@@ -287,8 +292,11 @@ export class ChatScene extends Phaser.Scene {
                 this.chatButtonImage.visible = isVisible;
                 this.chatButtonNotificationImage.visible = false;
                 this.chatWindow.visible = isVisible;
-                if (!isVisible) {
+                if (isVisible) {
+                    this.allowTyping();
+                } else {
                     this.shopChatWindow.visible = isVisible;
+                    this.disallowTyping();
                 }
             });
         }
@@ -382,7 +390,7 @@ export class ChatScene extends Phaser.Scene {
             // enter
             if (event.keyCode == 13) {
                 let inputValue = parseInt(
-                    promptInput.text.substr(1, promptInput.text.length)
+                    promptInput.text.substr(0, promptInput.text.length - 1)
                 );
 
                 if (isNaN(inputValue)) {
@@ -395,10 +403,8 @@ export class ChatScene extends Phaser.Scene {
 
             // backspace
             if (event.keyCode == 8 && promptInput.text.length > 1) {
-                promptInput.text = promptInput.text.substr(
-                    0,
-                    promptInput.text.length - 1
-                );
+                promptInput.text =
+                    promptInput.text.substr(0, promptInput.text.length - 2) + "*";
                 promptInput.x += 4;
             }
 
@@ -409,7 +415,10 @@ export class ChatScene extends Phaser.Scene {
             ) {
                 // arbitrary input length limit
                 if (promptInput.text.length < 15) {
-                    promptInput.text += event.key;
+                    promptInput.text =
+                        promptInput.text.substr(0, promptInput.text.length - 1) +
+                        event.key +
+                        "*";
                     promptInput.x -= 4;
                 }
             }
@@ -431,5 +440,79 @@ export class ChatScene extends Phaser.Scene {
 
         this.isPromptOpen = false;
         this.show(showChat);
+    }
+
+    allowTyping() {
+        this.userMessage.visible = true;
+
+        // Don't create duplicate listeners if this is called twice
+        if (this.chatInput != null) {
+            this.chatInput.removeAllListeners();
+        }
+
+        this.chatInput = this.input.keyboard.on("keydown", function (event) {
+            // enter
+            if (event.keyCode == 13) {
+                if (this.scene.userMessage.text != "") {
+                    // write to chat window
+                    this.scene.writeStrings(
+                        { x: 0, text: "You:", format: FONTS.ITEM_HEADER },
+                        {
+                            x: 28,
+                            text: this.scene.userMessage.text.substr(
+                                0,
+                                this.scene.userMessage.text.length - 1
+                            ),
+                            format: FONTS.ITEM_STATS,
+                        }
+                    );
+                    this.scene.userMessage.text = "";
+                }
+            }
+
+            // backspace
+            if (event.keyCode == 8 && this.scene.userMessage.text.length > 1) {
+                this.scene.userMessage.text =
+                    this.scene.userMessage.text.substr(
+                        0,
+                        this.scene.userMessage.text.length - 2
+                    ) + "*";
+            }
+
+            // numbers, letters, punctuation, or space
+            if (
+                event.keyCode == 32 ||
+                (event.keyCode <= 57 && event.keyCode >= 48) ||
+                event.keyCode == 58 ||
+                (event.keyCode <= 90 && event.keyCode >= 65) ||
+                (event.keyCode <= 105 && event.keyCode >= 96) ||
+                (event.keyCode <= 192 && event.keyCode >= 186) ||
+                (event.keyCode <= 222 && event.keyCode >= 219)
+            ) {
+                // arbitrary input length limit
+                if (this.scene.userMessage.text.length < 68) {
+                    this.scene.userMessage.text =
+                        this.scene.userMessage.text.substr(
+                            0,
+                            this.scene.userMessage.text.length - 1
+                        ) +
+                        event.key +
+                        "*";
+                }
+            }
+
+            // space
+            if (event.keyCode == 27) {
+                // esc
+                this.scene.userMessage.text = "";
+            }
+        });
+    }
+
+    disallowTyping() {
+        if (this.chatInput != null) {
+            this.chatInput.removeAllListeners();
+        }
+        this.userMessage.visible = false;
     }
 }
