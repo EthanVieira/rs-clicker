@@ -490,7 +490,7 @@ export class ChatScene extends Phaser.Scene {
                 (event.keyCode <= 222 && event.keyCode >= 219)
             ) {
                 // arbitrary input length limit
-                if (this.scene.userMessage.text.length < 68) {
+                if (this.scene.userMessage.text.length < 55) {
                     this.scene.userMessage.text =
                         this.scene.userMessage.text.substr(
                             0,
