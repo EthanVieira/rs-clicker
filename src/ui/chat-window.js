@@ -499,9 +499,8 @@ export class ChatScene extends Phaser.Scene {
                 }
             }
 
-            // space
+            // esc
             if (event.keyCode == 27) {
-                // esc
                 this.userMessage.text = "";
             }
         });
