@@ -386,7 +386,7 @@ export class ChatScene extends Phaser.Scene {
             .text(promptWindow.width / 2, 410, "*", FONTS.PROMPT_INPUT)
             .setDepth(9);
 
-        let keyboardInput = this.input.keyboard.on("keydown", function (event) {
+        let keyboardInput = this.input.keyboard.on("keydown", (event) => {
             // enter
             if (event.keyCode == 13) {
                 let inputValue = parseInt(
@@ -398,7 +398,7 @@ export class ChatScene extends Phaser.Scene {
                 }
 
                 item.sellX(inputValue);
-                this.scene.destroyPrompt(promptObjs, keyboardInput, originallyVisible);
+                this.destroyPrompt(promptObjs, keyboardInput, originallyVisible);
             }
 
             // backspace
@@ -425,7 +425,7 @@ export class ChatScene extends Phaser.Scene {
 
             // esc
             if (event.keyCode == 27) {
-                this.scene.destroyPrompt(promptObjs, keyboardInput, originallyVisible);
+                this.destroyPrompt(promptObjs, keyboardInput, originallyVisible);
             }
         });
 
@@ -450,33 +450,31 @@ export class ChatScene extends Phaser.Scene {
             this.chatInput.removeAllListeners();
         }
 
-        this.chatInput = this.input.keyboard.on("keydown", function (event) {
+        this.chatInput = this.input.keyboard.on("keydown", (event) => {
             // enter
             if (event.keyCode == 13) {
-                if (this.scene.userMessage.text != "") {
+                if (this.userMessage.text != "") {
                     // write to chat window
-                    this.scene.writeStrings(
+                    this.writeStrings(
                         { x: 0, text: "You:", format: FONTS.ITEM_HEADER },
                         {
                             x: 28,
-                            text: this.scene.userMessage.text.substr(
+                            text: this.userMessage.text.substr(
                                 0,
-                                this.scene.userMessage.text.length - 1
+                                this.userMessage.text.length - 1
                             ),
                             format: FONTS.ITEM_STATS,
                         }
                     );
-                    this.scene.userMessage.text = "";
+                    this.userMessage.text = "";
                 }
             }
 
             // backspace
-            if (event.keyCode == 8 && this.scene.userMessage.text.length > 1) {
-                this.scene.userMessage.text =
-                    this.scene.userMessage.text.substr(
-                        0,
-                        this.scene.userMessage.text.length - 2
-                    ) + "*";
+            if (event.keyCode == 8 && this.userMessage.text.length > 1) {
+                this.userMessage.text =
+                    this.userMessage.text.substr(0, this.userMessage.text.length - 2) +
+                    "*";
             }
 
             // numbers, letters, punctuation, or space
@@ -490,11 +488,11 @@ export class ChatScene extends Phaser.Scene {
                 (event.keyCode <= 222 && event.keyCode >= 219)
             ) {
                 // arbitrary input length limit
-                if (this.scene.userMessage.text.length < 55) {
-                    this.scene.userMessage.text =
-                        this.scene.userMessage.text.substr(
+                if (this.userMessage.text.length < 55) {
+                    this.userMessage.text =
+                        this.userMessage.text.substr(
                             0,
-                            this.scene.userMessage.text.length - 1
+                            this.userMessage.text.length - 1
                         ) +
                         event.key +
                         "*";
@@ -504,7 +502,7 @@ export class ChatScene extends Phaser.Scene {
             // space
             if (event.keyCode == 27) {
                 // esc
-                this.scene.userMessage.text = "";
+                this.userMessage.text = "";
             }
         });
     }
