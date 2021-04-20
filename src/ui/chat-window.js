@@ -501,7 +501,11 @@ export class ChatScene extends Phaser.Scene {
 
             // esc
             if (event.keyCode == 27) {
-                this.userMessage.text = "";
+                if (this.userMessage.text == "") {
+                    this.show(false);
+                } else {
+                    this.userMessage.text = "";
+                }
             }
         });
     }
