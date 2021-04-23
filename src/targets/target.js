@@ -22,7 +22,7 @@ export class Target extends ClickableObject {
 
         // Check for offsets
         if (data.offsetX != undefined) {
-            this.x += data.offsetY;
+            this.x += data.offsetX;
         }
         if (data.offsetY != undefined) {
             this.y += data.offsetY;
@@ -59,7 +59,7 @@ export class Target extends ClickableObject {
 
     clickTarget() {
         // Check child conditions
-        if (this.isClickable()) {
+        if (await this.isClickable()) {
             // Click animation
             this.scene.clickAnimation();
 

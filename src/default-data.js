@@ -77,12 +77,11 @@ export const defaultData = {
                 tree: 0,
             },
         },
-        AL_KHARID: {
+        AL_KHARID_FURNACE: {
             questCompleted: false,
-            unlocked: false,
+            unlocked: true,
             enemiesKilled: {
-                copperRock: 0,
-                tinRock: 0,
+                furnace: 0,
             },
         },
         VARROCK_MINE: {

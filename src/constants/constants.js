@@ -115,6 +115,10 @@ export const MAP = {
         X: 2820,
         Y: 3075,
     },
+    AL_KHARID_FURNACE: {
+        X: 3230,
+        Y: 3170,
+    },
     VARROCK_MINE: {
         X: 3250,
         Y: 2450,

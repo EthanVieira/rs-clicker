@@ -201,6 +201,7 @@ export class LevelScene extends Phaser.Scene {
         // Get current weapon image
         let curWeapon = this.dashboard.equipment.equipment.WEAPON;
 
+        console.log(curWeapon, this.levelType)
         if (
             Object.keys(curWeapon).length &&
             this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY
