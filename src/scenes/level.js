@@ -89,11 +89,6 @@ export class LevelScene extends Phaser.Scene {
         // Background
         this.add.image(0, 0, this.background.name).setOrigin(0, 0).setDepth(0);
 
-        // Create targets
-        this.targetMetaData.forEach((target) => {
-            this.targets.push(new target(this));
-        });
-
         // Minimap
         this.minimap.obj = this.add
             .image(570, 0, this.minimap.name)
@@ -118,7 +113,12 @@ export class LevelScene extends Phaser.Scene {
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
         });
 
-        // Display first click object
+        // Create targets
+        this.targetMetaData.forEach((target) => {
+            this.targets.push(new target(this));
+        });
+
+        // Display a target
         this.targets[this.currentTargetIndex].show();
 
         // Scene destructor
@@ -201,7 +201,6 @@ export class LevelScene extends Phaser.Scene {
         // Get current weapon image
         let curWeapon = this.dashboard.equipment.equipment.WEAPON;
 
-        console.log(curWeapon, this.levelType)
         if (
             Object.keys(curWeapon).length &&
             this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY

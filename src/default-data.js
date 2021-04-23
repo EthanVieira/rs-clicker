@@ -81,7 +81,7 @@ export const defaultData = {
             questCompleted: false,
             unlocked: true,
             enemiesKilled: {
-                furnace: 0,
+                bar: 0,
             },
         },
         VARROCK_MINE: {

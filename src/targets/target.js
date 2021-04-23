@@ -57,7 +57,7 @@ export class Target extends ClickableObject {
         this.stats = data.scene.stats;
     }
 
-    clickTarget() {
+    async clickTarget() {
         // Check child conditions
         if (await this.isClickable()) {
             // Click animation

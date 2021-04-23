@@ -5,8 +5,7 @@ import { Furnace } from "../targets/furnace.js";
 export class AlKharidFurnaceScene extends LevelScene {
     constructor() {
         super({
-            // levelType: CONSTANTS.LEVEL_TYPE.RESOURCE,
-            // resourceType: CONSTANTS.RESOURCES.ORE,
+            levelType: CONSTANTS.LEVEL_TYPE.CRAFTING,
             key: CONSTANTS.SCENES.AL_KHARID_FURNACE,
             background: {
                 name: "al-kharid-furnace",
@@ -18,7 +17,7 @@ export class AlKharidFurnaceScene extends LevelScene {
             },
             targets: [Furnace],
             questAmounts: {
-                furnace: [15, 150, 1500],
+                bar: [15, 150, 1500],
             },
             audio: { bgm: "al-kharid" },
         });

@@ -45,6 +45,7 @@ export const CONSTANTS = {
     LEVEL_TYPE: {
         ENEMY: "ENEMY",
         RESOURCE: "RESOURCE",
+        CRAFTING: "CRAFTING",
     },
     PANEL: {
         INVENTORY: "INVENTORY",
