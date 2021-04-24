@@ -62,7 +62,7 @@ export class Furnace extends ClickableObject {
     async smelt(barName) {
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
-        const bar = await getItemClass(barName, this.scene);
+        const bar = await getItemClass(barName, this.scene.dashboard);
 
         const indices = bar.ores.map((ore) => inv.getInventoryIndex(ore));
         const allExist = indices.every((index) => index >= 0);
