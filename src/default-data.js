@@ -15,8 +15,6 @@ export const defaultData = {
         { item: "BronzePickaxe", count: 1 },
         { item: "Knife", count: 1 },
         { item: "Coin", count: 25 },
-        { item: "CopperOre", count: 100 },
-        { item: "TinOre", count: 100 },
     ],
     equipment: {
         WEAPON: "",
@@ -81,7 +79,7 @@ export const defaultData = {
         },
         AL_KHARID_FURNACE: {
             questCompleted: false,
-            unlocked: true,
+            unlocked: false,
             enemiesKilled: {
                 bar: 0,
             },
