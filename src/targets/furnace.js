@@ -53,7 +53,7 @@ export class Furnace extends ClickableObject {
                 this.smelt(
                     ["CopperOre", "TinOre"],
                     "BronzeBar",
-                    1,
+                    6,
                     "You need at least one copper and one tin ore to smelt a bronze bar."
                 );
                 break;
