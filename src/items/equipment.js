@@ -57,12 +57,12 @@ export default class Equipment extends Item {
                 console.log("Equipping", this.name);
 
                 // Move item into equipment
-                let equippedItem = {};
+                let equippedItem = null;
                 if (this.numItems == 1) {
                     // Remove from inventory if it was there
                     if (this.index >= 0) {
-                        characterData.setInventory(this.index, {});
-                        this.scene.inventory.inventory[this.index] = {};
+                        characterData.setInventory(this.index, null);
+                        this.scene.inventory.inventory[this.index] = null;
                         this.index = -1;
                     }
                     equippedItem = this;
@@ -84,12 +84,12 @@ export default class Equipment extends Item {
                     .get(CONSTANTS.SCENES.CHAT)
                     .writeText(
                         "You need " +
-                            aOrAn(skillText) +
-                            " " +
-                            capitalize(skillText) +
-                            " level of " +
-                            this.requiredLevels[skillText] +
-                            " to equip this item."
+                        aOrAn(skillText) +
+                        " " +
+                        capitalize(skillText) +
+                        " level of " +
+                        this.requiredLevels[skillText] +
+                        " to equip this item."
                     );
             }
         } else {

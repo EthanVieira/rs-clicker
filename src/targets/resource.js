@@ -30,6 +30,17 @@ export class Resource extends Target {
         let toolKeyword = "";
         let skillLevel = calcLevel(characterData.getSkillXp(this.skill));
 
+        // Skill level too low
+        if (skillLevel < this.requiredLevels[this.skill]) {
+            chat.writeText(
+                "You do not have the required " +
+                this.skill +
+                " level to perform this action."
+            );
+            return false;
+        }
+
+        // Get tool
         switch (this.skill) {
             case "woodcutting":
                 toolKeyword = "Axe";
@@ -41,31 +52,25 @@ export class Resource extends Target {
                 console.log("Error: invalid skill.");
         }
 
-        let i = await inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
+        // Check currently equipped tool
         if (
-            !(
-                curWeapon.item == toolKeyword &&
-                skillLevel >= curWeapon.requiredLevels[this.skill]
-            ) &&
-            i == -1
+            curWeapon?.item == toolKeyword &&
+            skillLevel >= curWeapon.requiredLevels[this.skill]
         ) {
-            chat.writeText(
-                "This action requires a " +
-                    toolKeyword +
-                    " that you have the required " +
-                    this.skill +
-                    " level to use."
-            );
-            return false;
+            return true;
         }
 
-        if (skillLevel >= this.requiredLevels[this.skill]) {
+        // Check inventory
+        const i = await inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
+        if (i >= 0 && skillLevel >= inventory.inventory[i].requiredLevels[this.skill]) {
             return true;
         } else {
             chat.writeText(
-                "You do not have the required " +
-                    this.skill +
-                    " level to perform this action."
+                "This action requires a " +
+                toolKeyword +
+                " that you have the required " +
+                this.skill +
+                " level to use."
             );
             return false;
         }
@@ -75,7 +80,7 @@ export class Resource extends Target {
         return calcLevel(characterData.getSkillXp(this.skill));
     }
 
-    onClick(clickValue) {}
+    onClick(clickValue) { }
 
     onCompletion() {
         characterData.addSkillXp(this.skill, this.neededClicks);

@@ -117,41 +117,40 @@ export class Enemy extends Target {
         let equipmenStrength = 0;
         let equipmentAttack = 0;
         let enemyBonus = 0;
-        if (Object.entries(weapon).length) {
-            switch (weapon.skill) {
-                case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                    equipmentAttack = weapon.magicBonus;
-                    equipmenStrength = weapon.magicStrengthBonus;
-                    enemyBonus = this.magicDefense;
-                    break;
-                case EQUIPMENT.WEAPON_TYPES.RANGED:
-                    equipmentAttack = weapon.rangedBonus;
-                    equipmenStrength = weapon.rangedStrengthBonus;
-                    enemyBonus = this.rangedDefense;
-                    break;
-                case EQUIPMENT.WEAPON_TYPES.MELEE: {
-                    equipmenStrength = weapon.strengthBonus;
+        switch (weapon?.skill) {
+            case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                equipmentAttack = weapon.magicBonus;
+                equipmenStrength = weapon.magicStrengthBonus;
+                enemyBonus = this.magicDefense;
+                break;
+            case EQUIPMENT.WEAPON_TYPES.RANGED:
+                equipmentAttack = weapon.rangedBonus;
+                equipmenStrength = weapon.rangedStrengthBonus;
+                enemyBonus = this.rangedDefense;
+                break;
+            case EQUIPMENT.WEAPON_TYPES.MELEE: {
+                equipmenStrength = weapon.strengthBonus;
 
-                    switch (weapon.style) {
-                        case EQUIPMENT.ATTACK_STYLE.STAB:
-                            equipmentAttack = weapon.stabBonus;
-                            enemyBonus = this.stabDefense;
-                            break;
-                        case EQUIPMENT.ATTACK_STYLE.SLASH:
-                            equipmentAttack = weapon.slashBonus;
-                            enemyBonus = this.slashDefense;
-                            break;
-                        case EQUIPMENT.ATTACK_STYLE.CRUSH:
-                            equipmentAttack = weapon.crushBonus;
-                            enemyBonus = this.crushDefense;
-                            break;
-                    }
-                    break;
+                switch (weapon.style) {
+                    case EQUIPMENT.ATTACK_STYLE.STAB:
+                        equipmentAttack = weapon.stabBonus;
+                        enemyBonus = this.stabDefense;
+                        break;
+                    case EQUIPMENT.ATTACK_STYLE.SLASH:
+                        equipmentAttack = weapon.slashBonus;
+                        enemyBonus = this.slashDefense;
+                        break;
+                    case EQUIPMENT.ATTACK_STYLE.CRUSH:
+                        equipmentAttack = weapon.crushBonus;
+                        enemyBonus = this.crushDefense;
+                        break;
                 }
+                break;
             }
-        } else {
             // Unarmed uses crush type attack
-            enemyBonus = this.crushDefense;
+            default:
+                enemyBonus = this.crushDefense;
+                break;
         }
 
         // Strength level bonuses
@@ -166,9 +165,9 @@ export class Enemy extends Target {
         // Get max hit
         let maxHit = Math.floor(
             1.3 +
-                effectiveDamageLevel / 10 +
-                equipmenStrength / 80 +
-                (effectiveDamageLevel * equipmenStrength) / 640
+            effectiveDamageLevel / 10 +
+            equipmenStrength / 80 +
+            (effectiveDamageLevel * equipmenStrength) / 640
         );
 
         // Check accuracy
@@ -247,12 +246,12 @@ export class Enemy extends Target {
     }
 
     getDamageLevel() {
-        const skill = this.scene.dashboard.equipment.equipment.WEAPON.skill;
+        const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
         return calcLevel(characterData.getSkillXp(getRequiredCombatSkill(skill)));
     }
 
     increaseXp(hitValue) {
-        const skill = this.scene.dashboard.equipment.equipment.WEAPON.skill;
+        const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
 
         // Increase attack/ranged/magic XP
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower

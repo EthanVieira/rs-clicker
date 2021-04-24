@@ -202,7 +202,7 @@ export class LevelScene extends Phaser.Scene {
         let curWeapon = this.dashboard.equipment.equipment.WEAPON;
 
         if (
-            Object.keys(curWeapon).length &&
+            curWeapon &&
             this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY
         ) {
             // Set animation based on current weapon

@@ -40,7 +40,7 @@ export class Inventory {
         let playerItems = characterData.getInventory();
         for (let i = 0; i < playerItems.length; i++) {
             let item = playerItems[i];
-            if (Object.keys(item).length) {
+            if (item) {
                 // Create item from name
                 let itemObj = await getItemClass(item.item, this.scene);
                 itemObj.setNumItems(item.count);
@@ -79,7 +79,9 @@ export class Inventory {
     }
 
     getInventoryIndex(itemName) {
-        return characterData.getInventory().findIndex((item) => item.item == itemName);
+        return characterData
+            .getInventory()
+            .findIndex((item) => item && item.item == itemName);
     }
 
     // Returns first instance of an item in inventory
@@ -91,7 +93,7 @@ export class Inventory {
             let playerItems = characterData
                 .getInventory()
                 .filter(
-                    (item) => Object.keys(item).length && item.item.includes(keyword)
+                    (item) => item && item.item.includes(keyword)
                 );
 
             let itemClasses = [];
@@ -161,10 +163,9 @@ export class Inventory {
 
         // Search for empty slot
         for (let i = 0; i < playerItems.length; i++) {
-            const itemExists = Object.keys(playerItems[i]).length;
 
             // Check if slot is empty
-            if (!itemExists) {
+            if (!playerItems[i]) {
                 this.addToInventoryAtIndex(item, i, createSprite);
                 return true;
             }
@@ -190,9 +191,7 @@ export class Inventory {
     getGold() {
         let playerItems = characterData.getInventory();
         for (let i = 0; i < playerItems.length; i++) {
-            const itemExists = Object.keys(playerItems[i]).length;
-
-            if (itemExists && playerItems[i].item == Coin.name) {
+            if (playerItems[i] && playerItems[i].item == Coin.name) {
                 return this.inventory[i].numItems;
             }
         }
@@ -208,7 +207,7 @@ export class Inventory {
             this.curSelectedItemIndex = -1;
         }
         // Select item
-        else if (this.curSelectedItemIndex < 0 || !Object.keys(item1).length) {
+        else if (this.curSelectedItemIndex < 0 || !item1) {
             this.curSelectedItemIndex = index;
         }
         // Combine items
@@ -236,7 +235,7 @@ export class Inventory {
         }
 
         this.inventory.forEach((item) => {
-            if (Object.keys(item).length) {
+            if (item) {
                 item.setVisible(isVisible);
             }
         });
@@ -244,9 +243,10 @@ export class Inventory {
 
     destroy() {
         this.inventory.forEach((item) => {
-            if (Object.keys(item).length) {
+            if (item) {
                 item.destroy(false);
             }
         });
+        this.inventory = [];
     }
 }

@@ -77,7 +77,7 @@ class CharacterData {
         return this.characterData.equipment;
     }
     getEquipment(slot) {
-        if (this.characterData.equipment[slot] != undefined) {
+        if (this.characterData.equipment[slot] !== undefined) {
             return this.characterData.equipment[slot];
         } else {
             console.log("Error: invalid equipment slot", slot);
@@ -85,7 +85,7 @@ class CharacterData {
         }
     }
     setEquipment(slot, itemName) {
-        if (this.characterData.equipment[slot] != undefined) {
+        if (this.characterData.equipment[slot] !== undefined) {
             this.characterData.equipment[slot] = itemName;
         } else {
             console.log("Error: invalid equipment slot", slot, itemName);

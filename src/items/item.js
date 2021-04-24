@@ -210,7 +210,7 @@ export class Item extends ClickableObject {
         }
     }
 
-    setVisible(isVisible) {
+    setVisible(isVisible = true) {
         this.isVisible = isVisible;
         if (this.sprite != undefined && this.sprite != null) {
             this.sprite.visible = isVisible;
@@ -226,7 +226,7 @@ export class Item extends ClickableObject {
     destroy(deleteCookies = true) {
         // Remove from inventory
         if (deleteCookies && this.index >= 0) {
-            characterData.setInventory(this.index, "");
+            characterData.setInventory(this.index, null);
         }
 
         // Destroy objects
