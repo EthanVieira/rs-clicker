@@ -1,6 +1,10 @@
 import { Item } from "./item.js";
 
 export default class Bar extends Item {
+    xp = 0;
+    ores = [];
+    smeltingErrorMessage = "Insufficient ingredients.";
+
     constructor() {
         super();
     }

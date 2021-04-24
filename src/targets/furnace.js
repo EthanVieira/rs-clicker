@@ -50,12 +50,7 @@ export class Furnace extends ClickableObject {
         switch (selectedItem.name) {
             case "Copper Ore":
             case "Tin Ore":
-                this.smelt(
-                    ["CopperOre", "TinOre"],
-                    "BronzeBar",
-                    6,
-                    "You need at least one copper and one tin ore to smelt a bronze bar."
-                );
+                this.smelt("BronzeBar");
                 break;
             default:
                 chat.writeText("The furnace can only be used with an ore selected.");
@@ -64,18 +59,19 @@ export class Furnace extends ClickableObject {
     }
 
     // Take ore and turn it into a bar
-    async smelt(ores, bar, xp, errorMessage) {
+    async smelt(barName) {
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        const bar = await getItemClass(barName, this.scene);
 
-        const indices = ores.map((ore) => inv.getInventoryIndex(ore));
+        const indices = bar.ores.map((ore) => inv.getInventoryIndex(ore));
         const allExist = indices.every((index) => index >= 0);
 
         // All ingredients are in inventory
         if (allExist) {
-            const added = inv.addToInventory(await getItemClass(bar, this.scene), true);
+            const added = inv.addToInventory(bar, true);
 
-            // Inventory has space, reduce ore counts by 1 and add xp
+            // Inventory has space, reduce ore counts by 1
             if (added) {
                 indices.forEach((index) => {
                     const obj = inv.inventory[index];
@@ -84,14 +80,14 @@ export class Furnace extends ClickableObject {
 
                 // Log click for stats
                 this.scene.stats.updateClickedTargetStat();
-                characterData.addSkillXp("smithing", xp);
+                characterData.addSkillXp("smithing", bar.xp);
                 this.scene.enemyKilled("bar");
 
                 // Show smelt animation
                 this.scene.clickAnimation();
             }
         } else {
-            chat.writeText(errorMessage);
+            chat.writeText(bar.smeltingErrorMessage);
         }
     }
 

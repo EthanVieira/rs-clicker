@@ -9,6 +9,9 @@ export default class BronzeBar extends Bar {
 
     // Other
     cost = 8;
+    xp = 6;
+    ores = ["CopperOre", "TinOre"];
+    smeltingErrorMessage = "You need at least one copper and one tin ore to smelt a bronze bar.";
 
     constructor(scene) {
         super();
