@@ -29,7 +29,7 @@ export class QuestList {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.show();
+                this.setVisible();
             });
 
         // Quest list scroll window
@@ -48,7 +48,7 @@ export class QuestList {
         this.refreshQuests();
 
         // Default to hidden
-        this.show(false);
+        this.setVisible(false);
 
         // Destructor
         dashboard.events.once("shutdown", () => this.destroy());
@@ -78,11 +78,11 @@ export class QuestList {
                             555,
                             256 + 15 * numRows,
                             printedAmount +
-                                "/" +
-                                questAmount +
-                                " " +
-                                prettyPrintCamelCase(enemy) +
-                                "s",
+                            "/" +
+                            questAmount +
+                            " " +
+                            prettyPrintCamelCase(enemy) +
+                            "s",
                             {
                                 fill: enemiesKilled >= questAmount ? "#00ff00" : "yellow",
                                 fontSize: 12,
@@ -97,7 +97,7 @@ export class QuestList {
         });
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.dashboard.hideAllMenus();
             this.scrollWindow.refresh();

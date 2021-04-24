@@ -24,7 +24,7 @@ export class Inventory {
             .on("pointerdown", () => {
                 this.scene.hideAllMenus();
 
-                this.show(true);
+                this.setVisible();
                 this.button.setAlpha(0.1);
             });
 
@@ -32,7 +32,7 @@ export class Inventory {
         this.refreshInventory();
 
         // Show by default
-        this.show();
+        this.setVisible();
     }
 
     // Load inventory on startup
@@ -227,7 +227,7 @@ export class Inventory {
         }
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.scene.currentPanel = CONSTANTS.PANEL.INVENTORY;
             this.button.setAlpha(0.1); // Unselected inventory icon

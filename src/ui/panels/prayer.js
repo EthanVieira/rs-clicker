@@ -25,7 +25,7 @@ export class Prayer {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.show();
+                this.setVisible();
             });
 
         // Current / Max points
@@ -45,7 +45,7 @@ export class Prayer {
             .setDepth(3);
 
         // Default to hidden
-        this.show(false);
+        this.setVisible(false);
     }
 
     setLevel(level) {
@@ -54,7 +54,7 @@ export class Prayer {
         this.maxPrayerText.text = level;
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.dashboard.hideAllMenus();
             this.button.setAlpha(1);

@@ -32,7 +32,7 @@ export class Equipment {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.show();
+                this.setVisible();
             });
 
         this.slotBg.WEAPON = scene.add
@@ -44,7 +44,7 @@ export class Equipment {
         this.refreshEquipment();
 
         // Default to hidden
-        this.show(false);
+        this.setVisible(false);
 
         // Destructor
         scene.events.once("shutdown", () => this.destroy());
@@ -100,7 +100,7 @@ export class Equipment {
         characterData.setEquipment(slot, {});
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.scene.hideAllMenus();
             this.scene.currentPanel = CONSTANTS.PANEL.EQUIPMENT;

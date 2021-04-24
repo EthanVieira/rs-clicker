@@ -119,7 +119,7 @@ export class LevelScene extends Phaser.Scene {
         });
 
         // Display a target
-        this.targets[this.currentTargetIndex].show();
+        this.targets[this.currentTargetIndex].setVisible();
 
         // Scene destructor
         this.events.once("shutdown", () => {
@@ -127,7 +127,7 @@ export class LevelScene extends Phaser.Scene {
 
             // Hide dashboard and stats
             const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
-            chatScene.show(false);
+            chatScene.setVisible(false);
             this.scene.stop(CONSTANTS.SCENES.CHAT);
             this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.stop(CONSTANTS.SCENES.STATS);

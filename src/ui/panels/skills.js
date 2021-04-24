@@ -42,7 +42,7 @@ export class Skills {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.show();
+                this.setVisible();
             });
 
         let startX = 585,
@@ -133,10 +133,10 @@ export class Skills {
 
         // Set and hide skills page on startup
         this.updateSkillsText();
-        this.show(false);
+        this.setVisible(false);
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.scene.hideAllMenus();
             this.button.setAlpha(1);
@@ -264,7 +264,7 @@ export class Skills {
                 // Close the window if the same skill is clicked twice
                 if (
                     this.skillInfo.header.text ==
-                        skill[0].toUpperCase() + skill.substring(1) &&
+                    skill[0].toUpperCase() + skill.substring(1) &&
                     this.skillInfo.header.visible
                 ) {
                     this.showSkillInfo(false);
@@ -289,7 +289,7 @@ export class Skills {
         }
 
         if (isVisible) {
-            this.statsScene.show(false);
+            this.statsScene.setVisible(false);
         } else {
             // Put correct stats per scene
             this.statsScene.showStats();

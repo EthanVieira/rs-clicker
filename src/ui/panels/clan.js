@@ -31,7 +31,7 @@ export class Clan {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.show();
+                this.setVisible();
             });
 
         // Clan member scroll window
@@ -51,7 +51,7 @@ export class Clan {
         this.refreshClan();
 
         // Default to hidden
-        this.show(false);
+        this.setVisible(false);
 
         // Scene destructor
         dashboard.events.once("shutdown", () => this.destroy());
@@ -122,7 +122,7 @@ export class Clan {
         }
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.dashboard.hideAllMenus();
             this.scrollWindow.refresh();

@@ -123,12 +123,12 @@ export class MusicPanel {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.show(true);
+                this.setVisible(true);
             });
         this.updateSongUnlocks(false);
 
         // Default to hidden
-        this.show(false);
+        this.setVisible(false);
 
         // Destructor
         dashboard.events.once("shutdown", () => this.destroy());
@@ -176,7 +176,7 @@ export class MusicPanel {
         this.currentSongText.text = prettyPrintDash(this.audio.currentSongName);
     }
 
-    show(isVisible) {
+    setVisible(isVisible) {
         this.isTextVisible = isVisible;
         if (isVisible) {
             this.scrollWindow.refresh();

@@ -91,7 +91,7 @@ export class Furnace extends ClickableObject {
         }
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         this.sprite.visible = isVisible;
     }
 }

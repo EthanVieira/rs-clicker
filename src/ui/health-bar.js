@@ -66,11 +66,7 @@ export class HealthBar {
         return wasDead;
     }
 
-    show() {
-        this.healthBar.visible = true;
-    }
-
-    hide() {
-        this.healthBar.visible = false;
+    setVisible(isVisible = true) {
+        this.healthBar.visible = isVisible;
     }
 }

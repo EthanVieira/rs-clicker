@@ -68,13 +68,13 @@ export class DashboardScene extends Phaser.Scene {
     }
 
     hideAllMenus() {
-        this.settings.show(false);
-        this.skills.show(false);
-        this.prayer.show(false);
-        this.quests.show(false);
-        this.equipment.show(false);
-        this.clan.show(false);
-        this.music.show(false);
-        this.inventory.show(false);
+        this.settings.setVisible(false);
+        this.skills.setVisible(false);
+        this.prayer.setVisible(false);
+        this.quests.setVisible(false);
+        this.equipment.setVisible(false);
+        this.clan.setVisible(false);
+        this.music.setVisible(false);
+        this.inventory.setVisible(false);
     }
 }
