@@ -89,11 +89,6 @@ export class LevelScene extends Phaser.Scene {
         // Background
         this.add.image(0, 0, this.background.name).setOrigin(0, 0).setDepth(0);
 
-        // Create targets
-        this.targetMetaData.forEach((target) => {
-            this.targets.push(new target(this));
-        });
-
         // Minimap
         this.minimap.obj = this.add
             .image(570, 0, this.minimap.name)
@@ -118,7 +113,12 @@ export class LevelScene extends Phaser.Scene {
             this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
         });
 
-        // Display first click object
+        // Create targets
+        this.targetMetaData.forEach((target) => {
+            this.targets.push(new target(this));
+        });
+
+        // Display a target
         this.targets[this.currentTargetIndex].show();
 
         // Scene destructor
@@ -302,6 +302,11 @@ export class LevelScene extends Phaser.Scene {
             flipX = true;
             startX = 450;
             startY = 200;
+        } else if (this.levelType == CONSTANTS.LEVEL_TYPE.CRAFTING) {
+            imageName = "furnace-hands";
+            scale = .7;
+            startX = 450;
+            startY = 400;
         } else {
             // Fist animation
             imageName = "fist";

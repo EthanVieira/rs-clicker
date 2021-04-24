@@ -12,6 +12,7 @@ export const CONSTANTS = {
         TUTORIAL_ISLAND: "TUTORIAL_ISLAND",
         LUMBRIDGE: "LUMBRIDGE",
         LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
+        AL_KHARID_FURNACE: "AL_KHARID_FURNACE",
         VARROCK_MINE: "VARROCK_MINE",
         VARROCK: "VARROCK",
         BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE",
@@ -19,6 +20,7 @@ export const CONSTANTS = {
     PREREQUISITES: {
         LUMBRIDGE: "TUTORIAL_ISLAND",
         LUMBRIDGE_TREES: "TUTORIAL_ISLAND",
+        AL_KHARID_FURNACE: "LUMBRIDGE",
         VARROCK_MINE: "LUMBRIDGE",
         VARROCK: "LUMBRIDGE",
         BARBARIAN_VILLAGE: "VARROCK",
@@ -43,6 +45,7 @@ export const CONSTANTS = {
     LEVEL_TYPE: {
         ENEMY: "ENEMY",
         RESOURCE: "RESOURCE",
+        CRAFTING: "CRAFTING",
     },
     PANEL: {
         INVENTORY: "INVENTORY",
@@ -112,6 +115,10 @@ export const MAP = {
     LUMBRIDGE_TREES: {
         X: 2820,
         Y: 3075,
+    },
+    AL_KHARID_FURNACE: {
+        X: 3230,
+        Y: 3170,
     },
     VARROCK_MINE: {
         X: 3250,

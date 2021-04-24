@@ -77,6 +77,13 @@ export const defaultData = {
                 tree: 0,
             },
         },
+        AL_KHARID_FURNACE: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                bar: 0,
+            },
+        },
         VARROCK_MINE: {
             questCompleted: false,
             unlocked: false,

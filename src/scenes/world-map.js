@@ -64,6 +64,15 @@ export class WorldMapScene extends Phaser.Scene {
                 key: CONSTANTS.SCENES.LUMBRIDGE_TREES,
             },
             {
+                text: "Al Kharid\nFurnace",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.AL_KHARID_FURNACE
+                ),
+                x: MAP.AL_KHARID_FURNACE.X,
+                y: MAP.AL_KHARID_FURNACE.Y,
+                key: CONSTANTS.SCENES.AL_KHARID_FURNACE,
+            },
+            {
                 text: "Varrock Mine",
                 condition: characterData.getQuestCompleted(
                     CONSTANTS.PREREQUISITES.VARROCK_MINE

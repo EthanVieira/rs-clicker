@@ -49,11 +49,14 @@ export class AutoClicker {
     }
 
     start(currentScene) {
-        this.timer.paused = false;
-        this.currentScene = currentScene;
-        this.stats = currentScene.stats;
+        // Crafting levels (furnace, anvil, etc.) can't use auto clickers
+        if (currentScene.levelType != CONSTANTS.LEVEL_TYPE.CRAFTING) {
+            this.timer.paused = false;
+            this.currentScene = currentScene;
+            this.stats = currentScene.stats;
 
-        this.stats.updateAutoClickerDPS(this.dps);
+            this.stats.updateAutoClickerDPS(this.dps);
+        }
     }
 
     clickTarget() {

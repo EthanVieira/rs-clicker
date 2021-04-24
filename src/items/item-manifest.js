@@ -19,6 +19,12 @@ export var itemManifest = {
         imageName: "bronze-axe",
         type: CONSTANTS.ITEM_TYPES.TOOL,
     },
+    BronzeBar: {
+        classPath: "./bars/bronze-bar.js",
+        imagePath: "resources/BronzeBar.png",
+        imageName: "bronze-bar",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
     BronzeCrossbow: {
         classPath: "./equipment/bronze-crossbow.js",
         imagePath: "weapons/BronzeCrossbow.png",

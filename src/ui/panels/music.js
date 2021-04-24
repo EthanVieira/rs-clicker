@@ -34,6 +34,11 @@ export class MusicPanel {
         // Init song data
         const songNames = [
             {
+                name: "al-kharid",
+                prereq: CONSTANTS.PREREQUISITES.AL_KHARID_FURNACE,
+                unlocked: false,
+            },
+            {
                 name: "barbarianism",
                 prereq: CONSTANTS.PREREQUISITES.BARBARIAN_VILLAGE,
                 unlocked: false,
