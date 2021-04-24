@@ -19,10 +19,10 @@ export class Furnace extends ClickableObject {
 
         const cameraWidth = scene.cameras.main.width;
         const cameraHeight = scene.cameras.main.height;
-        const x = cameraWidth / 2 - 230;
-        const y = cameraHeight / 2 - 150;
         const width = 230;
         const height = 150;
+        const x = cameraWidth / 2 - width;
+        const y = cameraHeight / 2 - height;
 
         // Add invisible button for furnace
         this.sprite = new Button(scene, x, y, width, height);
@@ -42,7 +42,7 @@ export class Furnace extends ClickableObject {
         // See if ore is selected
         const selectedIndex = inv.curSelectedItemIndex;
         if (selectedIndex < 0) {
-            chat.writeText("Select an ore in your inventory first");
+            chat.writeText("Select an ore in your inventory first.");
             return;
         }
 
@@ -54,11 +54,11 @@ export class Furnace extends ClickableObject {
                     ["CopperOre", "TinOre"],
                     "BronzeBar",
                     1,
-                    "You need at least 1 copper and 1 tin in your inventory."
+                    "You need at least one copper and one tin ore to smelt a bronze bar."
                 );
                 break;
             default:
-                chat.writeText("The furnace can only be used with an ore selected");
+                chat.writeText("The furnace can only be used with an ore selected.");
                 break;
         }
     }
