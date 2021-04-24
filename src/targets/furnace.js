@@ -86,6 +86,9 @@ export class Furnace extends ClickableObject {
                 this.scene.stats.updateClickedTargetStat();
                 characterData.addSkillXp("smithing", xp);
                 this.scene.enemyKilled("bar");
+
+                // Show smelt animation
+                this.scene.clickAnimation();
             }
         } else {
             chat.writeText(errorMessage);

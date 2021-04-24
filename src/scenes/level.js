@@ -302,6 +302,11 @@ export class LevelScene extends Phaser.Scene {
             flipX = true;
             startX = 450;
             startY = 200;
+        } else if (this.levelType == CONSTANTS.LEVEL_TYPE.CRAFTING) {
+            imageName = "furnace-hands";
+            scale = .7;
+            startX = 450;
+            startY = 400;
         } else {
             // Fist animation
             imageName = "fist";
