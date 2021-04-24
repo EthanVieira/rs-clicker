@@ -46,6 +46,7 @@ export class AudioScene extends Phaser.Scene {
             "Mining",
             "Prayer",
             "Ranged",
+            "Smithing",
             "Woodcutting",
         ];
         for (let skill of skills) {

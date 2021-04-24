@@ -79,14 +79,7 @@ export class Inventory {
     }
 
     getInventoryIndex(itemName) {
-        let playerItems = characterData.getInventory();
-        for (let i = 0; i < playerItems.length; i++) {
-            if (Object.keys(playerItems[i]).length && playerItems[i].item == itemName) {
-                return i;
-            }
-        }
-
-        return -1;
+        return characterData.getInventory().findIndex((item) => item.item == itemName);
     }
 
     // Returns first instance of an item in inventory
@@ -94,18 +87,20 @@ export class Inventory {
     // The first skill included in skillsRequired will
     // be used for sorting inventory items that match the keyword.
     async getKeywordInInventory(keyword, mustBeUsable = false, skillsRequired = []) {
-        let playerItems = characterData
-            .getInventory()
-            .filter((item) => Object.keys(item).length && item.item.includes(keyword));
+        if (mustBeUsable) {
+            let playerItems = characterData
+                .getInventory()
+                .filter(
+                    (item) => Object.keys(item).length && item.item.includes(keyword)
+                );
 
-        let itemClasses = [];
-        for (let i = 0; i < playerItems.length; i++) {
-            let itemClass = await getItemClass(playerItems[i].item, this.scene);
-            itemClasses.push(itemClass);
-        }
+            let itemClasses = [];
+            for (let i = 0; i < playerItems.length; i++) {
+                let itemClass = await getItemClass(playerItems[i].item, this.scene);
+                itemClasses.push(itemClass);
+            }
 
-        if (playerItems.length > 0) {
-            if (mustBeUsable) {
+            if (playerItems.length > 0) {
                 itemClasses.sort(
                     (a, b) =>
                         b.requiredLevels[skillsRequired[0]] -
@@ -129,11 +124,11 @@ export class Inventory {
                             );
                     }
                 }
-            } else {
-                return characterData
-                    .getInventory()
-                    .indexOf(itemClasses[i].constructor.name);
             }
+        } else {
+            return characterData
+                .getInventory()
+                .findIndex((item) => item.item.includes(keyword));
         }
 
         return -1;
