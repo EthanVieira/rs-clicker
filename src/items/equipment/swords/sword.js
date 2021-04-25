@@ -7,9 +7,14 @@ export default class Sword extends Equipment {
     skill = EQUIPMENT.WEAPON_TYPES.MELEE;
     style = EQUIPMENT.ATTACK_STYLE.STAB;
 
-    constructor(scene) {
-        super();
-
-        this.scene = scene;
-    }
+    // Attack animation
+    animation = {
+        imageName: "",
+        scale: 0.5,
+        curve: 0,
+        startX: 200,
+        startY: 430,
+        alpha: 1,
+        flipX: true,
+    };
 }

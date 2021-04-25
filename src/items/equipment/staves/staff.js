@@ -15,10 +15,4 @@ export default class Staff extends Equipment {
         startY: 350,
         alpha: 0.5,
     };
-
-    constructor(scene) {
-        super();
-
-        this.scene = scene;
-    }
 }

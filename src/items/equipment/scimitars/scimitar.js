@@ -6,4 +6,15 @@ export default class Scimitar extends Equipment {
     slot = EQUIPMENT.SLOTS.WEAPON;
     skill = EQUIPMENT.WEAPON_TYPES.MELEE;
     style = EQUIPMENT.ATTACK_STYLE.SLASH;
+
+    // Attack animation
+    animation = {
+        imageName: "",
+        scale: 0.5,
+        curve: 1,
+        startX: 450,
+        startY: 200,
+        alpha: 1,
+        flipX: false,
+    };
 }

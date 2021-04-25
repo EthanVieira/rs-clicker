@@ -205,57 +205,19 @@ export class LevelScene extends Phaser.Scene {
             curWeapon &&
             this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY
         ) {
-            // Set animation based on current weapon
-            switch (curWeapon.skill) {
-                case EQUIPMENT.WEAPON_TYPES.MELEE:
-                    imageName = curWeapon.sprite.texture.key + "-model";
-                    scale = 0.5;
+            // Get animation data from weapon obj
+            ({
+                imageName,
+                startX,
+                startY,
+                scale,
+                curve,
+                alpha,
+                flipX
+            } = curWeapon.animation);
 
-                    // Different animations for different attack styles
-                    switch (curWeapon.style) {
-                        case EQUIPMENT.ATTACK_STYLE.STAB:
-                            startX = 200;
-                            startY = 430;
-                            break;
-                        case EQUIPMENT.ATTACK_STYLE.CRUSH:
-                            startX = 450;
-                            startY = 200;
-                            break;
-                        case EQUIPMENT.ATTACK_STYLE.SLASH:
-                            curve = 1;
-                            startX = 450;
-                            startY = 400;
-                            break;
-                    }
-
-                    if (curWeapon.item == "Axe" || curWeapon.item == "Pickaxe") {
-                        flipX = true;
-                        startX = 450;
-                        startY = 200;
-                    }
-                    break;
-
-                // Ranged uses arrows
-                case EQUIPMENT.WEAPON_TYPES.RANGED:
-                    imageName = "bronze-arrow";
-                    scale = 0.8;
-                    curve = 1;
-                    startX = 470;
-                    startY = 350;
-                    break;
-
-                // Magic uses spells
-                case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                    imageName = "fire-bolt";
-                    scale = 0.3;
-                    curve = 0.5;
-                    startX = 470;
-                    startY = 350;
-                    alpha = 0.5;
-                    break;
-                default:
-                    console.log("Error: item does not have attack type");
-                    break;
+            if (imageName == "") {
+                imageName = curWeapon.sprite.texture.key + "-model";
             }
         } else if (this.levelType == CONSTANTS.LEVEL_TYPE.RESOURCE) {
             let inventory = this.scene.get(CONSTANTS.SCENES.DASHBOARD).inventory;
