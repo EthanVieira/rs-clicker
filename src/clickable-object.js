@@ -66,7 +66,7 @@ export class ClickableObject {
                     pointer.worldX > x + this.RCM_HALF_WIDTH ||
                     pointer.worldY > y + halfHeight ||
                     pointer.worldX < x - this.RCM_HALF_WIDTH ||
-                    pointer.worldY < y - halfHeight //buffer
+                    pointer.worldY < y - halfHeight
                 ) {
                     menu.destroy();
                 }
