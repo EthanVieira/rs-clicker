@@ -67,7 +67,6 @@ export class ShopScene extends Phaser.Scene {
             y: 100,
             textStartOffsetX: 30,
             textStartOffsetY: 0,
-            textEndPadding: 0,
             width: 450,
             height: 214,
             numColumns: 3,

@@ -25,7 +25,6 @@ export class MusicPanel {
             y: 262,
             textStartOffsetX: 30,
             textStartOffsetY: 0,
-            textEndPadding: 0,
             width: 185,
             height: 186,
             numColumns: 1,

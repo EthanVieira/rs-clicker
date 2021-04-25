@@ -48,7 +48,6 @@ export class ChatScene extends Phaser.Scene {
                 y: 345,
                 textStartOffsetX: 30,
                 textStartOffsetY: 0,
-                textEndPadding: 0,
                 width: 515,
                 height: 113,
                 numColumns: 1,

@@ -10,7 +10,7 @@ export class QuestList {
     button;
     scrollWindow;
 
-    isText;
+    isTextVisible;
 
     constructor(dashboard) {
         this.dashboard = dashboard;
@@ -38,7 +38,6 @@ export class QuestList {
             y: 251,
             textStartOffsetX: 30,
             textStartOffsetY: 5,
-            textEndPadding: 10,
             width: 190,
             height: 214,
             numColumns: 1,

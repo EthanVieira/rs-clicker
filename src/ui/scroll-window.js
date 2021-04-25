@@ -6,7 +6,6 @@ export class ScrollWindow extends Phaser.Scene {
         y: 0,
         textStartOffsetX: 30,
         textStartOffsetY: 0,
-        textEndPadding: 0,
         width: 0,
         height: 0,
         numColumns: 0,

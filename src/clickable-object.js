@@ -68,12 +68,8 @@ export class ClickableObject {
                     pointer.worldX < x - this.RCM_HALF_WIDTH ||
                     pointer.worldY < y - halfHeight //buffer
                 ) {
-                    console.log("destroying?");
                     menu.destroy();
                 }
-            })
-            .on("pointerover", () => {
-                console.log("over");
             })
             .on("pointerdown", () => {
                 menu.destroy();
@@ -82,17 +78,6 @@ export class ClickableObject {
         // Add text options
         // Have to use two separate texts per option for different colors
         menu.add(menuBox);
-        // menu.setInteractive(new Phaser.Geom.Rectangle);
-        // menu.on("pointerout", (pointer) => {
-        //     if (
-        //         pointer.worldX > x + this.RCM_HALF_WIDTH ||
-        //         pointer.worldY > y + halfHeight ||
-        //         pointer.worldX < x - this.RCM_HALF_WIDTH ||
-        //         pointer.worldY < y - halfHeight // buffer
-        //     ) {
-        //         this.destroy();
-        //     }
-        // });
         let optionsY = 20 + (y - menuBox.height / 2);
 
         // Generate dynamic list of actions (wield, bury, etc.)
