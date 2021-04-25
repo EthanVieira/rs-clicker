@@ -1,15 +1,9 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Scimitar from "../scimitar.js";
 
-export default class SteelScimitar extends Equipment {
-    // Attack types
-    slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.MELEE;
-    style = EQUIPMENT.ATTACK_STYLE.SLASH;
-
+export default class BronzeScimitar extends Scimitar {
     // Attack bonuses
-    stabBonus = 3;
-    slashBonus = 15;
+    stabBonus = 1;
+    slashBonus = 7;
     crushBonus = -2;
     rangedBonus = 0;
     magicBonus = 0;
@@ -22,21 +16,21 @@ export default class SteelScimitar extends Equipment {
     rangedDefenseBonus = 0;
 
     // Other bonuses
-    strengthBonus = 14;
+    strengthBonus = 6;
     rangedStrengthBonus = 0;
     magicStrengthBonus = 0;
     prayerBonus = 0;
 
     // Text data
-    name = "Steel Scimitar";
+    name = "Bronze Scimitar";
     item = "Scimitar";
-    type = "Steel";
+    type = "Bronze";
     examineText = "A vicious, curved sword.";
 
     // Other
-    cost = 400;
+    cost = 32;
     requiredLevels = {
-        attack: 5,
+        attack: 1,
     };
 
     constructor(scene) {

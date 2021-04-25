@@ -1,15 +1,9 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Sword from "../sword.js";
 
-export default class BronzeSword extends Equipment {
-    // Attack types
-    slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.MELEE;
-    style = EQUIPMENT.ATTACK_STYLE.STAB;
-
+export default class SteelSword extends Sword {
     // Attack bonuses
-    stabBonus = 4;
-    slashBonus = 3;
+    stabBonus = 11;
+    slashBonus = 8;
     crushBonus = -2;
     rangedBonus = 0;
     magicBonus = 0;
@@ -22,21 +16,21 @@ export default class BronzeSword extends Equipment {
     rangedDefenseBonus = 0;
 
     // Other bonuses
-    strengthBonus = 5;
+    strengthBonus = 12;
     rangedStrengthBonus = 0;
     magicStrengthBonus = 0;
     prayerBonus = 0;
 
     // Text data
-    name = "Bronze Sword";
+    name = "Steel Sword";
     item = "Sword";
-    type = "Bronze";
+    type = "Steel";
     examineText = "A razor sharp sword.";
 
     // Other
-    cost = 26;
+    cost = 325;
     requiredLevels = {
-        attack: 1,
+        attack: 5,
     };
 
     constructor(scene) {

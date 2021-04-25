@@ -1,16 +1,10 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Pickaxe from "../pickaxe.js";
 
-export default class BronzePickaxe extends Equipment {
-    // Attack types
-    slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.MELEE;
-    style = EQUIPMENT.ATTACK_STYLE.STAB;
-
+export default class SteelPickaxe extends Pickaxe {
     // Attack bonuses
-    stabBonus = 4;
+    stabBonus = 8;
     slashBonus = -2;
-    crushBonus = 2;
+    crushBonus = 6;
     magicBonus = 0;
     rangedBonus = 0;
 
@@ -22,22 +16,22 @@ export default class BronzePickaxe extends Equipment {
     rangedDefenseBonus = 0;
 
     // Other bonuses
-    strengthBonus = 5;
+    strengthBonus = 9;
     rangedStrengthBonus = 0;
     magicStrengthBonus = 0;
     prayerBonus = 0;
 
     // Text data
-    name = "Bronze Pickaxe";
+    name = "Steel Pickaxe";
     item = "Pickaxe";
-    type = "Bronze";
+    type = "Steel";
     examineText = "Used for mining.";
 
     // Other
-    cost = 15;
+    cost = 500;
     requiredLevels = {
-        attack: 1,
-        mining: 1,
+        attack: 5,
+        mining: 6,
     };
 
     constructor(scene) {

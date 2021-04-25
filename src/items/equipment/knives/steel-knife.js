@@ -1,11 +1,6 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Knife from "../knife.js";
 
-export default class SteelKnife extends Equipment {
-    // Attack types
-    slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.RANGED;
-
+export default class SteelKnife extends Knife {
     // Attack Bonuses
     rangedBonus = 8;
 

@@ -1,16 +1,10 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Axe from "../axe.js";
 
-export default class SteelAxe extends Equipment {
-    // Attack types
-    slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.MELEE;
-    style = EQUIPMENT.ATTACK_STYLE.SLASH;
-
+export default class BronzeAxe extends Axe {
     // Attack bonuses
     stabBonus = -2;
-    slashBonus = 8;
-    crushBonus = 6;
+    slashBonus = 4;
+    crushBonus = 2;
     magicBonus = 0;
     rangedBonus = 0;
 
@@ -22,22 +16,22 @@ export default class SteelAxe extends Equipment {
     rangedDefenseBonus = 0;
 
     // Other bonuses
-    strengthBonus = 9;
+    strengthBonus = 5;
     rangedStrengthBonus = 0;
     magicStrengthBonus = 0;
     prayerBonus = 0;
 
     // Text data
-    name = "Steel Axe";
+    name = "Bronze Axe";
     item = "Axe";
-    type = "Steel";
+    type = "Bronze";
     examineText = "A woodcutter's axe.";
 
     // Other
-    cost = 200;
+    cost = 16;
     requiredLevels = {
-        attack: 5,
-        woodcutting: 6,
+        attack: 1,
+        woodcutting: 1,
     };
 
     constructor(scene) {

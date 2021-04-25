@@ -1,12 +1,6 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Dagger from "../dagger.js";
 
-export default class BronzeDagger extends Equipment {
-    // Attack types
-    slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.MELEE;
-    style = EQUIPMENT.ATTACK_STYLE.STAB;
-
+export default class BronzeDagger extends Dagger {
     // Bonuses
     stabBonus = 4;
     slashBonus = 2;
