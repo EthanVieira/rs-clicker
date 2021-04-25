@@ -1,11 +1,6 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Bow from "../bow.js";
 
-export default class NormalShortbow extends Equipment {
-    // Attack types
-    slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.RANGED;
-
+export default class NormalShortbow extends Bow {
     // Attack Bonuses
     rangedBonus = 8;
 

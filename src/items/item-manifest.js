@@ -2,7 +2,7 @@ import { CONSTANTS } from "../constants/constants.js";
 
 export var itemManifest = {
     AirStaff: {
-        classPath: "./equipment/air-staff.js",
+        classPath: "./equipment/staves/air-staff.js",
         imagePath: "weapons/AirStaff.png",
         imageName: "air-staff",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
@@ -26,7 +26,7 @@ export var itemManifest = {
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     BronzeCrossbow: {
-        classPath: "./equipment/bronze-crossbow.js",
+        classPath: "./equipment/bows/bronze-crossbow.js",
         imagePath: "weapons/BronzeCrossbow.png",
         imageName: "bronze-crossbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
@@ -102,19 +102,19 @@ export var itemManifest = {
         type: CONSTANTS.ITEM_TYPES.TOOL,
     },
     MagicStaff: {
-        classPath: "./equipment/magic-staff.js",
+        classPath: "./equipment/staves/magic-staff.js",
         imagePath: "weapons/MagicStaff.png",
         imageName: "magic-staff",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
     NormalShortbow: {
-        classPath: "./equipment/normal-shortbow.js",
+        classPath: "./equipment/bows/normal-shortbow.js",
         imagePath: "weapons/Shortbow.png",
         imageName: "shortbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
     NormalStaff: {
-        classPath: "./equipment/normal-staff.js",
+        classPath: "./equipment/staves/normal-staff.js",
         imagePath: "weapons/Staff.png",
         imageName: "staff",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
@@ -131,7 +131,7 @@ export var itemManifest = {
         imageName: "bones",
     },
     OakShortbow: {
-        classPath: "./equipment/oak-shortbow.js",
+        classPath: "./equipment/bows/oak-shortbow.js",
         imagePath: "weapons/OakShortbow.png",
         imageName: "oak-shortbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
@@ -149,7 +149,7 @@ export var itemManifest = {
         type: CONSTANTS.ITEM_TYPES.TOOL,
     },
     SteelCrossbow: {
-        classPath: "./equipment/steel-crossbow.js",
+        classPath: "./equipment/bows/steel-crossbow.js",
         imagePath: "weapons/SteelCrossbow.png",
         imageName: "steel-crossbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,

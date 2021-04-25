@@ -1,11 +1,6 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Staff from "../staff.js";
 
-export default class NormalStaff extends Equipment {
-    // Attack types
-    slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.MAGIC;
-
+export default class NormalStaff extends Staff {
     // Attack bonuses
     slashBonus = -1;
     crushBonus = 7;
