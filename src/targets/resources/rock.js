@@ -1,4 +1,4 @@
-import { Resource } from "../resource.js";
+import { Resource } from "./resource.js";
 
 export class Rock extends Resource {
     requiredLevels;

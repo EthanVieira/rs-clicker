@@ -1,5 +1,5 @@
-import { Item } from "./item.js";
-import { characterData } from "../cookie-io.js";
+import { Item } from "../item.js";
+import { characterData } from "../../cookie-io.js";
 
 export default class Bones extends Item {
     prayerXp = 0;

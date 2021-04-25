@@ -1,4 +1,4 @@
-import Tool from "../tool.js";
+import Tool from "./tool.js";
 
 export default class Knife extends Tool {
     // Item data

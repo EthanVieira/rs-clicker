@@ -1,4 +1,4 @@
-import Logs from "../logs.js";
+import Logs from "./logs.js";
 
 export default class OakLogs extends Logs {
     // Text data

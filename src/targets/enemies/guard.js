@@ -1,4 +1,4 @@
-import { Enemy } from "../enemy.js";
+import { Enemy } from "./enemy.js";
 import NormalBones from "../../items/bones/normal-bones.js";
 
 export class Guard extends Enemy {

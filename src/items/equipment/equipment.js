@@ -1,13 +1,13 @@
-import { Item } from "./item.js";
-import { CONSTANTS, OBJECT_TYPES } from "../constants/constants.js";
+import { Item } from "../item.js";
+import { CONSTANTS, OBJECT_TYPES } from "../../constants/constants.js";
 import {
     calcLevel,
     getItemClass,
     capitalize,
     aOrAn,
     getRequiredCombatSkill,
-} from "../utilities.js";
-import { characterData } from "../cookie-io.js";
+} from "../../utilities.js";
+import { characterData } from "../../cookie-io.js";
 
 export default class Equipment extends Item {
     // Attack bonuses

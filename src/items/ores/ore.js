@@ -1,10 +1,6 @@
-import { Item } from "./item.js";
+import { Item } from "../item.js";
 
-export default class Bar extends Item {
-    xp = 0;
-    ores = [];
-    smeltingErrorMessage = "Insufficient ingredients.";
-
+export default class Ore extends Item {
     constructor() {
         super();
     }

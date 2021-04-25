@@ -1,4 +1,4 @@
-import { Currency } from "../currency.js";
+import { Currency } from "./currency.js";
 
 export default class Coin extends Currency {
     // Item data

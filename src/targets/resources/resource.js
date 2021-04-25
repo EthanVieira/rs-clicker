@@ -1,8 +1,8 @@
-import { ProgressBar } from "../ui/progress-bar.js";
-import { CONSTANTS } from "../constants/constants.js";
-import { calcLevel } from "../utilities.js";
-import { Target } from "./target.js";
-import { characterData } from "../cookie-io.js";
+import { ProgressBar } from "../../ui/progress-bar.js";
+import { CONSTANTS } from "../../constants/constants.js";
+import { calcLevel } from "../../utilities.js";
+import { Target } from "../target.js";
+import { characterData } from "../../cookie-io.js";
 
 export class Resource extends Target {
     skill = "";

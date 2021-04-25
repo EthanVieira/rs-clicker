@@ -1,4 +1,4 @@
-import Ore from "../ore.js";
+import Ore from "./ore.js";
 
 export default class TinOre extends Ore {
     // Text data

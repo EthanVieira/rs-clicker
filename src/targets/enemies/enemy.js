@@ -1,8 +1,8 @@
-import { HealthBar } from "../ui/health-bar.js";
-import { Target } from "./target.js";
-import { OBJECT_TYPES, EQUIPMENT } from "../constants/constants.js";
-import { calcLevel, getRequiredCombatSkill } from "../utilities.js";
-import { characterData } from "../cookie-io.js";
+import { HealthBar } from "../../ui/health-bar.js";
+import { Target } from "../target.js";
+import { OBJECT_TYPES, EQUIPMENT } from "../../constants/constants.js";
+import { calcLevel, getRequiredCombatSkill } from "../../utilities.js";
+import { characterData } from "../../cookie-io.js";
 
 export class Enemy extends Target {
     blueHitsplat;

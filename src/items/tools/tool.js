@@ -1,7 +1,7 @@
-import { Item } from "./item.js";
-import { getItemClass } from "../utilities.js";
-import { characterData } from "../cookie-io.js";
-import { CONSTANTS } from "../constants/constants.js";
+import { Item } from "../item.js";
+import { getItemClass } from "../../utilities.js";
+import { characterData } from "../../cookie-io.js";
+import { CONSTANTS } from "../../constants/constants.js";
 
 export default class Tool extends Item {
     canCraft = true;
