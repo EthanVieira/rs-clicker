@@ -92,7 +92,7 @@ export class QuestList {
                 }
             }
         });
-        this.scrollWindow.refresh();
+        this.scrollWindow.refresh(true);
         this.scrollWindow.setVisible(this.isTextVisible);
     }
 

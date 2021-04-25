@@ -63,7 +63,7 @@ export class ScrollWindow extends Phaser.Scene {
         });
     }
 
-    refresh() {
+    refresh(preserveState = false) {
         let data = this.format;
         // Destroy previous scroll bar if it exists
         if (this.scrollHeader != undefined) {
@@ -202,10 +202,12 @@ export class ScrollWindow extends Phaser.Scene {
                 });
 
                 // If refreshing when scrolled down, update to previously scrolled position
-                let deltaY =
-                    (this.curScrollBarY - this.scrollBar.y) /
-                    (remainingScrollBarDist / remainingListDist);
-                this.scroll(deltaY);
+                if (preserveState) {
+                    let deltaY =
+                        (this.curScrollBarY - this.scrollBar.y) /
+                        (remainingScrollBarDist / remainingListDist);
+                    this.scroll(deltaY);
+                }
             }
         }
     }
