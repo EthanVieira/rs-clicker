@@ -25,12 +25,25 @@ export class ClickableObject {
     }
 
     createRightClickMenu(x, y, actions) {
-        let menu = this.scene.add.container(0, 0).setDepth(5);
-
         let numActions = actions.length; // not including cancel
         let halfHeight = this.RCM_HALF_HEIGHTS[numActions - 1];
 
-        y += halfHeight;
+        // In order to get phaser to register a 'pointerout' event,
+        // it first has to have registered it as 'pointerover'.
+        // If you hold down right click without moving the mouse, no further mouse input
+        // is detected. This means that the pointer is not yet registered as being over the menu.
+        // (i.e. while pointerdown, no pointerup and no pointer movement = no pointerover).
+        // So if you move it off of the menu quick enough such that the next mouse input shows
+        // it is not over the menu, the menu will not get destroyed.
+
+        // This buffer is the number of pixels your mouse is below the top of the menu
+        // when it is created. Four seemed to be the optimal number of making it sufficiently difficult
+        // to reproduce the above bug while not having the pointer be too far down the list on creation.
+        const buffer = 5;
+
+        y += halfHeight - buffer;
+
+        let menu = this.scene.add.container(0, 0).setDepth(5);
 
         // Ensure the menu doesn't go off screen
         if (x + this.RCM_HALF_WIDTH > SCREEN.WIDTH) {
@@ -40,7 +53,7 @@ export class ClickableObject {
         }
 
         if (y + 2 * halfHeight > SCREEN.HEIGHT) {
-            y = SCREEN.HEIGHT - 2 * halfHeight;
+            y = SCREEN.HEIGHT - (2 * halfHeight - buffer);
         } else if (y < 0) {
             y = 0;
         }
@@ -53,7 +66,7 @@ export class ClickableObject {
                     pointer.worldX > x + this.RCM_HALF_WIDTH ||
                     pointer.worldY > y + halfHeight ||
                     pointer.worldX < x - this.RCM_HALF_WIDTH ||
-                    pointer.worldY < y - 10 // buffer
+                    pointer.worldY < y - halfHeight
                 ) {
                     menu.destroy();
                 }

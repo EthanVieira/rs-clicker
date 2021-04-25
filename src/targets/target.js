@@ -37,7 +37,7 @@ export class Target extends ClickableObject {
                 .setScale(image.scale)
                 .setInteractive()
                 .on("pointerdown", (pointer) => {
-                    if (pointer.rightButtonDown()) {
+                    if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
                         this.createRightClickMenu(pointer.x, pointer.y, this.actions);
                     } else {
                         this.clickTarget();
