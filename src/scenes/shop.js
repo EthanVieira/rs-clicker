@@ -44,7 +44,7 @@ export class ShopScene extends Phaser.Scene {
     create() {
         // Run chat scene but hide the bottom buttons after create
         this.scene.run(CONSTANTS.SCENES.CHAT);
-        let chatScene = this.scene.get(CONSTANTS.SCENES.CHAT);
+        const chatScene = this.scene.get(CONSTANTS.SCENES.CHAT);
         chatScene.events.once("create", () => {
             chatScene.hideButtons();
         });
@@ -168,17 +168,17 @@ export class ShopScene extends Phaser.Scene {
     // Display the loaded images in the shop
     async displayItems(itemType) {
         if (itemType == "CLAN") {
-            for (let clickerName in autoclickerManifest) {
-                let clicker = await getAutoclickerClass(clickerName, this.scrollWindow);
+            for (const clickerName in autoclickerManifest) {
+                const clicker = await getAutoclickerClass(clickerName, this.scrollWindow);
                 clicker.createText(true);
                 clicker.setVisible(false);
                 this.shopIcons.push(clicker);
             }
         } else {
             // Load all items in that category
-            for (let item in itemManifest) {
+            for (const item in itemManifest) {
                 if (itemManifest[item].type == itemType) {
-                    let newItem = await getItemClass(item, this.scrollWindow);
+                    const newItem = await getItemClass(item, this.scrollWindow);
 
                     // Create sprite
                     newItem.createShopSprite(20, 100);

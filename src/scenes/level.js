@@ -104,7 +104,7 @@ export class LevelScene extends Phaser.Scene {
         this.add.image(0, 0, "overlay").setOrigin(0, 0).setDepth(1);
 
         // Exit button
-        let exitButton = this.add
+        this.add
             .image(this.width - 30, 0, "exit-button")
             .setOrigin(0, 0)
             .setDepth(2)
@@ -158,7 +158,7 @@ export class LevelScene extends Phaser.Scene {
 
             if (!characterData.getQuestCompleted(this.currentLevel)) {
                 // Check for level completion.
-                let questCompleted = this.targets.every((enemy) =>
+                const questCompleted = this.targets.every((enemy) =>
                     // A level is considered complete when
                     // all of the tier 1 (index 0) quests are complete.
                     characterData.getEnemiesKilled(
@@ -207,7 +207,7 @@ export class LevelScene extends Phaser.Scene {
             switch (this.resourceType) {
                 case CONSTANTS.RESOURCES.WOOD:
                     if (curWeapon?.item != "Axe") {
-                        const i = await inventory.getKeywordInInventory("Axe", true, [
+                        const i = inventory.getKeywordInInventory("Axe", true, [
                             "woodcutting",
                         ]);
                         curWeapon = inventory.inventory[i];
@@ -215,7 +215,7 @@ export class LevelScene extends Phaser.Scene {
                     break;
                 case CONSTANTS.RESOURCES.ORE:
                     if (curWeapon?.item != "Pickaxe") {
-                        const i = await inventory.getKeywordInInventory("Pickaxe", true, [
+                        const i = inventory.getKeywordInInventory("Pickaxe", true, [
                             "mining",
                         ]);
                         curWeapon = inventory.inventory[i];
@@ -261,7 +261,7 @@ export class LevelScene extends Phaser.Scene {
         }
 
         // Add animation image
-        let image = this.add
+        const image = this.add
             .image(startX, startY, imageName)
             .setScale(scale)
             .setDepth(4)
@@ -269,7 +269,7 @@ export class LevelScene extends Phaser.Scene {
             .setFlipX(flipX);
 
         // Move animation
-        let endX = Math.floor(this.width / 2) - 100,
+        const endX = Math.floor(this.width / 2) - 100,
             endY = Math.floor(this.height / 2);
         this.tweens.add({
             targets: image,

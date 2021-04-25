@@ -24,11 +24,11 @@ export class Resource extends Target {
     }
 
     async isClickable() {
-        let curWeapon = this.scene.dashboard.equipment.equipment.WEAPON;
-        let inventory = this.scene.dashboard.inventory;
-        let chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        const curWeapon = this.scene.dashboard.equipment.equipment.WEAPON;
+        const inventory = this.scene.dashboard.inventory;
+        const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         let toolKeyword = "";
-        let skillLevel = calcLevel(characterData.getSkillXp(this.skill));
+        const skillLevel = calcLevel(characterData.getSkillXp(this.skill));
 
         // Skill level too low
         if (skillLevel < this.requiredLevels[this.skill]) {
@@ -61,7 +61,7 @@ export class Resource extends Target {
         }
 
         // Check inventory
-        const i = await inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
+        const i = inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
         if (i >= 0 && skillLevel >= inventory.inventory[i].requiredLevels[this.skill]) {
             return true;
         } else {
