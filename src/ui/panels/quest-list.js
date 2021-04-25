@@ -10,8 +10,7 @@ export class QuestList {
     button;
     scrollWindow;
 
-    textGroup = [];
-    isTextVisible = false;
+    isTextVisible;
 
     constructor(dashboard) {
         this.dashboard = dashboard;
@@ -35,12 +34,13 @@ export class QuestList {
         // Quest list scroll window
         this.scrollWindow = new ScrollWindow({
             name: "quests",
-            x: 542,
+            x: 526,
             y: 251,
-            width: 175,
+            textStartOffsetY: 5,
+            width: 190,
             height: 214,
             numColumns: 1,
-            padding: 10,
+            padding: 3,
         });
         this.dashboard.scene.add(this.scrollWindow.name, this.scrollWindow, true);
         this.scrollWindow.refresh();
@@ -55,8 +55,7 @@ export class QuestList {
     }
 
     async refreshQuests() {
-        let numRows = 0;
-        this.clearText();
+        this.scrollWindow.clearObjects();
         characterData.getUnlockedLevels().forEach((level) => {
             let scene = this.dashboard.scene.get(level);
             let enemies = characterData.getEnemiesInLevel(level);
@@ -73,10 +72,10 @@ export class QuestList {
                     let printedAmount =
                         enemiesKilled > questAmount ? questAmount : enemiesKilled;
                     // TODO: make the quests text align so it looks better
-                    let questText = this.dashboard.add
+                    let questText = this.scrollWindow.add
                         .text(
-                            555,
-                            256 + 15 * numRows,
+                            0,
+                            0,
                             printedAmount +
                                 "/" +
                                 questAmount +
@@ -89,12 +88,12 @@ export class QuestList {
                             }
                         )
                         .setDepth(3);
-                    questText.visible = this.isTextVisible;
-                    this.textGroup.push(questText);
-                    numRows++;
+                    this.scrollWindow.addObject(questText);
                 }
             }
         });
+        this.scrollWindow.refresh(true);
+        this.scrollWindow.setVisible(this.isTextVisible);
     }
 
     show(isVisible = true) {
@@ -109,18 +108,8 @@ export class QuestList {
 
         this.panel.visible = isVisible;
         this.scrollWindow.setVisible(isVisible);
-        this.textGroup.forEach((text) => {
-            text.visible = isVisible;
-        });
 
         this.isTextVisible = isVisible;
-    }
-
-    clearText() {
-        this.textGroup.forEach((text) => {
-            text.destroy();
-        });
-        this.textGroup = [];
     }
 
     destroy() {

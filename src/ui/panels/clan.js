@@ -94,7 +94,7 @@ export class Clan {
             member.setVisible(false);
             member.start(this.dashboard.currentScene);
             this.clanMembers.push(member);
-            this.scrollWindow.addObject(member);
+            this.scrollWindow.addObject(member.text);
         }
     }
 
