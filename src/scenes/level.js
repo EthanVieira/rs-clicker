@@ -189,8 +189,7 @@ export class LevelScene extends Phaser.Scene {
 
     async clickAnimation() {
         // Animation settings
-        let image = {},
-            imageName = "",
+        let imageName = "",
             startX = 0,
             startY = 0,
             scale = 1,
@@ -198,14 +197,54 @@ export class LevelScene extends Phaser.Scene {
             alpha = 1,
             flipX = false;
 
-        // Get current weapon image
+        // Default to using currently equipped weapon
         let curWeapon = this.dashboard.equipment.equipment.WEAPON;
+        let useWeapon = true;
 
-        if (
-            curWeapon &&
-            this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY
-        ) {
-            // Get animation data from weapon obj
+        if (this.levelType == CONSTANTS.LEVEL_TYPE.RESOURCE) {
+            const inventory = this.dashboard.inventory;
+
+            switch (this.resourceType) {
+                case CONSTANTS.RESOURCES.WOOD:
+                    if (curWeapon.item != "Axe") {
+                        const i = await inventory.getKeywordInInventory("Axe", true, [
+                            "woodcutting",
+                        ]);
+                        curWeapon = inventory[i];
+                    }
+                    break;
+                case CONSTANTS.RESOURCES.ORE:
+                    if (curWeapon.item != "Pickaxe") {
+                        const i = await inventory.getKeywordInInventory("Pickaxe", true, [
+                            "mining",
+                        ]);
+                        curWeapon = inventory[i];
+                    }
+                    break;
+                default:
+                    console.log("Error: this resource type does not exist.", this.resourceType);
+                    return;
+            }
+        } else if (this.levelType == CONSTANTS.LEVEL_TYPE.CRAFTING) {
+            imageName = "furnace-hands";
+            scale = .7;
+            startX = 450;
+            startY = 400;
+
+            useWeapon = false;
+        }
+        // No weapon, use fist
+        else if (!curWeapon) {
+            imageName = "fist";
+            scale = 1;
+            startX = 450;
+            startY = 400;
+
+            useWeapon = false;
+        }
+
+        // Get animation data from weapon obj
+        if (useWeapon) {
             ({
                 imageName,
                 startX,
@@ -219,66 +258,10 @@ export class LevelScene extends Phaser.Scene {
             if (imageName == "") {
                 imageName = curWeapon.sprite.texture.key + "-model";
             }
-        } else if (this.levelType == CONSTANTS.LEVEL_TYPE.RESOURCE) {
-            let inventory = this.scene.get(CONSTANTS.SCENES.DASHBOARD).inventory;
-            let toolEquipped = false;
-            let i = -1;
-
-            switch (this.resourceType) {
-                case CONSTANTS.RESOURCES.WOOD:
-                    if (curWeapon.item == "Axe") {
-                        toolEquipped = true;
-                    } else {
-                        i = await inventory.getKeywordInInventory("Axe", true, [
-                            "woodcutting",
-                        ]);
-                    }
-                    break;
-                case CONSTANTS.RESOURCES.ORE:
-                    if (curWeapon.item == "Pickaxe") {
-                        toolEquipped = true;
-                    } else {
-                        i = await inventory.getKeywordInInventory("Pickaxe", true, [
-                            "mining",
-                        ]);
-                    }
-                    break;
-                default:
-                    console.log("Error: this resource type does not exist.");
-                    break;
-            }
-
-            if (toolEquipped) {
-                imageName = curWeapon.sprite.texture.key + "-model";
-            } else {
-                let itemObj = await getItemClass(
-                    characterData.getInventory()[i].item,
-                    this.scene.get(CONSTANTS.SCENES.DASHBOARD)
-                );
-                itemObj.createSprite(0, 0);
-
-                imageName = itemObj.sprite.texture.key + "-model";
-            }
-
-            scale = 0.5;
-            flipX = true;
-            startX = 450;
-            startY = 200;
-        } else if (this.levelType == CONSTANTS.LEVEL_TYPE.CRAFTING) {
-            imageName = "furnace-hands";
-            scale = .7;
-            startX = 450;
-            startY = 400;
-        } else {
-            // Fist animation
-            imageName = "fist";
-            scale = 1;
-            startX = 450;
-            startY = 400;
         }
 
         // Add animation image
-        image = this.add
+        let image = this.add
             .image(startX, startY, imageName)
             .setScale(scale)
             .setDepth(4)
