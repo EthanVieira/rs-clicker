@@ -36,7 +36,6 @@ export class QuestList {
             name: "quests",
             x: 526,
             y: 251,
-            textStartOffsetX: 30,
             textStartOffsetY: 5,
             width: 190,
             height: 214,

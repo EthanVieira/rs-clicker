@@ -23,8 +23,6 @@ export class MusicPanel {
             name: "music",
             x: 527,
             y: 262,
-            textStartOffsetX: 30,
-            textStartOffsetY: 0,
             width: 185,
             height: 186,
             numColumns: 1,

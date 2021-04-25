@@ -30,8 +30,12 @@ export class ScrollWindow extends Phaser.Scene {
         this.name = "scroll-window" + data.name;
         this.format.x = data.x;
         this.format.y = data.y;
-        this.format.textStartOffsetX = data.textStartOffsetX;
-        this.format.textStartOffsetY = data.textStartOffsetY;
+        if (data.textStartOffsetX != undefined) {
+            this.format.textStartOffsetX = data.textStartOffsetX;
+        }
+        if (data.textStartOffsetY != undefined) {
+            this.format.textStartOffsetY = data.textStartOffsetY;
+        }
         this.format.width = data.width;
         this.format.height = data.height;
         this.format.numColumns = data.numColumns;

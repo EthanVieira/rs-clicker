@@ -39,8 +39,6 @@ export class Clan {
             name: "clans",
             x: 535,
             y: 280,
-            textStartOffsetX: 30,
-            textStartOffsetY: 0,
             width: 175,
             height: 140,
             numColumns: 1,
