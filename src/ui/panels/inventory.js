@@ -90,50 +90,39 @@ export class Inventory {
     // be used for sorting inventory items that match the keyword.
     async getKeywordInInventory(keyword, mustBeUsable = false, skillsRequired = []) {
         if (mustBeUsable) {
-            let playerItems = characterData
-                .getInventory()
-                .filter(
-                    (item) => item && item.item.includes(keyword)
-                );
+            // Filter items that match keyword and are useable
+            let playerItems = this.inventory.filter((item) => {
+                if (item && item.requiredLevels) {
+                    const matchesKey = item.item.includes(keyword);
+                    const canUseItem = skillsRequired.every(
+                        (skill) =>
+                            calcLevel(characterData.getSkillXp(skill)) >=
+                            item.requiredLevels[skill]
+                    );
 
-            let itemClasses = [];
-            for (let i = 0; i < playerItems.length; i++) {
-                let itemClass = await getItemClass(playerItems[i].item, this.scene);
-                itemClasses.push(itemClass);
-            }
+                    return matchesKey && canUseItem;
+                } else {
+                    return false;
+                }
+            });
+
+            // Get strongest item
+            playerItems.sort(
+                (a, b) =>
+                    b.requiredLevels[skillsRequired[0]] -
+                    a.requiredLevels[skillsRequired[0]]
+            );
 
             if (playerItems.length > 0) {
-                itemClasses.sort(
-                    (a, b) =>
-                        b.requiredLevels[skillsRequired[0]] -
-                        a.requiredLevels[skillsRequired[0]]
-                );
-
-                for (let i = 0; i < itemClasses.length; i++) {
-                    let canUseItem = true;
-                    for (let j = 0; j < skillsRequired.length; j++) {
-                        canUseItem &=
-                            calcLevel(characterData.getSkillXp(skillsRequired[j])) >=
-                            itemClasses[i].requiredLevels[skillsRequired[j]];
-                    }
-                    if (canUseItem) {
-                        return characterData
-                            .getInventory()
-                            .indexOf(
-                                playerItems.filter(
-                                    (item) => item.item == itemClasses[i].constructor.name
-                                )[0]
-                            );
-                    }
-                }
+                return playerItems[0].index;
+            } else {
+                return -1;
             }
         } else {
             return characterData
                 .getInventory()
                 .findIndex((item) => item.item.includes(keyword));
         }
-
-        return -1;
     }
 
     // Add to first available slot
@@ -189,14 +178,14 @@ export class Inventory {
     }
 
     getGold() {
-        let playerItems = characterData.getInventory();
-        for (let i = 0; i < playerItems.length; i++) {
-            if (playerItems[i] && playerItems[i].item == Coin.name) {
-                return this.inventory[i].numItems;
-            }
+        const i = characterData
+            .getInventory()
+            .findIndex((item) => item && item.item == Coin.name);
+        if (i >= 0) {
+            return this.inventory[i].numItems;
+        } else {
+            return 0;
         }
-
-        return 0;
     }
 
     selectItem(index) {

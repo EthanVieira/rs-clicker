@@ -157,17 +157,16 @@ export class LevelScene extends Phaser.Scene {
             characterData.incEnemiesKilled(this.currentLevel, name);
 
             if (!characterData.getQuestCompleted(this.currentLevel)) {
-                let questCompleted = true;
-                this.targets.forEach((enemy) => {
-                    // Check for level completion.
+                // Check for level completion.
+                let questCompleted = this.targets.every((enemy) =>
                     // A level is considered complete when
                     // all of the tier 1 (index 0) quests are complete.
-                    questCompleted &=
-                        characterData.getEnemiesKilled(
-                            this.currentLevel,
-                            enemy.varName
-                        ) >= this.questAmounts[enemy.varName][0];
-                });
+                    characterData.getEnemiesKilled(
+                        this.currentLevel,
+                        enemy.varName
+                    ) >= this.questAmounts[enemy.varName][0]
+                );
+
                 // Set as complete if all passed
                 if (questCompleted) {
                     console.log("Quest complete!");
@@ -207,19 +206,19 @@ export class LevelScene extends Phaser.Scene {
 
             switch (this.resourceType) {
                 case CONSTANTS.RESOURCES.WOOD:
-                    if (curWeapon.item != "Axe") {
+                    if (curWeapon?.item != "Axe") {
                         const i = await inventory.getKeywordInInventory("Axe", true, [
                             "woodcutting",
                         ]);
-                        curWeapon = inventory[i];
+                        curWeapon = inventory.inventory[i];
                     }
                     break;
                 case CONSTANTS.RESOURCES.ORE:
-                    if (curWeapon.item != "Pickaxe") {
+                    if (curWeapon?.item != "Pickaxe") {
                         const i = await inventory.getKeywordInInventory("Pickaxe", true, [
                             "mining",
                         ]);
-                        curWeapon = inventory[i];
+                        curWeapon = inventory.inventory[i];
                     }
                     break;
                 default:
