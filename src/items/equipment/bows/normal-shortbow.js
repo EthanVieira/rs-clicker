@@ -1,4 +1,4 @@
-import Bow from "../bow.js";
+import Bow from "./bow.js";
 
 export default class NormalShortbow extends Bow {
     // Attack Bonuses

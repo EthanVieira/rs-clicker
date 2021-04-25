@@ -1,4 +1,4 @@
-import Dagger from "../dagger.js";
+import Dagger from "./dagger.js";
 
 export default class SteelDagger extends Dagger {
     // Bonuses

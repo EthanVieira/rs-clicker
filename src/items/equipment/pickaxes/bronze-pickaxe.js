@@ -1,4 +1,4 @@
-import Pickaxe from "../pickaxe.js";
+import Pickaxe from "./pickaxe.js";
 
 export default class BronzePickaxe extends Pickaxe {
     // Attack bonuses

@@ -1,5 +1,5 @@
-import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../constants/constants.js";
+import Equipment from "../../equipment.js";
+import { EQUIPMENT } from "../../../constants/constants.js";
 
 export default class Sword extends Equipment {
     // Attack types

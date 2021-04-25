@@ -1,4 +1,4 @@
-import Sword from "../sword.js";
+import Sword from "./sword.js";
 
 export default class BronzeSword extends Sword {
     // Attack bonuses

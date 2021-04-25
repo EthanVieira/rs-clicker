@@ -1,4 +1,4 @@
-import Axe from "../axe.js";
+import Axe from "./axe.js";
 
 export default class BronzeAxe extends Axe {
     // Attack bonuses

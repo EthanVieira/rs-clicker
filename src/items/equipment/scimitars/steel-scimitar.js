@@ -1,4 +1,4 @@
-import Scimitar from "../scimitar.js";
+import Scimitar from "./scimitar.js";
 
 export default class SteelScimitar extends Scimitar {
     // Attack bonuses

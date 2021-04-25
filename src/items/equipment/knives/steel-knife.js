@@ -1,4 +1,4 @@
-import Knife from "../knife.js";
+import Knife from "./knife.js";
 
 export default class SteelKnife extends Knife {
     // Attack Bonuses

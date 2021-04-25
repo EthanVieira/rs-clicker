@@ -1,4 +1,4 @@
-import Staff from "../staff.js";
+import Staff from "./staff.js";
 
 export default class MagicStaff extends Staff {
     // Attack bonuses
