@@ -14,7 +14,7 @@ export const defaultData = {
         { item: "BronzeAxe", count: 1 },
         { item: "BronzePickaxe", count: 1 },
         { item: "Knife", count: 1 },
-        { item: "Coin", count: 250000000 },
+        { item: "Coin", count: 25 },
     ],
     equipment: {
         WEAPON: "",
@@ -61,10 +61,10 @@ export const defaultData = {
         },
         LUMBRIDGE: {
             questCompleted: false,
-            unlocked: true,
+            unlocked: false,
             enemiesKilled: {
-                cow: 100,
-                goblin: 100,
+                cow: 0,
+                goblin: 0,
             },
         },
         LUMBRIDGE_TREES: {
@@ -72,39 +72,39 @@ export const defaultData = {
             // Didn't want to implement the logic to discern between levels for this yet as the
             // Quest text will soon change anyway
             questCompleted: false,
-            unlocked: true,
+            unlocked: false,
             enemiesKilled: {
-                tree: 100,
+                tree: 0,
             },
         },
         AL_KHARID_FURNACE: {
             questCompleted: false,
-            unlocked: true,
+            unlocked: false,
             enemiesKilled: {
                 bar: 0,
             },
         },
         VARROCK_MINE: {
             questCompleted: false,
-            unlocked: true,
+            unlocked: false,
             enemiesKilled: {
-                copperRock: 100,
-                tinRock: 100,
+                copperRock: 0,
+                tinRock: 0,
             },
         },
         VARROCK: {
             questCompleted: false,
-            unlocked: true,
+            unlocked: false,
             enemiesKilled: {
-                darkWizard: 170,
-                guard: 170,
+                darkWizard: 0,
+                guard: 0,
             },
         },
         BARBARIAN_VILLAGE: {
             questCompleted: false,
-            unlocked: true,
+            unlocked: false,
             enemiesKilled: {
-                barbarian: 170,
+                barbarian: 0,
             },
         },
     },
