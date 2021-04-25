@@ -93,12 +93,12 @@ export class LevelScene extends Phaser.Scene {
         this.minimap.obj = this.add
             .image(570, 0, this.minimap.name)
             .setOrigin(0, 0)
-            .setDepth(0);
-        this.minimap.obj.setInteractive();
-        this.minimap.obj.on("pointerup", () => {
-            this.scene.start(CONSTANTS.SCENES.MAP);
-            console.log("Going to World Map");
-        });
+            .setDepth(0)
+            .setInteractive()
+            .on("pointerup", () => {
+                this.scene.start(CONSTANTS.SCENES.MAP);
+                console.log("Going to World Map");
+            });
 
         // Overlay
         this.add.image(0, 0, "overlay").setOrigin(0, 0).setDepth(1);
@@ -108,10 +108,10 @@ export class LevelScene extends Phaser.Scene {
             .image(this.width - 30, 0, "exit-button")
             .setOrigin(0, 0)
             .setDepth(2)
-            .setInteractive();
-        exitButton.on("pointerup", () => {
-            this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
-        });
+            .setInteractive()
+            .on("pointerup", () => {
+                this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
+            });
 
         // Create targets
         this.targetMetaData.forEach((target) => {
@@ -201,6 +201,7 @@ export class LevelScene extends Phaser.Scene {
         let curWeapon = this.dashboard.equipment.equipment.WEAPON;
         let useWeapon = true;
 
+        // Find correct item for resource if it's not equipped
         if (this.levelType == CONSTANTS.LEVEL_TYPE.RESOURCE) {
             const inventory = this.dashboard.inventory;
 
