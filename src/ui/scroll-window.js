@@ -4,6 +4,9 @@ export class ScrollWindow extends Phaser.Scene {
     format = {
         x: 0,
         y: 0,
+        textStartOffsetX: 30,
+        textStartOffsetY: 0,
+        textEndPadding: 0,
         width: 0,
         height: 0,
         numColumns: 0,
@@ -14,6 +17,7 @@ export class ScrollWindow extends Phaser.Scene {
     listHeight = 0;
     listDelta = 30;
     curDirection = 0;
+    curScrollBarY = 0;
 
     // Images
     scrollHeader;
@@ -27,6 +31,8 @@ export class ScrollWindow extends Phaser.Scene {
         this.name = "scroll-window" + data.name;
         this.format.x = data.x;
         this.format.y = data.y;
+        this.format.textStartOffsetX = data.textStartOffsetX;
+        this.format.textStartOffsetY = data.textStartOffsetY;
         this.format.width = data.width;
         this.format.height = data.height;
         this.format.numColumns = data.numColumns;
@@ -106,8 +112,8 @@ export class ScrollWindow extends Phaser.Scene {
         // Create scroll bar if needed
         if (data.objects.length > 0) {
             // Position objects
-            let xInit = 30,
-                yInit = 0,
+            let xInit = this.format.textStartOffsetX,
+                yInit = this.format.textStartOffsetY,
                 row = 0,
                 column = 0;
             let xDiff = (data.width - 20) / data.numColumns;
@@ -191,6 +197,12 @@ export class ScrollWindow extends Phaser.Scene {
                         this.scroll();
                     }
                 });
+
+                // If refreshing when scrolled down, update to previously scrolled position
+                let deltaY =
+                    (this.curScrollBarY - this.scrollBar.y) /
+                    (remainingScrollBarDist / remainingListDist);
+                this.scroll(deltaY);
             }
         }
     }
@@ -223,6 +235,7 @@ export class ScrollWindow extends Phaser.Scene {
             ) {
                 // Scroll objects
                 this.scrollBar.y += scrollBarDelta;
+                this.curScrollBarY = this.scrollBar.y;
                 this.format.objects.forEach((object) => {
                     object.setY(object.y - deltaY);
                 });

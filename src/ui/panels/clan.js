@@ -39,6 +39,9 @@ export class Clan {
             name: "clans",
             x: 535,
             y: 280,
+            textStartOffsetX: 30,
+            textStartOffsetY: 0,
+            textEndPadding: 0,
             width: 175,
             height: 140,
             numColumns: 1,
@@ -94,7 +97,7 @@ export class Clan {
             member.setVisible(false);
             member.start(this.dashboard.currentScene);
             this.clanMembers.push(member);
-            this.scrollWindow.addObject(member);
+            this.scrollWindow.addObject(member.text);
         }
     }
 

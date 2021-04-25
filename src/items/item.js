@@ -59,7 +59,10 @@ export class Item extends ClickableObject {
             .setDepth(4)
             .setInteractive()
             .on("pointerdown", (pointer) => {
-                if (pointer.rightButtonDown()) {
+                // Need to make sure left button isn't down to fix a bug where left clicking
+                // immediately after would trigger this twice and on the second time the
+                // right button would still be considered down, creating two menus
+                if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
                     this.createRightClickMenu(pointer.x, pointer.y, this.actions);
                 } else {
                     this.leftClick();
