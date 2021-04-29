@@ -1,6 +1,6 @@
-import Bow from "./bow.js";
+import Crossbow from "./crossbow.js";
 
-export default class SteelCrossbow extends Bow {
+export default class SteelCrossbow extends Crossbow {
     // Attack Bonuses
     rangedBonus = 54;
 

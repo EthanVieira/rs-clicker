@@ -26,7 +26,7 @@ export var itemManifest = {
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     BronzeCrossbow: {
-        classPath: "./equipment/bows/bronze-crossbow.js",
+        classPath: "./equipment/crossbows/bronze-crossbow.js",
         imagePath: "weapons/BronzeCrossbow.png",
         imageName: "bronze-crossbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
@@ -149,7 +149,7 @@ export var itemManifest = {
         type: CONSTANTS.ITEM_TYPES.TOOL,
     },
     SteelCrossbow: {
-        classPath: "./equipment/bows/steel-crossbow.js",
+        classPath: "./equipment/crossbows/steel-crossbow.js",
         imagePath: "weapons/SteelCrossbow.png",
         imageName: "steel-crossbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,

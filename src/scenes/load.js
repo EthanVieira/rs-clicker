@@ -162,6 +162,7 @@ export class LoadScene extends Phaser.Scene {
         // For attack animations
         this.load.image("fist", "src/assets/effects/Fist.png");
         this.load.image("bronze-arrow", "src/assets/effects/BronzeArrow.png");
+        this.load.image("bronze-bolt", "src/assets/effects/BronzeBolt.png");
         this.load.image("fire-bolt", "src/assets/effects/FireBolt.png");
         this.load.image("furnace-hands", "src/assets/effects/FurnaceHands.png");
     }
