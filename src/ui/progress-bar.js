@@ -53,11 +53,7 @@ export class ProgressBar {
         return completed;
     }
 
-    show() {
-        this.progressBar.visible = true;
-    }
-
-    hide() {
-        this.progressBar.visible = false;
+    setVisible(isVisible = true) {
+        this.progressBar.visible = isVisible;
     }
 }

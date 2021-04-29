@@ -97,22 +97,20 @@ export class Target extends ClickableObject {
     }
 
     showRandomTarget() {
-        this.hide();
+        this.setVisible(false);
         let index = Math.floor(Math.random() * this.scene.targets.length);
         this.scene.currentTargetIndex = index;
-        this.scene.targets[index].show();
+        this.scene.targets[index].setVisible();
     }
 
-    show() {
+    setVisible(isVisible = true) {
         // Show a random image if there are multiple
-        let index = Math.floor(Math.random() * this.images.length);
-        this.curTarget = this.targets[index];
-        this.curTarget.visible = true;
-        this.progressBar.show();
-    }
+        if (isVisible) {
+            let index = Math.floor(Math.random() * this.images.length);
+            this.curTarget = this.targets[index];
+        }
 
-    hide() {
-        this.curTarget.visible = false;
-        this.progressBar.hide();
+        this.curTarget.visible = isVisible;
+        this.progressBar.setVisible(isVisible);
     }
 }

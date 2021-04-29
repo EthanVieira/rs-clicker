@@ -1,4 +1,4 @@
-import Bar from "../bar.js";
+import Bar from "./bar.js";
 
 export default class BronzeBar extends Bar {
     // Text data

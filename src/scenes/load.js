@@ -75,12 +75,12 @@ export class LoadScene extends Phaser.Scene {
         });
         this.assetText.setOrigin(0.5, 0.5);
 
-        let _this = this;
-        this.load.on("fileprogress", function (file) {
+        const _this = this;
+        this.load.on("fileprogress", (file) => {
             _this.assetText.text = "Loading asset: " + file.key;
         });
 
-        this.load.on("progress", function (value, file) {
+        this.load.on("progress", (value, file) => {
             _this.percentImagesLoaded = value;
             _this.updateProgress();
         });
@@ -143,7 +143,7 @@ export class LoadScene extends Phaser.Scene {
 
         // Load all items in item manifest
         path = "src/assets/items/icons/";
-        let modelPath = "src/assets/items/models/";
+        const modelPath = "src/assets/items/models/";
         Object.entries(itemManifest).forEach(([item, itemObj]) => {
             if (itemObj.type == CONSTANTS.ITEM_TYPES.CURRENCY) {
                 itemObj.imageName.forEach((name, i) => {
@@ -162,6 +162,7 @@ export class LoadScene extends Phaser.Scene {
         // For attack animations
         this.load.image("fist", "src/assets/effects/Fist.png");
         this.load.image("bronze-arrow", "src/assets/effects/BronzeArrow.png");
+        this.load.image("bronze-bolt", "src/assets/effects/BronzeBolt.png");
         this.load.image("fire-bolt", "src/assets/effects/FireBolt.png");
         this.load.image("furnace-hands", "src/assets/effects/FurnaceHands.png");
     }
@@ -173,12 +174,12 @@ export class LoadScene extends Phaser.Scene {
 
         // Launch audio scene in parallel
         this.scene.launch(CONSTANTS.SCENES.AUDIO);
-        let audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
+        const audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
         audioScene.playBgm("scape-main");
     }
     updateProgress() {
-        let itemLoadPercent = this.numItemsLoaded / this.totalItems;
-        let totalLoadPercent = this.percentImagesLoaded / 2 + itemLoadPercent / 2;
+        const itemLoadPercent = this.numItemsLoaded / this.totalItems;
+        const totalLoadPercent = this.percentImagesLoaded / 2 + itemLoadPercent / 2;
         this.percentText.setText(
             "Loading good ol rs stuff " + parseInt(totalLoadPercent * 100) + "%"
         );
@@ -189,7 +190,7 @@ export class LoadScene extends Phaser.Scene {
 
     // Load item classes
     async loadItems() {
-        for (let item in itemManifest) {
+        for (const item in itemManifest) {
             setItemClass(item, await import("../items/" + itemManifest[item].classPath));
             this.numItemsLoaded++;
             this.assetText.text = "Loading asset: " + item;
@@ -208,7 +209,8 @@ export class LoadScene extends Phaser.Scene {
             font: "18px runescape",
         });
 
-        let lesserDemonSprite = this.add
+        // Add clickable lesser demon
+        this.add
             .image(750, 600, "lesser-demon")
             .setInteractive()
             .on("pointerup", () => {

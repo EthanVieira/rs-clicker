@@ -10,7 +10,7 @@ export class AudioScene extends Phaser.Scene {
     bgm = {};
     sfx = {};
     audioLoaded = false;
-    previousVolume = [2, 2, 2];
+    previousVolume = [0.5, 0.5, 0.5];
     currentSongName = "";
     queuedSongName = "";
 

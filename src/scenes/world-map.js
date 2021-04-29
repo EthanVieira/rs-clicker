@@ -25,7 +25,7 @@ export class WorldMapScene extends Phaser.Scene {
         this.currentWidth = window.innerWidth - 10;
         this.currentHeight = window.innerHeight - 10;
         // Background
-        let map = this.add.image(0, 0, "world-map").setOrigin(0, 0).setDepth(0);
+        const map = this.add.image(0, 0, "world-map").setOrigin(0, 0).setDepth(0);
 
         // Exit button
         this.exitButton = this.add
@@ -37,7 +37,7 @@ export class WorldMapScene extends Phaser.Scene {
                 this.scene.start(characterData.getCurrentLevel());
             });
 
-        let levelConfig = [
+        const levelConfig = [
             {
                 text: "Tutorial Island",
                 condition: true,
@@ -105,7 +105,7 @@ export class WorldMapScene extends Phaser.Scene {
         const { startX, startY } = this.setMapLocation();
 
         // Group objects together
-        let container = this.add.container(startX, startY);
+        const container = this.add.container(startX, startY);
         container.add(map);
 
         levelConfig.forEach((level) => {
@@ -118,7 +118,7 @@ export class WorldMapScene extends Phaser.Scene {
             }
 
             // Create text
-            let text = this.add
+            const text = this.add
                 .text(level.x, level.y, level.text, fontStyle)
                 .setDepth(1)
                 .setInteractive()
@@ -139,8 +139,8 @@ export class WorldMapScene extends Phaser.Scene {
             Phaser.Geom.Rectangle.Contains
         );
         this.input.setDraggable(container);
-        let _this = this;
-        this.input.on("drag", function (pointer, gameObject, dragX, dragY) {
+        const _this = this;
+        this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
             if (MAP.WIDTH - _this.currentWidth + dragX > 0 && dragX < 0) {
                 gameObject.x = dragX;
             }

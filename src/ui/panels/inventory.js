@@ -24,7 +24,7 @@ export class Inventory {
             .on("pointerdown", () => {
                 this.scene.hideAllMenus();
 
-                this.show(true);
+                this.setVisible();
                 this.button.setAlpha(0.1);
             });
 
@@ -32,21 +32,19 @@ export class Inventory {
         this.refreshInventory();
 
         // Show by default
-        this.show();
+        this.setVisible();
     }
 
     // Load inventory on startup
     async refreshInventory() {
-        let playerItems = characterData.getInventory();
-        for (let i = 0; i < playerItems.length; i++) {
-            let item = playerItems[i];
-            if (Object.keys(item).length) {
+        characterData.getInventory().forEach(async (item, i) => {
+            if (item) {
                 // Create item from name
-                let itemObj = await getItemClass(item.item, this.scene);
+                const itemObj = await getItemClass(item.item, this.scene);
                 itemObj.setNumItems(item.count);
                 this.addToInventoryAtIndex(itemObj, i);
             }
-        }
+        });
     }
 
     // Add to specific index
@@ -71,7 +69,7 @@ export class Inventory {
         }
 
         // Hide if inventory is not selected
-        let showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY;
+        const showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY;
         item.setVisible(showItem);
 
         // Add object to the scene
@@ -79,69 +77,58 @@ export class Inventory {
     }
 
     getInventoryIndex(itemName) {
-        return characterData.getInventory().findIndex((item) => item.item == itemName);
+        return characterData
+            .getInventory()
+            .findIndex((item) => item && item.item == itemName);
     }
 
     // Returns first instance of an item in inventory
     // that contains the given keyword in its name.
     // The first skill included in skillsRequired will
     // be used for sorting inventory items that match the keyword.
-    async getKeywordInInventory(keyword, mustBeUsable = false, skillsRequired = []) {
+    getKeywordInInventory(keyword, mustBeUsable = false, skillsRequired = []) {
         if (mustBeUsable) {
-            let playerItems = characterData
-                .getInventory()
-                .filter(
-                    (item) => Object.keys(item).length && item.item.includes(keyword)
-                );
+            // Filter items that match keyword and are useable
+            const playerItems = this.inventory.filter((item) => {
+                if (item && item.requiredLevels) {
+                    const matchesKey = item.item.includes(keyword);
+                    const canUseItem = skillsRequired.every(
+                        (skill) =>
+                            calcLevel(characterData.getSkillXp(skill)) >=
+                            item.requiredLevels[skill]
+                    );
 
-            let itemClasses = [];
-            for (let i = 0; i < playerItems.length; i++) {
-                let itemClass = await getItemClass(playerItems[i].item, this.scene);
-                itemClasses.push(itemClass);
-            }
+                    return matchesKey && canUseItem;
+                } else {
+                    return false;
+                }
+            });
+
+            // Get strongest item
+            playerItems.sort(
+                (a, b) =>
+                    b.requiredLevels[skillsRequired[0]] -
+                    a.requiredLevels[skillsRequired[0]]
+            );
 
             if (playerItems.length > 0) {
-                itemClasses.sort(
-                    (a, b) =>
-                        b.requiredLevels[skillsRequired[0]] -
-                        a.requiredLevels[skillsRequired[0]]
-                );
-
-                for (let i = 0; i < itemClasses.length; i++) {
-                    let canUseItem = true;
-                    for (let j = 0; j < skillsRequired.length; j++) {
-                        canUseItem &=
-                            calcLevel(characterData.getSkillXp(skillsRequired[j])) >=
-                            itemClasses[i].requiredLevels[skillsRequired[j]];
-                    }
-                    if (canUseItem) {
-                        return characterData
-                            .getInventory()
-                            .indexOf(
-                                playerItems.filter(
-                                    (item) => item.item == itemClasses[i].constructor.name
-                                )[0]
-                            );
-                    }
-                }
+                return playerItems[0].index;
+            } else {
+                return -1;
             }
         } else {
             return characterData
                 .getInventory()
                 .findIndex((item) => item.item.includes(keyword));
         }
-
-        return -1;
     }
 
     // Add to first available slot
     addToInventory(item, createSprite = true) {
-        let playerItems = characterData.getInventory();
-
         // Check if it can stack with other items
         let i = this.getInventoryIndex(item.constructor.name);
         if (i >= 0 && item.stackable) {
-            let curItem = this.inventory[i];
+            const curItem = this.inventory[i];
 
             // Update the item in the game
             curItem.setNumItems(curItem.numItems + item.numItems);
@@ -160,60 +147,58 @@ export class Inventory {
         }
 
         // Search for empty slot
-        for (let i = 0; i < playerItems.length; i++) {
-            const itemExists = Object.keys(playerItems[i]).length;
+        const playerItems = characterData.getInventory();
+        i = playerItems.findIndex((item) => !item);
 
-            // Check if slot is empty
-            if (!itemExists) {
-                this.addToInventoryAtIndex(item, i, createSprite);
-                return true;
-            }
+        // Found a slot
+        if (i >= 0) {
+            this.addToInventoryAtIndex(item, i, createSprite);
+            return true;
         }
-
         // Add to end
-        if (playerItems.length < 28) {
+        else if (playerItems.length < 28) {
             this.addToInventoryAtIndex(item, playerItems.length, createSprite);
             return true;
-        } else {
+        }
+        // No slot available
+        else {
             console.log("Inventory is full");
             return false;
         }
     }
 
     addGold(amount) {
-        let gold = new Coin(this.scene);
+        const gold = new Coin(this.scene);
         gold.numItems = amount;
         this.addToInventory(gold);
         this.stats.updateTotalEarnedGold(amount);
     }
 
     getGold() {
-        let playerItems = characterData.getInventory();
-        for (let i = 0; i < playerItems.length; i++) {
-            const itemExists = Object.keys(playerItems[i]).length;
-
-            if (itemExists && playerItems[i].item == Coin.name) {
-                return this.inventory[i].numItems;
-            }
+        const i = characterData
+            .getInventory()
+            .findIndex((item) => item && item.item == Coin.name);
+        if (i >= 0) {
+            return this.inventory[i].numItems;
+        } else {
+            return 0;
         }
-
-        return 0;
     }
 
     selectItem(index) {
-        let item1 = this.inventory[this.curSelectedItemIndex];
+        const item1 = this.inventory[this.curSelectedItemIndex];
 
         // Unselect item
         if (index == this.curSelectedItemIndex) {
             this.curSelectedItemIndex = -1;
         }
         // Select item
-        else if (this.curSelectedItemIndex < 0 || !Object.keys(item1).length) {
+        else if (this.curSelectedItemIndex < 0 || !item1) {
             this.curSelectedItemIndex = index;
         }
         // Combine items
         else {
-            let item2 = this.inventory[index];
+            const item2 = this.inventory[index];
 
             // Attempt to craft
             if (item1.canCraft) {
@@ -227,7 +212,7 @@ export class Inventory {
         }
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.scene.currentPanel = CONSTANTS.PANEL.INVENTORY;
             this.button.setAlpha(0.1); // Unselected inventory icon
@@ -236,7 +221,7 @@ export class Inventory {
         }
 
         this.inventory.forEach((item) => {
-            if (Object.keys(item).length) {
+            if (item) {
                 item.setVisible(isVisible);
             }
         });
@@ -244,9 +229,10 @@ export class Inventory {
 
     destroy() {
         this.inventory.forEach((item) => {
-            if (Object.keys(item).length) {
+            if (item) {
                 item.destroy(false);
             }
         });
+        this.inventory = [];
     }
 }

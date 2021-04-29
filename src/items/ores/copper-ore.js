@@ -1,4 +1,4 @@
-import Ore from "../ore.js";
+import Ore from "./ore.js";
 
 export default class CopperOre extends Ore {
     // Text data

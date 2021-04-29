@@ -1,4 +1,4 @@
-import Bones from "../bones.js";
+import Bones from "./bones.js";
 
 export default class NormalBones extends Bones {
     // Text data

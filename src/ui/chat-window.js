@@ -83,7 +83,7 @@ export class ChatScene extends Phaser.Scene {
         this.chatButton = new Button(this, 5, 480, 58, 22, { depth: 1 });
         this.chatButton.on("pointerup", () => {
             this.chatWindow.visible = !this.visible;
-            this.show(!this.visible);
+            this.setVisible(!this.visible);
         });
 
         // Add bug report button
@@ -101,7 +101,7 @@ export class ChatScene extends Phaser.Scene {
         this.userMessage = this.add.text(60, 458, "*", FONTS.PROMPT_INPUT).setDepth(8);
         this.userMessage.visible = false;
 
-        this.show(false);
+        this.setVisible(false);
     }
 
     // Takes in text, refreshes display, and shows notification button
@@ -110,7 +110,7 @@ export class ChatScene extends Phaser.Scene {
             this.writeStrings({ x: 0, text, format });
 
             if (!this.visible) {
-                this.show(false);
+                this.setVisible(false);
                 this.showNotification();
             }
 
@@ -283,7 +283,7 @@ export class ChatScene extends Phaser.Scene {
         );
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (!this.isPromptOpen) {
             runOnLoad(this, () => {
                 this.visible = isVisible;
@@ -317,7 +317,7 @@ export class ChatScene extends Phaser.Scene {
     // Show object info in chat window
     showObjectInfo(isVisible, object = false, isShop = false) {
         if (object && isVisible) {
-            this.show();
+            this.setVisible();
 
             // Load bigger window and clear text on shop scene
             if (isShop) {
@@ -362,7 +362,7 @@ export class ChatScene extends Phaser.Scene {
                 this.scrollWindow.showScrollBar(false);
             }
         } else {
-            this.show(false);
+            this.setVisible(false);
         }
     }
 
@@ -370,7 +370,7 @@ export class ChatScene extends Phaser.Scene {
     // Right now it is specifically for selling X amount of an item
     prompt(promptText, item) {
         const originallyVisible = this.visible;
-        this.show(false);
+        this.setVisible(false);
         this.isPromptOpen = true;
 
         let promptObjs = [];
@@ -439,7 +439,7 @@ export class ChatScene extends Phaser.Scene {
         });
 
         this.isPromptOpen = false;
-        this.show(showChat);
+        this.setVisible(showChat);
     }
 
     allowTyping() {
@@ -502,7 +502,7 @@ export class ChatScene extends Phaser.Scene {
             // esc
             if (event.keyCode == 27) {
                 if (this.userMessage.text == "") {
-                    this.show(false);
+                    this.setVisible(false);
                 } else {
                     this.userMessage.text = "";
                 }

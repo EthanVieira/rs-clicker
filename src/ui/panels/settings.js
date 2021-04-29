@@ -26,7 +26,7 @@ export class Settings {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.show();
+                this.setVisible();
             });
 
         // Place sliders, Volume / SFX / Environment
@@ -71,7 +71,7 @@ export class Settings {
             });
 
         // Hide settings panel on startup
-        this.show(false);
+        this.setVisible(false);
     }
 
     updateVolume() {
@@ -105,7 +105,7 @@ export class Settings {
         gameObject.x = volume * diffX + this.sliderMin;
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.dashboard.hideAllMenus();
             this.dashboard.currentPanel = CONSTANTS.PANEL.SETTINGS;

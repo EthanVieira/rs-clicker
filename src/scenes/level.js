@@ -93,25 +93,25 @@ export class LevelScene extends Phaser.Scene {
         this.minimap.obj = this.add
             .image(570, 0, this.minimap.name)
             .setOrigin(0, 0)
-            .setDepth(0);
-        this.minimap.obj.setInteractive();
-        this.minimap.obj.on("pointerup", () => {
-            this.scene.start(CONSTANTS.SCENES.MAP);
-            console.log("Going to World Map");
-        });
+            .setDepth(0)
+            .setInteractive()
+            .on("pointerup", () => {
+                this.scene.start(CONSTANTS.SCENES.MAP);
+                console.log("Going to World Map");
+            });
 
         // Overlay
         this.add.image(0, 0, "overlay").setOrigin(0, 0).setDepth(1);
 
         // Exit button
-        let exitButton = this.add
+        this.add
             .image(this.width - 30, 0, "exit-button")
             .setOrigin(0, 0)
             .setDepth(2)
-            .setInteractive();
-        exitButton.on("pointerup", () => {
-            this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
-        });
+            .setInteractive()
+            .on("pointerup", () => {
+                this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
+            });
 
         // Create targets
         this.targetMetaData.forEach((target) => {
@@ -119,7 +119,7 @@ export class LevelScene extends Phaser.Scene {
         });
 
         // Display a target
-        this.targets[this.currentTargetIndex].show();
+        this.targets[this.currentTargetIndex].setVisible();
 
         // Scene destructor
         this.events.once("shutdown", () => {
@@ -127,7 +127,7 @@ export class LevelScene extends Phaser.Scene {
 
             // Hide dashboard and stats
             const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
-            chatScene.show(false);
+            chatScene.setVisible(false);
             this.scene.stop(CONSTANTS.SCENES.CHAT);
             this.scene.stop(CONSTANTS.SCENES.DASHBOARD);
             this.scene.stop(CONSTANTS.SCENES.STATS);
@@ -157,17 +157,16 @@ export class LevelScene extends Phaser.Scene {
             characterData.incEnemiesKilled(this.currentLevel, name);
 
             if (!characterData.getQuestCompleted(this.currentLevel)) {
-                let questCompleted = true;
-                this.targets.forEach((enemy) => {
-                    // Check for level completion.
+                // Check for level completion.
+                const questCompleted = this.targets.every((enemy) =>
                     // A level is considered complete when
                     // all of the tier 1 (index 0) quests are complete.
-                    questCompleted &=
-                        characterData.getEnemiesKilled(
-                            this.currentLevel,
-                            enemy.varName
-                        ) >= this.questAmounts[enemy.varName][0];
-                });
+                    characterData.getEnemiesKilled(
+                        this.currentLevel,
+                        enemy.varName
+                    ) >= this.questAmounts[enemy.varName][0]
+                );
+
                 // Set as complete if all passed
                 if (questCompleted) {
                     console.log("Quest complete!");
@@ -189,8 +188,7 @@ export class LevelScene extends Phaser.Scene {
 
     async clickAnimation() {
         // Animation settings
-        let image = {},
-            imageName = "",
+        let imageName = "",
             startX = 0,
             startY = 0,
             scale = 1,
@@ -198,125 +196,72 @@ export class LevelScene extends Phaser.Scene {
             alpha = 1,
             flipX = false;
 
-        // Get current weapon image
+        // Default to using currently equipped weapon
         let curWeapon = this.dashboard.equipment.equipment.WEAPON;
+        let useWeapon = true;
 
-        if (
-            Object.keys(curWeapon).length &&
-            this.levelType == CONSTANTS.LEVEL_TYPE.ENEMY
-        ) {
-            // Set animation based on current weapon
-            switch (curWeapon.skill) {
-                case EQUIPMENT.WEAPON_TYPES.MELEE:
-                    imageName = curWeapon.sprite.texture.key + "-model";
-                    scale = 0.5;
-
-                    // Different animations for different attack styles
-                    switch (curWeapon.style) {
-                        case EQUIPMENT.ATTACK_STYLE.STAB:
-                            startX = 200;
-                            startY = 430;
-                            break;
-                        case EQUIPMENT.ATTACK_STYLE.CRUSH:
-                            startX = 450;
-                            startY = 200;
-                            break;
-                        case EQUIPMENT.ATTACK_STYLE.SLASH:
-                            curve = 1;
-                            startX = 450;
-                            startY = 400;
-                            break;
-                    }
-
-                    if (curWeapon.item == "Axe" || curWeapon.item == "Pickaxe") {
-                        flipX = true;
-                        startX = 450;
-                        startY = 200;
-                    }
-                    break;
-
-                // Ranged uses arrows
-                case EQUIPMENT.WEAPON_TYPES.RANGED:
-                    imageName = "bronze-arrow";
-                    scale = 0.8;
-                    curve = 1;
-                    startX = 470;
-                    startY = 350;
-                    break;
-
-                // Magic uses spells
-                case EQUIPMENT.WEAPON_TYPES.MAGIC:
-                    imageName = "fire-bolt";
-                    scale = 0.3;
-                    curve = 0.5;
-                    startX = 470;
-                    startY = 350;
-                    alpha = 0.5;
-                    break;
-                default:
-                    console.log("Error: item does not have attack type");
-                    break;
-            }
-        } else if (this.levelType == CONSTANTS.LEVEL_TYPE.RESOURCE) {
-            let inventory = this.scene.get(CONSTANTS.SCENES.DASHBOARD).inventory;
-            let toolEquipped = false;
-            let i = -1;
+        // Find correct item for resource if it's not equipped
+        if (this.levelType == CONSTANTS.LEVEL_TYPE.RESOURCE) {
+            const inventory = this.dashboard.inventory;
 
             switch (this.resourceType) {
                 case CONSTANTS.RESOURCES.WOOD:
-                    if (curWeapon.item == "Axe") {
-                        toolEquipped = true;
-                    } else {
-                        i = await inventory.getKeywordInInventory("Axe", true, [
+                    if (curWeapon?.item != "Axe") {
+                        const i = inventory.getKeywordInInventory("Axe", true, [
                             "woodcutting",
                         ]);
+                        curWeapon = inventory.inventory[i];
                     }
                     break;
                 case CONSTANTS.RESOURCES.ORE:
-                    if (curWeapon.item == "Pickaxe") {
-                        toolEquipped = true;
-                    } else {
-                        i = await inventory.getKeywordInInventory("Pickaxe", true, [
+                    if (curWeapon?.item != "Pickaxe") {
+                        const i = inventory.getKeywordInInventory("Pickaxe", true, [
                             "mining",
                         ]);
+                        curWeapon = inventory.inventory[i];
                     }
                     break;
                 default:
-                    console.log("Error: this resource type does not exist.");
-                    break;
+                    console.log("Error: this resource type does not exist.", this.resourceType);
+                    return;
             }
-
-            if (toolEquipped) {
-                imageName = curWeapon.sprite.texture.key + "-model";
-            } else {
-                let itemObj = await getItemClass(
-                    characterData.getInventory()[i].item,
-                    this.scene.get(CONSTANTS.SCENES.DASHBOARD)
-                );
-                itemObj.createSprite(0, 0);
-
-                imageName = itemObj.sprite.texture.key + "-model";
-            }
-
-            scale = 0.5;
-            flipX = true;
-            startX = 450;
-            startY = 200;
         } else if (this.levelType == CONSTANTS.LEVEL_TYPE.CRAFTING) {
             imageName = "furnace-hands";
             scale = .7;
             startX = 450;
             startY = 400;
-        } else {
-            // Fist animation
+
+            useWeapon = false;
+        }
+        // No weapon, use fist
+        else if (!curWeapon) {
             imageName = "fist";
             scale = 1;
             startX = 450;
             startY = 400;
+
+            useWeapon = false;
+        }
+
+        // Get animation data from weapon obj
+        if (useWeapon) {
+            ({
+                imageName,
+                startX,
+                startY,
+                scale,
+                curve,
+                alpha,
+                flipX
+            } = curWeapon.animation);
+
+            if (imageName == "") {
+                imageName = curWeapon.sprite.texture.key + "-model";
+            }
         }
 
         // Add animation image
-        image = this.add
+        const image = this.add
             .image(startX, startY, imageName)
             .setScale(scale)
             .setDepth(4)
@@ -324,7 +269,7 @@ export class LevelScene extends Phaser.Scene {
             .setFlipX(flipX);
 
         // Move animation
-        let endX = Math.floor(this.width / 2) - 100,
+        const endX = Math.floor(this.width / 2) - 100,
             endY = Math.floor(this.height / 2);
         this.tweens.add({
             targets: image,

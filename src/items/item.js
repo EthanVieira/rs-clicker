@@ -48,7 +48,7 @@ export class Item extends ClickableObject {
             this.numItemsText.destroy();
         }
 
-        let spritePath =
+        const spritePath =
             this.name == "Coin"
                 ? getGoldStackType(this.numItems) + "-stack"
                 : itemManifest[this.constructor.name].imageName;
@@ -71,7 +71,7 @@ export class Item extends ClickableObject {
         this.displayHeight = this.sprite.displayHeight;
 
         // Add text in top left for stackable items
-        let [visualNum, fillColor] = this.getItemText(this.numItems);
+        const [visualNum, fillColor] = this.getItemText(this.numItems);
         this.numItemsText = this.scene.add
             .text(x - 15, y - 18, visualNum, {
                 font: "12px runescape",
@@ -79,14 +79,14 @@ export class Item extends ClickableObject {
             })
             .setDepth(5);
 
-        let isVisible = this.numItems <= 1 ? false : this.isVisible;
+        const isVisible = this.numItems <= 1 ? false : this.isVisible;
         this.numItemsText.visible = isVisible;
         this.sprite.visible = isVisible;
     }
 
     // Need offset for where scroll window is placed as coordinates are relative
     createShopSprite(offsetX, offsetY) {
-        let shopActions = [{ text: "Buy", func: "buy" }];
+        const shopActions = [{ text: "Buy", func: "buy" }];
 
         this.sprite = this.scene.add
             .image(0, 0, itemManifest[this.constructor.name].imageName + "-model")
@@ -113,13 +113,13 @@ export class Item extends ClickableObject {
     }
 
     async buy() {
-        let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        const dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
         if (dashboard.inventory.getGold() >= this.cost) {
             console.log("Buying", this.name);
             this.scene.scene.get(CONSTANTS.SCENES.AUDIO).playSfx("purchase");
 
             // Create new non-shop item
-            let boughtItem = await getItemClass(this.constructor.name, dashboard);
+            const boughtItem = await getItemClass(this.constructor.name, dashboard);
             if (dashboard.inventory.addToInventory(boughtItem)) {
                 dashboard.inventory.addGold(-1 * this.cost);
             }
@@ -150,11 +150,11 @@ export class Item extends ClickableObject {
     }
 
     sellX(x) {
-        let dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
-        let chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        const dashboard = this.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
-        let numSold = Math.min(this.numItems, x);
-        let sellAmount = Math.round(this.cost / 2) * numSold;
+        const numSold = Math.min(this.numItems, x);
+        const sellAmount = Math.round(this.cost / 2) * numSold;
         chat.writeText(
             "Selling " + numSold + " " + this.name + " for " + sellAmount + " gold."
         );
@@ -168,7 +168,7 @@ export class Item extends ClickableObject {
     }
 
     promptSellX() {
-        let chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+        const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         chat.prompt("Enter Amount:", this);
     }
 
@@ -195,7 +195,7 @@ export class Item extends ClickableObject {
             // Update text
             if (this.numItemsText != undefined) {
                 // Set format/color based on the amount
-                let [visualNum, fillColor] = this.getItemText(num);
+                const [visualNum, fillColor] = this.getItemText(num);
 
                 // Can't change text while in different scene (like the shop)
                 if (this.scene.scene.isActive()) {
@@ -213,7 +213,7 @@ export class Item extends ClickableObject {
         }
     }
 
-    setVisible(isVisible) {
+    setVisible(isVisible = true) {
         this.isVisible = isVisible;
         if (this.sprite != undefined && this.sprite != null) {
             this.sprite.visible = isVisible;
@@ -229,7 +229,7 @@ export class Item extends ClickableObject {
     destroy(deleteCookies = true) {
         // Remove from inventory
         if (deleteCookies && this.index >= 0) {
-            characterData.setInventory(this.index, "");
+            characterData.setInventory(this.index, null);
         }
 
         // Destroy objects

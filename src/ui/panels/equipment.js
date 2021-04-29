@@ -10,10 +10,10 @@ export class Equipment {
 
     // Images
     equipment = {
-        WEAPON: {},
+        WEAPON: null,
     };
     slotBg = {
-        WEAPON: {},
+        WEAPON: null,
     };
 
     constructor(scene) {
@@ -32,7 +32,7 @@ export class Equipment {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.show();
+                this.setVisible();
             });
 
         this.slotBg.WEAPON = scene.add
@@ -44,7 +44,7 @@ export class Equipment {
         this.refreshEquipment();
 
         // Default to hidden
-        this.show(false);
+        this.setVisible(false);
 
         // Destructor
         scene.events.once("shutdown", () => this.destroy());
@@ -55,7 +55,7 @@ export class Equipment {
         const playerEquipment = characterData.getAllEquipment();
 
         for (let i in playerEquipment) {
-            if (Object.keys(playerEquipment[i]).length) {
+            if (playerEquipment[i]) {
                 let newEquipment = await getItemClass(playerEquipment[i], this.scene);
                 newEquipment.createSprite(0, 0);
                 newEquipment.equip();
@@ -66,7 +66,7 @@ export class Equipment {
     // Add to specific index
     equipItem(item) {
         // Remove previously equipped item if there is one
-        if (Object.keys(this.equipment[item.slot]).length) {
+        if (this.equipment[item.slot]) {
             console.log("Unequiping previous item", this.equipment[item.slot].name);
             this.equipment[item.slot].unequip();
         }
@@ -96,11 +96,11 @@ export class Equipment {
 
     unequipItem(slot) {
         this.slotBg[slot].visible = false;
-        this.equipment[slot] = {};
-        characterData.setEquipment(slot, {});
+        this.equipment[slot] = null;
+        characterData.setEquipment(slot, null);
     }
 
-    show(isVisible = true) {
+    setVisible(isVisible = true) {
         if (isVisible) {
             this.scene.hideAllMenus();
             this.scene.currentPanel = CONSTANTS.PANEL.EQUIPMENT;
@@ -110,7 +110,7 @@ export class Equipment {
         }
 
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
-            if (Object.keys(itemObj).length) {
+            if (itemObj) {
                 itemObj.setVisible(isVisible);
                 this.slotBg[item].setVisible(isVisible);
             } else {
@@ -123,7 +123,7 @@ export class Equipment {
 
     destroy() {
         Object.entries(this.equipment).forEach(([item, itemObj]) => {
-            if (Object.keys(itemObj).length) {
+            if (itemObj) {
                 itemObj.destroy(false);
             }
         });

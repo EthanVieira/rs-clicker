@@ -110,7 +110,7 @@ export class StatsScene extends Phaser.Scene {
     }
 
     showStats() {
-        this.show(false);
+        this.setVisible(false);
 
         // Show level-relevant stats
         this.orderStats([
@@ -136,7 +136,7 @@ export class StatsScene extends Phaser.Scene {
         });
     }
 
-    show(isVisible) {
+    setVisible(isVisible = true) {
         this.enemiesKilledText.visible = isVisible;
         this.timesClickedText.visible = isVisible;
         this.damageByClickingText.visible = isVisible;
