@@ -95,6 +95,12 @@ export var itemManifest = {
         imageName: "copper-ore",
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
+    Hammer: {
+        classPath: "./tools/hammer.js",
+        imagePath: "tools/Hammer.png",
+        imageName: "hammer",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
+    },
     Knife: {
         classPath: "./tools/knife.js",
         imagePath: "tools/Knife.png",
