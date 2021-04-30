@@ -118,6 +118,8 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
         this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
         this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
+        this.load.image("quests-tab-button", "src/assets/ui/buttons/QuestsTabButton.png");
+        this.load.image("stats-tab-button", "src/assets/ui/buttons/StatsTabButton.png");
         this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
         this.load.image("equipment-background", "src/assets/ui/EquipmentBackground.png");
         this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");

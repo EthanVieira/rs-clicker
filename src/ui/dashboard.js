@@ -5,7 +5,7 @@ import { Inventory } from "./panels/inventory.js";
 import { Equipment } from "./panels/equipment.js";
 import { Clan } from "./panels/clan.js";
 import { Skills } from "./panels/skills.js";
-import { QuestList } from "./panels/quest-list.js";
+import { Quests } from "./panels/quests.js";
 import { MusicPanel } from "./panels/music.js";
 import { Prayer } from "./panels/prayer.js";
 import { Settings } from "./panels/settings.js";
@@ -57,7 +57,7 @@ export class DashboardScene extends Phaser.Scene {
         this.skills = new Skills(this);
         this.prayer = new Prayer(this);
         this.settings = new Settings(this); // Just audio for now
-        this.quests = new QuestList(this);
+        this.quests = new Quests(this);
         this.equipment = new Equipment(this);
         this.clan = new Clan(this);
         this.music = new MusicPanel(this);

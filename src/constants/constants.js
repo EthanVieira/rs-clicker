@@ -17,6 +17,10 @@ export const CONSTANTS = {
         VARROCK: "VARROCK",
         BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE",
     },
+    QUEST_TABS: {
+        QUESTS: "QUESTS",
+        STATS: "STATS",
+    },
     PREREQUISITES: {
         LUMBRIDGE: "TUTORIAL_ISLAND",
         LUMBRIDGE_TREES: "TUTORIAL_ISLAND",
