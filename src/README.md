@@ -1,25 +1,25 @@
 # Code execution flow
 
-| File execution           | Internal references... | &#8595;         |
-| ------------------------ | ---------------------- | --------------- |
-| `main`                   |                        |                 |
-| `scenes/load`            |                        |                 |
-|                          | `cookie-io`            |                 |
-| `scenes/main-menu`       |                        |                 |
-|                          | `scenes/audio`         |                 |
-| `scenes/tutorial-island` |                        |                 |
-|                          | `scenes/audio`         |                 |
-|                          | `ui/dashboard`         |                 |
-|                          |                        | `scenes/audio`  |
-|                          |                        | `ui/inventory`  |
-|                          |                        | `scenes/shop`   |
-|                          |                        | `ui/skills`     |
-|                          |                        | `ui/quest-list` |
-|                          |                        | `ui/equipment`  |
-|                          |                        | `ui/clan`       |
-|                          | `ui/stats`             |                 |
-|                          | `ui/chat`              |                 |
-|                          | `targets/target`       |                 |
+| File execution           | Internal references... | &#8595;        |
+| ------------------------ | ---------------------- | -------------- |
+| `main`                   |                        |                |
+| `scenes/load`            |                        |                |
+|                          | `cookie-io`            |                |
+| `scenes/main-menu`       |                        |                |
+|                          | `scenes/audio`         |                |
+| `scenes/tutorial-island` |                        |                |
+|                          | `scenes/audio`         |                |
+|                          | `ui/dashboard`         |                |
+|                          |                        | `scenes/audio` |
+|                          |                        | `ui/inventory` |
+|                          |                        | `scenes/shop`  |
+|                          |                        | `ui/skills`    |
+|                          |                        | `ui/quests`    |
+|                          |                        | `ui/equipment` |
+|                          |                        | `ui/clan`      |
+|                          | `ui/stats`             |                |
+|                          | `ui/chat`              |                |
+|                          | `targets/target`       |                |
 
 ### Main file descriptions
 
