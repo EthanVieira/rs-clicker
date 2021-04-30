@@ -1,7 +1,8 @@
 import { CONSTANTS } from "../../constants/constants.js";
 import { ScrollWindow } from "../scroll-window.js";
 import { characterData } from "../../cookie-io.js";
-import { prettyPrintCamelCase } from "../../utilities.js";
+import { prettyPrintCamelCase, getItemText } from "../../utilities.js";
+import { TextRow } from "../text-row.js";
 
 export class Quests {
     dashboard;
@@ -155,13 +156,23 @@ export class Quests {
         let statTexts = this.dashboard.scene.get(CONSTANTS.SCENES.STATS).getStats();
 
         for (const statkey in statTexts) {
-            let sceneText = this.statsScrollWindow.add
-                .text(0, 0, statTexts[statkey], {
-                    fill: "white",
-                    font: "14px runescape",
+            let row = new TextRow(this.statsScrollWindow, 0, 0, []);
+
+            let statText = this.statsScrollWindow.add
+                .text(0, 0, statTexts[statkey]["text"], {
+                    font: "14px runescape white",
                 })
                 .setDepth(3);
-            this.statsScrollWindow.addObject(sceneText);
+            row.add(statText);
+
+            let statTxtAmount = this.statsScrollWindow.add
+                .text(100, 0, getItemText(statTexts[statkey]["amount"])[0], {
+                    font: "14px runescape white",
+                })
+                .setDepth(3);
+            row.add(statTxtAmount);
+
+            this.statsScrollWindow.addObject(row);
         }
         this.statsScrollWindow.refresh(true);
         this.statsScrollWindow.setVisible(this.isStatTextVisible);
@@ -181,27 +192,27 @@ export class Quests {
                     characterData.calcQuestTier(enemiesKilled, scene.questAmounts[enemy]);
                     tier++
                 ) {
+                    let row = new TextRow(this.questsScrollWindow, 0, 0, []);
                     let questAmount = scene.questAmounts[enemy][tier - 1];
                     let printedAmount =
                         enemiesKilled > questAmount ? questAmount : enemiesKilled;
-                    // TODO: make the quests text align so it looks better
                     let questText = this.questsScrollWindow.add
-                        .text(
-                            0,
-                            0,
-                            printedAmount +
-                                "/" +
-                                questAmount +
-                                " " +
-                                prettyPrintCamelCase(enemy) +
-                                "s",
-                            {
-                                fill: enemiesKilled >= questAmount ? "#00ff00" : "yellow",
-                                font: "16px runescape",
-                            }
-                        )
+                        .text(0, 0, prettyPrintCamelCase(enemy) + "s: ", {
+                            fill: enemiesKilled >= questAmount ? "#00ff00" : "yellow",
+                            font: "16px runescape",
+                        })
                         .setDepth(3);
-                    this.questsScrollWindow.addObject(questText);
+                    row.add(questText);
+
+                    let questTxtAmount = this.questsScrollWindow.add
+                        .text(90, 0, printedAmount + "/" + questAmount, {
+                            fill: enemiesKilled >= questAmount ? "#00ff00" : "yellow",
+                            font: "16px runescape",
+                        })
+                        .setDepth(3);
+                    row.add(questTxtAmount);
+
+                    this.questsScrollWindow.addObject(row);
                 }
             }
         });

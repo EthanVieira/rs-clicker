@@ -124,3 +124,15 @@ export function runOnLoad(scene, func) {
         });
     }
 }
+
+// Returns (string, color)
+export function getItemText(amount) {
+    switch (true) {
+        case amount < 99999:
+            return [amount, "orange"];
+        case amount < 9999999:
+            return [Math.floor(amount / 1000) + "K", "white"];
+        default:
+            return [Math.floor(amount / 1000000) + "M", "#00FF7F"];
+    }
+}

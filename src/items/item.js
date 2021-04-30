@@ -1,7 +1,7 @@
 import { ClickableObject } from "../clickable-object.js";
 import { OBJECT_TYPES, CONSTANTS } from "../constants/constants.js";
 import { itemManifest } from "./item-manifest.js";
-import { getItemClass, getGoldStackType } from "../utilities.js";
+import { getItemClass, getItemText, getGoldStackType } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
 
 export class Item extends ClickableObject {
@@ -71,7 +71,7 @@ export class Item extends ClickableObject {
         this.displayHeight = this.sprite.displayHeight;
 
         // Add text in top left for stackable items
-        const [visualNum, fillColor] = this.getItemText(this.numItems);
+        const [visualNum, fillColor] = getItemText(this.numItems);
         this.numItemsText = this.scene.add
             .text(x - 15, y - 18, visualNum, {
                 font: "12px runescape",
@@ -195,7 +195,7 @@ export class Item extends ClickableObject {
             // Update text
             if (this.numItemsText != undefined) {
                 // Set format/color based on the amount
-                const [visualNum, fillColor] = this.getItemText(num);
+                const [visualNum, fillColor] = getItemText(num);
 
                 // Can't change text while in different scene (like the shop)
                 if (this.scene.scene.isActive()) {
@@ -240,17 +240,5 @@ export class Item extends ClickableObject {
             this.numItemsText.destroy();
         }
         this.name = "";
-    }
-
-    // Returns (string, color)
-    getItemText(amount) {
-        switch (true) {
-            case amount < 99999:
-                return [amount, "orange"];
-            case amount < 9999999:
-                return [Math.floor(amount / 1000) + "K", "white"];
-            default:
-                return [Math.floor(amount / 1000000) + "M", "#00FF7F"];
-        }
     }
 }

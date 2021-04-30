@@ -7,19 +7,17 @@ export class StatsScene extends Phaser.Scene {
 
     // Text
     statText = {
-        totalGoldEarned: "",
-        enemiesKilled: "",
-        timesClicked: "",
-        damageByClicking: "",
-        damageByAutoclickers: "",
-        totalDPS: "",
+        totalGoldEarned: { text: "GP earned: ", amount: 0 },
+        enemiesKilled: { text: "Enemies slain: ", amount: 0 },
+        timesClicked: { text: "Times clicked: ", amount: 0 },
+        damageByClicking: { text: "Clicking dmg: ", amount: 0 },
+        damageByAutoclickers: { text: "Clan dmg: ", amount: 0 },
+        totalDPS: { text: "DPS: ", amount: 0 },
     };
 
     dpsText;
 
     autoClickDps = 0;
-    totalGoldEarned = 25;
-
     recentDamage = 0;
     timer;
 
@@ -50,7 +48,7 @@ export class StatsScene extends Phaser.Scene {
     }
 
     initText() {
-        this.updateTotalEarnedGold(0);
+        this.updateTotalEarnedGold(25);
         this.updateClickedTargetStat(0);
         this.updateClickDamageStat(0);
         this.updateDpsStat(0);
@@ -65,43 +63,42 @@ export class StatsScene extends Phaser.Scene {
 
     updateTotalEarnedGold(addedGold) {
         if (addedGold >= 0) {
-            this.totalGoldEarned += addedGold;
-            this.statText["totalGoldEarned"] = "GP earned: " + this.totalGoldEarned;
+            this.statText["totalGoldEarned"]["amount"] += addedGold;
         }
     }
 
     updateClickedTargetStat(amount = 1) {
         characterData.addTimesClicked(amount);
-        this.statText["timesClicked"] =
-            "Times clicked: " + characterData.getTimesClicked();
+        this.statText["timesClicked"]["amount"] = characterData.getTimesClicked();
     }
 
     updateClickDamageStat(damageDone) {
         // Increase click damage
         characterData.addDamageByClicking(damageDone);
-        this.statText["damageByClicking"] =
-            "Clicking dmg: " + characterData.getDamageByClicking();
+        this.statText["damageByClicking"]["amount"] = characterData.getDamageByClicking();
 
         // Collect damage for dps
         this.recentDamage += damageDone;
     }
 
     updateDpsStat() {
-        this.dpsText.text = "DPS: " + (this.recentDamage + this.autoClickDps);
-        this.statText["totalDPS"] = this.dpsText.text;
+        this.statText["totalDPS"]["amount"] = this.recentDamage + this.autoClickDps;
+        this.dpsText.text =
+            this.statText["totalDPS"]["text"] + this.statText["totalDPS"]["amount"];
+
         this.recentDamage = 0;
     }
 
     // TODO: Display stat for each enemy type
     updateEnemiesKilledStat() {
-        this.statText["enemiesKilled"] =
-            "Enemies slain: " + characterData.getTotalEnemiesKilled();
+        this.statText["enemiesKilled"]["amount"] = characterData.getTotalEnemiesKilled();
     }
 
     updateAutoClickDamageStat(damageDone) {
         characterData.addDamageByAutoClicker(damageDone);
-        this.statText["damageByAutoclickers"] =
-            "Clan dmg: " + characterData.getDamageByAutoclicker();
+        this.statText["damageByAutoclickers"][
+            "amount"
+        ] = characterData.getDamageByAutoclicker();
     }
 
     updateAutoClickerDPS(dps) {
