@@ -15,6 +15,8 @@ export class StatsScene extends Phaser.Scene {
         totalDPS: "",
     };
 
+    dpsText;
+
     autoClickDps = 0;
     totalGoldEarned = 25;
 
@@ -30,8 +32,11 @@ export class StatsScene extends Phaser.Scene {
     }
 
     create() {
+        this.dpsText = this.add.text(0, 0, "", FONTS.STATS).setDepth(3);
+
         this.events.once("create", () => {
             this.initText();
+            this.showStats();
         });
 
         // Setup dps timer
@@ -82,7 +87,8 @@ export class StatsScene extends Phaser.Scene {
     }
 
     updateDpsStat() {
-        this.statText["totalDPS"] = "DPS: " + (this.recentDamage + this.autoClickDps);
+        this.dpsText.text = "DPS: " + (this.recentDamage + this.autoClickDps);
+        this.statText["totalDPS"] = this.dpsText.text;
         this.recentDamage = 0;
     }
 
@@ -104,5 +110,28 @@ export class StatsScene extends Phaser.Scene {
 
     resetAutoclickerDps() {
         this.autoClickDps = 0;
+    }
+
+    showStats() {
+        this.setVisible(false);
+
+        // Show level-relevant stats
+        this.orderStats([this.dpsText]);
+    }
+
+    // Takes in array of text objects and displays them in order
+    orderStats(statsArray) {
+        let xPos = 10;
+        let yPos = 50;
+        statsArray.forEach((stat) => {
+            stat.x = xPos;
+            stat.y = yPos;
+            stat.visible = true;
+            yPos += 16;
+        });
+    }
+
+    setVisible(isVisible = true) {
+        this.dpsText.visible = isVisible;
     }
 }
