@@ -59,11 +59,11 @@ export class QuestList {
         characterData.getUnlockedLevels().forEach((level) => {
             let scene = this.dashboard.scene.get(level);
             let enemies = characterData.getEnemiesInLevel(level);
-            for (var enemy in enemies) {
+            for (let enemy in enemies) {
                 let enemiesKilled = characterData.getEnemiesKilled(level, enemy);
 
                 for (
-                    var tier = 1;
+                    let tier = 1;
                     tier <=
                     characterData.calcQuestTier(enemiesKilled, scene.questAmounts[enemy]);
                     tier++

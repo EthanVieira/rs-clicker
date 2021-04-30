@@ -1,6 +1,10 @@
 import Dagger from "./dagger.js";
 
 export default class BronzeDagger extends Dagger {
+    xp = 12.5;
+    bars = ["BronzeBar"];
+    smithingErrorMessage = "You need at least one bronze bar and a hammer to make a bronze dagger.";
+
     // Bonuses
     stabBonus = 4;
     slashBonus = 2;

@@ -13,6 +13,7 @@ export const CONSTANTS = {
         LUMBRIDGE: "LUMBRIDGE",
         LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
         AL_KHARID_FURNACE: "AL_KHARID_FURNACE",
+        VARROCK_ANVIL: "VARROCK_ANVIL",
         VARROCK_MINE: "VARROCK_MINE",
         VARROCK: "VARROCK",
         BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE",
@@ -21,6 +22,7 @@ export const CONSTANTS = {
         LUMBRIDGE: "TUTORIAL_ISLAND",
         LUMBRIDGE_TREES: "TUTORIAL_ISLAND",
         AL_KHARID_FURNACE: "LUMBRIDGE",
+        VARROCK_ANVIL: "AL_KHARID_FURNACE",
         VARROCK_MINE: "LUMBRIDGE",
         VARROCK: "LUMBRIDGE",
         BARBARIAN_VILLAGE: "VARROCK",
@@ -119,6 +121,10 @@ export const MAP = {
     AL_KHARID_FURNACE: {
         X: 3230,
         Y: 3170,
+    },
+    VARROCK_ANVIL: {
+        X: 2860,
+        Y: 2250,
     },
     VARROCK_MINE: {
         X: 3250,

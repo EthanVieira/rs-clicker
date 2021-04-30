@@ -85,6 +85,13 @@ export const defaultData = {
                 bar: 0,
             },
         },
+        VARROCK_ANVIL: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                bronzeDagger: 0,
+            },
+        },
         VARROCK_MINE: {
             questCompleted: false,
             unlocked: false,
