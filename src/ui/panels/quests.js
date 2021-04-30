@@ -41,7 +41,7 @@ export class Quests {
             .image(549, 210, "quests-tab-button")
             .setOrigin(0, 0)
             .setDepth(2)
-            .setAlpha(0.1)
+            .setAlpha(0.01)
             .setInteractive()
             .on("pointerdown", () => {
                 if (this.panel.visible) {
@@ -53,7 +53,7 @@ export class Quests {
             .image(596, 210, "stats-tab-button")
             .setOrigin(0, 0)
             .setDepth(2)
-            .setAlpha(0.1)
+            .setAlpha(0.01)
             .setInteractive()
             .on("pointerdown", () => {
                 if (this.panel.visible) {
@@ -134,13 +134,13 @@ export class Quests {
     closeCurrentTab() {
         switch (this.currentTab) {
             case CONSTANTS.QUEST_TABS.QUESTS:
-                this.questsTabButton.setAlpha(0.1);
+                this.questsTabButton.setAlpha(0.01);
                 this.questsScrollWindow.setVisible(false);
                 this.isQuestTextVisible = false;
                 break;
 
             case CONSTANTS.QUEST_TABS.STATS:
-                this.statsTabButton.setAlpha(0.1);
+                this.statsTabButton.setAlpha(0.01);
                 this.statsScrollWindow.setVisible(false);
                 this.isStatTextVisible = false;
                 break;
@@ -158,7 +158,7 @@ export class Quests {
             let sceneText = this.statsScrollWindow.add
                 .text(0, 0, statTexts[statkey], {
                     fill: "white",
-                    fontSize: 11,
+                    font: "14px runescape",
                 })
                 .setDepth(3);
             this.statsScrollWindow.addObject(sceneText);
@@ -197,7 +197,7 @@ export class Quests {
                                 "s",
                             {
                                 fill: enemiesKilled >= questAmount ? "#00ff00" : "yellow",
-                                fontSize: 12,
+                                font: "16px runescape",
                             }
                         )
                         .setDepth(3);
