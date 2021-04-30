@@ -147,7 +147,7 @@ export class LevelScene extends Phaser.Scene {
     // Used by autoclicker
     clickCurrentTarget(damage) {
         this.targets[this.currentTargetIndex].updateProgress(damage);
-        this.scene.dashboard.quests.refreshStats();
+        this.scene.get(CONSTANTS.SCENES.DASHBOARD).quests.refreshStats();
     }
 
     enemyKilled(name) {
