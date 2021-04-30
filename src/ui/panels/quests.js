@@ -160,14 +160,16 @@ export class Quests {
 
             let statText = this.statsScrollWindow.add
                 .text(0, 0, statTexts[statkey]["text"], {
-                    font: "14px runescape white",
+                    font: "16px runescape",
+                    fill: "white",
                 })
                 .setDepth(3);
             row.add(statText);
 
             let statTxtAmount = this.statsScrollWindow.add
                 .text(100, 0, getItemText(statTexts[statkey]["amount"])[0], {
-                    font: "14px runescape white",
+                    font: "16px runescape",
+                    fill: "orange",
                 })
                 .setDepth(3);
             row.add(statTxtAmount);

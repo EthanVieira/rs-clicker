@@ -42,6 +42,7 @@ export class StatsScene extends Phaser.Scene {
             delay: 1000,
             callback: () => {
                 this.updateDpsStat();
+                this.scene.get(CONSTANTS.SCENES.DASHBOARD).quests.refreshStats();
             },
             loop: true,
         });
