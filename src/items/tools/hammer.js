@@ -20,7 +20,14 @@ export default class Hammer extends Tool {
             className: "",
             numRequiredItems: 0,
             xpGiven: 0,
+            requires: ""
         };
+
+        switch (itemName) {
+            case "Bronze Bar": output.requires = "Anvil"; break;
+            case "Iron Bar": output.requires = "Anvil"; break;
+            case "Steel Bar": output.requires = "Anvil"; break;
+        }
 
         return output;
     }
