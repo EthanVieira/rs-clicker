@@ -125,22 +125,6 @@ export function runOnLoad(scene, func) {
     }
 }
 
-// Returns true if item exist in inventory
-export function hasItem(inventory, itemName) {
-    for (let i = 0; i < inventory.length; i++)
-    {
-        if (!inventory[i] || !inventory[i].name) {
-            continue;
-        }
-
-        if (inventory[i].name === itemName) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 // Returns (string, color)
 export function getItemText(amount) {
     switch (true) {

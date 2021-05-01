@@ -2,7 +2,7 @@ import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
 import { Button } from "../ui/button.js";
-import { getItemClass, hasItem } from "../utilities.js";
+import { getItemClass } from "../utilities.js";
 
 export class Anvil extends ClickableObject {
     name = "Anvil";
@@ -27,7 +27,7 @@ export class Anvil extends ClickableObject {
         // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
         this.sprite.on("pointerdown", (pointer) => {
-            if (pointer.rightButtonReleased() && !pointer.leftButtonDown()) {
+            if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
                 this.createRightClickMenu(pointer.x, pointer.y, this.actions);
             } else {
                 this.clickTarget();
@@ -46,9 +46,9 @@ export class Anvil extends ClickableObject {
             return;
         }
 
-        const hasHammer = await hasItem(inv.inventory, "Hammer");
+        const hasHammer = inv.getInventoryIndex("Hammer");
 
-        if (hasHammer === false) {
+        if (hasHammer < 0) {
             chat.writeText("You need a hammer to work the metal with.");
             return;
         }
@@ -65,36 +65,36 @@ export class Anvil extends ClickableObject {
         }
     }
 
-    // Take ore and turn it into a bar
-    async smith(weaponName) {
+    // Take bar and turn it into a smithable item
+    async smith(itemName) {
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
-        const bronzeDagger = await getItemClass(weaponName, this.scene.dashboard);
+        const item = await getItemClass(itemName, this.scene.dashboard);
 
-        const indices = bronzeDagger.bars.map((bar) => inv.getInventoryIndex(bar));
-        const allExist = indices.every((index) => index >= 0);
+        const indices = item.bars.map((bar) => ({ value: inv.getInventoryIndex(bar.name), count: bar.count }));
+        const allExist = indices.every((index) => (index.value >= 0 && inv.inventory[index.value].numItems > index.count));
 
         // All ingredients are in inventory
         if (allExist) {
-            const added = inv.addToInventory(bronzeDagger, true);
+            const added = inv.addToInventory(item, true);
 
-            // Inventory has space, reduce ore counts by 1
+            // Inventory has space, reduce bar count by the required amount
             if (added) {
                 indices.forEach((index) => {
-                    const obj = inv.inventory[index];
-                    obj.setNumItems(obj.numItems - 1);
+                    const obj = inv.inventory[index.value];
+                    obj.setNumItems(obj.numItems - index.count);
                 });
 
                 // Log click for stats
                 this.scene.stats.updateClickedTargetStat();
-                characterData.addSkillXp("smithing", bronzeDagger.xp);
-                this.scene.enemyKilled("bronzeDagger");
+                characterData.addSkillXp("smithing", item.xp);
+                this.scene.enemyKilled(item.questName);
 
                 // Show smith animation
                 this.scene.clickAnimation();
             }
         } else {
-            chat.writeText(bronzeDagger.smeltingErrorMessage);
+            chat.writeText(item.smeltingErrorMessage);
         }
     }
 

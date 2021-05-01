@@ -69,7 +69,7 @@ export class Inventory {
         }
 
         // Hide if inventory is not selected
-        const showItem = this.scene.currentPanel == CONSTANTS.PANEL.INVENTORY;
+        const showItem = this.scene.currentPanel === CONSTANTS.PANEL.INVENTORY;
         item.setVisible(showItem);
 
         // Add object to the scene
@@ -79,7 +79,7 @@ export class Inventory {
     getInventoryIndex(itemName) {
         return characterData
             .getInventory()
-            .findIndex((item) => item && item.item == itemName);
+            .findIndex((item) => item && item.item === itemName);
     }
 
     // Returns first instance of an item in inventory

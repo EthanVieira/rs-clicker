@@ -27,7 +27,7 @@ export class Furnace extends ClickableObject {
         // Add invisible button for furnace
         this.sprite = new Button(scene, x, y, width, height);
         this.sprite.on("pointerdown", (pointer) => {
-            if (pointer.rightButtonReleased() && !pointer.leftButtonDown()) {
+            if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
                 this.createRightClickMenu(pointer.x, pointer.y, this.actions);
             } else {
                 this.clickTarget();
