@@ -48,6 +48,7 @@ export const CONSTANTS = {
         ENEMY: "ENEMY",
         RESOURCE: "RESOURCE",
         CRAFTING: "CRAFTING",
+        SMITHING: "SMITHING",
     },
     PANEL: {
         INVENTORY: "INVENTORY",

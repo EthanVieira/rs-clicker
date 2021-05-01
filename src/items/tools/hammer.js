@@ -22,19 +22,6 @@ export default class Hammer extends Tool {
             xpGiven: 0,
         };
 
-        /*switch (itemName) {
-            case "Logs":
-                output.className = "NormalShortbow";
-                output.numRequiredItems = 50;
-                output.xpGiven = 250;
-                break;
-            case "Oak Logs":
-                output.className = "OakShortbow";
-                output.numRequiredItems = 50;
-                output.xpGiven = 500;
-                break;
-        }*/
-
         return output;
     }
 }
