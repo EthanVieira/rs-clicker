@@ -124,3 +124,18 @@ export function runOnLoad(scene, func) {
         });
     }
 }
+
+export function hasItem(inventory, itemName) {
+    for (let i = 0; i < inventory.length; i++)
+    {
+        if (!inventory[i] || !inventory[i].name) {
+            continue;
+        }
+
+        if (inventory[i].name === itemName) {
+            return true;
+        }
+    }
+
+    return false;
+}

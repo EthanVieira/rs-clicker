@@ -2,7 +2,7 @@ import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
 import { Button } from "../ui/button.js";
-import { getItemClass } from "../utilities.js";
+import { getItemClass, hasItem } from "../utilities.js";
 
 export class Anvil extends ClickableObject {
     name = "Anvil";
@@ -19,10 +19,10 @@ export class Anvil extends ClickableObject {
 
         const cameraWidth = scene.cameras.main.width;
         const cameraHeight = scene.cameras.main.height;
-        const width = 230;
-        const height = 150;
-        const x = cameraWidth / 2 - width;
-        const y = cameraHeight / 2 - height;
+        const width = 220;
+        const height = 140;
+        const x = cameraWidth / 2 - width + 60;
+        const y = cameraHeight / 2 - height + 40;
 
         // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
@@ -46,18 +46,19 @@ export class Anvil extends ClickableObject {
             return;
         }
 
-        
-        const hasHammer = inv.inventory.includes("Hammer")
+        const hasHammer = await hasItem(inv.inventory, "Hammer");
 
-        if (hasHammer === true) {
-            chat.writeText("You need a hammer to smith!");
+        if (hasHammer === false) {
+            chat.writeText("You need a hammer to work the metal with.");
             return;
         }
 
         const selectedItem = inv.inventory[selectedIndex];
+
         switch (selectedItem.name) {
             case "Bronze Bar":
                 this.smith("BronzeDagger");
+                break;
             default:
                 chat.writeText("The anvil can only be used with the bar selected");
                 break;
@@ -70,7 +71,7 @@ export class Anvil extends ClickableObject {
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         const bronzeDagger = await getItemClass(weaponName, this.scene.dashboard);
 
-        const indices = bar.ores.map((bar) => inv.getInventoryIndex(bar));
+        const indices = bronzeDagger.bars.map((bar) => inv.getInventoryIndex(bar));
         const allExist = indices.every((index) => index >= 0);
 
         // All ingredients are in inventory

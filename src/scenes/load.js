@@ -165,6 +165,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("bronze-bolt", "src/assets/effects/BronzeBolt.png");
         this.load.image("fire-bolt", "src/assets/effects/FireBolt.png");
         this.load.image("furnace-hands", "src/assets/effects/FurnaceHands.png");
+        this.load.image("hammer-hand", "src/assets/effects/HammerHand.png");
     }
 
     create() {
