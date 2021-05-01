@@ -73,6 +73,7 @@ export class Target extends ClickableObject {
             // Log click for stats
             this.stats.updateClickedTargetStat();
         }
+        this.scene.dashboard.quests.refreshStats();
     }
 
     updateProgress(progress) {

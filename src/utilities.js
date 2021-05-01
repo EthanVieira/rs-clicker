@@ -125,6 +125,7 @@ export function runOnLoad(scene, func) {
     }
 }
 
+// Returns true if item exist in inventory
 export function hasItem(inventory, itemName) {
     for (let i = 0; i < inventory.length; i++)
     {
@@ -138,4 +139,16 @@ export function hasItem(inventory, itemName) {
     }
 
     return false;
+}
+
+// Returns (string, color)
+export function getItemText(amount) {
+    switch (true) {
+        case amount < 99999:
+            return [amount, "orange"];
+        case amount < 9999999:
+            return [Math.floor(amount / 1000) + "K", "white"];
+        default:
+            return [Math.floor(amount / 1000000) + "M", "#00FF7F"];
+    }
 }

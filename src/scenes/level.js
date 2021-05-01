@@ -147,6 +147,7 @@ export class LevelScene extends Phaser.Scene {
     // Used by autoclicker
     clickCurrentTarget(damage) {
         this.targets[this.currentTargetIndex].updateProgress(damage);
+        this.scene.get(CONSTANTS.SCENES.DASHBOARD).quests.refreshStats();
     }
 
     enemyKilled(name) {
@@ -158,13 +159,14 @@ export class LevelScene extends Phaser.Scene {
 
             if (!characterData.getQuestCompleted(this.currentLevel)) {
                 // Check for level completion.
-                const questCompleted = this.targets.every((enemy) =>
-                    // A level is considered complete when
-                    // all of the tier 1 (index 0) quests are complete.
-                    characterData.getEnemiesKilled(
-                        this.currentLevel,
-                        enemy.varName
-                    ) >= this.questAmounts[enemy.varName][0]
+                const questCompleted = this.targets.every(
+                    (enemy) =>
+                        // A level is considered complete when
+                        // all of the tier 1 (index 0) quests are complete.
+                        characterData.getEnemiesKilled(
+                            this.currentLevel,
+                            enemy.varName
+                        ) >= this.questAmounts[enemy.varName][0]
                 );
 
                 // Set as complete if all passed
@@ -222,12 +224,15 @@ export class LevelScene extends Phaser.Scene {
                     }
                     break;
                 default:
-                    console.log("Error: this resource type does not exist.", this.resourceType);
+                    console.log(
+                        "Error: this resource type does not exist.",
+                        this.resourceType
+                    );
                     return;
             }
         } else if (this.levelType == CONSTANTS.LEVEL_TYPE.CRAFTING) {
             imageName = "furnace-hands";
-            scale = .7;
+            scale = 0.7;
             startX = 450;
             startY = 400;
 
@@ -259,7 +264,7 @@ export class LevelScene extends Phaser.Scene {
                 scale,
                 curve,
                 alpha,
-                flipX
+                flipX,
             } = curWeapon.animation);
 
             if (imageName == "") {
