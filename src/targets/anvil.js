@@ -100,7 +100,7 @@ export class Anvil extends ClickableObject {
                 this.scene.clickAnimation();
             }
         } else {
-            chat.writeText(item.smeltingErrorMessage);
+            chat.writeText(item.smithingErrorMessage);
         }
     }
 
