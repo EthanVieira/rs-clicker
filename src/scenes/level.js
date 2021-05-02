@@ -237,6 +237,13 @@ export class LevelScene extends Phaser.Scene {
             startY = 400;
 
             useWeapon = false;
+        } else if (this.levelType == CONSTANTS.LEVEL_TYPE.SMITHING) {
+            imageName = "hammer-hand";
+            scale = 0.8;
+            startX = 100;
+            startY = 100;
+
+            useWeapon = false;
         }
         // No weapon, use fist
         else if (!curWeapon) {

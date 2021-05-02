@@ -8,6 +8,7 @@ import { TutorialIslandScene } from "./scenes/tutorial-island.js";
 import { LumbridgeScene } from "./scenes/lumbridge.js";
 import { LumbridgeTreeScene } from "./scenes/lumbridge-trees.js";
 import { AlKharidFurnaceScene } from "./scenes/al-kharid-furnace.js";
+import { VarrockAnvilScene } from "./scenes/varrock-anvil.js";
 import { VarrockMineScene } from "./scenes/varrock-mine.js";
 import { VarrockScene } from "./scenes/varrock.js";
 import { BarbarianVillageScene } from "./scenes/barbarian-village.js";
@@ -37,6 +38,7 @@ let game = new Phaser.Game({
         LumbridgeScene,
         LumbridgeTreeScene,
         AlKharidFurnaceScene,
+        VarrockAnvilScene,
         VarrockMineScene,
         VarrockScene,
         BarbarianVillageScene,

@@ -14,6 +14,7 @@ export const defaultData = {
         { item: "BronzeAxe", count: 1 },
         { item: "BronzePickaxe", count: 1 },
         { item: "Knife", count: 1 },
+        { item: "Hammer", count: 1 },
         { item: "Coin", count: 25 },
     ],
     equipment: {
@@ -82,6 +83,13 @@ export const defaultData = {
             unlocked: false,
             enemiesKilled: {
                 bar: 0,
+            },
+        },
+        VARROCK_ANVIL: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                bronzeDagger: 0,
             },
         },
         VARROCK_MINE: {

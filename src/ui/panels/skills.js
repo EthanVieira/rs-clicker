@@ -264,7 +264,7 @@ export class Skills {
                 // Close the window if the same skill is clicked twice
                 if (
                     this.skillInfo.header.text ==
-                    skill[0].toUpperCase() + skill.substring(1) &&
+                        skill[0].toUpperCase() + skill.substring(1) &&
                     this.skillInfo.header.visible
                 ) {
                     this.showSkillInfo(false);

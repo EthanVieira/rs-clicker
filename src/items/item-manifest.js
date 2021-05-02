@@ -1,6 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 
-export var itemManifest = {
+export const itemManifest = {
     AirStaff: {
         classPath: "./equipment/staves/air-staff.js",
         imagePath: "weapons/AirStaff.png",
@@ -94,6 +94,12 @@ export var itemManifest = {
         imagePath: "resources/CopperOre.png",
         imageName: "copper-ore",
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
+    Hammer: {
+        classPath: "./tools/hammer.js",
+        imagePath: "tools/Hammer.png",
+        imageName: "hammer",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
     },
     Knife: {
         classPath: "./tools/knife.js",
