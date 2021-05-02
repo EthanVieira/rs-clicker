@@ -50,8 +50,7 @@ export default class Tool extends Item {
         // Invalid selection
         else if (recipe.requires && recipe.requires === "Anvil") {
             outputString = "You need an anvil to do this.";
-        }
-        else {
+        } else {
             outputString = "Not a valid crafting combination.";
         }
 

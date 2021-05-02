@@ -84,12 +84,12 @@ export default class Equipment extends Item {
                     .get(CONSTANTS.SCENES.CHAT)
                     .writeText(
                         "You need " +
-                        aOrAn(skillText) +
-                        " " +
-                        capitalize(skillText) +
-                        " level of " +
-                        this.requiredLevels[skillText] +
-                        " to equip this item."
+                            aOrAn(skillText) +
+                            " " +
+                            capitalize(skillText) +
+                            " level of " +
+                            this.requiredLevels[skillText] +
+                            " to equip this item."
                     );
             }
         } else {

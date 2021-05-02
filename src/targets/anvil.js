@@ -20,9 +20,9 @@ export class Anvil extends ClickableObject {
         const cameraWidth = scene.cameras.main.width;
         const cameraHeight = scene.cameras.main.height;
         const width = 220;
-        const height = 140;
-        const x = cameraWidth / 2 - width + 60;
-        const y = cameraHeight / 2 - height + 40;
+        const height = 180;
+        const x = cameraWidth / 2 - width + 20;
+        const y = cameraHeight / 2 - height + 60;
 
         // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
@@ -71,8 +71,14 @@ export class Anvil extends ClickableObject {
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         const item = await getItemClass(itemName, this.scene.dashboard);
 
-        const indices = item.bars.map((bar) => ({ value: inv.getInventoryIndex(bar.name), count: bar.count }));
-        const allExist = indices.every((index) => (index.value >= 0 && inv.inventory[index.value].numItems > index.count));
+        const indices = item.bars.map((bar) => ({
+            value: inv.getInventoryIndex(bar.name),
+            count: bar.count,
+        }));
+        const allExist = indices.every(
+            (index) =>
+                index.value >= 0 && inv.inventory[index.value].numItems >= index.count
+        );
 
         // All ingredients are in inventory
         if (allExist) {

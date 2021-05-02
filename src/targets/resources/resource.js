@@ -34,8 +34,8 @@ export class Resource extends Target {
         if (skillLevel < this.requiredLevels[this.skill]) {
             chat.writeText(
                 "You do not have the required " +
-                this.skill +
-                " level to perform this action."
+                    this.skill +
+                    " level to perform this action."
             );
             return false;
         }
@@ -67,10 +67,10 @@ export class Resource extends Target {
         } else {
             chat.writeText(
                 "This action requires a " +
-                toolKeyword +
-                " that you have the required " +
-                this.skill +
-                " level to use."
+                    toolKeyword +
+                    " that you have the required " +
+                    this.skill +
+                    " level to use."
             );
             return false;
         }
@@ -80,7 +80,7 @@ export class Resource extends Target {
         return calcLevel(characterData.getSkillXp(this.skill));
     }
 
-    onClick(clickValue) { }
+    onClick(clickValue) {}
 
     onCompletion() {
         characterData.addSkillXp(this.skill, this.neededClicks);

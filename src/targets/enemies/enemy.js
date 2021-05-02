@@ -165,9 +165,9 @@ export class Enemy extends Target {
         // Get max hit
         let maxHit = Math.floor(
             1.3 +
-            effectiveDamageLevel / 10 +
-            equipmenStrength / 80 +
-            (effectiveDamageLevel * equipmenStrength) / 640
+                effectiveDamageLevel / 10 +
+                equipmenStrength / 80 +
+                (effectiveDamageLevel * equipmenStrength) / 640
         );
 
         // Check accuracy
