@@ -4,6 +4,7 @@ import { MainMenuScene } from "./scenes/main-menu.js";
 import { CharacterCreationScene } from "./scenes/character-creation.js";
 import { WorldMapScene } from "./scenes/world-map.js";
 import { ShopScene } from "./scenes/shop.js";
+import { Animation } from "./ui/animation.js";
 import { TutorialIslandScene } from "./scenes/tutorial-island.js";
 import { LumbridgeScene } from "./scenes/lumbridge.js";
 import { LumbridgeTreeScene } from "./scenes/lumbridge-trees.js";
@@ -41,6 +42,7 @@ let game = new Phaser.Game({
         VarrockScene,
         BarbarianVillageScene,
         DashboardScene,
+        Animation,
         ChatScene,
         StatsScene,
     ],

@@ -142,6 +142,9 @@ class CharacterData {
             // Update xp text on dashboard
             const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
             dashboardScene.skills.updateSkillsText();
+
+            // Show xp animation
+            this.getScene(CONSTANTS.SCENES.ANIMATION).showXp(skill, xp);
         } else {
             console.log("Error: setting invalid skill", skill, xp);
         }

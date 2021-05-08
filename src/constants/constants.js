@@ -9,6 +9,7 @@ export const CONSTANTS = {
         STATS: "STATS",
         MAP: "MAP",
         SHOP: "SHOP",
+        ANIMATION: "ANIMATION",
         TUTORIAL_ISLAND: "TUTORIAL_ISLAND",
         LUMBRIDGE: "LUMBRIDGE",
         LUMBRIDGE_TREES: "LUMBRIDGE_TREES",

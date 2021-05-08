@@ -178,6 +178,9 @@ export class LoadScene extends Phaser.Scene {
         this.scene.launch(CONSTANTS.SCENES.AUDIO);
         const audioScene = this.scene.get(CONSTANTS.SCENES.AUDIO);
         audioScene.playBgm("scape-main");
+
+        // Launch animation scene in parallel
+        this.scene.launch(CONSTANTS.SCENES.ANIMATION);
     }
     updateProgress() {
         const itemLoadPercent = this.numItemsLoaded / this.totalItems;

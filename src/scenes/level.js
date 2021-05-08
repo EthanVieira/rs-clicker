@@ -188,7 +188,7 @@ export class LevelScene extends Phaser.Scene {
         this.stats.updateEnemiesKilledStat();
     }
 
-    async clickAnimation() {
+    clickAnimation() {
         // Animation settings
         let imageName = "",
             startX = 0,
@@ -265,48 +265,15 @@ export class LevelScene extends Phaser.Scene {
             }
         }
 
-        // Add animation image
-        const image = this.add
-            .image(startX, startY, imageName)
-            .setScale(scale)
-            .setDepth(4)
-            .setAlpha(alpha)
-            .setFlipX(flipX);
-
-        // Move animation
-        const endX = Math.floor(this.width / 2) - 100,
-            endY = Math.floor(this.height / 2);
-        this.tweens.add({
-            targets: image,
-            x: endX,
-            y: endY,
-            duration: 500,
-            ease: (t) => {
-                return Math.pow(Math.sin(t * 3), 3);
-            },
-            onComplete: () => {
-                image.destroy();
-            },
-            onUpdate: () => {
-                // Destroy if within 1 pixel of end point
-                // Otherwise image will return to origin
-                if (
-                    image.x >= endX - 1 &&
-                    image.x <= endX + 1 &&
-                    image.y >= endY - 1 &&
-                    image.y <= endY + 1
-                ) {
-                    image.destroy();
-                } else {
-                    image.scale -= 0.005;
-                    image.angle -= curve;
-                    if (image.alpha < 1) {
-                        image.alpha += 0.03;
-                    }
-                }
-            },
-            repeat: 0,
-            delay: 50,
+        // Send animation data to scene for movement
+        this.scene.get(CONSTANTS.SCENES.ANIMATION).clickAnimation({
+            imageName,
+            startX,
+            startY,
+            scale,
+            curve,
+            alpha,
+            flipX,
         });
     }
 }
