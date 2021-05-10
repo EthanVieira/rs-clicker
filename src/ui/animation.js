@@ -6,13 +6,17 @@ export class Animation extends Phaser.Scene {
         super({ key: CONSTANTS.SCENES.ANIMATION });
     }
 
+    preload() {
+        this.load.image("agilityIcon", "src/assets/ui/Agility_icon.png");
+    }
+
     showXp(skill, xp) {
         if (xp <= 0) {
             return;
         }
 
-        const startX = Math.floor(this.cameras.main.width / 2) - 100;
-        const startY = Math.floor(this.cameras.main.height / 2) - 100;
+        const startX = 470;
+        const startY = Math.floor(this.cameras.main.height / 2);
         const endX = startX;
         const endY = 20;
 
@@ -28,10 +32,25 @@ export class Animation extends Phaser.Scene {
         };
 
         // Moving xp text
-        const xpText = this.add.text(startX, startY, xp + " xp", font);
+        const xpText = this.add
+            .text(startX, startY, xp + " xp", font)
+            .setOrigin(0.5, 0.5);
 
         // Fixed skill text
-        const skillText = this.add.text(startX, 50, capitalize(skill), font).setDepth(1);
+        const skillText = this.add
+            .image(startX, 25, "agilityIcon")
+            .setOrigin(0.5, 0.5)
+            .setDepth(1);
+
+        // Skill background
+        const shape = new Phaser.Geom.Circle(startX, 25, 20);
+        const graphics = this.add
+            .graphics({
+                lineStyle: { width: 1, color: 0x000000 },
+                fillStyle: { color: 0x707070 },
+            })
+            .fillCircleShape(shape)
+            .strokeCircleShape(shape);
 
         this.tweens.add({
             targets: xpText,
@@ -44,6 +63,7 @@ export class Animation extends Phaser.Scene {
             onComplete: () => {
                 xpText.destroy();
                 skillText.destroy();
+                graphics.destroy();
             },
             onUpdate: () => {
                 // Destroy if within 1 pixel of end point
@@ -56,6 +76,7 @@ export class Animation extends Phaser.Scene {
                 ) {
                     xpText.destroy();
                     skillText.destroy();
+                    graphics.destroy();
                 } else {
                     xpText.scale -= 0.0005;
                 }
