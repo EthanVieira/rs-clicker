@@ -1,4 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
+import { characterData } from "../cookie-io.js";
 import { capitalize } from "../utilities.js";
 
 export class Animation extends Phaser.Scene {
@@ -7,7 +8,13 @@ export class Animation extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("agilityIcon", "src/assets/ui/Agility_icon.png");
+        // Load icons for all skills
+        for (const skill in characterData.getSkills()) {
+            this.load.image(
+                skill + "Icon",
+                "src/assets/ui/icons/" + capitalize(skill) + ".png"
+            );
+        }
     }
 
     showXp(skill, xp) {
@@ -20,6 +27,7 @@ export class Animation extends Phaser.Scene {
         const endX = startX;
         const endY = 20;
 
+        // Gold runescape font
         const font = {
             font: "24px runescape",
             fill: "gold",
@@ -37,8 +45,8 @@ export class Animation extends Phaser.Scene {
             .setOrigin(0.5, 0.5);
 
         // Fixed skill text
-        const skillText = this.add
-            .image(startX, 25, "agilityIcon")
+        const skillIcon = this.add
+            .image(startX, 25, skill + "Icon")
             .setOrigin(0.5, 0.5)
             .setDepth(1);
 
@@ -62,7 +70,7 @@ export class Animation extends Phaser.Scene {
             },
             onComplete: () => {
                 xpText.destroy();
-                skillText.destroy();
+                skillIcon.destroy();
                 graphics.destroy();
             },
             onUpdate: () => {
@@ -75,7 +83,7 @@ export class Animation extends Phaser.Scene {
                     xpText.y <= endY + 1
                 ) {
                     xpText.destroy();
-                    skillText.destroy();
+                    skillIcon.destroy();
                     graphics.destroy();
                 } else {
                     xpText.scale -= 0.0005;
