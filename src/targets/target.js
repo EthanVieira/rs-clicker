@@ -64,7 +64,7 @@ export class Target extends ClickableObject {
             // Click animation
             this.scene.scene
                 .get(CONSTANTS.SCENES.ANIMATION)
-                .clickAnimation(getAnimation());
+                .clickAnimation(this.getAnimation());
 
             // Target click interaction to be implemented by the child
             let progress = this.getClickValue();

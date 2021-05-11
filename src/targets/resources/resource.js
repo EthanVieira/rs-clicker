@@ -59,14 +59,14 @@ export class Resource extends Target {
             curWeapon?.item == toolKeyword &&
             skillLevel >= curWeapon.requiredLevels[this.skill]
         ) {
-            this.setAnimation(curWeapon);
+            this.animation = curWeapon.getAnimation();
             return true;
         }
 
         // Check inventory
         const i = inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
         if (i >= 0) {
-            this.setAnimation(inventory.inventory[i]);
+            this.animation = inventory.inventory[i].getAnimation();
             return true;
         } else {
             chat.writeText(
@@ -82,14 +82,6 @@ export class Resource extends Target {
 
     getAnimation() {
         return this.animation;
-    }
-
-    setAnimation(weapon) {
-        let animation = weapon.animation;
-        if (animation.imageName == "") {
-            animation.imageName = weapon.sprite.texture.key + "-model";
-        }
-        this.animation = animation;
     }
 
     getClickValue() {

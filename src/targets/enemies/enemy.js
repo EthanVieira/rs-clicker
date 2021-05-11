@@ -106,11 +106,7 @@ export class Enemy extends Target {
     getAnimation() {
         const weapon = this.scene.dashboard.equipment.equipment.WEAPON;
         if (weapon) {
-            let animation = weapon.animation;
-            if (animation.imageName == "") {
-                animation.imageName = weapon.sprite.texture.key + "-model";
-            }
-            return animation;
+            return weapon.getAnimation();
         } else {
             return {
                 imageName: "fist",
