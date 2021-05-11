@@ -84,7 +84,15 @@ export class Furnace extends ClickableObject {
                 this.scene.enemyKilled("bar");
 
                 // Show smelt animation
-                this.scene.clickAnimation();
+                this.scene.scene.get(CONSTANTS.SCENES.ANIMATION).clickAnimation({
+                    imageName: "furnace-hands",
+                    startX: 450,
+                    startY: 400,
+                    scale: 0.7,
+                    curve: 0,
+                    alpha: 1,
+                    flipx: false,
+                });
             }
         } else {
             chat.writeText(bar.smeltingErrorMessage);

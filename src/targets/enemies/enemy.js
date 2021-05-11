@@ -102,6 +102,28 @@ export class Enemy extends Target {
         return true;
     }
 
+    // Get weapon animation, otherwise fists
+    getAnimation() {
+        const weapon = this.scene.dashboard.equipment.equipment.WEAPON;
+        if (weapon) {
+            let animation = weapon.animation;
+            if (animation.imageName == "") {
+                animation.imageName = weapon.sprite.texture.key + "-model";
+            }
+            return animation;
+        } else {
+            return {
+                imageName: "fist",
+                startX: 450,
+                startY: 400,
+                scale: 1,
+                curve: 0,
+                alpha: 1,
+                flipx: false,
+            };
+        }
+    }
+
     // Player: (attack/items/bonuses) and enemy:  (defense/bonuses) affects accuracy
     // Player: (strength/items/bonuses) affect max hit
     // Equal chance to deal (1 - max hit) damage if it hits
@@ -165,9 +187,9 @@ export class Enemy extends Target {
         // Get max hit
         let maxHit = Math.floor(
             1.3 +
-            effectiveDamageLevel / 10 +
-            equipmenStrength / 80 +
-            (effectiveDamageLevel * equipmenStrength) / 640
+                effectiveDamageLevel / 10 +
+                equipmenStrength / 80 +
+                (effectiveDamageLevel * equipmenStrength) / 640
         );
 
         // Check accuracy

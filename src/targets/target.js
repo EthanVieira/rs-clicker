@@ -1,4 +1,5 @@
 import { ClickableObject } from "../clickable-object.js";
+import { CONSTANTS } from "../constants/constants.js";
 
 export class Target extends ClickableObject {
     curTarget;
@@ -59,9 +60,11 @@ export class Target extends ClickableObject {
 
     async clickTarget() {
         // Check child conditions
-        if (await this.isClickable()) {
+        if (this.isClickable()) {
             // Click animation
-            this.scene.clickAnimation();
+            this.scene.scene
+                .get(CONSTANTS.SCENES.ANIMATION)
+                .clickAnimation(getAnimation());
 
             // Target click interaction to be implemented by the child
             let progress = this.getClickValue();
