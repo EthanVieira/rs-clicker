@@ -50,7 +50,7 @@ export class AutoClicker {
 
     start(currentScene) {
         // Crafting levels (furnace, anvil, etc.) can't use auto clickers
-        if (currentScene.levelType != CONSTANTS.LEVEL_TYPE.CRAFTING) {
+        if (currentScene.levelType != CONSTANTS.LEVEL_TYPE.CRAFTING && currentScene.levelType != CONSTANTS.LEVEL_TYPE.SMITHING) {
             this.timer.paused = false;
             this.currentScene = currentScene;
             this.stats = currentScene.stats;

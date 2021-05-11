@@ -25,7 +25,7 @@ export default class Tool extends Item {
         console.log("Combining", this.name, item.name);
 
         // Craft item if possible
-        if (recipe.className != "" && item.numItems >= recipe.numRequiredItems) {
+        if (recipe.className !== "" && item.numItems >= recipe.numRequiredItems) {
             const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
             let newItem = await getItemClass(recipe.className, dashboard);
 
@@ -43,12 +43,14 @@ export default class Tool extends Item {
             }
         }
         // Insufficient materials
-        else if (recipe.className != "" && item.numItems < recipe.numRequiredItems) {
+        else if (recipe.className !== "" && item.numItems < recipe.numRequiredItems) {
             outputString =
                 recipe.numRequiredItems + " " + item.name + " are needed to craft that";
         }
         // Invalid selection
-        else {
+        else if (recipe.requires && recipe.requires === "Anvil") {
+            outputString = "You need an anvil to do this.";
+        } else {
             outputString = "Not a valid crafting combination.";
         }
 

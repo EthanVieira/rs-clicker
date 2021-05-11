@@ -166,12 +166,13 @@ class CharacterData {
             return this.characterData.levels[scene].questCompleted;
         }
     }
+
     setQuestCompleted(scene) {
         if (this.checkScene(scene)) {
             this.characterData.levels[scene].questCompleted = true;
 
             // Unlock levels
-            for (var level in this.characterData.levels) {
+            for (let level in this.characterData.levels) {
                 if (
                     !this.characterData.levels[level].unlocked &&
                     CONSTANTS.PREREQUISITES[level] == scene
@@ -288,4 +289,4 @@ class CharacterData {
     }
 }
 
-export var characterData = new CharacterData();
+export const characterData = new CharacterData();

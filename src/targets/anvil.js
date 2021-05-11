@@ -4,10 +4,10 @@ import { characterData } from "../cookie-io.js";
 import { Button } from "../ui/button.js";
 import { getItemClass } from "../utilities.js";
 
-export class Furnace extends ClickableObject {
-    name = "Furnace";
-    varName = "bar"; // Use # bars forged as quest
-    examineText = "A red hot furnace.";
+export class Anvil extends ClickableObject {
+    name = "Anvil";
+    varName = "bronzeDagger"; // Use # bronze daggers forged as quest
+    examineText = "Used for fashioning metal items.";
     actions = [
         { text: "Forge", func: "clickTarget" },
         { text: "Examine", func: "examine" },
@@ -19,12 +19,12 @@ export class Furnace extends ClickableObject {
 
         const cameraWidth = scene.cameras.main.width;
         const cameraHeight = scene.cameras.main.height;
-        const width = 230;
-        const height = 150;
-        const x = cameraWidth / 2 - width;
-        const y = cameraHeight / 2 - height;
+        const width = 220;
+        const height = 180;
+        const x = cameraWidth / 2 - width + 20;
+        const y = cameraHeight / 2 - height + 60;
 
-        // Add invisible button for furnace
+        // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
         this.sprite.on("pointerdown", (pointer) => {
             if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
@@ -39,63 +39,68 @@ export class Furnace extends ClickableObject {
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
-        // See if ore is selected
+        // See if bar is selected
         const selectedIndex = inv.curSelectedItemIndex;
         if (selectedIndex < 0) {
-            chat.writeText("Select an ore in your inventory first.");
+            chat.writeText("Select a bar in your inventory first.");
+            return;
+        }
+
+        const hasHammer = inv.getInventoryIndex("Hammer");
+
+        if (hasHammer < 0) {
+            chat.writeText("You need a hammer to work the metal with.");
             return;
         }
 
         const selectedItem = inv.inventory[selectedIndex];
+
         switch (selectedItem.name) {
-            case "Copper Ore":
-            case "Tin Ore":
-                this.smelt("BronzeBar");
+            case "Bronze Bar":
+                this.smith("BronzeDagger");
                 break;
             default:
-                chat.writeText("The furnace can only be used with an ore selected.");
+                chat.writeText("The anvil can only be used with the bar selected");
                 break;
         }
     }
 
-    // Take ore and turn it into a bar
-    async smelt(barName) {
+    // Take bar and turn it into a smithable item
+    async smith(itemName) {
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
-        const bar = await getItemClass(barName, this.scene.dashboard);
+        const item = await getItemClass(itemName, this.scene.dashboard);
 
-        const indices = bar.ores.map((ore) => inv.getInventoryIndex(ore));
-        const allExist = indices.every((index) => index >= 0);
+        const indices = item.bars.map((bar) => ({
+            value: inv.getInventoryIndex(bar.name),
+            count: bar.count,
+        }));
+        const allExist = indices.every(
+            (index) =>
+                index.value >= 0 && inv.inventory[index.value].numItems >= index.count
+        );
 
         // All ingredients are in inventory
         if (allExist) {
-            const added = inv.addToInventory(bar, true);
+            const added = inv.addToInventory(item, true);
 
-            // Inventory has space, reduce ore counts by 1
+            // Inventory has space, reduce bar count by the required amount
             if (added) {
                 indices.forEach((index) => {
-                    const obj = inv.inventory[index];
-                    obj.setNumItems(obj.numItems - 1);
+                    const obj = inv.inventory[index.value];
+                    obj.setNumItems(obj.numItems - index.count);
                 });
 
                 // Log click for stats
                 this.scene.stats.updateClickedTargetStat();
-                characterData.addSkillXp("smithing", bar.xp);
-                this.scene.enemyKilled("bar");
+                characterData.addSkillXp("smithing", item.xp);
+                this.scene.enemyKilled(item.questName);
 
-                // Show smelt animation
-                this.scene.scene.get(CONSTANTS.SCENES.ANIMATION).clickAnimation({
-                    imageName: "furnace-hands",
-                    startX: 450,
-                    startY: 400,
-                    scale: 0.7,
-                    curve: 0,
-                    alpha: 1,
-                    flipx: false,
-                });
+                // Show smith animation
+                this.scene.clickAnimation();
             }
         } else {
-            chat.writeText(bar.smeltingErrorMessage);
+            chat.writeText(item.smithingErrorMessage);
         }
     }
 

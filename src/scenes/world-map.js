@@ -73,6 +73,15 @@ export class WorldMapScene extends Phaser.Scene {
                 key: CONSTANTS.SCENES.AL_KHARID_FURNACE,
             },
             {
+                text: "Varrock Anvil",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.VARROCK_ANVIL
+                ),
+                x: MAP.VARROCK_ANVIL.X,
+                y: MAP.VARROCK_ANVIL.Y,
+                key: CONSTANTS.SCENES.VARROCK_ANVIL,
+            },
+            {
                 text: "Varrock Mine",
                 condition: characterData.getQuestCompleted(
                     CONSTANTS.PREREQUISITES.VARROCK_MINE
