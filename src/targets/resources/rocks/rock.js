@@ -1,14 +1,14 @@
-import { Resource } from "./resource.js";
+import { Resource } from "../resource.js";
 
-export class Tree extends Resource {
+export class Rock extends Resource {
     requiredLevels;
     actions = [
-        { text: "Chop", func: "clickTarget" },
+        { text: "Mine", func: "clickTarget" },
         { text: "Examine", func: "examine" },
     ];
 
     constructor(data) {
-        data.skill = "woodcutting";
+        data.skill = "mining";
         super(data);
         this.requiredLevels = data.requiredLevels;
     }
