@@ -1,5 +1,5 @@
 import { Tree } from "./tree.js";
-import NormalLogs from "../../items/logs/normal-logs.js";
+import NormalLogs from "../../../items/logs/normal-logs.js";
 
 export class NormalTree extends Tree {
     examineText = "A commonly found tree.";

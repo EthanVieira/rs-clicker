@@ -40,6 +40,17 @@ export function getSkillDescription(skill) {
             body += "Lv 5: Oak trees\n";
             body += "Lv 5: Equip steel axes\n";
             break;
+        case "mining":
+            description += "Mine greater rocks, faster.\n";
+            description += "Use stronger pickaxes.";
+            body += "Lv 1: Mine tin rocks\n";
+            body += "Lv 1: Mine copper rocks\n";
+            break;
+        case "smithing":
+            description = "Smelt greater ores and\nsmith better equipment.";
+            body += "Lv 1: Smelt bronze bars\n";
+            body += "Lv 1: Smith bronze daggers\n";
+            break;
         default:
             description = "Not currently supported";
             break;

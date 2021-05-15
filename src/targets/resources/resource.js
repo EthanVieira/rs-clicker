@@ -7,6 +7,7 @@ import { characterData } from "../../cookie-io.js";
 export class Resource extends Target {
     skill = "";
     neededClicks = 0;
+    animation = {};
 
     constructor(data) {
         super(data);
@@ -23,7 +24,8 @@ export class Resource extends Target {
         );
     }
 
-    async isClickable() {
+    // If it's clickable, set animation for target's use then return true
+    isClickable() {
         const curWeapon = this.scene.dashboard.equipment.equipment.WEAPON;
         const inventory = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
@@ -57,12 +59,14 @@ export class Resource extends Target {
             curWeapon?.item == toolKeyword &&
             skillLevel >= curWeapon.requiredLevels[this.skill]
         ) {
+            this.animation = curWeapon.getAnimation();
             return true;
         }
 
         // Check inventory
         const i = inventory.getKeywordInInventory(toolKeyword, true, [this.skill]);
-        if (i >= 0 && skillLevel >= inventory.inventory[i].requiredLevels[this.skill]) {
+        if (i >= 0) {
+            this.animation = inventory.inventory[i].getAnimation();
             return true;
         } else {
             chat.writeText(
@@ -74,6 +78,10 @@ export class Resource extends Target {
             );
             return false;
         }
+    }
+
+    getAnimation() {
+        return this.animation;
     }
 
     getClickValue() {

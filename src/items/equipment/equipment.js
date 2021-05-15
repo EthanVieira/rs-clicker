@@ -123,4 +123,12 @@ export default class Equipment extends Item {
         let skill = getRequiredCombatSkill(this.skill);
         return calcLevel(characterData.getSkillXp(skill)) >= this.requiredLevels[skill];
     }
+
+    getAnimation() {
+        let animation = this.animation;
+        if (animation.imageName == "") {
+            animation.imageName = this.sprite.texture.key + "-model";
+        }
+        return animation;
+    }
 }
