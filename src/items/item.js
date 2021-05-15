@@ -230,6 +230,7 @@ export class Item extends ClickableObject {
         // Remove from inventory
         if (deleteCookies && this.index >= 0) {
             characterData.setInventory(this.index, null);
+            this.scene.inventory.inventory[this.index] = null;
         }
 
         // Destroy objects
