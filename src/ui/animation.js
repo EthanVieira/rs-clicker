@@ -23,13 +23,13 @@ export class Animation extends Phaser.Scene {
         }
 
         const startX = 470;
-        const startY = Math.floor(this.cameras.main.height / 2);
+        const startY = 100;
         const endX = startX;
         const endY = 20;
 
         // Gold runescape font
         const font = {
-            font: "24px runescape",
+            font: "18px runescape",
             fill: "gold",
             shadow: {
                 offsetX: 1,
