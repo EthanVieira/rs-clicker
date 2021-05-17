@@ -97,7 +97,15 @@ export class Anvil extends ClickableObject {
                 this.scene.enemyKilled(item.questName);
 
                 // Show smith animation
-                this.scene.clickAnimation();
+                this.scene.scene.get(CONSTANTS.SCENES.ANIMATION).clickAnimation({
+                    imageName: "hammer-hand",
+                    startX: 100,
+                    startY: 100,
+                    scale: 0.8,
+                    curve: 0,
+                    alpha: 1,
+                    flipx: false,
+                });
             }
         } else {
             chat.writeText(item.smithingErrorMessage);

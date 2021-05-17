@@ -1,4 +1,4 @@
-import { Rock } from "../rock.js";
+import { Rock } from "./rock.js";
 import CopperOre from "../../../items/ores/copper-ore.js";
 
 export class CopperRock extends Rock {
