@@ -50,6 +50,30 @@ export class DashboardScene extends Phaser.Scene {
             this.currentScene.scene.start(CONSTANTS.SCENES.MAIN_MENU);
         });
 
+        // XP Counter
+        this.xpCounterOn = true;
+        this.xpCounterOnButton = this.add
+            .image(517, 19, "xp-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                if (this.xpCounterOn) {
+                    console.log("Toggling xp counter off");
+                    this.xpCounterOnButton.setVisible(false);
+                    this.xpCounterOn = false;
+                }
+            });
+
+        let xpCounterOffButton = new Button(this, 517, 19, 27, 35);
+        xpCounterOffButton.on("pointerdown", () => {
+            if (!this.xpCounterOn) {
+                console.log("Toggling xp counter on");
+                this.xpCounterOnButton.setVisible(true);
+                this.xpCounterOn = true;
+            }
+        });
+
         // Panels
         // TODO inventory can't be destroyed with dashboard like others because it's needed when you buy items
         this.inventory?.destroy();

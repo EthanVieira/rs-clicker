@@ -90,7 +90,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("red-hitsplat", "src/assets/effects/RedHitsplat.png");
 
         // Enemies
-        this.load.image("chicken", "src/assets/sprites/Chicken.jpg");
+        this.load.image("chicken", "src/assets/sprites/Chicken.png");
         this.load.image("lesser-demon", "src/assets/sprites/LesserDemon.png");
 
         // Backgrounds/Logos
@@ -104,6 +104,7 @@ export class LoadScene extends Phaser.Scene {
 
         // Dashboard UI
         // Panels and buttons
+        this.load.image("xp-button", "src/assets/ui/buttons/XpCounterButton.png");
         this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
         this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
         this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");

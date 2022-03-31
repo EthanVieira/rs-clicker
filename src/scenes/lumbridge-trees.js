@@ -10,7 +10,7 @@ export class LumbridgeTreeScene extends LevelScene {
             key: CONSTANTS.SCENES.LUMBRIDGE_TREES,
             background: {
                 name: "lumbridge",
-                path: "src/assets/backgrounds/LumbridgeBackground.jpg",
+                path: "src/assets/backgrounds/LumbridgeBackground.png",
             },
             minimap: {
                 name: "lumbridge-map",
