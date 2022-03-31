@@ -17,8 +17,12 @@ export class Animation extends Phaser.Scene {
         }
     }
 
+    create() {
+        this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
+    }
+
     showXp(skill, xp) {
-        if (xp <= 0) {
+        if (xp <= 0 || !this.dashboard.xpCounterOn) {
             return;
         }
 

@@ -25,6 +25,9 @@ export class DashboardScene extends Phaser.Scene {
     clan;
     music;
 
+    xpCounterOn = true;
+    xpCounterOnButton;
+
     constructor() {
         super({ key: CONSTANTS.SCENES.DASHBOARD });
     }
@@ -48,6 +51,29 @@ export class DashboardScene extends Phaser.Scene {
         logoutButton.on("pointerup", () => {
             console.log("Going to main menu");
             this.currentScene.scene.start(CONSTANTS.SCENES.MAIN_MENU);
+        });
+
+        // XP Counter
+        this.xpCounterOnButton = this.add
+            .image(517, 19, "xp-button")
+            .setOrigin(0, 0)
+            .setDepth(2)
+            .setInteractive()
+            .on("pointerdown", () => {
+                if (this.xpCounterOn) {
+                    console.log("Toggling xp counter off");
+                    this.xpCounterOnButton.setVisible(false);
+                    this.xpCounterOn = false;
+                }
+            });
+
+        let xpCounterOffButton = new Button(this, 517, 19, 27, 35);
+        xpCounterOffButton.on("pointerdown", () => {
+            if (!this.xpCounterOn) {
+                console.log("Toggling xp counter on");
+                this.xpCounterOnButton.setVisible(true);
+                this.xpCounterOn = true;
+            }
         });
 
         // Panels
