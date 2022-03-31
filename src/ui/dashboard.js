@@ -25,6 +25,9 @@ export class DashboardScene extends Phaser.Scene {
     clan;
     music;
 
+    xpCounterOn = true;
+    xpCounterOnButton;
+
     constructor() {
         super({ key: CONSTANTS.SCENES.DASHBOARD });
     }
@@ -51,7 +54,6 @@ export class DashboardScene extends Phaser.Scene {
         });
 
         // XP Counter
-        this.xpCounterOn = true;
         this.xpCounterOnButton = this.add
             .image(517, 19, "xp-button")
             .setOrigin(0, 0)
