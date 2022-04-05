@@ -58,7 +58,7 @@ export const defaultData = {
             questCompleted: false,
             unlocked: true,
             enemiesKilled: {
-                giantRat: 9,
+                giantRat: 0,
             },
         },
         LUMBRIDGE: {

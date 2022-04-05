@@ -23,7 +23,6 @@ export class VarrockMineScene extends LevelScene {
                 copperRock: [15, 150, 1500],
             },
             questPointAward: 2,
-
             audio: { bgm: "still-night" },
         });
     }

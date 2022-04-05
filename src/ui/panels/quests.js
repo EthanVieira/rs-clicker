@@ -238,7 +238,6 @@ export class Quests {
             this.dashboard.hideAllMenus();
             this.dashboard.currentPanel = CONSTANTS.PANEL.QUESTS;
             this.button.setAlpha(1);
-            this.isQuestTextVisible = true;
             this.openTab(this.currentTab);
         } else {
             this.button.setAlpha(0.1);
