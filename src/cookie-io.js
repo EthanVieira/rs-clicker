@@ -170,7 +170,6 @@ class CharacterData {
     setQuestCompleted(scene) {
         if (this.checkScene(scene)) {
             this.characterData.levels[scene].questCompleted = true;
-
             // Unlock levels
             for (let level in this.characterData.levels) {
                 if (
@@ -188,6 +187,14 @@ class CharacterData {
                 }
             }
         }
+    }
+
+    addQuestPoints(points) {
+        this.characterData.questPoints += points;
+    }
+
+    getQuestPoints() {
+        return this.characterData.questPoints;
     }
 
     calcQuestTier(numKilled, tiers) {

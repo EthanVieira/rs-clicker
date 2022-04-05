@@ -21,6 +21,8 @@ export class LumbridgeScene extends LevelScene {
                 cow: [10, 100, 1000],
                 goblin: [10, 100, 1000],
             },
+            questPointAward: 1,
+
             audio: { bgm: "harmony" },
         });
     }

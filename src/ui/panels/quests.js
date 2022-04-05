@@ -13,6 +13,7 @@ export class Quests {
     statsTabButton;
     questsScrollWindow;
     statsScrollWindow;
+    questPointsText;
 
     currentTab;
 
@@ -61,6 +62,13 @@ export class Quests {
                     this.openTab(CONSTANTS.QUEST_TABS.STATS);
                 }
             });
+
+        this.questPointsText = dashboard.add
+            .text(645, 233, String(characterData.getQuestPoints()), {
+                font: "16px runescape",
+                fill: "white",
+            })
+            .setDepth(3);
 
         // Quest list scroll window
         this.questsScrollWindow = new ScrollWindow({
@@ -188,19 +196,21 @@ export class Quests {
             for (var enemy in enemies) {
                 let enemiesKilled = characterData.getEnemiesKilled(level, enemy);
 
-                for (
-                    var tier = 1;
-                    tier <=
-                    characterData.calcQuestTier(enemiesKilled, scene.questAmounts[enemy]);
-                    tier++
-                ) {
+                let questTier = characterData.calcQuestTier(
+                    enemiesKilled,
+                    scene.questAmounts[enemy]
+                );
+
+                for (var tier = 1; tier <= questTier; tier++) {
                     let row = new TextRow(this.questsScrollWindow, 0, 0, []);
                     let questAmount = scene.questAmounts[enemy][tier - 1];
-                    let printedAmount =
-                        enemiesKilled > questAmount ? questAmount : enemiesKilled;
+
+                    let isQuestComplete = enemiesKilled >= questAmount;
+
+                    let printedAmount = isQuestComplete ? questAmount : enemiesKilled;
                     let questText = this.questsScrollWindow.add
                         .text(0, 0, prettyPrintCamelCase(enemy) + "s: ", {
-                            fill: enemiesKilled >= questAmount ? "#00ff00" : "yellow",
+                            fill: isQuestComplete ? "#00ff00" : "yellow",
                             font: "16px runescape",
                         })
                         .setDepth(3);
@@ -208,7 +218,7 @@ export class Quests {
 
                     let questTxtAmount = this.questsScrollWindow.add
                         .text(90, 0, printedAmount + "/" + questAmount, {
-                            fill: enemiesKilled >= questAmount ? "#00ff00" : "yellow",
+                            fill: isQuestComplete ? "#00ff00" : "yellow",
                             font: "16px runescape",
                         })
                         .setDepth(3);
@@ -218,6 +228,7 @@ export class Quests {
                 }
             }
         });
+        this.questPointsText.text = String(characterData.getQuestPoints());
         this.questsScrollWindow.refresh(true);
         this.questsScrollWindow.setVisible(this.isQuestTextVisible);
     }
@@ -227,6 +238,7 @@ export class Quests {
             this.dashboard.hideAllMenus();
             this.dashboard.currentPanel = CONSTANTS.PANEL.QUESTS;
             this.button.setAlpha(1);
+            this.isQuestTextVisible = true;
             this.openTab(this.currentTab);
         } else {
             this.button.setAlpha(0.1);
@@ -234,6 +246,8 @@ export class Quests {
             this.isQuestTextVisible = false;
             this.closeCurrentTab();
         }
+
+        this.questPointsText.visible = isVisible;
 
         this.panel.visible = isVisible;
     }

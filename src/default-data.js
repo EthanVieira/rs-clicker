@@ -7,6 +7,7 @@ export const defaultData = {
     damageByClicking: 0,
     damageByAutoClick: 0,
     numberOfAutoClickers: 0,
+    questPoints: 0,
     inventory: [
         { item: "BronzeDagger", count: 1 },
         { item: "NormalShortbow", count: 1 },
@@ -57,7 +58,7 @@ export const defaultData = {
             questCompleted: false,
             unlocked: true,
             enemiesKilled: {
-                giantRat: 0,
+                giantRat: 9,
             },
         },
         LUMBRIDGE: {
