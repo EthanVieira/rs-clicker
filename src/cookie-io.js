@@ -275,13 +275,16 @@ class CharacterData {
         this.characterData.hasCookies = true;
 
         // Lasts for one year
-        let dateTime = new Date();
+        const dateTime = new Date();
         dateTime.setTime(dateTime.getTime() + CONSTANTS.UTILS.MILLIS_IN_YEAR);
-        let expireString = "expires=" + dateTime.toUTCString();
+        const expireString = `expires=${dateTime.toUTCString()};`;
 
-        // Turn characterData into a json string and store it in a cookie
-        let jsonString = JSON.stringify(this.characterData);
-        document.cookie = "characterData=" + jsonString + ";" + expireString + ";path=/;";
+        // Format cookie data
+        const jsonString = JSON.stringify(this.characterData);
+        const dataString = `characterData=${jsonString};`;
+        const boilerplate = "path=/;SameSite=Strict;";
+
+        document.cookie = dataString + expireString + boilerplate;
     }
 
     reset() {
