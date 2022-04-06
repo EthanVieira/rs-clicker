@@ -194,20 +194,20 @@ export class Quests {
             let scene = this.dashboard.scene.get(level);
             let enemies = characterData.getEnemiesInLevel(level);
             for (var enemy in enemies) {
-                let enemiesKilled = characterData.getEnemiesKilled(level, enemy);
+                const enemiesKilled = characterData.getEnemiesKilled(level, enemy);
 
-                let questTier = characterData.calcQuestTier(
+                const questTier = characterData.calcQuestTier(
                     enemiesKilled,
                     scene.questAmounts[enemy]
                 );
 
-                for (var tier = 1; tier <= questTier; tier++) {
+                for (let tier = 1; tier <= questTier; tier++) {
                     let row = new TextRow(this.questsScrollWindow, 0, 0, []);
-                    let questAmount = scene.questAmounts[enemy][tier - 1];
+                    const questAmount = scene.questAmounts[enemy][tier - 1];
 
-                    let isQuestComplete = enemiesKilled >= questAmount;
+                    const isQuestComplete = enemiesKilled >= questAmount;
 
-                    let printedAmount = isQuestComplete ? questAmount : enemiesKilled;
+                    const printedAmount = isQuestComplete ? questAmount : enemiesKilled;
                     let questText = this.questsScrollWindow.add
                         .text(0, 0, prettyPrintCamelCase(enemy) + "s: ", {
                             fill: isQuestComplete ? "#00ff00" : "yellow",
@@ -228,7 +228,7 @@ export class Quests {
                 }
             }
         });
-        this.questPointsText.text = String(characterData.getQuestPoints());
+        this.questPointsText.text = characterData.getQuestPoints();
         this.questsScrollWindow.refresh(true);
         this.questsScrollWindow.setVisible(this.isQuestTextVisible);
     }

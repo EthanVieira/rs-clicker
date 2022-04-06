@@ -170,6 +170,7 @@ class CharacterData {
     setQuestCompleted(scene) {
         if (this.checkScene(scene)) {
             this.characterData.levels[scene].questCompleted = true;
+
             // Unlock levels
             for (let level in this.characterData.levels) {
                 if (
