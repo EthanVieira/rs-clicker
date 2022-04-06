@@ -190,6 +190,14 @@ class CharacterData {
         }
     }
 
+    addQuestPoints(points) {
+        this.characterData.questPoints += points;
+    }
+
+    getQuestPoints() {
+        return this.characterData.questPoints;
+    }
+
     calcQuestTier(numKilled, tiers) {
         for (const [index, tier] of tiers.slice(0, -1).reverse().entries()) {
             if (numKilled >= tier) {

@@ -28,6 +28,9 @@ export class LevelScene extends Phaser.Scene {
     // varName: amount
     // giantRat: 10
     questAmounts = {};
+    // The number of quest points awarded for completing a level
+    // The level is considered complete when all of the tier 1 quests are complete
+    questPointAward = 0;
 
     // Scenes
     dashboard;
@@ -45,6 +48,7 @@ export class LevelScene extends Phaser.Scene {
         this.audio = data.audio;
         this.targetMetaData = data.targets;
         this.questAmounts = data.questAmounts;
+        this.questPointAward = data.questPointAward;
 
         // Store current level to return to after leaving shop
         this.currentLevel = data.key;
@@ -173,6 +177,7 @@ export class LevelScene extends Phaser.Scene {
                 if (questCompleted) {
                     console.log("Quest complete!");
                     characterData.setQuestCompleted(this.currentLevel);
+                    characterData.addQuestPoints(this.questPointAward);
 
                     if (Math.random() < 0.5) {
                         this.audioScene.playSfx("quest-complete-1");

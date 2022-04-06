@@ -19,6 +19,7 @@ export class AlKharidFurnaceScene extends LevelScene {
             questAmounts: {
                 bar: [15, 150, 1500],
             },
+            questPointAward: 3,
             audio: { bgm: "al-kharid" },
         });
     }

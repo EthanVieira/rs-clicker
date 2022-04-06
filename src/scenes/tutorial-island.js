@@ -19,6 +19,7 @@ export class TutorialIslandScene extends LevelScene {
             questAmounts: {
                 giantRat: [10],
             },
+            questPointAward: 1,
             audio: { bgm: "newbie-melody" },
         });
     }

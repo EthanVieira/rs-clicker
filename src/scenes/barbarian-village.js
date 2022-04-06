@@ -19,6 +19,7 @@ export class BarbarianVillageScene extends LevelScene {
             questAmounts: {
                 barbarian: [20, 200, 2000],
             },
+            questPointAward: 2,
             audio: { bgm: "barbarianism" },
         });
     }

@@ -18,6 +18,7 @@ export class LumbridgeTreeScene extends LevelScene {
             },
             targets: [NormalTree],
             questAmounts: { tree: [10, 100, 1000] },
+            questPointAward: 1,
             audio: { bgm: "harmony" },
         });
     }
