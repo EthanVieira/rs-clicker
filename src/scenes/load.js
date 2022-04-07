@@ -137,6 +137,11 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("scroll-header", "src/assets/ui/ScrollHeader.png");
         this.load.image("scroll-footer", "src/assets/ui/ScrollFooter.png");
         this.load.image("scroll-button", "src/assets/ui/ScrollButton.png");
+        this.load.image(
+            "attack-style-button",
+            "src/assets/ui/buttons/AttackStyleButton.png"
+        );
+        this.load.image("attack-style-panel", "src/assets/ui/AttackStylePanel.png");
 
         // Load all targets in target manifest
         let path = "src/assets/sprites/";
