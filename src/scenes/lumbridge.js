@@ -10,7 +10,7 @@ export class LumbridgeScene extends LevelScene {
             key: CONSTANTS.SCENES.LUMBRIDGE,
             background: {
                 name: "lumbridge",
-                path: "src/assets/backgrounds/LumbridgeBackground.jpg",
+                path: "src/assets/backgrounds/LumbridgeBackground.png",
             },
             minimap: {
                 name: "lumbridge-map",
@@ -21,6 +21,7 @@ export class LumbridgeScene extends LevelScene {
                 cow: [10, 100, 1000],
                 goblin: [10, 100, 1000],
             },
+            questPointAward: 1,
             audio: { bgm: "harmony" },
         });
     }

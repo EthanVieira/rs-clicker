@@ -19,6 +19,7 @@ export class VarrockAnvilScene extends LevelScene {
             questAmounts: {
                 bronzeDagger: [10, 100, 1000],
             },
+            questPointAward: 2,
             audio: { bgm: "expanse" },
         });
     }

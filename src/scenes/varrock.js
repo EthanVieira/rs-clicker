@@ -21,6 +21,7 @@ export class VarrockScene extends LevelScene {
                 darkWizard: [15, 150, 1500],
                 guard: [15, 150, 1500],
             },
+            questPointAward: 2,
             audio: { bgm: "expanse" },
         });
     }
