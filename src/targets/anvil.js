@@ -3,6 +3,7 @@ import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
 import { Button } from "../ui/button.js";
 import { getItemClass } from "../utilities.js";
+import { ModalWindow } from "../ui/modal-window.js";
 
 export class Anvil extends ClickableObject {
     name = "Anvil";
@@ -10,6 +11,7 @@ export class Anvil extends ClickableObject {
     examineText = "Used for fashioning metal items.";
     actions = [
         { text: "Forge", func: "clickTarget" },
+        { text: "Select Recipe", func: "selectRecipe" },
         { text: "Examine", func: "examine" },
     ];
 
@@ -33,6 +35,9 @@ export class Anvil extends ClickableObject {
                 this.clickTarget();
             }
         });
+
+        //Create modal window
+        this.mWindow = new ModalWindow(this.scene);
     }
 
     async clickTarget() {
@@ -63,6 +68,10 @@ export class Anvil extends ClickableObject {
                 chat.writeText("The anvil can only be used with the bar selected");
                 break;
         }
+    }
+
+    async selectRecipe() {
+        this.mWindow.setVisible(true);
     }
 
     // Take bar and turn it into a smithable item

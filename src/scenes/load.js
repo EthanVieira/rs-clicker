@@ -138,6 +138,9 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("scroll-footer", "src/assets/ui/ScrollFooter.png");
         this.load.image("scroll-button", "src/assets/ui/ScrollButton.png");
 
+        //Modal
+        this.load.image("smithing-interface", "src/assets/ui/SmithingInterface.png");
+
         // Load all targets in target manifest
         let path = "src/assets/sprites/";
         Object.entries(targetManifest).forEach(([target, targetObj]) => {
