@@ -29,7 +29,7 @@ export class Anvil extends ClickableObject {
         // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
         this.sprite.on("pointerdown", (pointer) => {
-            if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
+            if (pointer.rightButtonDown() && !pointer.leftButtonDown() && this.mWindow.visible == false) {
                 this.createRightClickMenu(pointer.x, pointer.y, this.actions);
             } else {
                 this.clickTarget();
@@ -41,6 +41,10 @@ export class Anvil extends ClickableObject {
     }
 
     async clickTarget() {
+        if (this.mWindow.visible == true) {
+            return;
+        }
+
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
