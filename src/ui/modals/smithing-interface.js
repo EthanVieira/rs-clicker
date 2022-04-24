@@ -1,4 +1,5 @@
-import { Button } from "./button.js";
+/* import { ModalWindow } from "../modal-window.js";
+import { Button } from "../button.js";
 
 export class ModalWindow extends Phaser.Scene {
     x = 80;
@@ -34,10 +35,6 @@ export class ModalWindow extends Phaser.Scene {
         this.exitIcon.fillStyle(0xFFFFFF);
         this.exitIcon.fillRect(this.x + this.width - 16, this.y, 16, 16);
         this.exitIcon.visible = this.visible;
-    }
-
-    preload() {
-        
     }
 
     create() {
@@ -97,4 +94,4 @@ export class ModalWindow extends Phaser.Scene {
     getChoice() {
         return this.choice;
     }
-};
+}; */

@@ -11,9 +11,12 @@ export class Anvil extends ClickableObject {
     examineText = "Used for fashioning metal items.";
     actions = [
         { text: "Forge", func: "clickTarget" },
-        { text: "Select Recipe", func: "selectRecipe" },
+        { text: "Choose", func: "selectRecipe"},
         { text: "Examine", func: "examine" },
     ];
+
+    mWindow;
+    currentRecipe = "None";
 
     constructor(scene) {
         super();
@@ -62,19 +65,36 @@ export class Anvil extends ClickableObject {
             return;
         }
 
-        const selectedItem = inv.inventory[selectedIndex];
+        this.currentRecipe = this.mWindow.getChoice();
+        console.log(this.currentRecipe);
 
-        switch (selectedItem.name) {
-            case "Bronze Bar":
-                this.smith("BronzeDagger");
-                break;
-            default:
-                chat.writeText("The anvil can only be used with the bar selected");
-                break;
+        if (this.currentRecipe != "None") {
+            this.smith(this.currentRecipe);
+        }
+        else {
+            this.selectRecipe();
         }
     }
 
-    async selectRecipe() {
+    async selectRecipe(itemName) {
+        const inv = this.scene.dashboard.inventory;
+        const selectedIndex = inv.curSelectedItemIndex;
+
+        const selectedItem = inv.inventory[selectedIndex];
+        
+        let elements = [];
+        this.mWindow.clearElements();
+
+        switch (selectedItem.name) {
+            case "Bronze Bar":
+                    elements = ["BronzeDagger", "BronzeSword", "BronzeScimitar"];
+                break;
+            default:
+                chat.writeText("The anvil can only be used with the bar selected");
+                return;
+        }
+
+        this.mWindow.addElements(elements);
         this.mWindow.setVisible(true);
     }
 
