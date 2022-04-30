@@ -36,10 +36,6 @@ export class ModalWindow extends Phaser.Scene {
         this.exitIcon.visible = this.visible;
     }
 
-    preload() {
-        
-    }
-
     create() {
         this.add.image(400, 300, "smithing-interface");
     }

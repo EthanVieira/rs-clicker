@@ -15,8 +15,7 @@ export class Anvil extends ClickableObject {
         { text: "Examine", func: "examine" },
     ];
 
-    mWindow;
-    currentRecipe = "None";
+    modalWindow;
 
     constructor(scene) {
         super();
@@ -32,7 +31,7 @@ export class Anvil extends ClickableObject {
         // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
         this.sprite.on("pointerdown", (pointer) => {
-            if (pointer.rightButtonDown() && !pointer.leftButtonDown() && this.mWindow.visible == false) {
+            if (pointer.rightButtonDown() && !pointer.leftButtonDown() && this.modalWindow.visible == false) {
                 this.createRightClickMenu(pointer.x, pointer.y, this.actions);
             } else {
                 this.clickTarget();
@@ -40,14 +39,25 @@ export class Anvil extends ClickableObject {
         });
 
         //Create modal window
-        this.mWindow = new ModalWindow(this.scene);
+        this.modalWindow = new ModalWindow(this.scene);
     }
 
     async clickTarget() {
-        if (this.mWindow.visible == true) {
+        if (this.modalWindow.visible == true) {
             return;
         }
 
+        const currentRecipe = this.modalWindow.getChoice();
+
+        if (currentRecipe != "None") {
+            this.smith(currentRecipe);
+        }
+        else {
+            this.selectRecipe();
+        }
+    }
+
+    async hasMaterials() {
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
@@ -55,35 +65,31 @@ export class Anvil extends ClickableObject {
         const selectedIndex = inv.curSelectedItemIndex;
         if (selectedIndex < 0) {
             chat.writeText("Select a bar in your inventory first.");
-            return;
+            return false;
         }
 
         const hasHammer = inv.getInventoryIndex("Hammer");
 
         if (hasHammer < 0) {
             chat.writeText("You need a hammer to work the metal with.");
-            return;
+            return false;
         }
 
-        this.currentRecipe = this.mWindow.getChoice();
-        console.log(this.currentRecipe);
-
-        if (this.currentRecipe != "None") {
-            this.smith(this.currentRecipe);
-        }
-        else {
-            this.selectRecipe();
-        }
+        return true;
     }
 
     async selectRecipe(itemName) {
+        if (this.hasMaterials() == false) {
+            return;
+        }
+
         const inv = this.scene.dashboard.inventory;
         const selectedIndex = inv.curSelectedItemIndex;
 
         const selectedItem = inv.inventory[selectedIndex];
         
         let elements = [];
-        this.mWindow.clearElements();
+        this.modalWindow.clearElements();
 
         switch (selectedItem.name) {
             case "Bronze Bar":
@@ -94,12 +100,16 @@ export class Anvil extends ClickableObject {
                 return;
         }
 
-        this.mWindow.addElements(elements);
-        this.mWindow.setVisible(true);
+        this.modalWindow.addElements(elements);
+        this.modalWindow.setVisible(true);
     }
 
     // Take bar and turn it into a smithable item
     async smith(itemName) {
+        if (this.hasMaterials() == false) {
+            return;
+        }
+
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         const item = await getItemClass(itemName, this.scene.dashboard);
