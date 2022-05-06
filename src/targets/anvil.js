@@ -3,7 +3,7 @@ import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
 import { Button } from "../ui/button.js";
 import { getItemClass } from "../utilities.js";
-import { ModalWindow } from "../ui/modal-window.js";
+import { SmithingModalWindow } from "../ui/modals/smithing-modal-window.js";
 
 export class Anvil extends ClickableObject {
     name = "Anvil";
@@ -15,6 +15,7 @@ export class Anvil extends ClickableObject {
         { text: "Examine", func: "examine" },
     ];
 
+    validMaterials = new Set();
     modalWindow;
 
     constructor(scene) {
@@ -31,7 +32,7 @@ export class Anvil extends ClickableObject {
         // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
         this.sprite.on("pointerdown", (pointer) => {
-            if (pointer.rightButtonDown() && !pointer.leftButtonDown() && this.modalWindow.visible == false) {
+            if (pointer.rightButtonDown() && !pointer.leftButtonDown() && !this.modalWindow.visible) {
                 this.createRightClickMenu(pointer.x, pointer.y, this.actions);
             } else {
                 this.clickTarget();
@@ -39,11 +40,13 @@ export class Anvil extends ClickableObject {
         });
 
         //Create modal window
-        this.modalWindow = new ModalWindow(this.scene);
+        this.modalWindow = new SmithingModalWindow(this.scene);
+        this.validMaterials.add("Bronze Bar");
+        this.validMaterials.add("Iron Bar");
     }
 
     async clickTarget() {
-        if (this.modalWindow.visible == true) {
+        if (this.modalWindow.visible) {
             return;
         }
 
@@ -63,7 +66,9 @@ export class Anvil extends ClickableObject {
 
         // See if bar is selected
         const selectedIndex = inv.curSelectedItemIndex;
-        if (selectedIndex < 0) {
+        const selectedItem = inv.inventory[selectedIndex];
+
+        if (selectedIndex < 0 || !this.validMaterials.has(selectedItem.name)) {
             chat.writeText("Select a bar in your inventory first.");
             return false;
         }
@@ -79,7 +84,7 @@ export class Anvil extends ClickableObject {
     }
 
     async selectRecipe(itemName) {
-        if (this.hasMaterials() == false) {
+        if (! await this.hasMaterials()) {
             return;
         }
 
@@ -88,8 +93,9 @@ export class Anvil extends ClickableObject {
 
         const selectedItem = inv.inventory[selectedIndex];
         
-        let elements = [];
         this.modalWindow.clearElements();
+
+        let elements = [];
 
         switch (selectedItem.name) {
             case "Bronze Bar":
@@ -106,10 +112,10 @@ export class Anvil extends ClickableObject {
 
     // Take bar and turn it into a smithable item
     async smith(itemName) {
-        if (this.hasMaterials() == false) {
+        if (! await this.hasMaterials()) {
             return;
         }
-
+        
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         const item = await getItemClass(itemName, this.scene.dashboard);

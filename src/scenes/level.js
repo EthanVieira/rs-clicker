@@ -155,6 +155,11 @@ export class LevelScene extends Phaser.Scene {
     }
 
     enemyKilled(name) {
+        // Check if quest even exists
+        if (this.questAmounts[name] === undefined) {
+            return;
+        }
+
         // Update kill quest score
         const enemiesKilled = characterData.getEnemiesKilled(this.currentLevel, name);
         const maxKillCount = this.questAmounts[name][this.questAmounts[name].length - 1];

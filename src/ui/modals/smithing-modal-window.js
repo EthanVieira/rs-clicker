@@ -1,7 +1,7 @@
-/* import { ModalWindow } from "../modal-window.js";
+import { ModalWindow } from "../modal-window.js"
 import { Button } from "../button.js";
 
-export class ModalWindow extends Phaser.Scene {
+export class SmithingModalWindow extends ModalWindow {
     x = 80;
     y = 80;
     width = 360;
@@ -14,7 +14,17 @@ export class ModalWindow extends Phaser.Scene {
     elementEvents = [];
     choice = "None";
 
-    constructor(scene, options) {
+    leftOffset = 8;
+    topOffset = 16;
+
+    horizontalPadding = 8;
+    verticalPadding = 8;
+
+    iconWidth = 48;
+    iconHeight = 48;
+    maxIconsPerRow = 4;
+
+    constructor(scene) {
         super();
         this.scene = scene;
         this.window = scene.add.graphics();
@@ -25,7 +35,7 @@ export class ModalWindow extends Phaser.Scene {
 
         this.exitButton = new Button(this.scene, this.x + this.width - 16, this.y, 16, 16);
         this.exitButton.on("pointerup", () => {
-            if (this.visible == true) {
+            if (this.visible) {
                 this.setVisible(false);
             }
         });
@@ -46,24 +56,25 @@ export class ModalWindow extends Phaser.Scene {
     }
 
     clearElements() {
-        for (let i = 0; i < this.elements.length; i++) {
-            this.elements[i].destroy();
+        for (let element of this.elements) {
+            element.destroy();
         }
         
         this.elements = [];
-        this.elementEvents = [];
     }
 
     addElements(elements) {
         let offset = 8;
-        this.elementEvents = elements.map((obj) => obj);
 
-        for (let i = 0; i < elements.length; i++) {
+        let positionX = this.x + this.leftOffset + this.horizontalPadding;
+        let positionY = this.y + this.topOffset + this.verticalPadding;
+
+        for (let element of elements) {
             
-            let elementButton = new Button(this.scene, this.x + offset, this.y + 16, 48, 48);
+            let elementButton = new Button(this.scene, positionX, positionY, this.iconWidth, this.iconHeight);
             elementButton.on("pointerup", () => {
-                if (this.visible == true) {
-                    this.choice = this.elementEvents[i];
+                if (this.visible) {
+                    this.choice = element;
                     this.setVisible(false);
                 }
             });
@@ -71,13 +82,13 @@ export class ModalWindow extends Phaser.Scene {
             let elementIcon = this.scene.add.graphics();
             elementIcon.setDepth(3);
             elementIcon.fillStyle(0x22EE22);
-            elementIcon.fillRect(this.x + offset, this.y + 16, 48, 48);
+            elementIcon.fillRect(positionX, positionY, this.iconWidth, this.iconHeight);
             elementIcon.visible = this.visible;
-
-            offset += 56;
 
             this.elements.push(elementButton);
             this.elements.push(elementIcon);
+
+            positionX += this.iconWidth + this.horizontalPadding;
         }
     }
 
@@ -86,12 +97,12 @@ export class ModalWindow extends Phaser.Scene {
         this.window.visible = isVisible;
         this.exitIcon.visible = isVisible;
 
-        for (let i = 0; i < this.elements.length; i++) {
-            this.elements[i].visible = isVisible;
+        for (let element of this.elements) {
+            element.visible = isVisible;
         }
     }
 
     getChoice() {
         return this.choice;
     }
-}; */
+};

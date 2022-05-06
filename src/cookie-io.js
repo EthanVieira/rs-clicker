@@ -1,10 +1,12 @@
-import { defaultData } from "./default-data.js";
+// import { defaultData } from "./default-data.js";
+import { testSmithingData } from "./test-smithing-data.js"
 import { CONSTANTS, FONTS } from "./constants/constants.js";
 import * as Utilities from "./utilities.js";
 
 function getDefaultData() {
     // Reset data (deep copy)
-    return JSON.parse(JSON.stringify(defaultData));
+    //return JSON.parse(JSON.stringify(defaultData));
+    return JSON.parse(JSON.stringify(testSmithingData));
 }
 
 class CharacterData {
