@@ -1,6 +1,12 @@
 import Sword from "./sword.js";
 
 export default class Bronze2hSword extends Sword {
+    xp = 37.5;
+    bars = [{ name: "BronzeBar", count: 3 }];
+    smithingLevel = 14;
+    questName = "bronzeSword";
+    smithingErrorMessage = "You don't have enough bronze bars to make a bronze 2h sword.";
+
     // Attack bonuses
     stabBonus = -4;
     slashBonus = 9;

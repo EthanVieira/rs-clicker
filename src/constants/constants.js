@@ -272,4 +272,38 @@ export const FONTS = {
         font: "16px runescape",
         fill: "blue",
     },
+    SMITH_UNLOCKED: {
+        font: "16px runescape",
+        fill: "white",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
+    SMITH_LOCKED: {
+        font: "16px runescape",
+        fill: "black",
+    },
+    SMITH_COUNT_UNLOCKED: {
+        font: "16px runescape",
+        fill: "#00ff00",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
+    SMITH_COUNT_LOCKED: {
+        font: "16px runescape",
+        fill: "#ff8800",
+        shadow: {
+            offsetX: 1,
+            offsetY: 1,
+            color: "black",
+            fill: true,
+        },
+    },
 };

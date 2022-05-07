@@ -17,7 +17,7 @@ export const testSmithingData = {
         { item: "Knife", count: 1 },
         { item: "Hammer", count: 1 },
         { item: "Coin", count: 25 },
-        { item: "BronzeBar", count: 69420 },
+        { item: "BronzeBar", count: 42069 },
     ],
     equipment: {
         WEAPON: "",
