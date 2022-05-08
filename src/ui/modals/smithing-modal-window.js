@@ -55,21 +55,14 @@ export class SmithingModalWindow extends ModalWindow {
         this.elements = [];
     }
 
-    getSpriteName(name) {
-        let result = name.toLowerCase();
-        result.toLowerCase();
-        result = result.replaceAll(" ", "-");
-        return result;
-    }
-
     async setChoices(bar, barSupply, smithingLevel) {
         this.clearChoices();
 
-        let elements = [];
+        let recipes = [];
 
         switch (bar) {
             case "Bronze Bar":
-                    elements = ["BronzeDagger", "BronzeSword", "SKIP", "BronzeScimitar", "BronzeAxe", "Bronze2hSword"];
+                    recipes = ["BronzeDagger", "BronzeSword", null, "BronzeScimitar", "BronzeAxe", "Bronze2hSword"];
                 break;
             default:
                 return;
@@ -80,8 +73,8 @@ export class SmithingModalWindow extends ModalWindow {
         let positionX = this.x + this.leftOffset + this.horizontalPadding;
         let positionY = this.y + this.topOffset + this.verticalPadding;
 
-        for (let element of elements) {
-            if (element === "SKIP") {
+        for (let recipe of recipes) {
+            if (!recipe) {
                 positionX += this.iconWidth + this.horizontalPadding;
                 rowIndex += 1;
                 continue;
@@ -93,17 +86,17 @@ export class SmithingModalWindow extends ModalWindow {
                 rowIndex = 0;
             }
 
-            const item = await getItemClass(element, this.scene.window);
+            const item = await getItemClass(recipe, this.scene.window);
             const spriteName = await this.getSpriteName(item.name);
 
-            const barFlag = barSupply >= item.bars[0].count ? true : false;
-            const levelFlag = smithingLevel >= item.smithingLevel ? true : false;
+            const barFlag = barSupply >= item.bars[0].count;
+            const levelFlag = smithingLevel >= item.smithingLevel;
 
             if (barFlag && levelFlag) {
-                let elementButton = new Button(this.scene, positionX, positionY, this.buttonWidth, this.buttonHeight);
+                const elementButton = new Button(this.scene, positionX, positionY, this.buttonWidth, this.buttonHeight);
                 elementButton.on("pointerup", () => {
                     if (this.visible) {
-                        this.choice = element;
+                        this.choice = recipe;
                         this.setVisible(false);
                     }
                 });
@@ -111,26 +104,24 @@ export class SmithingModalWindow extends ModalWindow {
                 this.elements.push(elementButton);
             }
 
-            let elementIcon = this.scene.add
+            const elementIcon = this.scene.add
                 .image(positionX + 12, positionY, spriteName)
                 .setOrigin(0, 0)
-                .setDepth(3);
-            elementIcon.visible = this.visible
+                .setDepth(3)
+                .setVisible(this.visible);
 
             const textFont = levelFlag ? FONTS.SMITH_UNLOCKED : FONTS.SMITH_LOCKED;
 
-            let elementText = this.scene.add.text(positionX, positionY + this.iconHeight, item.item, textFont).setDepth(3);
-            elementText.visible = this.visible;
+            const elementText = this.scene.add.text(positionX, positionY + this.iconHeight, item.item, textFont)
+                .setDepth(3)
+                .setVisible(this.visible);
 
-            let postfix = " bar";
-            if (item.bars[0].count > 1) {
-                postfix = " bars"
-            }
-
+            const postfix = (item.bars[0].count > 1) ? " bars" : " bar";
             const countFont = barFlag ? FONTS.SMITH_COUNT_UNLOCKED : FONTS.SMITH_COUNT_LOCKED;
 
-            let elementCount = this.scene.add.text(positionX, positionY + this.iconHeight + 16, item.bars[0].count + postfix, countFont).setDepth(3);
-            elementCount.visible = this.visible;
+            const elementCount = this.scene.add.text(positionX, positionY + this.iconHeight + 16, item.bars[0].count + postfix, countFont)
+                .setDepth(3)
+                .setVisible(this.visible);
 
             this.elements.push(elementIcon);
             this.elements.push(elementText);

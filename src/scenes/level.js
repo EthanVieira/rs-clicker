@@ -156,7 +156,8 @@ export class LevelScene extends Phaser.Scene {
 
     enemyKilled(name) {
         // Check if quest even exists
-        if (this.questAmounts[name] === undefined) {
+        if (!this.questExists(name)) {
+            console.log("Attempted to advance a non-existent quest:", name);
             return;
         }
 
@@ -196,5 +197,9 @@ export class LevelScene extends Phaser.Scene {
         // Update text
         this.dashboard.quests.refreshQuests();
         this.stats.updateEnemiesKilledStat();
+    }
+
+    questExists(name) {
+        return !this.questAmounts[name] ? false : true;
     }
 }

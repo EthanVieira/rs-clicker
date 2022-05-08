@@ -26,4 +26,10 @@ export class ModalWindow extends Phaser.Scene {
     getChoice() {
         return this.choice;
     }
+
+    getSpriteName(name) {
+        let result = name.toLowerCase();
+        result = result.replaceAll(" ", "-");
+        return result;
+    }
 };

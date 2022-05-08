@@ -5,6 +5,7 @@ import { calcLevel } from "../utilities.js";
 import { Button } from "../ui/button.js";
 import { getItemClass } from "../utilities.js";
 import { SmithingModalWindow } from "../ui/modals/smithing-modal-window.js";
+import { LevelScene } from "../scenes/level.js";
 
 export class Anvil extends ClickableObject {
     name = "Anvil";
@@ -61,7 +62,7 @@ export class Anvil extends ClickableObject {
         }
     }
 
-    async hasMaterials() {
+    hasMaterials() {
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
@@ -69,7 +70,7 @@ export class Anvil extends ClickableObject {
         const selectedIndex = inv.curSelectedItemIndex;
         const selectedItem = inv.inventory[selectedIndex];
 
-        if (selectedIndex < 0 || !this.validMaterials.has(selectedItem.name)) {
+        if (selectedIndex < 0 || !selectedItem || !this.validMaterials.has(selectedItem.name)) {
             chat.writeText("Select a bar in your inventory first.");
             return false;
         }
@@ -84,8 +85,8 @@ export class Anvil extends ClickableObject {
         return true;
     }
 
-    async selectRecipe(itemName) {
-        if (! await this.hasMaterials()) {
+    selectRecipe(itemName) {
+        if (!this.hasMaterials()) {
             return;
         }
 
@@ -102,7 +103,7 @@ export class Anvil extends ClickableObject {
 
     // Take bar and turn it into a smithable item
     async smith(itemName) {
-        if (! await this.hasMaterials()) {
+        if (!this.hasMaterials()) {
             return;
         }
         
@@ -133,7 +134,9 @@ export class Anvil extends ClickableObject {
                 // Log click for stats
                 this.scene.stats.updateClickedTargetStat();
                 characterData.addSkillXp("smithing", item.xp);
-                this.scene.enemyKilled(item.questName);
+                if (this.scene.questExists(item.questName)) { 
+                    this.scene.enemyKilled(item.questName);
+                }
 
                 // Show smith animation
                 this.scene.scene.get(CONSTANTS.SCENES.ANIMATION).clickAnimation({
