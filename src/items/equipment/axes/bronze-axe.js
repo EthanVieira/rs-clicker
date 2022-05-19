@@ -1,6 +1,13 @@
 import Axe from "./axe.js";
 
 export default class BronzeAxe extends Axe {
+    xp = 12.5;
+    bars = [{ name: "BronzeBar", count: 1 }];
+    smithingLevel = 1;
+    questName = "bronzeAxe";
+    smithingErrorMessage = "You don't have enough bronze bars to make a bronze axe.";
+    smithingLevelErrorMessage = "You don't have a high enough smithing level to make a bronze axe.";
+
     // Attack bonuses
     stabBonus = -2;
     slashBonus = 4;

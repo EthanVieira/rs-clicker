@@ -1,6 +1,13 @@
 import Scimitar from "./scimitar.js";
 
 export default class BronzeScimitar extends Scimitar {
+    xp = 25.0;
+    bars = [{ name: "BronzeBar", count: 2 }];
+    smithingLevel = 5;
+    questName = "bronzeScimitar";
+    smithingErrorMessage = "You don't have enough bronze bars to make a bronze scimitar.";
+    smithingLevelErrorMessage = "You don't have a high enough smithing level to make a bronze scimitar.";
+
     // Attack bonuses
     stabBonus = 1;
     slashBonus = 7;
