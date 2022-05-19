@@ -50,6 +50,10 @@ export function getSkillDescription(skill) {
             description = "Smelt greater ores and\nsmith better equipment.";
             body += "Lv 1: Smelt bronze bars\n";
             body += "Lv 1: Smith bronze daggers\n";
+            body += "Lv 1: Smith bronze axe\n";
+            body += "Lv 4: Smith bronze swords\n";
+            body += "Lv 5: Smith bronze scimitars\n";
+            body += "Lv 14: Smith bronze 2h swords\n";
             break;
         default:
             description = "Not currently supported";

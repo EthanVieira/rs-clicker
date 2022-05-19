@@ -32,4 +32,4 @@ export class ModalWindow extends Phaser.Scene {
         result = result.replaceAll(" ", "-");
         return result;
     }
-};
+}

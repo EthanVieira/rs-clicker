@@ -1,8 +1,7 @@
-import { FONTS } from "../../constants/constants.js";
-import { ModalWindow } from "../modal-window.js"
+import { CONSTANTS, FONTS } from "../../constants/constants.js";
+import { ModalWindow } from "../modal-window.js";
 import { Button } from "../button.js";
 import { getItemClass } from "../../utilities.js";
-import { itemManifest } from "../../items/item-manifest.js";
 
 export class SmithingModalWindow extends ModalWindow {
     x = 10;
@@ -36,7 +35,7 @@ export class SmithingModalWindow extends ModalWindow {
             .image(this.x, this.y, "smithing-interface")
             .setOrigin(0, 0)
             .setDepth(2);
-        
+
         this.window.visible = this.visible;
 
         this.exitButton = new Button(this.scene, this.x + 473, this.y + 8, 19, 19);
@@ -51,7 +50,7 @@ export class SmithingModalWindow extends ModalWindow {
         for (let element of this.elements) {
             element.destroy();
         }
-        
+
         this.elements = [];
     }
 
@@ -62,47 +61,72 @@ export class SmithingModalWindow extends ModalWindow {
 
         switch (bar) {
             case "Bronze Bar":
-                    recipes = ["BronzeDagger", "BronzeSword", null, "BronzeScimitar", "BronzeAxe", "Bronze2hSword"];
+                recipes = [
+                    "BronzeDagger",
+                    "BronzeAxe",
+                    null,
+                    null,
+                    null,
+                    "BronzeSword",
+                    "BronzeScimitar",
+                    "Bronze2hSword",
+                ];
                 break;
             default:
                 return;
         }
 
-        let rowIndex = 0;
+        const offsetX = this.x + this.leftOffset + this.horizontalPadding;
+        const offsetY = this.y + this.topOffset + this.verticalPadding;
+        const padX = this.iconWidth + this.horizontalPadding;
+        const padY = this.iconHeight + this.verticalPadding + 24;
 
-        let positionX = this.x + this.leftOffset + this.horizontalPadding;
-        let positionY = this.y + this.topOffset + this.verticalPadding;
-
-        for (let recipe of recipes) {
+        for (let [index, recipe] of recipes.entries()) {
             if (!recipe) {
-                positionX += this.iconWidth + this.horizontalPadding;
-                rowIndex += 1;
                 continue;
             }
 
-            if (rowIndex >= this.maxIconsPerRow) {
-                positionX = this.x + this.leftOffset + this.horizontalPadding;
-                positionY += this.iconHeight + this.verticalPadding + 24;
-                rowIndex = 0;
-            }
+            const positionX = offsetX + padX * (index % this.maxIconsPerRow);
+            const positionY = offsetY + padY * parseInt(index / this.maxIconsPerRow);
 
             const item = await getItemClass(recipe, this.scene.window);
+            console.log(item.name);
             const spriteName = await this.getSpriteName(item.name);
 
             const barFlag = barSupply >= item.bars[0].count;
             const levelFlag = smithingLevel >= item.smithingLevel;
 
+            const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
+            const elementButton = new Button(
+                this.scene,
+                positionX,
+                positionY,
+                this.buttonWidth,
+                this.buttonHeight
+            );
+
             if (barFlag && levelFlag) {
-                const elementButton = new Button(this.scene, positionX, positionY, this.buttonWidth, this.buttonHeight);
                 elementButton.on("pointerup", () => {
                     if (this.visible) {
                         this.choice = recipe;
                         this.setVisible(false);
                     }
                 });
-
-                this.elements.push(elementButton);
+            } else if (!barFlag) {
+                elementButton.on("pointerup", () => {
+                    if (this.visible) {
+                        chat.writeText(item.smithingErrorMessage);
+                    }
+                });
+            } else {
+                elementButton.on("pointerup", () => {
+                    if (this.visible) {
+                        chat.writeText(item.smithingLevelErrorMessage);
+                    }
+                });
             }
+
+            this.elements.push(elementButton);
 
             const elementIcon = this.scene.add
                 .image(positionX + 12, positionY, spriteName)
@@ -112,23 +136,29 @@ export class SmithingModalWindow extends ModalWindow {
 
             const textFont = levelFlag ? FONTS.SMITH_UNLOCKED : FONTS.SMITH_LOCKED;
 
-            const elementText = this.scene.add.text(positionX, positionY + this.iconHeight, item.item, textFont)
+            const elementText = this.scene.add
+                .text(positionX, positionY + this.iconHeight, item.item, textFont)
                 .setDepth(3)
                 .setVisible(this.visible);
 
-            const postfix = (item.bars[0].count > 1) ? " bars" : " bar";
-            const countFont = barFlag ? FONTS.SMITH_COUNT_UNLOCKED : FONTS.SMITH_COUNT_LOCKED;
+            const postfix = item.bars[0].count > 1 ? " bars" : " bar";
+            const countFont = barFlag
+                ? FONTS.SMITH_COUNT_UNLOCKED
+                : FONTS.SMITH_COUNT_LOCKED;
 
-            const elementCount = this.scene.add.text(positionX, positionY + this.iconHeight + 16, item.bars[0].count + postfix, countFont)
+            const elementCount = this.scene.add
+                .text(
+                    positionX,
+                    positionY + this.iconHeight + 16,
+                    item.bars[0].count + postfix,
+                    countFont
+                )
                 .setDepth(3)
                 .setVisible(this.visible);
 
             this.elements.push(elementIcon);
             this.elements.push(elementText);
             this.elements.push(elementCount);
-
-            positionX += this.iconWidth + this.horizontalPadding;
-            rowIndex += 1;
         }
     }
 
@@ -140,8 +170,4 @@ export class SmithingModalWindow extends ModalWindow {
             element.visible = isVisible;
         }
     }
-
-    getChoice() {
-        return this.choice;
-    }
-};
+}

@@ -6,6 +6,7 @@ export default class BronzeDagger extends Dagger {
     smithingLevel = 1;
     questName = "bronzeDagger";
     smithingErrorMessage = "You don't have enough bronze bars to make a bronze dagger.";
+    smithingLevelErrorMessage = "You don't have a high enough smithing level to make a bronze dagger.";
 
     // Bonuses
     stabBonus = 4;

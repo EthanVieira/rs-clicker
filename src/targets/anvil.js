@@ -13,7 +13,7 @@ export class Anvil extends ClickableObject {
     examineText = "Used for fashioning metal items.";
     actions = [
         { text: "Forge", func: "clickTarget" },
-        { text: "Choose", func: "selectRecipe"},
+        { text: "Choose", func: "selectRecipe" },
         { text: "Examine", func: "examine" },
     ];
 
@@ -34,7 +34,11 @@ export class Anvil extends ClickableObject {
         // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
         this.sprite.on("pointerdown", (pointer) => {
-            if (pointer.rightButtonDown() && !pointer.leftButtonDown() && !this.modalWindow.visible) {
+            if (
+                pointer.rightButtonDown() &&
+                !pointer.leftButtonDown() &&
+                !this.modalWindow.visible
+            ) {
                 this.createRightClickMenu(pointer.x, pointer.y, this.actions);
             } else {
                 this.clickTarget();
@@ -56,8 +60,7 @@ export class Anvil extends ClickableObject {
 
         if (currentRecipe != "None") {
             this.smith(currentRecipe);
-        }
-        else {
+        } else {
             this.selectRecipe();
         }
     }
@@ -70,7 +73,11 @@ export class Anvil extends ClickableObject {
         const selectedIndex = inv.curSelectedItemIndex;
         const selectedItem = inv.inventory[selectedIndex];
 
-        if (selectedIndex < 0 || !selectedItem || !this.validMaterials.has(selectedItem.name)) {
+        if (
+            selectedIndex < 0 ||
+            !selectedItem ||
+            !this.validMaterials.has(selectedItem.name)
+        ) {
             chat.writeText("Select a bar in your inventory first.");
             return false;
         }
@@ -96,8 +103,12 @@ export class Anvil extends ClickableObject {
         const selectedItem = inv.inventory[selectedIndex];
         const smithingExp = characterData.getSkills().smithing;
         const smithingLevel = calcLevel(smithingExp);
-        
-        this.modalWindow.setChoices(selectedItem.name, selectedItem.numItems, smithingLevel);
+
+        this.modalWindow.setChoices(
+            selectedItem.name,
+            selectedItem.numItems,
+            smithingLevel
+        );
         this.modalWindow.setVisible(true);
     }
 
@@ -106,7 +117,7 @@ export class Anvil extends ClickableObject {
         if (!this.hasMaterials()) {
             return;
         }
-        
+
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         const item = await getItemClass(itemName, this.scene.dashboard);
@@ -134,9 +145,7 @@ export class Anvil extends ClickableObject {
                 // Log click for stats
                 this.scene.stats.updateClickedTargetStat();
                 characterData.addSkillXp("smithing", item.xp);
-                if (this.scene.questExists(item.questName)) { 
-                    this.scene.enemyKilled(item.questName);
-                }
+                this.scene.enemyKilled(item.questName);
 
                 // Show smith animation
                 this.scene.scene.get(CONSTANTS.SCENES.ANIMATION).clickAnimation({

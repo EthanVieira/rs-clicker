@@ -6,6 +6,7 @@ export default class BronzeScimitar extends Scimitar {
     smithingLevel = 5;
     questName = "bronzeScimitar";
     smithingErrorMessage = "You don't have enough bronze bars to make a bronze scimitar.";
+    smithingLevelErrorMessage = "You don't have a high enough smithing level to make a bronze scimitar.";
 
     // Attack bonuses
     stabBonus = 1;
