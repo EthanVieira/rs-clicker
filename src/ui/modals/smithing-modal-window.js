@@ -90,7 +90,6 @@ export class SmithingModalWindow extends ModalWindow {
             const positionY = offsetY + padY * parseInt(index / this.maxIconsPerRow);
 
             const item = await getItemClass(recipe, this.scene.window);
-            console.log(item.name);
             const spriteName = await this.getSpriteName(item.name);
 
             const barFlag = barSupply >= item.bars[0].count;
