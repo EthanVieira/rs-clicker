@@ -155,6 +155,12 @@ export class LevelScene extends Phaser.Scene {
     }
 
     enemyKilled(name) {
+        // Check if quest even exists
+        if (!this.questExists(name)) {
+            console.log("Attempted to advance a non-existent quest:", name);
+            return;
+        }
+
         // Update kill quest score
         const enemiesKilled = characterData.getEnemiesKilled(this.currentLevel, name);
         const maxKillCount = this.questAmounts[name][this.questAmounts[name].length - 1];
@@ -191,5 +197,9 @@ export class LevelScene extends Phaser.Scene {
         // Update text
         this.dashboard.quests.refreshQuests();
         this.stats.updateEnemiesKilledStat();
+    }
+
+    questExists(name) {
+        return !this.questAmounts[name] ? false : true;
     }
 }

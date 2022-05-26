@@ -143,6 +143,9 @@ export class LoadScene extends Phaser.Scene {
         );
         this.load.image("attack-style-panel", "src/assets/ui/AttackStylePanel.png");
 
+        //Modal
+        this.load.image("smithing-interface", "src/assets/ui/SmithingInterface.png");
+
         // Load all targets in target manifest
         let path = "src/assets/sprites/";
         Object.entries(targetManifest).forEach(([target, targetObj]) => {

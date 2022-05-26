@@ -1,7 +1,7 @@
-import Equipment from "../equipment.js";
+import Smithable from "../smithable.js";
 import { EQUIPMENT } from "../../../constants/constants.js";
 
-export default class Axe extends Equipment {
+export default class Axe extends Smithable {
     // Attack types
     slot = EQUIPMENT.SLOTS.WEAPON;
     skill = EQUIPMENT.WEAPON_TYPES.MELEE;

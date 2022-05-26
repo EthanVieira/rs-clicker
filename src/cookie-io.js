@@ -1,4 +1,4 @@
-import { defaultData } from "./default-data.js";
+import { defaultData } from "./data/default-data.js";
 import { CONSTANTS, FONTS } from "./constants/constants.js";
 import * as Utilities from "./utilities.js";
 

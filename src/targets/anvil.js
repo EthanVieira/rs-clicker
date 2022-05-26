@@ -1,8 +1,11 @@
 import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
+import { calcLevel } from "../utilities.js";
 import { Button } from "../ui/button.js";
 import { getItemClass } from "../utilities.js";
+import { SmithingModalWindow } from "../ui/modals/smithing-modal-window.js";
+import { LevelScene } from "../scenes/level.js";
 
 export class Anvil extends ClickableObject {
     name = "Anvil";
@@ -10,8 +13,12 @@ export class Anvil extends ClickableObject {
     examineText = "Used for fashioning metal items.";
     actions = [
         { text: "Forge", func: "clickTarget" },
+        { text: "Choose", func: "selectRecipe" },
         { text: "Examine", func: "examine" },
     ];
+
+    validMaterials = new Set();
+    modalWindow;
 
     constructor(scene) {
         super();
@@ -27,46 +34,90 @@ export class Anvil extends ClickableObject {
         // Add invisible button for anvil
         this.sprite = new Button(scene, x, y, width, height);
         this.sprite.on("pointerdown", (pointer) => {
-            if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
+            if (
+                pointer.rightButtonDown() &&
+                !pointer.leftButtonDown() &&
+                !this.modalWindow.visible
+            ) {
                 this.createRightClickMenu(pointer.x, pointer.y, this.actions);
             } else {
                 this.clickTarget();
             }
         });
+
+        //Create modal window
+        this.modalWindow = new SmithingModalWindow(this.scene);
+        this.validMaterials.add("Bronze Bar");
+        this.validMaterials.add("Iron Bar");
     }
 
     async clickTarget() {
+        if (this.modalWindow.visible) {
+            return;
+        }
+
+        const currentRecipe = this.modalWindow.getChoice();
+
+        if (currentRecipe != "None") {
+            this.smith(currentRecipe);
+        } else {
+            this.selectRecipe();
+        }
+    }
+
+    hasMaterials() {
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
         // See if bar is selected
         const selectedIndex = inv.curSelectedItemIndex;
-        if (selectedIndex < 0) {
+        const selectedItem = inv.inventory[selectedIndex];
+
+        if (
+            selectedIndex < 0 ||
+            !selectedItem ||
+            !this.validMaterials.has(selectedItem.name)
+        ) {
             chat.writeText("Select a bar in your inventory first.");
-            return;
+            return false;
         }
 
         const hasHammer = inv.getInventoryIndex("Hammer");
 
         if (hasHammer < 0) {
             chat.writeText("You need a hammer to work the metal with.");
+            return false;
+        }
+
+        return true;
+    }
+
+    selectRecipe(itemName) {
+        if (!this.hasMaterials()) {
             return;
         }
 
-        const selectedItem = inv.inventory[selectedIndex];
+        const inv = this.scene.dashboard.inventory;
+        const selectedIndex = inv.curSelectedItemIndex;
 
-        switch (selectedItem.name) {
-            case "Bronze Bar":
-                this.smith("BronzeDagger");
-                break;
-            default:
-                chat.writeText("The anvil can only be used with the bar selected");
-                break;
-        }
+        const selectedItem = inv.inventory[selectedIndex];
+        const smithingExp = characterData.getSkills().smithing;
+        const smithingLevel = calcLevel(smithingExp);
+
+        this.modalWindow.setChoices(
+            selectedItem.name,
+            selectedItem.numItems,
+            smithingLevel
+        );
+        this.modalWindow.setVisible(true);
     }
 
     // Take bar and turn it into a smithable item
     async smith(itemName) {
+        if (!this.hasMaterials()) {
+            return;
+        }
+
         const inv = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         const item = await getItemClass(itemName, this.scene.dashboard);
