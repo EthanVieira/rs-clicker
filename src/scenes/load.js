@@ -144,7 +144,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("attack-style-panel", "src/assets/ui/AttackStylePanel.png");
         this.load.image(
             "attack-style-1-button",
-            "src/assets/ui/buttons//AttackStyle1Button.png"
+            "src/assets/ui/buttons/AttackStyle1Button.png"
         );
         this.load.image(
             "attack-style-2-button",
