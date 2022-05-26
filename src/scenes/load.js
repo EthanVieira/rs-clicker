@@ -142,8 +142,20 @@ export class LoadScene extends Phaser.Scene {
             "src/assets/ui/buttons/AttackStyleButton.png"
         );
         this.load.image("attack-style-panel", "src/assets/ui/AttackStylePanel.png");
+        this.load.image(
+            "attack-style-1-button",
+            "src/assets/ui/buttons//AttackStyle1Button.png"
+        );
+        this.load.image(
+            "attack-style-2-button",
+            "src/assets/ui/buttons/AttackStyle2Button.png"
+        );
+        this.load.image(
+            "attack-style-retaliate-button",
+            "src/assets/ui/buttons/AttackStyleRetaliateButton.png"
+        );
 
-        //Modal
+        // Modal
         this.load.image("smithing-interface", "src/assets/ui/SmithingInterface.png");
 
         // Load all targets in target manifest
