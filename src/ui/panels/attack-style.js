@@ -1,4 +1,5 @@
-import { CONSTANTS, FONTS } from "../../constants/constants.js";
+import { CONSTANTS } from "../../constants/constants.js";
+import { characterData } from "../../cookie-io.js";
 
 export class AttackStyle {
     dashboard;
@@ -45,7 +46,7 @@ export class AttackStyle {
                 this.setStyle(1);
             });
         this.styleButtons[2] = dashboard.add
-            .image(567, 304, "attack-style-1-button")
+            .image(567, 304, "attack-style-3-button")
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive()
@@ -58,24 +59,31 @@ export class AttackStyle {
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                if (this.retaliateButton.alpha == 1) this.retaliateButton.setAlpha(0.01);
-                else this.retaliateButton.setAlpha(1);
+                this.setAutoRetaliate(!characterData.getAutoRetaliate());
             });
 
         // Default to hidden
         this.setVisible(false);
+        this.setStyle(characterData.getAttackStyle());
+        this.setAutoRetaliate(characterData.getAutoRetaliate());
     }
 
     setStyle(newStyle) {
         this.styleButtons.forEach((b) => b.setAlpha(0.01));
         this.styleButtons[newStyle].setAlpha(1);
+        characterData.setAttackStyle(newStyle);
+    }
+
+    setAutoRetaliate(willRetaliate) {
+        if (willRetaliate) this.retaliateButton.setAlpha(1);
+        else this.retaliateButton.setAlpha(0.01);
+        characterData.setAutoRetaliate(willRetaliate);
     }
 
     setVisible(isVisible = true) {
         if (isVisible) {
             this.dashboard.hideAllMenus();
             this.button.setAlpha(1);
-            this.setStyle(0);
             this.dashboard.currentPanel = CONSTANTS.PANEL.ATTACK_STYLE;
         } else {
             this.button.setAlpha(0.01);

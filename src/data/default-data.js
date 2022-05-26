@@ -25,6 +25,8 @@ export const defaultData = {
         name: "The Black Knights",
         members: [],
     },
+    attackStyle: 0,
+    autoRetaliate: true,
     // Skill XP
     skills: {
         attack: 0,

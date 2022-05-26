@@ -106,6 +106,26 @@ class CharacterData {
         return this.characterData.clan.members;
     }
 
+    getAttackStyle() {
+        return this.characterData.attackStyle;
+    }
+
+    setAttackStyle(styleNum) {
+        if (styleNum >= 0 && styleNum <= 2) {
+            this.characterData.attackStyle = styleNum;
+        } else {
+            console.log("Error: setAttackStyle() index out of range:", styleNum);
+        }
+    }
+
+    getAutoRetaliate() {
+        return this.characterData.autoRetaliate;
+    }
+
+    setAutoRetaliate(willRetaliate) {
+        this.characterData.autoRetaliate = willRetaliate;
+    }
+
     getVolume(typeIndex) {
         if (typeIndex < this.characterData.audio.length) {
             return this.characterData.audio[typeIndex];

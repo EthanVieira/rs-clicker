@@ -151,6 +151,10 @@ export class LoadScene extends Phaser.Scene {
             "src/assets/ui/buttons/AttackStyle2Button.png"
         );
         this.load.image(
+            "attack-style-3-button",
+            "src/assets/ui/buttons/AttackStyle3Button.png"
+        );
+        this.load.image(
             "attack-style-retaliate-button",
             "src/assets/ui/buttons/AttackStyleRetaliateButton.png"
         );
