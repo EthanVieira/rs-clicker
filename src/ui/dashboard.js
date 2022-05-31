@@ -9,6 +9,7 @@ import { Quests } from "./panels/quests.js";
 import { MusicPanel } from "./panels/music.js";
 import { Prayer } from "./panels/prayer.js";
 import { Settings } from "./panels/settings.js";
+import { AttackStyle } from "./panels/attack-style.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -87,6 +88,7 @@ export class DashboardScene extends Phaser.Scene {
         this.equipment = new Equipment(this);
         this.clan = new Clan(this);
         this.music = new MusicPanel(this);
+        this.attackStyle = new AttackStyle(this);
     }
 
     update(time, delta) {
@@ -102,5 +104,6 @@ export class DashboardScene extends Phaser.Scene {
         this.clan.setVisible(false);
         this.music.setVisible(false);
         this.inventory.setVisible(false);
+        this.attackStyle.setVisible(false);
     }
 }

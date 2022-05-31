@@ -64,6 +64,7 @@ export const CONSTANTS = {
         QUESTS: "QUESTS",
         SETTINGS: "SETTINGS",
         CLAN: "CLAN",
+        ATTACK_STYLE: "ATTACK_STYLE",
     },
     UTILS: {
         MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000,
