@@ -61,6 +61,11 @@ export const itemManifest = {
         imageName: "bronze-sword",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    CheatingBones: {
+        classPath: "./bones/cheating-bones.js",
+        imagePath: "other/Bones.png",
+        imageName: "bones",
+    },
     Coin: {
         classPath: "./currencies/coin.js",
         imagePath: [

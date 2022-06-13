@@ -1,10 +1,11 @@
-import { defaultData } from "./data/default-data.js";
+// import { defaultData } from "./data/default-data.js";
+import { testPrayerData } from "./data/test-prayer-data.js";
 import { CONSTANTS, FONTS } from "./constants/constants.js";
 import * as Utilities from "./utilities.js";
 
 function getDefaultData() {
     // Reset data (deep copy)
-    return JSON.parse(JSON.stringify(defaultData));
+    return JSON.parse(JSON.stringify(testPrayerData));
 }
 
 class CharacterData {
