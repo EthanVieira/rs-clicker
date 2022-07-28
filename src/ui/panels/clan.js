@@ -130,6 +130,7 @@ export class Clan {
                     startX,
                     startY + this.clanMembers.length * yDiff
                 );
+                member.numberOwned = 1;
                 this.clanMembers.push(member);
             }
 

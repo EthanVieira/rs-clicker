@@ -72,9 +72,14 @@ export class AutoClicker {
 
     createText(isShop = false, x = 0, y = 0) {
         this.text = this.scrollWindow.add
-            .text(x, y, this.name + " x" + this.numberOwned.toString(), {
-                font: "16px runescape",
-            })
+            .text(
+                x,
+                y,
+                isShop ? this.name : this.name + " x" + this.numberOwned.toString(),
+                {
+                    font: "16px runescape",
+                }
+            )
             .setDepth(4)
             .setInteractive()
             .setOrigin(0, 0)
