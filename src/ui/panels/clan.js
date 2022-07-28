@@ -94,7 +94,7 @@ export class Clan {
                 false,
                 startX,
                 startY + (this.clanMembers.length + 1) * yDiff
-            ); //TODO: add number to text
+            );
             member.setVisible(false);
             member.start(this.dashboard.currentScene);
             this.clanMembers.push(member);
@@ -129,7 +129,7 @@ export class Clan {
                     false,
                     startX,
                     startY + this.clanMembers.length * yDiff
-                ); //TODO: add number to text
+                );
                 this.clanMembers.push(member);
             }
 
