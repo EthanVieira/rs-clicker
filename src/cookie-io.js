@@ -1,10 +1,11 @@
 import { defaultData } from "./data/default-data.js";
+import { testAutoclickerPerformanceData } from "./data/test-autoclicker-performance-data.js";
 import { CONSTANTS, FONTS } from "./constants/constants.js";
 import * as Utilities from "./utilities.js";
 
 function getDefaultData() {
     // Reset data (deep copy)
-    return JSON.parse(JSON.stringify(defaultData));
+    return JSON.parse(JSON.stringify(testAutoclickerPerformanceData));
 }
 
 class CharacterData {
@@ -100,7 +101,11 @@ class CharacterData {
     }
 
     addClanMember(obj) {
-        this.characterData.clan.members.push(obj);
+        if (obj in this.characterData.clan.members) {
+            this.characterData.clan.members[obj]++;
+        } else {
+            this.characterData.clan.members[obj] = 1;
+        }
     }
     getClanMembers() {
         return this.characterData.clan.members;

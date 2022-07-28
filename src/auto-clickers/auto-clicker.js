@@ -15,6 +15,7 @@ export class AutoClicker {
     cost = 0;
     dps = 0;
     level = 0;
+    numberOwned = 0;
 
     // Scenes
     scrollWindow;
@@ -35,6 +36,7 @@ export class AutoClicker {
         this.level = data.level;
         this.name = data.name;
         this.dashboard = data.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        this.numberOwned = data.numberOwned;
 
         // Damage every .1 seconds
         this.damageInterval = 100;
@@ -50,24 +52,29 @@ export class AutoClicker {
 
     start(currentScene) {
         // Crafting levels (furnace, anvil, etc.) can't use auto clickers
-        if (currentScene.levelType != CONSTANTS.LEVEL_TYPE.CRAFTING && currentScene.levelType != CONSTANTS.LEVEL_TYPE.SMITHING) {
+        if (
+            currentScene.levelType != CONSTANTS.LEVEL_TYPE.CRAFTING &&
+            currentScene.levelType != CONSTANTS.LEVEL_TYPE.SMITHING
+        ) {
             this.timer.paused = false;
             this.currentScene = currentScene;
             this.stats = currentScene.stats;
 
-            this.stats.updateAutoClickerDPS(this.dps);
+            this.stats.updateAutoClickerDPS(this.dps * this.numberOwned);
         }
     }
 
     clickTarget() {
-        let damagePerTick = this.dps * (this.damageInterval / 1000);
+        let damagePerTick = this.dps * (this.damageInterval / 1000) * this.numberOwned;
         this.currentScene.clickCurrentTarget(damagePerTick);
         this.stats.updateAutoClickDamageStat(damagePerTick);
     }
 
     createText(isShop = false, x = 0, y = 0) {
         this.text = this.scrollWindow.add
-            .text(x, y, this.name, { font: "16px runescape" })
+            .text(x, y, this.name + " x" + this.numberOwned.toString(), {
+                font: "16px runescape",
+            })
             .setDepth(4)
             .setInteractive()
             .setOrigin(0, 0)
@@ -92,8 +99,7 @@ export class AutoClicker {
         if (this.dashboard == undefined) {
             this.dashboard = this.scrollWindow.scene.get(CONSTANTS.SCENES.DASHBOARD);
         }
-        let newMember = await getAutoclickerClass(this.name, this.dashboard);
-        this.dashboard.clan.addClanMember(newMember);
+        this.dashboard.clan.addClanMember(this.name);
     }
 
     examine(isShop) {

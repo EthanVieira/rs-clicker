@@ -1,4 +1,4 @@
-export const defaultData = {
+export const testAutoclickerPerformanceData = {
     //hasCookies: false, // todo: maybe use this for tutorial?
     name: "You",
     gold: 0,
@@ -15,17 +15,16 @@ export const defaultData = {
         { item: "BronzePickaxe", count: 1 },
         { item: "Knife", count: 1 },
         { item: "Hammer", count: 1 },
-        { item: "Coin", count: 25 },
+        { item: "Coin", count: 69420 },
     ],
     equipment: {
         WEAPON: "",
     },
     clan: {
         name: "The Black Knights",
-        members: {},
+        members: { Bot: 100 },
     },
     attackStyle: 0,
-    autoRetaliate: true,
     // Skill XP
     skills: {
         attack: 0,
@@ -56,15 +55,15 @@ export const defaultData = {
     // Can be accessed with characterData[this.currentLevel].questCompleted, etc.
     levels: {
         TUTORIAL_ISLAND: {
-            questCompleted: false,
+            questCompleted: true,
             unlocked: true,
             enemiesKilled: {
                 giantRat: 0,
             },
         },
         LUMBRIDGE: {
-            questCompleted: false,
-            unlocked: false,
+            questCompleted: true,
+            unlocked: true,
             enemiesKilled: {
                 cow: 0,
                 goblin: 0,
@@ -74,45 +73,45 @@ export const defaultData = {
             // TODO: "enemiesKilled" makes things work nicely but isn't an accurate name here
             // Didn't want to implement the logic to discern between levels for this yet as the
             // Quest text will soon change anyway
-            questCompleted: false,
-            unlocked: false,
+            questCompleted: true,
+            unlocked: true,
             enemiesKilled: {
                 tree: 0,
             },
         },
         AL_KHARID_FURNACE: {
-            questCompleted: false,
-            unlocked: false,
+            questCompleted: true,
+            unlocked: true,
             enemiesKilled: {
                 bar: 0,
             },
         },
         VARROCK_ANVIL: {
-            questCompleted: false,
-            unlocked: false,
+            questCompleted: true,
+            unlocked: true,
             enemiesKilled: {
                 bronzeDagger: 0,
             },
         },
         VARROCK_MINE: {
-            questCompleted: false,
-            unlocked: false,
+            questCompleted: true,
+            unlocked: true,
             enemiesKilled: {
                 copperRock: 0,
                 tinRock: 0,
             },
         },
         VARROCK: {
-            questCompleted: false,
-            unlocked: false,
+            questCompleted: true,
+            unlocked: true,
             enemiesKilled: {
                 darkWizard: 0,
                 guard: 0,
             },
         },
         BARBARIAN_VILLAGE: {
-            questCompleted: false,
-            unlocked: false,
+            questCompleted: true,
+            unlocked: true,
             enemiesKilled: {
                 barbarian: 0,
             },

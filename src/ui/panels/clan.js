@@ -87,10 +87,14 @@ export class Clan {
         // Reset dps counter before refreshing autoclickers
         this.dashboard.currentScene.stats.resetAutoclickerDps();
         let savedClanMembers = characterData.getClanMembers();
-        for (let index = 0; index < savedClanMembers.length; index++) {
-            let memberName = savedClanMembers[index];
+        for (let memberName in savedClanMembers) {
             let member = await getAutoclickerClass(memberName, this.scrollWindow);
-            member.createText(false, startX, startY + (index + 1) * yDiff);
+            member.numberOwned = savedClanMembers[memberName];
+            member.createText(
+                false,
+                startX,
+                startY + (this.clanMembers.length + 1) * yDiff
+            ); //TODO: add number to text
             member.setVisible(false);
             member.start(this.dashboard.currentScene);
             this.clanMembers.push(member);
@@ -99,9 +103,9 @@ export class Clan {
     }
 
     // Add clan member to list
-    addClanMember(member) {
+    addClanMember(memberName) {
         // Add to saved data
-        characterData.addClanMember(member.name);
+        characterData.addClanMember(memberName);
 
         // Add visuals if the dashboard is up
         if (this.dashboard.scene.isActive()) {
@@ -109,10 +113,25 @@ export class Clan {
                 startY = 280,
                 yDiff = 18;
 
-            // Add text to the list
-            let index = this.clanMembers.length;
-            member.createText(false, startX, startY + index * yDiff);
-            this.clanMembers.push(member);
+            // Add new clan entry if new member else increment existing member by one
+            const index = this.clanMembers.findIndex((member) => {
+                if (member.name === memberName) {
+                    return true;
+                }
+                return false;
+            });
+
+            if (index != -1) {
+                this.clanMembers[index].numberOwned++;
+            } else {
+                let member = getAutoclickerClass(memberName, this.scrollWindow);
+                member.createText(
+                    false,
+                    startX,
+                    startY + this.clanMembers.length * yDiff
+                ); //TODO: add number to text
+                this.clanMembers.push(member);
+            }
 
             // Hide if clan tab is not selected
             let show = this.dashboard.currentPanel == CONSTANTS.PANEL.CLAN;
