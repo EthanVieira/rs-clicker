@@ -113,26 +113,18 @@ export class Clan {
                 startY = 280,
                 yDiff = 18;
 
-            // Add new clan entry if new member else increment existing member by one
-            const index = this.clanMembers.findIndex((member) => {
-                if (member.name === memberName) {
-                    return true;
-                }
-                return false;
-            });
-
-            if (index != -1) {
-                this.clanMembers[index].numberOwned++;
-            } else {
-                let member = getAutoclickerClass(memberName, this.scrollWindow);
+            // Add new clan entry if new member else increment existing members
+            const member = this.clanMembers.find((member) => member.name === memberName);
+            if (!member) {
+                member = getAutoclickerClass(memberName, this.scrollWindow);
                 member.createText(
                     false,
                     startX,
                     startY + this.clanMembers.length * yDiff
                 );
-                member.numberOwned = 1;
-                this.clanMembers.push(member);
+                this.clanMembers.push(newMember);
             }
+            member.numberOwned++;
 
             // Hide if clan tab is not selected
             let show = this.dashboard.currentPanel == CONSTANTS.PANEL.CLAN;

@@ -99,11 +99,11 @@ class CharacterData {
         this.characterData.clan.name = name;
     }
 
-    addClanMember(obj) {
-        if (obj in this.characterData.clan.members) {
-            this.characterData.clan.members[obj]++;
+    addClanMember(memberName) {
+        if (memberName in this.characterData.clan.members) {
+            this.characterData.clan.members[memberName]++;
         } else {
-            this.characterData.clan.members[obj] = 1;
+            this.characterData.clan.members[memberName] = 1;
         }
     }
     getClanMembers() {
