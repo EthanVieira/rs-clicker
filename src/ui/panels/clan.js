@@ -88,7 +88,7 @@ export class Clan {
         this.dashboard.currentScene.stats.resetAutoclickerDps();
         let savedClanMembers = characterData.getClanMembers();
         for (let memberName in savedClanMembers) {
-            let member = await getAutoclickerClass(memberName, this.scrollWindow);
+            const member = await getAutoclickerClass(memberName, this.scrollWindow);
             member.numberOwned = savedClanMembers[memberName];
             member.createText(
                 false,
@@ -114,7 +114,7 @@ export class Clan {
                 yDiff = 18;
 
             // Add new clan entry if new member else increment existing members
-            const member = this.clanMembers.find((member) => member.name === memberName);
+            let member = this.clanMembers.find((member) => member.name === memberName);
             if (!member) {
                 member = getAutoclickerClass(memberName, this.scrollWindow);
                 member.createText(
@@ -122,7 +122,7 @@ export class Clan {
                     startX,
                     startY + this.clanMembers.length * yDiff
                 );
-                this.clanMembers.push(newMember);
+                this.clanMembers.push(member);
             }
             member.numberOwned++;
 
