@@ -1,6 +1,5 @@
-import { CONSTANTS, EQUIPMENT } from "../constants/constants.js";
+import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
-import { getItemClass } from "../utilities.js";
 
 export class LevelScene extends Phaser.Scene {
     // General info that all levels should implement
@@ -164,9 +163,8 @@ export class LevelScene extends Phaser.Scene {
         // Update kill quest score
         const enemiesKilled = characterData.getEnemiesKilled(this.currentLevel, name);
         const maxKillCount = this.questAmounts[name][this.questAmounts[name].length - 1];
-        if (enemiesKilled < maxKillCount) {
-            characterData.incEnemiesKilled(this.currentLevel, name);
-
+        characterData.incEnemiesKilled(this.currentLevel, name);
+        if (enemiesKilled <= maxKillCount) {
             if (!characterData.getQuestCompleted(this.currentLevel)) {
                 // Check for level completion.
                 const questCompleted = this.targets.every(

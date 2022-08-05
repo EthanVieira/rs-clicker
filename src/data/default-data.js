@@ -1,8 +1,10 @@
+import { CONSTANTS } from "../constants/constants.js";
+
 export const defaultData = {
     //hasCookies: false, // todo: maybe use this for tutorial?
     name: "You",
     gold: 0,
-    currentLevel: "TUTORIAL_ISLAND",
+    currentLevel: CONSTANTS.SCENES.TUTORIAL_ISLAND,
     timesClicked: 0,
     damageByClicking: 0,
     damageByAutoClick: 0,
