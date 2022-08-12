@@ -16,6 +16,10 @@ class CharacterData {
         this.scene = scene;
     }
 
+    loadData(data) {
+        this.characterData = data;
+    }
+
     getName() {
         return this.characterData.name;
     }
