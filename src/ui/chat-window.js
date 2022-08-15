@@ -463,10 +463,10 @@ export class ChatScene extends Phaser.Scene {
 
                     // check for commands
                     if (this.userMessage.text[0] == "/") {
-                        let words = this.userMessage.text.split(" ");
+                        const words = this.userMessage.text.split(" ");
 
                         // remove "/" from command word
-                        let command = words[0].substr(1).toLowerCase();
+                        const command = words[0].substr(1).toLowerCase();
 
                         switch (command) {
                             case "load":

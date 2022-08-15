@@ -1,17 +1,17 @@
 import { defaultData } from "./default-data.js";
 // ---------------------------------------------------------------------
-let allLevelsUnlockedData = JSON.parse(JSON.stringify(defaultData));
+const allLevelsUnlockedData = JSON.parse(JSON.stringify(defaultData));
 
 for (let scene in allLevelsUnlockedData["levels"]) {
     allLevelsUnlockedData["levels"][scene]["questCompleted"] = true;
     allLevelsUnlockedData["levels"][scene]["unlocked"] = true;
 }
 // ---------------------------------------------------------------------
-let autoclickerPerformanceTestData = JSON.parse(JSON.stringify(allLevelsUnlockedData));
+const autoclickerPerformanceTestData = JSON.parse(JSON.stringify(allLevelsUnlockedData));
 
 autoclickerPerformanceTestData["clan"]["members"]["Bot"] = 100;
 // ---------------------------------------------------------------------
-let smithingTestData = JSON.parse(JSON.stringify(allLevelsUnlockedData));
+const smithingTestData = JSON.parse(JSON.stringify(allLevelsUnlockedData));
 
 smithingTestData["inventory"].push({ item: "Coin", count: 69420 });
 smithingTestData["inventory"].push({ item: "BronzeBar", count: 42069 });
