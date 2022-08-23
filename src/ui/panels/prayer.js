@@ -4,6 +4,7 @@ export class Prayer {
     dashboard;
 
     panel;
+    icons;
     button;
     curPrayerText;
     maxPrayerText;
@@ -17,6 +18,12 @@ export class Prayer {
             .image(548, 205, "prayer-panel")
             .setOrigin(0, 0)
             .setDepth(1);
+        
+        // Icons
+        this.icons = dashboard.add
+            .image(541, 198, "prayer-panel-icons", 1)
+            .setOrigin(0, 0)
+            .setDepth(2);
 
         // Button
         this.button = dashboard.add
@@ -65,6 +72,7 @@ export class Prayer {
 
         // Show/hide panel
         this.panel.visible = isVisible;
+        this.icons.visible = isVisible;
         this.curPrayerText.visible = isVisible;
         this.maxPrayerText.visible = isVisible;
     }
