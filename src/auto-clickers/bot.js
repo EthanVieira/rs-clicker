@@ -9,6 +9,7 @@ export default class Bot extends AutoClicker {
             cost: 50,
             level: 1,
             dps: 1,
+            numberOwned: 0,
         });
     }
 }

@@ -6,7 +6,6 @@ export const testSmithingData = {
     timesClicked: 0,
     damageByClicking: 0,
     damageByAutoClick: 0,
-    numberOfAutoClickers: 0,
     questPoints: 0,
     inventory: [
         { item: "BronzeDagger", count: 1 },
@@ -26,8 +25,9 @@ export const testSmithingData = {
     },
     clan: {
         name: "The Black Knights",
-        members: [],
+        members: {},
     },
+    attackStyle: 0,
     // Skill XP
     skills: {
         attack: 0,
