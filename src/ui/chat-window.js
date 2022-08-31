@@ -3,6 +3,7 @@ import { ScrollWindow } from "./scroll-window.js";
 import { TextRow } from "./text-row.js";
 import { Button } from "./button.js";
 import { runOnLoad, capitalize } from "../utilities.js";
+import { load } from "../data/commands.js";
 
 export class ChatScene extends Phaser.Scene {
     chatWindow;
@@ -454,18 +455,65 @@ export class ChatScene extends Phaser.Scene {
             // enter
             if (event.keyCode == 13) {
                 if (this.userMessage.text != "") {
-                    // write to chat window
-                    this.writeStrings(
-                        { x: 0, text: "You:", format: FONTS.ITEM_HEADER },
-                        {
-                            x: 28,
-                            text: this.userMessage.text.substr(
-                                0,
-                                this.userMessage.text.length - 1
-                            ),
-                            format: FONTS.ITEM_STATS,
-                        }
+                    // remove prompt character
+                    this.userMessage.text = this.userMessage.text.substr(
+                        0,
+                        this.userMessage.text.length - 1
                     );
+
+                    // check for commands
+                    if (this.userMessage.text[0] == "/") {
+                        const words = this.userMessage.text.split(" ");
+
+                        // remove "/" from command word
+                        const command = words[0].substr(1).toLowerCase();
+
+                        switch (command) {
+                            case "load":
+                                // Usage:
+                                // /load name-of-test-data
+                                // e.g.
+                                // /load new-game
+                                // /load all-levels
+
+                                // ensure there is only one argument
+                                if (words.length != 2) {
+                                    this.writeText(
+                                        "The load command only takes one argument."
+                                    );
+                                    this.writeText("/load name-of-test-data");
+                                } else {
+                                    load(words[1]);
+                                }
+                                break;
+
+                            // TODO:
+                            case "unlock-level":
+                            case "unlock-song":
+                            case "complete-quest":
+                            case "add-item":
+                            case "add-member":
+                            case "set-level":
+                            case "set-xp":
+                                this.writeText(
+                                    "The command: " + command + " is not yet implemented."
+                                );
+                                break;
+
+                            default:
+                                this.writeText("Invalid command: " + command);
+                        }
+                    } else {
+                        // write to chat window
+                        this.writeStrings(
+                            { x: 0, text: "You:", format: FONTS.ITEM_HEADER },
+                            {
+                                x: 28,
+                                text: this.userMessage.text,
+                                format: FONTS.ITEM_STATS,
+                            }
+                        );
+                    }
                     this.userMessage.text = "";
                 }
             }
