@@ -181,7 +181,6 @@ export class LevelScene extends Phaser.Scene {
                 if (questCompleted) {
                     console.log("Quest complete!");
                     characterData.setQuestCompleted(this.currentLevel);
-                    characterData.addQuestPoints(this.questPointAward);
 
                     if (Math.random() < 0.5) {
                         this.audioScene.playSfx("quest-complete-1");

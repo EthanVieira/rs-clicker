@@ -195,6 +195,8 @@ class CharacterData {
         }
     }
 
+    // This sets the quest to be completed, unlocks associated levels, and gives quest points
+    // It does NOT give the actual KC that would be required to complete the quest normally
     setQuestCompleted(scene) {
         if (this.checkScene(scene)) {
             this.characterData.levels[scene].questCompleted = true;
@@ -207,7 +209,7 @@ class CharacterData {
                 ) {
                     this.characterData.levels[level].unlocked = true;
 
-                    // Write level up text to chat
+                    // Write unlock text to chat
                     const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
                     chatScene.writeText(
                         "Unlocked " + Utilities.prettyPrintConstant(level),
@@ -215,6 +217,8 @@ class CharacterData {
                     );
                 }
             }
+
+            this.addQuestPoints(this.getScene(CONSTANTS.SCENES[scene]).questPointAward);
         }
     }
 
