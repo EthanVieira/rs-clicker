@@ -3,8 +3,78 @@ import { characterData } from "../cookie-io.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import * as Utilities from "../utilities.js";
 
+export function handleCommand(commandStr) {
+    const words = commandStr.split(" ");
+
+    // remove "/" from command word
+    const command = words[0].substr(1).toLowerCase();
+
+    switch (command) {
+        case "load":
+            // Usage:
+            // /load name-of-test-data
+            // e.g.
+            // /load new-game
+            // /load all-levels
+
+            // ensure there is only one argument
+            if (words.length != 2) {
+                this.writeText("The load command only takes one argument.");
+                this.writeText("/load name-of-test-data");
+            } else {
+                load(words[1]);
+            }
+            break;
+
+        case "unlock-level":
+            // Usage:
+            // /unlock-level name-of-level
+            // if name-of-level is "all", unlock all levels
+            // e.g.
+            // /unlock-level varrock
+            // /unlock-level all
+
+            // ensure there is only one argument
+            if (words.length != 2) {
+                this.writeText("The unlock-level command only takes one argument.");
+                this.writeText("/unlock-level name-of-level");
+            } else {
+                unlockLevel(words[1]);
+            }
+            break;
+        case "unlock-song":
+        case "complete-quest":
+            // Usage:
+            // /complete-quest name-of-level
+            // if name-of-level is "all", complete all quests
+            // e.g.
+            // /complete-quest tutorial_island
+            // /complete-quest all
+
+            // ensure there is only one argument
+            if (words.length != 2) {
+                this.writeText("The complete-quest command only takes one argument.");
+                this.writeText("/complete-quest name-of-level");
+            } else {
+                completeQuest(words[1]);
+            }
+            break;
+
+        // TODO:
+        case "add-item":
+        case "add-member":
+        case "set-level":
+        case "set-xp":
+            this.writeText("The command: " + command + " is not yet implemented.");
+            break;
+
+        default:
+            this.writeText("Invalid command: " + command);
+    }
+}
+
 export function load(dataName) {
-    let chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
     // check if data exists
     if (dataMap.hasOwnProperty(dataName)) {
         // set current location to Tutorial Island to avoid any bugs of being
@@ -22,7 +92,7 @@ export function load(dataName) {
 }
 
 export function unlockLevel(dataName) {
-    let chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
 
     const constName = dataName.toUpperCase();
     if (constName == "ALL") {
@@ -48,7 +118,7 @@ export function unlockLevel(dataName) {
 }
 
 export function completeQuest(dataName) {
-    let chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
 
     const constName = dataName.toUpperCase();
     if (constName == "ALL") {

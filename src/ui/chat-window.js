@@ -3,7 +3,7 @@ import { ScrollWindow } from "./scroll-window.js";
 import { TextRow } from "./text-row.js";
 import { Button } from "./button.js";
 import { runOnLoad, capitalize } from "../utilities.js";
-import { load, unlockLevel, completeQuest } from "../data/commands.js";
+import { handleCommand } from "../data/commands.js";
 
 export class ChatScene extends Phaser.Scene {
     chatWindow;
@@ -463,81 +463,7 @@ export class ChatScene extends Phaser.Scene {
 
                     // check for commands
                     if (this.userMessage.text[0] == "/") {
-                        const words = this.userMessage.text.split(" ");
-
-                        // remove "/" from command word
-                        const command = words[0].substr(1).toLowerCase();
-
-                        switch (command) {
-                            case "load":
-                                // Usage:
-                                // /load name-of-test-data
-                                // e.g.
-                                // /load new-game
-                                // /load all-levels
-
-                                // ensure there is only one argument
-                                if (words.length != 2) {
-                                    this.writeText(
-                                        "The load command only takes one argument."
-                                    );
-                                    this.writeText("/load name-of-test-data");
-                                } else {
-                                    load(words[1]);
-                                }
-                                break;
-
-                            case "unlock-level":
-                                // Usage:
-                                // /unlock-level name-of-level
-                                // if name-of-level is "all", unlock all levels
-                                // e.g.
-                                // /unlock-level varrock
-                                // /unlock-level all
-
-                                // ensure there is only one argument
-                                if (words.length != 2) {
-                                    this.writeText(
-                                        "The unlock-level command only takes one argument."
-                                    );
-                                    this.writeText("/unlock-level name-of-level");
-                                } else {
-                                    unlockLevel(words[1]);
-                                }
-                                break;
-                            case "unlock-song":
-                            case "complete-quest":
-                                // Usage:
-                                // /complete-quest name-of-level
-                                // if name-of-level is "all", complete all quests
-                                // e.g.
-                                // /complete-quest tutorial_island
-                                // /complete-quest all
-
-                                // ensure there is only one argument
-                                if (words.length != 2) {
-                                    this.writeText(
-                                        "The complete-quest command only takes one argument."
-                                    );
-                                    this.writeText("/complete-quest name-of-level");
-                                } else {
-                                    completeQuest(words[1]);
-                                }
-                                break;
-
-                            // TODO:
-                            case "add-item":
-                            case "add-member":
-                            case "set-level":
-                            case "set-xp":
-                                this.writeText(
-                                    "The command: " + command + " is not yet implemented."
-                                );
-                                break;
-
-                            default:
-                                this.writeText("Invalid command: " + command);
-                        }
+                        handleCommand(this.userMessage.text);
                     } else {
                         // write to chat window
                         this.writeStrings(
