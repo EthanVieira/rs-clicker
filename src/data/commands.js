@@ -4,6 +4,7 @@ import { CONSTANTS, FONTS } from "../constants/constants.js";
 import * as Utilities from "../utilities.js";
 
 export function handleCommand(commandStr) {
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
     const words = commandStr.split(" ");
 
     // remove "/" from command word
@@ -19,8 +20,8 @@ export function handleCommand(commandStr) {
 
             // ensure there is only one argument
             if (words.length != 2) {
-                this.writeText("The load command only takes one argument.");
-                this.writeText("/load name-of-test-data");
+                chatScene.writeText("The load command only takes one argument.");
+                chatScene.writeText("/load name-of-test-data");
             } else {
                 load(words[1]);
             }
@@ -36,8 +37,8 @@ export function handleCommand(commandStr) {
 
             // ensure there is only one argument
             if (words.length != 2) {
-                this.writeText("The unlock-level command only takes one argument.");
-                this.writeText("/unlock-level name-of-level");
+                chatScene.writeText("The unlock-level command only takes one argument.");
+                chatScene.writeText("/unlock-level name-of-level");
             } else {
                 unlockLevel(words[1]);
             }
@@ -53,8 +54,10 @@ export function handleCommand(commandStr) {
 
             // ensure there is only one argument
             if (words.length != 2) {
-                this.writeText("The complete-quest command only takes one argument.");
-                this.writeText("/complete-quest name-of-level");
+                chatScene.writeText(
+                    "The complete-quest command only takes one argument."
+                );
+                chatScene.writeText("/complete-quest name-of-level");
             } else {
                 completeQuest(words[1]);
             }
@@ -65,11 +68,11 @@ export function handleCommand(commandStr) {
         case "add-member":
         case "set-level":
         case "set-xp":
-            this.writeText("The command: " + command + " is not yet implemented.");
+            chatScene.writeText(`The command: '${command}' is not yet implemented.`);
             break;
 
         default:
-            this.writeText("Invalid command: " + command);
+            chatScene.writeText(`Invalid command: ${command}`);
     }
 }
 
@@ -85,9 +88,9 @@ export function load(dataName) {
         // load in the new data
         characterData.loadData(JSON.parse(JSON.stringify(dataMap[dataName])));
 
-        chatScene.writeText("Loading: " + dataName);
+        chatScene.writeText(`Loading: ${dataName}`);
     } else {
-        chatScene.writeText('The test data "' + dataName + '" does not exist.');
+        chatScene.writeText(`The test data '${dataName}' does not exist.`);
     }
 }
 
@@ -113,7 +116,7 @@ export function unlockLevel(dataName) {
             .getScene(characterData.getCurrentLevel())
             .scene.start(CONSTANTS.SCENES[constName]);
     } else {
-        chatScene.writeText('The level "' + dataName + '" does not exist.');
+        chatScene.writeText(`The level '${dataName}' does not exist.`);
     }
 }
 
@@ -134,6 +137,6 @@ export function completeQuest(dataName) {
             FONTS.ITEM_STATS
         );
     } else {
-        chatScene.writeText('The level "' + dataName + '" does not exist.');
+        chatScene.writeText(`The level '${dataName}' does not exist.`);
     }
 }
