@@ -3,7 +3,7 @@ import { ScrollWindow } from "./scroll-window.js";
 import { TextRow } from "./text-row.js";
 import { Button } from "./button.js";
 import { runOnLoad, capitalize } from "../utilities.js";
-import { load } from "../data/commands.js";
+import { handleCommand } from "../data/commands.js";
 
 export class ChatScene extends Phaser.Scene {
     chatWindow;
@@ -463,46 +463,7 @@ export class ChatScene extends Phaser.Scene {
 
                     // check for commands
                     if (this.userMessage.text[0] == "/") {
-                        const words = this.userMessage.text.split(" ");
-
-                        // remove "/" from command word
-                        const command = words[0].substr(1).toLowerCase();
-
-                        switch (command) {
-                            case "load":
-                                // Usage:
-                                // /load name-of-test-data
-                                // e.g.
-                                // /load new-game
-                                // /load all-levels
-
-                                // ensure there is only one argument
-                                if (words.length != 2) {
-                                    this.writeText(
-                                        "The load command only takes one argument."
-                                    );
-                                    this.writeText("/load name-of-test-data");
-                                } else {
-                                    load(words[1]);
-                                }
-                                break;
-
-                            // TODO:
-                            case "unlock-level":
-                            case "unlock-song":
-                            case "complete-quest":
-                            case "add-item":
-                            case "add-member":
-                            case "set-level":
-                            case "set-xp":
-                                this.writeText(
-                                    "The command: " + command + " is not yet implemented."
-                                );
-                                break;
-
-                            default:
-                                this.writeText("Invalid command: " + command);
-                        }
+                        handleCommand(this.userMessage.text);
                     } else {
                         // write to chat window
                         this.writeStrings(
