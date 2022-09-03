@@ -174,9 +174,10 @@ export function unlockSong(songName) {
         return;
     }
 
-    const songTextObj = dashScene.music.songTexts.find((textObj) => {
-        return textObj.text == constName;
-    });
+    const songTextObj = dashScene.music.songTexts.find(
+        (textObj) => textObj.text == constName
+    );
+
     if (songTextObj != undefined) {
         // unlock the song if it exists and play it
         // this may unlock other songs as well since songs can share prereqs
