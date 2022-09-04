@@ -88,7 +88,7 @@ export class MusicPanel {
                 });
 
             // Store necessary data within the object itself
-            textObj.text = prettyPrintDash(song.name);
+            textObj.text = song.name;
             textObj.unlocked = song.unlocked;
             textObj.prereq = song.prereq;
 
@@ -155,8 +155,9 @@ export class MusicPanel {
 
         // Update current / total unlocked
         if (this.numUnlockedText != undefined) {
-            const numUnlocked = this.songTexts.filter((textObj) => textObj.unlocked)
-                .length;
+            const numUnlocked = this.songTexts.filter(
+                (textObj) => textObj.unlocked
+            ).length;
             this.numUnlockedText.text = numUnlocked;
             this.totalText.text = this.songTexts.length;
 

@@ -44,6 +44,21 @@ export function handleCommand(commandStr) {
             }
             break;
         case "unlock-song":
+            // Usage:
+            // /unlock-song name-of-song
+            // if name-of-song is "all", unlock all songs
+            // e.g.
+            // /unlock-song al-kharid
+            // /unlock-song all
+
+            // ensure there is only one argument
+            if (words.length != 2) {
+                chatScene.writeText("The unlock-song command only takes one argument.");
+                chatScene.writeText("/unlock-song name-of-song");
+            } else {
+                unlockSong(words[1]);
+            }
+            break;
         case "complete-quest":
             // Usage:
             // /complete-quest name-of-level
@@ -94,10 +109,10 @@ export function load(dataName) {
     }
 }
 
-export function unlockLevel(dataName) {
+export function unlockLevel(levelName) {
     const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
 
-    const constName = dataName.toUpperCase();
+    const constName = levelName.toUpperCase();
     if (constName == "ALL") {
         // unlock all levels
         for (let level in characterData.characterData.levels) {
@@ -116,14 +131,14 @@ export function unlockLevel(dataName) {
             .getScene(characterData.getCurrentLevel())
             .scene.start(CONSTANTS.SCENES[constName]);
     } else {
-        chatScene.writeText(`The level '${dataName}' does not exist.`);
+        chatScene.writeText(`The level '${levelName}' does not exist.`);
     }
 }
 
-export function completeQuest(dataName) {
+export function completeQuest(levelName) {
     const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
 
-    const constName = dataName.toUpperCase();
+    const constName = levelName.toUpperCase();
     if (constName == "ALL") {
         // complete all quests
         for (let level in characterData.characterData.levels) {
@@ -137,6 +152,40 @@ export function completeQuest(dataName) {
             FONTS.ITEM_STATS
         );
     } else {
-        chatScene.writeText(`The level '${dataName}' does not exist.`);
+        chatScene.writeText(`The level '${levelName}' does not exist.`);
+    }
+}
+
+export function unlockSong(songName) {
+    // Song unlocks are currently tied to quest completion, so if we want
+    // to be able to unlock songs independently, we will need to decouple
+    // them in the future
+
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+    const dashScene = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
+
+    const constName = songName.toLowerCase();
+    if (constName == "all") {
+        // unlock all songs
+        dashScene.music.songTexts.forEach((textObj) => {
+            characterData.setQuestCompleted(textObj.prereq);
+            // Let the music scene handle the rest
+        });
+        return;
+    }
+
+    const songTextObj = dashScene.music.songTexts.find(
+        (textObj) => textObj.text == constName
+    );
+
+    if (songTextObj != undefined) {
+        // unlock the song if it exists and play it
+        // this may unlock other songs as well since songs can share prereqs
+        characterData.setQuestCompleted(songTextObj.prereq);
+        const audioScene = characterData.getScene(CONSTANTS.SCENES.AUDIO);
+        audioScene.playBgm(constName);
+        // The music scene will write the unlock text for us
+    } else {
+        chatScene.writeText(`The song '${songName}' does not exist.`);
     }
 }
