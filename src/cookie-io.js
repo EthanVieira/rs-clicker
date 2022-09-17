@@ -152,7 +152,11 @@ class CharacterData {
     addSkillXp(skill, xp) {
         if (this.characterData.skills[skill] != undefined) {
             const prevLevel = Utilities.calcLevel(this.characterData.skills[skill]);
-            this.characterData.skills[skill] += xp;
+            this.characterData.skills[skill] = Math.min(
+                this.characterData.skills[skill] + xp,
+                CONSTANTS.LIMITS.MAX_XP
+            );
+
             const curLevel = Utilities.calcLevel(this.characterData.skills[skill]);
 
             // Play level up sfx
@@ -177,6 +181,46 @@ class CharacterData {
             console.log("Error: setting invalid skill", skill, xp);
         }
     }
+
+    setSkillXp(skill, xp) {
+        if (this.characterData.skills[skill] != undefined) {
+            this.characterData.skills[skill] = Math.min(xp, CONSTANTS.LIMITS.MAX_XP);
+
+            // Update xp text on dashboard
+            const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
+            dashboardScene.skills.updateSkillsText();
+        } else {
+            console.log("Error: setting invalid skill", skill);
+        }
+    }
+
+    setXpForAllSkills(xp) {
+        for (let skill in this.characterData.skills) {
+            this.setSkillXp(skill, xp);
+        }
+    }
+
+    setSkillLevel(skill, level) {
+        if (this.characterData.skills[skill] != undefined) {
+            this.characterData.skills[skill] = Math.min(
+                Utilities.calcXpForLevel(level),
+                CONSTANTS.LIMITS.XP_FOR_99
+            );
+
+            // Update xp text on dashboard
+            const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
+            dashboardScene.skills.updateSkillsText();
+        } else {
+            console.log("Error: setting invalid skill", skill);
+        }
+    }
+
+    setLevelForAllSkills(level) {
+        for (let skill in this.characterData.skills) {
+            this.setSkillLevel(skill, level);
+        }
+    }
+
     getSkillXp(skill) {
         if (this.characterData.skills[skill] != undefined) {
             return this.characterData.skills[skill];
@@ -185,6 +229,7 @@ class CharacterData {
             return 0;
         }
     }
+
     getSkills() {
         return this.characterData.skills;
     }

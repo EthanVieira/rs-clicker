@@ -163,7 +163,10 @@ export class Skills {
             const skills = characterData.getSkills();
 
             for (let skill in skills) {
-                let level = calcLevel(skills[skill]);
+                let level = Math.min(
+                    calcLevel(skills[skill]),
+                    CONSTANTS.LIMITS.MAX_LEVEL
+                );
                 this.skillText[skill].text = level;
                 this.skillText[skill + "Bottom"].text = level;
 

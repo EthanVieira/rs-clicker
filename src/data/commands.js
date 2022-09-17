@@ -20,7 +20,7 @@ export function handleCommand(commandStr) {
 
             // ensure there is only one argument
             if (words.length != 2) {
-                chatScene.writeText("The load command only takes one argument.");
+                chatScene.writeText("The load command takes one argument.");
                 chatScene.writeText("/load name-of-test-data");
             } else {
                 load(words[1]);
@@ -37,7 +37,7 @@ export function handleCommand(commandStr) {
 
             // ensure there is only one argument
             if (words.length != 2) {
-                chatScene.writeText("The unlock-level command only takes one argument.");
+                chatScene.writeText("The unlock-level command takes one argument.");
                 chatScene.writeText("/unlock-level name-of-level");
             } else {
                 unlockLevel(words[1]);
@@ -53,7 +53,7 @@ export function handleCommand(commandStr) {
 
             // ensure there is only one argument
             if (words.length != 2) {
-                chatScene.writeText("The unlock-song command only takes one argument.");
+                chatScene.writeText("The unlock-song command takes one argument.");
                 chatScene.writeText("/unlock-song name-of-song");
             } else {
                 unlockSong(words[1]);
@@ -69,20 +69,50 @@ export function handleCommand(commandStr) {
 
             // ensure there is only one argument
             if (words.length != 2) {
-                chatScene.writeText(
-                    "The complete-quest command only takes one argument."
-                );
+                chatScene.writeText("The complete-quest command takes one argument.");
                 chatScene.writeText("/complete-quest name-of-level");
             } else {
                 completeQuest(words[1]);
             }
             break;
 
+        case "set-level":
+            // Usage:
+            // /set-level name-of-skill level
+            // if name-of-skill is "all", set all skills to the given level
+            // if level is "max", set the skill to 99
+            // e.g.
+            // /set-level fletching 72
+            // /set-level all max
+
+            // ensure there are exactly 2 arguments
+            if (words.length != 3) {
+                chatScene.writeText("The set-level command takes two arguments.");
+                chatScene.writeText("/set-level name-of-skill level");
+            } else {
+                setLevel(words[1], words[2]);
+            }
+            break;
+        case "set-xp":
+            // Usage:
+            // /set-xp name-of-skill xp
+            // if name-of-skill is "all", set all skills to the given xp
+            // if xp is "max", set the xp to 200,000,000
+            // e.g.
+            // /set-xp fletching 236674
+            // /set-xp all max
+
+            // ensure there are exactly 2 arguments
+            if (words.length != 3) {
+                chatScene.writeText("The set-xp command takes two arguments.");
+                chatScene.writeText("/set-xp name-of-skill xp");
+            } else {
+                setXp(words[1], words[2]);
+            }
+            break;
         // TODO:
         case "add-item":
         case "add-member":
-        case "set-level":
-        case "set-xp":
             chatScene.writeText(`The command: '${command}' is not yet implemented.`);
             break;
 
@@ -187,5 +217,61 @@ export function unlockSong(songName) {
         // The music scene will write the unlock text for us
     } else {
         chatScene.writeText(`The song '${songName}' does not exist.`);
+    }
+}
+
+export function setLevel(skillName, level) {
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+    const constName = skillName.toLowerCase();
+    const isMax = level.toLowerCase() == "max";
+    const levelInt = parseInt(level);
+
+    if (!isMax && levelInt == NaN) {
+        chatScene.writeText(`Cannot set a skill's level to a non-integer value.`);
+        return;
+    }
+
+    if (constName == "all") {
+        if (isMax) {
+            characterData.setLevelForAllSkills(CONSTANTS.LIMITS.MAX_LEVEL);
+        } else {
+            characterData.setLevelForAllSkills(levelInt);
+        }
+    } else if (characterData.getSkills().hasOwnProperty(constName)) {
+        if (isMax) {
+            characterData.setSkillLevel(CONSTANTS.LIMITS.MAX_LEVEL);
+        } else {
+            characterData.setSkillLevel(constName, levelInt);
+        }
+    } else {
+        chatScene.writeText(`The skill '${skillName}' does not exist.`);
+    }
+}
+
+export function setXp(skillName, xp) {
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+    const constName = skillName.toLowerCase();
+    const isMax = xp.toLowerCase() == "max";
+    const xpInt = parseInt(xp);
+
+    if (!isMax && xpInt == NaN) {
+        chatScene.writeText(`Cannot set a skill's xp to a non-integer value.`);
+        return;
+    }
+
+    if (constName == "all") {
+        if (isMax) {
+            characterData.setXpForAllSkills(CONSTANTS.LIMITS.MAX_XP);
+        } else {
+            characterData.setXpForAllSkills(xpInt);
+        }
+    } else if (characterData.getSkills().hasOwnProperty(constName)) {
+        if (isMax) {
+            characterData.setSkillXp(CONSTANTS.LIMITS.MAX_XP);
+        } else {
+            characterData.setSkillXp(constName, xpInt);
+        }
+    } else {
+        chatScene.writeText(`The skill '${skillName}' does not exist.`);
     }
 }

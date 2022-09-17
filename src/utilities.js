@@ -23,6 +23,14 @@ export function calcRemainingXp(xp) {
     return levelUpXp - xp + 1;
 }
 
+export function calcXpForLevel(lv) {
+    let xp = 0;
+    for (let x = 1; x < lv; x++) {
+        xp += x + 300 * Math.pow(2, (x + 1) / 7);
+    }
+    return 0.25 * xp;
+}
+
 var itemClasses = {};
 export async function getItemClass(itemName, scene) {
     let itemClass = itemClasses[itemName];

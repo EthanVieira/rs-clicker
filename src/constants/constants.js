@@ -66,6 +66,11 @@ export const CONSTANTS = {
         CLAN: "CLAN",
         ATTACK_STYLE: "ATTACK_STYLE",
     },
+    LIMITS: {
+        MAX_LEVEL: 99,
+        MAX_XP: 200_000_000,
+        XP_FOR_99: 13_034_431,
+    },
     UTILS: {
         MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000,
     },
