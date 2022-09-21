@@ -2,7 +2,7 @@ import { OBJECT_TYPES, CONSTANTS, FONTS } from "../constants/constants.js";
 import { ScrollWindow } from "./scroll-window.js";
 import { TextRow } from "./text-row.js";
 import { Button } from "./button.js";
-import { runOnLoad, capitalize } from "../utilities.js";
+import { runOnLoad, capitalize, ListWithTimeout } from "../utilities.js";
 import { handleCommand } from "../data/commands.js";
 
 export class ChatScene extends Phaser.Scene {
@@ -18,6 +18,7 @@ export class ChatScene extends Phaser.Scene {
     playerNameText;
     chatInput;
     userMessage;
+    recentKeys = new ListWithTimeout();
 
     col1 = 0;
     visible = false;
@@ -497,7 +498,10 @@ export class ChatScene extends Phaser.Scene {
                 (event.keyCode <= 222 && event.keyCode >= 219)
             ) {
                 // arbitrary input length limit
-                if (this.userMessage.text.length < 55) {
+                if (
+                    this.userMessage.text.length < 55 &&
+                    this.recentKeys.get(event.keyCode) == undefined
+                ) {
                     this.userMessage.text =
                         this.userMessage.text.substr(
                             0,
@@ -505,6 +509,12 @@ export class ChatScene extends Phaser.Scene {
                         ) +
                         event.key +
                         "*";
+
+                    // Phaser has an input bug where pressing multiple keys simultaneously
+                    // (or near-simultaneously) results in duplicate letters being detected as input.
+                    // Here we add recently typd letters to a decaying list so that they aren't duplicated
+                    // within 10 milliseconds
+                    this.recentKeys.put(event.keyCode, 10);
                 }
             }
 
