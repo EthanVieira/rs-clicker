@@ -510,7 +510,7 @@ export class ChatScene extends Phaser.Scene {
                         event.key +
                         "*";
 
-                    // Phaser has an input bug where pressing multikeys simultaneously
+                    // Phaser has an input bug where pressing multiple keys simultaneously
                     // (or near-simultaneously) results in duplicate letters being detected as input.
                     // Here we add recently typd letters to a decaying list so that they aren't duplicated
                     // within 100 milliseconds
