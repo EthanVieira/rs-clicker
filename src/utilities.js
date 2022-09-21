@@ -153,7 +153,10 @@ export class ListWithTimeout {
     put(value, expireIn) {
         this.items.push(value);
         setTimeout(() => {
-            this.items.pop();
+            const index = this.items.indexOf(value);
+            if (index > -1) {
+                this.items.splice(index, 1);
+            }
         }, expireIn);
     }
 
