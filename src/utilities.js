@@ -144,3 +144,20 @@ export function getItemText(amount) {
             return [Math.floor(amount / 1000000) + "M", "#00FF7F"];
     }
 }
+
+export class ListWithTimeout {
+    constructor() {
+        this.items = new Array();
+    }
+
+    put(value, expireIn) {
+        this.items.push(value);
+        setTimeout(() => {
+            this.items.pop();
+        }, expireIn);
+    }
+
+    get(value) {
+        return this.items.find((element) => element == value);
+    }
+}
