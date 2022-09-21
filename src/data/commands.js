@@ -110,8 +110,24 @@ export function handleCommand(commandStr) {
                 setXp(words[1], words[2]);
             }
             break;
-        // TODO:
         case "add-item":
+            // Usage:
+            // /add-item name-of-item amount
+            // amount is optional and defaults to 1
+            // if amount is "max", set the amount to 2,147,483,647 if stackable or 28 if not stackable
+            // e.g.
+            // /add-item gold max
+            // /add-item BronzeDagger
+
+            // ensure there are either 1 or 2 arguments
+            if (words.length != 2 && words.length != 3) {
+                chatScene.writeText("The add-item command takes one or two arguments.");
+                chatScene.writeText("/add-item name-of-item amount");
+            } else {
+                addItem(words[1], words.length == 3 ? words[2] : "1");
+            }
+            break;
+        // TODO:
         case "add-member":
             chatScene.writeText(`The command: '${command}' is not yet implemented.`);
             break;
@@ -273,5 +289,31 @@ export function setXp(skillName, xp) {
         }
     } else {
         chatScene.writeText(`The skill '${skillName}' does not exist.`);
+    }
+}
+
+export async function addItem(itemName, amount = "1") {
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+    const isMax = amount.toLowerCase() == "max";
+    let amountInt = parseInt(amount);
+
+    if (!isMax && amountInt == NaN) {
+        // invalid amount, go back to default
+        amountInt = 1;
+    }
+
+    const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
+    const itemObj = await Utilities.getItemClass(
+        Utilities.capitalize(itemName),
+        dashboard
+    );
+
+    if (itemObj) {
+        dashboard.inventory.addNToInventory(
+            itemObj,
+            (amount = isMax ? CONSTANTS.LIMITS.MAX_ITEM_STACK : amountInt)
+        );
+    } else {
+        chatScene.writeText(`The item '${itemName}' does not exist.`);
     }
 }

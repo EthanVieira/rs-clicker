@@ -70,6 +70,8 @@ export const CONSTANTS = {
         MAX_LEVEL: 99,
         MAX_XP: 200_000_000,
         XP_FOR_99: 13_034_431,
+        MAX_ITEM_STACK: 2_147_483_647,
+        MAX_INVENTORY_SPACE: 28,
     },
     UTILS: {
         MILLIS_IN_YEAR: 365 * 24 * 60 * 60 * 1000,

@@ -131,7 +131,12 @@ export class Inventory {
             const curItem = this.inventory[i];
 
             // Update the item in the game
-            curItem.setNumItems(curItem.numItems + item.numItems);
+            curItem.setNumItems(
+                Math.min(
+                    curItem.numItems + item.numItems,
+                    CONSTANTS.LIMITS.MAX_ITEM_STACK
+                )
+            );
             if (curItem.constructor.name == "Coin") {
                 const column = i % 4;
                 const row = Math.floor(i / 4);
@@ -156,7 +161,7 @@ export class Inventory {
             return true;
         }
         // Add to end
-        else if (playerItems.length < 28) {
+        else if (playerItems.length < CONSTANTS.LIMITS.MAX_INVENTORY_SPACE) {
             this.addToInventoryAtIndex(item, playerItems.length, createSprite);
             return true;
         }
@@ -164,6 +169,18 @@ export class Inventory {
         else {
             console.log("Inventory is full");
             return false;
+        }
+    }
+
+    addNToInventory(item, amount) {
+        if (item.stackable) {
+            item.numItems = Math.min(amount, CONSTANTS.LIMITS.MAX_ITEM_STACK);
+            this.addToInventory(item);
+        } else {
+            //TODO: I think we should have every item be stackable, but leaving this for now
+            for (let i = 0; i < min(amount, CONSTANTS.LIMITS.MAX_INVENTORY_SPACE); i++) {
+                this.addToInventory(item);
+            }
         }
     }
 

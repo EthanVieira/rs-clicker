@@ -33,9 +33,12 @@ export function calcXpForLevel(lv) {
 
 var itemClasses = {};
 export async function getItemClass(itemName, scene) {
-    let itemClass = itemClasses[itemName];
-
-    return new itemClass.default(scene);
+    if (itemClasses.hasOwnProperty(itemName)) {
+        let itemClass = itemClasses[itemName];
+        return new itemClass.default(scene);
+    } else {
+        return null;
+    }
 }
 
 export async function setItemClass(key, value) {
