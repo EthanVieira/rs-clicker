@@ -37,7 +37,7 @@ export async function getItemClass(itemName, scene) {
         let itemClass = itemClasses[itemName];
         return new itemClass.default(scene);
     } else {
-        console.log("Invalid item name in getItemClass - returning null.");
+        console.log("Invalid item name in getItemClass - returning null.", itemName);
         return null;
     }
 }
