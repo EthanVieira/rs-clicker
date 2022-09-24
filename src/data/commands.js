@@ -2,6 +2,8 @@ import { dataMap } from "./test-data.js";
 import { characterData } from "../cookie-io.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import * as Utilities from "../utilities.js";
+import { autoclickerManifest } from "../auto-clickers/auto-clicker-manifest.js";
+import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
 
 export function handleCommand(commandStr) {
     const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
@@ -127,9 +129,19 @@ export function handleCommand(commandStr) {
                 addItem(words[1], words.length == 3 ? words[2] : "1");
             }
             break;
-        // TODO:
         case "add-member":
-            chatScene.writeText(`The command: '${command}' is not yet implemented.`);
+            // Usage:
+            // /add-member name-of-member amount
+            // amount is optional and defaults to 1
+            // e.g.
+            // /add-member bot 10
+            // ensure there are either 1 or 2 arguments
+            if (words.length != 2 && words.length != 3) {
+                chatScene.writeText("The add-member command takes one or two arguments.");
+                chatScene.writeText("/add-member name-of-member amount");
+            } else {
+                addMember(words[1], words.length == 3 ? words[2] : "1");
+            }
             break;
 
         default:
@@ -242,7 +254,7 @@ export function setLevel(skillName, level) {
     const isMax = level.toLowerCase() == "max";
     const levelInt = parseInt(level);
 
-    if (!isMax && levelInt == NaN) {
+    if (!isMax && isNaN(levelInt)) {
         chatScene.writeText(`Cannot set a skill's level to a non-integer value.`);
         return;
     }
@@ -270,7 +282,7 @@ export function setXp(skillName, xp) {
     const isMax = xp.toLowerCase() == "max";
     const xpInt = parseInt(xp);
 
-    if (!isMax && xpInt == NaN) {
+    if (!isMax && isNaN(xpInt)) {
         chatScene.writeText(`Cannot set a skill's xp to a non-integer value.`);
         return;
     }
@@ -297,7 +309,7 @@ export async function addItem(itemName, amount = "1") {
     const isMax = amount.toLowerCase() == "max";
     let amountInt = parseInt(amount);
 
-    if (!isMax && amountInt == NaN) {
+    if (!isMax && isNaN(amountInt)) {
         // invalid amount, go back to default
         amountInt = 1;
     }
@@ -315,5 +327,25 @@ export async function addItem(itemName, amount = "1") {
         );
     } else {
         chatScene.writeText(`The item '${itemName}' does not exist.`);
+    }
+}
+
+export async function addMember(memberName, amount = "1") {
+    const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
+    let amountInt = parseInt(amount);
+
+    const capitalizedName = Utilities.capitalize(memberName);
+
+    if (isNaN(amountInt)) {
+        // invalid amount, go back to default
+        amountInt = 1;
+    }
+
+    const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
+
+    if (autoclickerManifest.hasOwnProperty(capitalizedName)) {
+        dashboard.clan.addClanMember(capitalizedName, amountInt);
+    } else {
+        chatScene.writeText(`The clan member '${memberName}' does not exist.`);
     }
 }
