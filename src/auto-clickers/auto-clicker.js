@@ -4,7 +4,6 @@ import { CONSTANTS, OBJECT_TYPES } from "../constants/constants.js";
 export async function getAutoclickerClass(className, scene) {
     let path = autoclickerManifest[className].classPath;
     let clickerClass = await import(path);
-    console.log("path ", path);
     if (clickerClass) {
         return new clickerClass.default(scene);
     } else {

@@ -58,7 +58,7 @@ export class Clan {
     }
 
     // Load clan data on startup
-    async refreshClan() {
+    refreshClan() {
         // Load clan name and player name
         this.clanNameText = this.dashboard.add
             .text(610, 228, characterData.getClanName(), {
@@ -116,7 +116,7 @@ export class Clan {
     }
 
     // Add clan member to list
-    async addClanMember(memberName, amount = 1) {
+    addClanMember(memberName, amount = 1) {
         // Add to saved data
         characterData.addClanMember(memberName, amount);
 
