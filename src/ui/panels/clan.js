@@ -65,17 +65,19 @@ export class Clan {
                 font: "15.5px runescape",
                 fill: "yellow",
             })
-            .setDepth(3);
+            .setDepth(3)
+            .setVisible(false);
+
         this.playerNameText = this.dashboard.add
             .text(610, 242, characterData.getName(), {
                 font: "15.5px runescape",
             })
-            .setDepth(3);
+            .setDepth(3)
+            .setVisible(false);
 
         // Load clan members
         const startX = 560,
-            startY = 280,
-            yDiff = 18;
+            startY = 280;
         let playerName = this.scrollWindow.add
             .text(startX, startY, characterData.getName(), {
                 font: "16px runescape",
@@ -85,6 +87,15 @@ export class Clan {
         this.clanMembers.push(playerName);
 
         // Reset dps counter before refreshing autoclickers
+        this.refreshAutoClickers(false);
+    }
+
+    async refreshAutoClickers(isVisible = true) {
+        this.scrollWindow.clearObjects();
+
+        const startX = 560,
+            startY = 280,
+            yDiff = 18;
         this.dashboard.currentScene.stats.resetAutoclickerDps();
         let savedClanMembers = characterData.getClanMembers();
         for (let memberName in savedClanMembers) {
@@ -95,42 +106,29 @@ export class Clan {
                 startX,
                 startY + (this.clanMembers.length + 1) * yDiff
             );
-            member.setVisible(false);
+            member.setVisible(isVisible);
             member.start(this.dashboard.currentScene);
             this.clanMembers.push(member);
             this.scrollWindow.addObject(member.text);
         }
+        this.scrollWindow.refresh();
+        this.scrollWindow.setVisible(isVisible);
     }
 
     // Add clan member to list
-    addClanMember(memberName) {
+    async addClanMember(memberName, amount = 1) {
         // Add to saved data
-        characterData.addClanMember(memberName);
+        characterData.addClanMember(memberName, amount);
 
-        // Add visuals if the dashboard is up
         if (this.dashboard.scene.isActive()) {
-            const startX = 560,
-                startY = 280,
-                yDiff = 18;
-
             // Add new clan entry if new member else increment existing members
-            let member = this.clanMembers.find((member) => member.name === memberName);
-            if (!member) {
-                member = getAutoclickerClass(memberName, this.scrollWindow);
-                member.createText(
-                    false,
-                    startX,
-                    startY + this.clanMembers.length * yDiff
-                );
-                this.clanMembers.push(member);
+            let existingMember = this.clanMembers.find(
+                (existingMember) => existingMember.name === memberName
+            );
+            if (existingMember) {
+                existingMember.numberOwned += amount;
             }
-            member.numberOwned++;
-
-            // Hide if clan tab is not selected
-            let show = this.dashboard.currentPanel == CONSTANTS.PANEL.CLAN;
-            member.setVisible(show);
-
-            this.scrollWindow.addObject(member);
+            this.refreshAutoClickers(this.dashboard.currentPanel == CONSTANTS.PANEL.CLAN);
         }
     }
 

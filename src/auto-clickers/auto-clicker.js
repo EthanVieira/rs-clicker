@@ -4,8 +4,16 @@ import { CONSTANTS, OBJECT_TYPES } from "../constants/constants.js";
 export async function getAutoclickerClass(className, scene) {
     let path = autoclickerManifest[className].classPath;
     let clickerClass = await import(path);
-
-    return new clickerClass.default(scene);
+    console.log("path ", path);
+    if (clickerClass) {
+        return new clickerClass.default(scene);
+    } else {
+        console.log(
+            "Invalid autoclicker name in getAutoclickerClass - returning null.",
+            className
+        );
+        return null;
+    }
 }
 
 export class AutoClicker {
@@ -88,6 +96,7 @@ export class AutoClicker {
             })
             .on("pointerout", () => {
                 if (this.chat != undefined) {
+                    // TODO: don't make chatbox close when pointerout
                     this.chat.showObjectInfo(false);
                 }
             })
@@ -100,10 +109,10 @@ export class AutoClicker {
     }
 
     async buy() {
-        this.dashboard.inventory.addGold(-1 * this.cost);
         if (this.dashboard == undefined) {
             this.dashboard = this.scrollWindow.scene.get(CONSTANTS.SCENES.DASHBOARD);
         }
+        this.dashboard.inventory.addGold(-1 * this.cost);
         this.dashboard.clan.addClanMember(this.name);
     }
 
