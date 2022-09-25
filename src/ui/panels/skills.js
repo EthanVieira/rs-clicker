@@ -10,6 +10,7 @@ export class Skills {
 
     hoverGraphics;
     hoverWindow;
+    HOVER_WINDOW_INITIAL_WIDTH = 68;
     hoverNameText;
     hoverLevelText;
     hoverXpText;
@@ -77,7 +78,12 @@ export class Skills {
         this.hoverRemainingXpText = this.scene.add
             .text(0, 0, "", FONTS.SKILL_HOVER)
             .setDepth(3);
-        this.hoverWindow = new Phaser.Geom.Rectangle(0, 0, 78, 50);
+        this.hoverWindow = new Phaser.Geom.Rectangle(
+            0,
+            0,
+            this.HOVER_WINDOW_INITIAL_WIDTH,
+            50
+        );
         this.hoverGraphics = this.scene.add.graphics({
             lineStyle: { width: 1, color: 0x000000 },
             fillStyle: { color: 0xffffa0 },
@@ -212,13 +218,16 @@ export class Skills {
             x = Math.floor(490 + column * this.skillWidth);
             y = Math.floor(205 + row * this.skillHeight + this.skillHeight / 1.5);
 
+            let xpStr = "";
+            let remainingXpStr = "";
+
             if (index < 23) {
                 this.hoverNameText.text = skill[0].toUpperCase() + skill.substring(1);
-                this.hoverXpText.text =
-                    "Total XP: " + characterData.getSkillXp(skill).toLocaleString();
+                xpStr = characterData.getSkillXp(skill).toLocaleString();
+                this.hoverXpText.text = "Total XP: " + xpStr;
                 let remainingXp = calcRemainingXp(characterData.getSkillXp(skill));
-                this.hoverRemainingXpText.text =
-                    "Remaining: " + remainingXp.toLocaleString();
+                remainingXpStr = remainingXp.toLocaleString();
+                this.hoverRemainingXpText.text = "Remaining: " + remainingXpStr;
             } else {
                 this.hoverNameText.text = "Total Level";
 
@@ -227,13 +236,17 @@ export class Skills {
                 for (let [curSkill, xp] of Object.entries(characterData.getSkills())) {
                     sum += xp;
                 }
-                this.hoverXpText.text = "Total XP: " + sum.toLocaleString();
+                xpStr = sum.toLocaleString();
+                this.hoverXpText.text = "Total XP: " + xpStr;
                 this.hoverRemainingXpText.text = "";
             }
 
             // Set window
             this.hoverWindow.x = x;
             this.hoverWindow.y = y;
+            this.hoverWindow.width =
+                this.HOVER_WINDOW_INITIAL_WIDTH +
+                Math.max(xpStr.length, remainingXpStr.length) * 5;
             this.hoverGraphics.clear();
             this.hoverGraphics.fillRectShape(this.hoverWindow);
             this.hoverGraphics.strokeRectShape(this.hoverWindow);
