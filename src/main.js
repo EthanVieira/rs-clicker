@@ -43,9 +43,9 @@ let game = new Phaser.Game({
         VarrockMineScene,
         VarrockScene,
         BarbarianVillageScene,
+        ChatScene,
         DashboardScene,
         Animation,
-        ChatScene,
         StatsScene,
     ],
 });

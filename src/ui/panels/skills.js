@@ -10,6 +10,8 @@ export class Skills {
 
     hoverGraphics;
     hoverWindow;
+    HOVER_WINDOW_INITIAL_WIDTH = 68;
+    HOVER_WINDOW_INITIAL_HEIGHT = 17;
     hoverNameText;
     hoverLevelText;
     hoverXpText;
@@ -77,7 +79,12 @@ export class Skills {
         this.hoverRemainingXpText = this.scene.add
             .text(0, 0, "", FONTS.SKILL_HOVER)
             .setDepth(3);
-        this.hoverWindow = new Phaser.Geom.Rectangle(0, 0, 78, 50);
+        this.hoverWindow = new Phaser.Geom.Rectangle(
+            0,
+            0,
+            this.HOVER_WINDOW_INITIAL_WIDTH,
+            this.HOVER_WINDOW_INITIAL_HEIGHT
+        );
         this.hoverGraphics = this.scene.add.graphics({
             lineStyle: { width: 1, color: 0x000000 },
             fillStyle: { color: 0xffffa0 },
@@ -206,19 +213,27 @@ export class Skills {
     }
 
     createHoverWindow(x, y) {
+        // Even though the dashboard scene is loaded after the chat window scene,
+        // the skill text hover box will still be behind the chat window scrollbar.
+        // I believe this is because the scroll window scene is created afterward
+        // within the chat window scene. Bringing this scene to the top here fixes this.
+        this.scene.scene.bringToTop(CONSTANTS.SCENES.DASHBOARD);
         let { skill, index, row, column } = this.findSkill(x, y);
 
         if (skill != 0) {
             x = Math.floor(490 + column * this.skillWidth);
             y = Math.floor(205 + row * this.skillHeight + this.skillHeight / 1.5);
 
+            let xpStr = "";
+            let remainingXpStr = "";
+
             if (index < 23) {
                 this.hoverNameText.text = skill[0].toUpperCase() + skill.substring(1);
-                this.hoverXpText.text =
-                    "Total XP: " + characterData.getSkillXp(skill).toLocaleString();
+                xpStr = characterData.getSkillXp(skill).toLocaleString();
+                this.hoverXpText.text = "Total XP: " + xpStr;
                 let remainingXp = calcRemainingXp(characterData.getSkillXp(skill));
-                this.hoverRemainingXpText.text =
-                    "Remaining: " + remainingXp.toLocaleString();
+                remainingXpStr = remainingXp.toLocaleString();
+                this.hoverRemainingXpText.text = "Remaining: " + remainingXpStr;
             } else {
                 this.hoverNameText.text = "Total Level";
 
@@ -227,13 +242,20 @@ export class Skills {
                 for (let [curSkill, xp] of Object.entries(characterData.getSkills())) {
                     sum += xp;
                 }
-                this.hoverXpText.text = "Total XP: " + sum.toLocaleString();
+                xpStr = sum.toLocaleString();
+                this.hoverXpText.text = "Total XP: " + xpStr;
                 this.hoverRemainingXpText.text = "";
             }
 
             // Set window
             this.hoverWindow.x = x;
             this.hoverWindow.y = y;
+            this.hoverWindow.width =
+                this.HOVER_WINDOW_INITIAL_WIDTH +
+                Math.max(xpStr.length, remainingXpStr.length) * 5;
+            this.hoverWindow.height =
+                this.HOVER_WINDOW_INITIAL_HEIGHT +
+                11 * (this.hoverRemainingXpText.text == "" ? 2 : 3);
             this.hoverGraphics.clear();
             this.hoverGraphics.fillRectShape(this.hoverWindow);
             this.hoverGraphics.strokeRectShape(this.hoverWindow);
