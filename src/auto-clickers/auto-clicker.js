@@ -1,5 +1,5 @@
 import { autoclickerManifest } from "./auto-clicker-manifest.js";
-import { CONSTANTS, OBJECT_TYPES } from "../constants/constants.js";
+import { CONSTANTS, OBJECT_TYPES, FONTS } from "../constants/constants.js";
 
 export async function getAutoclickerClass(className, scene) {
     let path = autoclickerManifest[className].classPath;
@@ -90,18 +90,21 @@ export class AutoClicker {
             .setDepth(4)
             .setInteractive()
             .setOrigin(0, 0)
-            .on("pointerover", () => {
-                this.examine(isShop);
+            .on("pointerover", (pointer) => {
+                if (isShop) {
+                    this.examine(isShop);
+                }
             })
             .on("pointerout", () => {
-                if (this.chat != undefined) {
-                    // TODO: don't make chatbox close when pointerout
+                if (isShop) {
                     this.chat.showObjectInfo(false);
                 }
             })
             .on("pointerup", () => {
                 if (isShop && this.dashboard.inventory.getGold() >= this.cost) {
                     this.buy();
+                } else if (!isShop) {
+                    this.examine(isShop);
                 }
             });
         this.displayHeight = this.text.displayHeight;

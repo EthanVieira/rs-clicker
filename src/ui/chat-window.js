@@ -19,6 +19,7 @@ export class ChatScene extends Phaser.Scene {
     chatInput;
     userMessage;
     recentKeys = new ListWithTimeout();
+    previousMessage = "";
 
     col1 = 0;
     visible = false;
@@ -84,7 +85,6 @@ export class ChatScene extends Phaser.Scene {
         this.chatButtonText = this.add.text(20, 483, "Log", FONTS.HOTBAR);
         this.chatButton = new Button(this, 5, 480, 58, 22, { depth: 1 });
         this.chatButton.on("pointerup", () => {
-            this.chatWindow.visible = !this.visible;
             this.setVisible(!this.visible);
         });
 
@@ -453,9 +453,8 @@ export class ChatScene extends Phaser.Scene {
         }
 
         this.chatInput = this.input.keyboard.on("keydown", (event) => {
-            // enter
-            if (event.keyCode == 13) {
-                if (this.userMessage.text != "") {
+            if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ENTER) {
+                if (this.userMessage.text != "" && this.userMessage.text != "*") {
                     // remove prompt character
                     this.userMessage.text = this.userMessage.text.substr(
                         0,
@@ -476,26 +475,42 @@ export class ChatScene extends Phaser.Scene {
                             }
                         );
                     }
+                    this.previousMessage = this.userMessage.text + "*";
                     this.userMessage.text = "";
+                } else {
+                    // Close the chat box
+                    this.setVisible(false);
                 }
             }
 
-            // backspace
-            if (event.keyCode == 8 && this.userMessage.text.length > 1) {
+            if (
+                event.keyCode == Phaser.Input.Keyboard.KeyCodes.BACKSPACE &&
+                this.userMessage.text.length > 1
+            ) {
                 this.userMessage.text =
                     this.userMessage.text.substr(0, this.userMessage.text.length - 2) +
                     "*";
             }
 
+            if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.UP) {
+                this.userMessage.text = this.previousMessage;
+            }
+
+            // There are some firefox only keycodes that we might want to look into
             // numbers, letters, punctuation, or space
             if (
-                event.keyCode == 32 ||
-                (event.keyCode <= 57 && event.keyCode >= 48) ||
-                event.keyCode == 58 ||
-                (event.keyCode <= 90 && event.keyCode >= 65) ||
-                (event.keyCode <= 105 && event.keyCode >= 96) ||
-                (event.keyCode <= 192 && event.keyCode >= 186) ||
-                (event.keyCode <= 222 && event.keyCode >= 219)
+                event.keyCode == Phaser.Input.Keyboard.KeyCodes.SPACE ||
+                (event.keyCode <= Phaser.Input.Keyboard.KeyCodes.NINE &&
+                    event.keyCode >= Phaser.Input.Keyboard.KeyCodes.ZERO) ||
+                event.keyCode == Phaser.Input.Keyboard.KeyCodes.COLON ||
+                (event.keyCode <= Phaser.Input.Keyboard.KeyCodes.Z &&
+                    event.keyCode >= Phaser.Input.Keyboard.KeyCodes.A) ||
+                (event.keyCode <= Phaser.Input.Keyboard.KeyCodes.NUMPAD_NINE &&
+                    event.keyCode >= Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO) ||
+                (event.keyCode <= Phaser.Input.Keyboard.KeyCodes.BACKTICK &&
+                    event.keyCode >= Phaser.Input.Keyboard.KeyCodes.SEMICOLON) ||
+                (event.keyCode <= Phaser.Input.Keyboard.KeyCodes.QUOTES &&
+                    event.keyCode >= Phaser.Input.Keyboard.KeyCodes.OPEN_BRACKET)
             ) {
                 // arbitrary input length limit
                 if (
@@ -518,8 +533,7 @@ export class ChatScene extends Phaser.Scene {
                 }
             }
 
-            // esc
-            if (event.keyCode == 27) {
+            if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC) {
                 if (this.userMessage.text == "") {
                     this.setVisible(false);
                 } else {
@@ -529,10 +543,19 @@ export class ChatScene extends Phaser.Scene {
         });
     }
 
+    listenForEnter() {
+        this.chatInput = this.input.keyboard.on("keydown", (event) => {
+            if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ENTER) {
+                this.setVisible(true);
+            }
+        });
+    }
+
     disallowTyping() {
         if (this.chatInput != null) {
             this.chatInput.removeAllListeners();
         }
         this.userMessage.visible = false;
+        this.listenForEnter();
     }
 }
