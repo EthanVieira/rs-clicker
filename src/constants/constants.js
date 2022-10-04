@@ -315,3 +315,22 @@ export const FONTS = {
         },
     },
 };
+
+export const KEY_CODES = {
+    BACKSPACE: Phaser.Input.Keyboard.KeyCodes.BACKSPACE,
+    ENTER: Phaser.Input.Keyboard.KeyCodes.ENTER,
+    UP: Phaser.Input.Keyboard.KeyCodes.UP,
+    SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
+    ESC: Phaser.Input.Keyboard.KeyCodes.ESC,
+    ZERO: Phaser.Input.Keyboard.KeyCodes.ZERO,
+    NINE: Phaser.Input.Keyboard.KeyCodes.NINE,
+    A: Phaser.Input.Keyboard.KeyCodes.A,
+    Z: Phaser.Input.Keyboard.KeyCodes.Z,
+    COLON: Phaser.Input.Keyboard.KeyCodes.COLON,
+    NUMPAD_ZERO: Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO,
+    NUMPAD_NINE: Phaser.Input.Keyboard.KeyCodes.NUMPAD_NINE,
+    BACKTICK: Phaser.Input.Keyboard.KeyCodes.BACKTICK,
+    SEMICOLON: Phaser.Input.Keyboard.KeyCodes.SEMICOLON,
+    QUOTES: Phaser.Input.Keyboard.KeyCodes.QUOTES,
+    OPEN_BRACKET: Phaser.Input.Keyboard.KeyCodes.OPEN_BRACKET,
+};
