@@ -3,7 +3,6 @@ import { characterData } from "../cookie-io.js";
 import { CONSTANTS, FONTS } from "../constants/constants.js";
 import * as Utilities from "../utilities.js";
 import { autoclickerManifest } from "../auto-clickers/auto-clicker-manifest.js";
-import { getAutoclickerClass } from "../auto-clickers/auto-clicker.js";
 
 export function handleCommand(commandStr) {
     const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);

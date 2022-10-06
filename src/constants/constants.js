@@ -315,3 +315,5 @@ export const FONTS = {
         },
     },
 };
+
+export const KEY_CODES = Phaser.Input.Keyboard.KeyCodes;
