@@ -1,6 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
-import { capitalize } from "../utilities.js";
+import { capitalize, getItemText, getGoldStackType } from "../utilities.js";
 
 export class Animation extends Phaser.Scene {
     constructor() {
@@ -137,6 +137,68 @@ export class Animation extends Phaser.Scene {
                     if (image.alpha < 1) {
                         image.alpha += 0.03;
                     }
+                }
+            },
+            repeat: 0,
+            delay: 50,
+        });
+    }
+
+    purchaseAnimation(price) {
+        const iconName = getGoldStackType(price) + "-stack";
+
+        const startX = 300;
+        const startY = 200;
+        const endX = startX;
+        const endY = 20;
+
+        // Red runescape font
+        const font = {
+            font: "24px runescape",
+            fill: "red",
+            shadow: {
+                offsetX: 1,
+                offsetY: 1,
+                color: "black",
+                fill: true,
+            },
+        };
+
+        // Moving purchase text
+        const purchaseText = this.add
+            .text(startX, startY, "-" + getItemText(price)[0], font)
+            .setOrigin(0.5, 0.5);
+
+        const goldIcon = this.add
+            .image(startX + 10, startY + 25, iconName)
+            .setOrigin(0.5, 0.5)
+            .setDepth(1);
+
+        this.tweens.add({
+            targets: [purchaseText, goldIcon],
+            x: endX,
+            y: endY,
+            duration: 1000,
+            ease: (t) => {
+                return Math.pow(Math.sin(t * 3), 3);
+            },
+            onComplete: () => {
+                purchaseText.destroy();
+                goldIcon.destroy();
+            },
+            onUpdate: () => {
+                // Destroy if within 1 pixel of end point
+                // Otherwise image will return to origin
+                if (
+                    purchaseText.x >= endX - 1 &&
+                    purchaseText.x <= endX + 1 &&
+                    purchaseText.y >= endY - 1 &&
+                    purchaseText.y <= endY + 1
+                ) {
+                    purchaseText.destroy();
+                    goldIcon.destroy();
+                } else {
+                    purchaseText.scale -= 0.0005;
                 }
             },
             repeat: 0,
