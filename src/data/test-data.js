@@ -8,9 +8,10 @@ import { CONSTANTS } from "../constants/constants.js";
 // To avoid that, update the count of the item instead of pushing a new one.
 // ---------------------------------------------------------------------
 const richData = JSON.parse(JSON.stringify(defaultData));
+
 richData["inventory"].filter((x) => x.item == "Coin")[0].count =
     CONSTANTS.LIMITS.MAX_ITEM_STACK;
-
+// ---------------------------------------------------------------------
 const allLevelsUnlockedData = JSON.parse(JSON.stringify(defaultData));
 
 for (let scene in allLevelsUnlockedData["levels"]) {
@@ -31,7 +32,6 @@ smithingTestData["inventory"].push({ item: "TinOre", count: 76543 });
 
 console.log(smithingTestData["inventory"]);
 // ---------------------------------------------------------------------
-
 export const dataMap = {
     "new-game": defaultData,
     "all-levels": allLevelsUnlockedData,
