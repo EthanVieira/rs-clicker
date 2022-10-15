@@ -43,6 +43,7 @@ export class AutoClicker {
         this.level = data.level;
         this.name = data.name;
         this.dashboard = data.scene.scene.get(CONSTANTS.SCENES.DASHBOARD);
+        this.animationScene = data.scene.scene.get(CONSTANTS.SCENES.ANIMATION);
         this.numberOwned = data.numberOwned;
 
         // Damage every .1 seconds
@@ -115,6 +116,7 @@ export class AutoClicker {
             this.dashboard = this.scrollWindow.scene.get(CONSTANTS.SCENES.DASHBOARD);
         }
         this.dashboard.inventory.addGold(-1 * this.cost);
+        this.animationScene.purchaseAnimation(this.cost);
         this.dashboard.clan.addClanMember(this.name);
     }
 

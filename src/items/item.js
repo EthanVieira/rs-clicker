@@ -122,6 +122,9 @@ export class Item extends ClickableObject {
             const boughtItem = await getItemClass(this.constructor.name, dashboard);
             if (dashboard.inventory.addToInventory(boughtItem)) {
                 dashboard.inventory.addGold(-1 * this.cost);
+                this.scene.scene
+                    .get(CONSTANTS.SCENES.ANIMATION)
+                    .purchaseAnimation(this.cost);
             }
         } else {
             console.log("not enough mulah", dashboard.inventory.getGold(), this.cost);
