@@ -77,6 +77,9 @@ export default class Equipment extends Item {
                 equippedItem.equipped = true;
                 equippedItem.actions[0] = { text: "Unequip", func: "unequip" };
                 equippedItem.scene.equipment.equipItem(equippedItem);
+                this.scene.scene
+                    .get(CONSTANTS.SCENES.AUDIO)
+                    .playSfx(this.equipSound, false);
             } else {
                 console.log("Not high enough level to equip that.");
                 let skillText = getRequiredCombatSkill(this.skill);
@@ -97,7 +100,7 @@ export default class Equipment extends Item {
         }
     }
 
-    unequip() {
+    unequip(playSound = true) {
         if (this.equipped) {
             console.log("Trying to unequip", this.name, this.index);
 
@@ -108,6 +111,12 @@ export default class Equipment extends Item {
                 this.actions[0] = { text: "Equip", func: "equip" };
                 this.equipped = false;
                 console.log("Unequipped", this.name);
+            }
+
+            if (playSound) {
+                this.scene.scene
+                    .get(CONSTANTS.SCENES.AUDIO)
+                    .playSfx(this.equipSound, false);
             }
         } else {
             console.log("Error, trying to unequip when not equipped");

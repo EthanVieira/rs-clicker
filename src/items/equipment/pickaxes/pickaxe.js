@@ -17,4 +17,6 @@ export default class Pickaxe extends Equipment {
         alpha: 1,
         flipX: true,
     };
+
+    equipSound = "axe-equip";
 }
