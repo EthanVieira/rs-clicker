@@ -17,4 +17,6 @@ export default class Axe extends Smithable {
         alpha: 1,
         flipX: true,
     };
+
+    equipSound = "axe-equip";
 }

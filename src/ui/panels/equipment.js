@@ -66,9 +66,10 @@ export class Equipment {
     // Add to specific index
     equipItem(item) {
         // Remove previously equipped item if there is one
+        // Prioritize equip sfx over unequip sfx
         if (this.equipment[item.slot]) {
             console.log("Unequiping previous item", this.equipment[item.slot].name);
-            this.equipment[item.slot].unequip();
+            this.equipment[item.slot].unequip(false);
         }
 
         // Add to saved data

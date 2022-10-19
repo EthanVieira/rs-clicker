@@ -16,4 +16,6 @@ export default class Bow extends Equipment {
         alpha: 1,
         flipX: false,
     };
+
+    equipSound = "bow-arrow-equip";
 }

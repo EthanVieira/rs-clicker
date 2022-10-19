@@ -55,6 +55,28 @@ export class AudioScene extends Phaser.Scene {
                 "src/assets/audio/sfx/" + skill + "LevelUp.ogg"
             );
         }
+
+        // Not currently using the commented ones
+        this.load.audio("axe-equip", "src/assets/audio/sfx/equip/AxeEquip.ogg");
+        // this.load.audio("bolt-equip", "src/assets/audio/sfx/equip/BoltEquip.ogg");
+        // this.load.audio("boots-equip", "src/assets/audio/sfx/equip/BootsEquip.ogg");
+        this.load.audio(
+            "bow-arrow-equip",
+            "src/assets/audio/sfx/equip/BowArrowEquip.ogg"
+        );
+        // this.load.audio("mace-flail-equip", "src/assets/audio/sfx/equip/MaceFlailEquip.ogg");
+        // this.load.audio("maul-equip", "src/assets/audio/sfx/equip/MaulEquip.ogg");
+        // this.load.audio("metal-body-equip", "src/assets/audio/sfx/equip/MetalBodyEquip.ogg");
+        // this.load.audio("metal-helmet-equip", "src/assets/audio/sfx/equip/MetalHelmetEquip.ogg");
+        // this.load.audio("metal-legs-equip", "src/assets/audio/sfx/equip/MetalLegsEquip.ogg");
+        // this.load.audio("non-metal-hat-equip", "src/assets/audio/sfx/equip/NonMetalHatEquip.ogg");
+        // this.load.audio("ranged-armor-equip", "src/assets/audio/sfx/equip/RangedArmorEquip.ogg");
+        this.load.audio(
+            "staff-spear-equip",
+            "src/assets/audio/sfx/equip/StaffSpearEquip.ogg"
+        );
+        this.load.audio("sword-equip", "src/assets/audio/sfx/equip/SwordEquip.ogg");
+        // this.load.audio("whip-equip", "src/assets/audio/sfx/equip/WhipEquip.ogg");
     }
 
     create() {
@@ -83,18 +105,23 @@ export class AudioScene extends Phaser.Scene {
     }
 
     // Pause BGM while playing SFX
-    playSfx(audioName) {
+    playSfx(audioName, stopBgm = true) {
         console.log("playing", audioName);
-        this.bgm.pause();
-        if (this.sfx?.isPlaying) {
-            this.sfx.stop();
+        if (stopBgm) {
             this.bgm.pause();
+            if (this.sfx?.isPlaying) {
+                this.sfx.stop();
+            }
         }
+
         this.sfx = this.sound.add(audioName);
         this.sfx.setVolume(characterData.getVolume(SFX) / 4);
         this.sfx.play();
+
         this.sfx.once("complete", () => {
-            this.bgm.resume();
+            if (stopBgm) {
+                this.bgm.resume();
+            }
         });
     }
 

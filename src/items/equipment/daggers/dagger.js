@@ -17,4 +17,6 @@ export default class Dagger extends Smithable {
         alpha: 1,
         flipX: false,
     };
+
+    equipSound = "sword-equip";
 }

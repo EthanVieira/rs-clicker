@@ -17,4 +17,6 @@ export default class Scimitar extends Smithable {
         alpha: 1,
         flipX: false,
     };
+
+    equipSound = "sword-equip";
 }

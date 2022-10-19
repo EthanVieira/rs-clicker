@@ -17,4 +17,6 @@ export default class Sword extends Smithable {
         alpha: 1,
         flipX: true,
     };
+
+    equipSound = "sword-equip";
 }

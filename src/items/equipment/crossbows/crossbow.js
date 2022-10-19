@@ -16,4 +16,6 @@ export default class Crossbow extends Equipment {
         alpha: 1,
         flipX: true,
     };
+
+    equipSound = "bow-arrow-equip";
 }
