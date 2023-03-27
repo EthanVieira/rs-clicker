@@ -120,10 +120,9 @@ class CharacterData {
         }
     }
     removeFriend(name) {
-        const index = this.characterData.friends.indexOf(name);
-        if (index > -1) {
-            this.characterData.friends.splice(index, 1);
-        }
+        this.characterData.friends = this.characterData.friends.filter(
+            (friend) => friend != name
+        );
     }
     getFriends() {
         return this.characterData.friends;
