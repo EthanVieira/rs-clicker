@@ -122,7 +122,7 @@ class CharacterData {
     removeFriend(name) {
         const index = this.characterData.friends.indexOf(name);
         if (index > -1) {
-            array.splice(index, 1);
+            this.characterData.friends.splice(index, 1);
         }
     }
     getFriends() {
