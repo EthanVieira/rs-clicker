@@ -26,6 +26,7 @@ export const defaultData = {
         name: "The Black Knights",
         members: {},
     },
+    friends: ["Zezima"],
     attackStyle: 0,
     autoRetaliate: true,
     // Skill XP
