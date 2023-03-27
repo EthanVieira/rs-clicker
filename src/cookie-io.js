@@ -115,13 +115,14 @@ class CharacterData {
     }
 
     addFriend(name) {
-        if (!(name in this.characterData.friends)) {
+        if (!this.characterData.friends.includes(name)) {
             this.characterData.friends.push(name);
         }
     }
     removeFriend(name) {
-        if (name in this.characterData.friends) {
-            this.characterData.friends.push(name);
+        const index = this.characterData.friends.indexOf(name);
+        if (index > -1) {
+            array.splice(index, 1);
         }
     }
     getFriends() {

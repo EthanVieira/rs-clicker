@@ -59,7 +59,7 @@ export class Friends {
             /// TODO if we decide to make this functional
         });
 
-        // Update and show clan info on startup
+        // Update and show friends on startup
         this.updateFriends();
 
         // Default to hidden
@@ -72,10 +72,6 @@ export class Friends {
         this.scrollWindow.clearObjects();
 
         // Load friends
-        const startX = 560,
-            startY = 280,
-            yDiff = 18;
-
         this.friends = characterData.getFriends();
 
         let friendsText = [];
@@ -106,7 +102,6 @@ export class Friends {
     }
 
     setVisible(isVisible) {
-        //this.isTextVisible = isVisible;
         if (isVisible) {
             this.scrollWindow.refresh();
             this.dashboard.hideAllMenus();
