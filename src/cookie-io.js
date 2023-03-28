@@ -114,6 +114,20 @@ class CharacterData {
         return this.characterData.clan.members;
     }
 
+    addFriend(name) {
+        if (!this.characterData.friends.includes(name)) {
+            this.characterData.friends.push(name);
+        }
+    }
+    removeFriend(name) {
+        this.characterData.friends = this.characterData.friends.filter(
+            (friend) => friend != name
+        );
+    }
+    getFriends() {
+        return this.characterData.friends;
+    }
+
     getAttackStyle() {
         return this.characterData.attackStyle;
     }
