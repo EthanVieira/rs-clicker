@@ -260,6 +260,7 @@ export class Skills {
             this.hoverGraphics.fillRectShape(this.hoverWindow);
             this.hoverGraphics.strokeRectShape(this.hoverWindow);
             this.hoverGraphics.setDepth(3);
+            this.scene.scene.bringToTop(this.hoverGraphics);
 
             // Set text
             this.hoverNameText.x = x + 5;

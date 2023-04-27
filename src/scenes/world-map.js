@@ -64,6 +64,15 @@ export class WorldMapScene extends Phaser.Scene {
                 key: CONSTANTS.SCENES.LUMBRIDGE_TREES,
             },
             {
+                text: "Draynor\nFishing",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.DRAYNOR_FISHING
+                ),
+                x: MAP.DRAYNOR_FISHING.X,
+                y: MAP.DRAYNOR_FISHING.Y,
+                key: CONSTANTS.SCENES.DRAYNOR_FISHING,
+            },
+            {
                 text: "Al Kharid\nFurnace",
                 condition: characterData.getQuestCompleted(
                     CONSTANTS.PREREQUISITES.AL_KHARID_FURNACE

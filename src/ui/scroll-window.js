@@ -275,5 +275,14 @@ export class ScrollWindow extends Phaser.Scene {
             this.scrollBackground.visible = isVisible;
             this.scrollBar.visible = isVisible;
         }
+
+        if (isVisible) {
+            // Whenever we load the skills scene, we bring the dashboard to the top so
+            // that the skill text will always be above the chat scrollbar. This makes
+            // it so that all other dashboard panels' scrollbars get hidden behind the 
+            // main dashboard image/scene because the scrollbars are scenes themselves.
+            // So here we make sure the scrollbar is on top when it should be visible.
+            this.scene.bringToTop(this.name);
+        }
     }
 }

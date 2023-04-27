@@ -1,5 +1,7 @@
 import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
+import { calcLevel } from "../utilities.js";
+import { characterData } from "../cookie-io.js";
 
 export class Target extends ClickableObject {
     curTarget;
@@ -7,6 +9,7 @@ export class Target extends ClickableObject {
     progressBar;
     name = "";
     drops = [];
+    uniqueDrops = [];
 
     x = 0;
     y = 0;
@@ -53,6 +56,7 @@ export class Target extends ClickableObject {
         this.name = data.name;
         this.varName = data.varName;
         this.drops = data.drops;
+        this.uniqueDrops = data.uniqueDrops;
         this.images = data.images;
         this.scene = data.scene;
         this.stats = data.scene.stats;
@@ -84,6 +88,41 @@ export class Target extends ClickableObject {
 
         if (isFinished) {
             // Calculate item drops
+            // Separate rolls for unique and general
+
+            // Unique drops
+            // Can only obtain one
+            if (this.uniqueDrops) {
+                const randomNum = Math.random();
+                let threshold = 0;
+
+                this.uniqueDrops.every((item) => {
+                    const canGetDrop = Object.keys(item.requiredLevels).every((skill) => {
+                        return (
+                            calcLevel(characterData.getSkillXp(skill)) >=
+                            item.requiredLevels[skill]
+                        );
+                    });
+
+                    if (canGetDrop) {
+                        // Assumes sum of rates <= 100%
+                        threshold += item.rate;
+                        if (threshold > randomNum) {
+                            let droppedItem = new item.item(this.scene.dashboard);
+                            console.log(this.name, "dropped", droppedItem.name);
+                            this.scene.dashboard.inventory.addToInventory(droppedItem);
+
+                            // break
+                            return false;
+                        }
+                    }
+                    //continue
+                    return true;
+                });
+            }
+
+            // General drops
+            // Can obtain multiple
             this.drops.forEach((item) => {
                 if (item.rate > Math.random()) {
                     let droppedItem = new item.item(this.scene.dashboard);

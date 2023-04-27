@@ -32,6 +32,13 @@ export function getSkillDescription(skill) {
             body += "Lv 1: Shortbow (50 Logs)\n";
             body += "Lv 5: Oak Shortbow (50 Oak Logs)\n";
             break;
+        case "fishing":
+            description += "Fish larger fish, faster.\n";
+            description += "Use different fishing methods.";
+            body += "Lv 1: Small net fishing\n";
+            body += "Lv 1: Shrimps\n";
+            body += "Lv 5: Anchovies\n";
+            break;
         case "woodcutting":
             description += "Chop down stronger trees, faster.\n";
             description += "Use stronger axes.";
