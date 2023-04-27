@@ -96,36 +96,32 @@ export class Target extends ClickableObject {
                 const randomNum = Math.random();
                 let threshold = 0;
 
-                this.uniqueDrops.every((item) => {
-                    const canGetDrop = Object.keys(item.requiredLevels).every((skill) => {
-                        return (
+                for (const item of this.uniqueDrops) {
+                    const canGetDrop = Object.keys(item.requiredLevels).every(
+                        (skill) =>
                             calcLevel(characterData.getSkillXp(skill)) >=
                             item.requiredLevels[skill]
-                        );
-                    });
+                    );
 
                     if (canGetDrop) {
                         // Assumes sum of rates <= 100%
                         threshold += item.rate;
                         if (threshold > randomNum) {
-                            let droppedItem = new item.item(this.scene.dashboard);
+                            const droppedItem = new item.item(this.scene.dashboard);
                             console.log(this.name, "dropped", droppedItem.name);
                             this.scene.dashboard.inventory.addToInventory(droppedItem);
 
-                            // break
-                            return false;
+                            break;
                         }
                     }
-                    //continue
-                    return true;
-                });
+                }
             }
 
             // General drops
             // Can obtain multiple
             this.drops.forEach((item) => {
                 if (item.rate > Math.random()) {
-                    let droppedItem = new item.item(this.scene.dashboard);
+                    const droppedItem = new item.item(this.scene.dashboard);
                     console.log(this.name, "dropped", droppedItem.name);
                     this.scene.dashboard.inventory.addToInventory(droppedItem);
                 }

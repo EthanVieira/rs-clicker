@@ -1,7 +1,4 @@
 import { Resource } from "../resource.js";
-import { CONSTANTS } from "../../../constants/constants.js";
-import { calcLevel } from "../../../utilities.js";
-import { characterData } from "../../../cookie-io.js";
 
 export class FishingSpot extends Resource {
     requiredLevels;
