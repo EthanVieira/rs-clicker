@@ -13,7 +13,7 @@ export class Furnace extends ClickableObject {
         { text: "Examine", func: "examine" },
     ];
 
-    validMaterials = new Set();
+    validMaterials = new Set(["Copper Ore", "Tin Ore"]);
 
     constructor(scene) {
         super();
@@ -35,9 +35,6 @@ export class Furnace extends ClickableObject {
                 this.clickTarget();
             }
         });
-
-        this.validMaterials.add("Copper Ore");
-        this.validMaterials.add("Tin Ore");
     }
 
     async clickTarget() {
@@ -48,7 +45,11 @@ export class Furnace extends ClickableObject {
         const selectedIndex = inv.curSelectedItemIndex;
         const selectedItem = inv.inventory[selectedIndex];
 
-        if (selectedIndex < 0 || !selectedItem || !this.validMaterials.has(selectedItem)) {
+        if (
+            selectedIndex < 0 ||
+            !selectedItem ||
+            !this.validMaterials.has(selectedItem)
+        ) {
             chat.writeText("Select an ore in your inventory first.");
             return;
         }

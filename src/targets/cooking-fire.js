@@ -13,7 +13,8 @@ export class CookingFire extends ClickableObject {
         { text: "Examine", func: "examine" },
     ];
 
-    validMaterials = new Set();
+    // Potential TODO: do we want to be able to cook already cooked food to make them burnt?
+    validMaterials = new Set(["Raw Shrimps", "Raw Anchovies"]);
 
     constructor(scene) {
         super();
@@ -35,10 +36,6 @@ export class CookingFire extends ClickableObject {
                 this.clickTarget();
             }
         });
-
-        // Potential TODO: do we want to be able to cook already cooked food to make them burnt?
-        this.validMaterials.add("Raw Shrimps");
-        this.validMaterials.add("Raw Anchovies");
     }
 
     async clickTarget() {
@@ -71,7 +68,7 @@ export class CookingFire extends ClickableObject {
         // calculate cook/burn rate
         // start at 50% success rate and uniformly increase
         // until the level where it can no longer be burned
-        let initialRate = 0.5;
+        const initialRate = 0.5;
 
         const increasePerLevel = initialRate / (selectedItem.burnLvlLimit - reqLevel);
 
