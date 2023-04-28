@@ -91,6 +91,14 @@ export const defaultData = {
                 smallNetFishingSpot: 0,
             },
         },
+        ROGUES_DEN_COOKING: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                shrimps: 0,
+                anchovies: 0,
+            },
+        },
         AL_KHARID_FURNACE: {
             questCompleted: false,
             unlocked: false,

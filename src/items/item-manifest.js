@@ -7,6 +7,12 @@ export const itemManifest = {
         imageName: "air-staff",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    Anchovies: {
+        classPath: "./fish/anchovies.js",
+        imagePath: "resources/fish/Anchovies.png",
+        imageName: "anchovies",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
     Bronze2hSword: {
         classPath: "./equipment/swords/bronze-2h-sword.js",
         imagePath: "weapons/Bronze2hSword.png",
@@ -60,6 +66,18 @@ export const itemManifest = {
         imagePath: "weapons/BronzeSword.png",
         imageName: "bronze-sword",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    BurntAnchovies: {
+        classPath: "./fish/burnt-anchovies.js",
+        imagePath: "resources/fish/BurntAnchovies.png",
+        imageName: "burnt-anchovies",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
+    BurntShrimps: {
+        classPath: "./fish/burnt-shrimps.js",
+        imagePath: "resources/fish/BurntShrimps.png",
+        imageName: "burnt-shrimps",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     Coin: {
         classPath: "./currencies/coin.js",
@@ -144,14 +162,20 @@ export const itemManifest = {
     },
     RawAnchovies: {
         classPath: "./fish/raw-anchovies.js",
-        imagePath: "resources/RawAnchovies.png",
+        imagePath: "resources/fish/RawAnchovies.png",
         imageName: "raw-anchovies",
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     RawShrimps: {
         classPath: "./fish/raw-shrimps.js",
-        imagePath: "resources/RawShrimps.png",
+        imagePath: "resources/fish/RawShrimps.png",
         imageName: "raw-shrimps",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
+    Shrimps: {
+        classPath: "./fish/shrimps.js",
+        imagePath: "resources/fish/Shrimps.png",
+        imageName: "shrimps",
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     SmallFishingNet: {

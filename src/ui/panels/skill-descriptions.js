@@ -37,7 +37,13 @@ export function getSkillDescription(skill) {
             description += "Use different fishing methods.";
             body += "Lv 1: Small net fishing\n";
             body += "Lv 1: Shrimps\n";
-            body += "Lv 5: Anchovies\n";
+            body += "Lv 15: Anchovies\n";
+            break;
+        case "cooking":
+            description += "Cook more food.\n";
+            description += "Burn less food.";
+            body += "Lv 1: Shrimps\n";
+            body += "Lv 1: Anchovies\n";
             break;
         case "woodcutting":
             description += "Chop down stronger trees, faster.\n";

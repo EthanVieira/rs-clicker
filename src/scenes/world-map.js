@@ -73,6 +73,15 @@ export class WorldMapScene extends Phaser.Scene {
                 key: CONSTANTS.SCENES.DRAYNOR_FISHING,
             },
             {
+                text: "Rogue's Den\nCooking",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.ROGUES_DEN_COOKING
+                ),
+                x: MAP.ROGUES_DEN_COOKING.X,
+                y: MAP.ROGUES_DEN_COOKING.Y,
+                key: CONSTANTS.SCENES.ROGUES_DEN_COOKING,
+            },
+            {
                 text: "Al Kharid\nFurnace",
                 condition: characterData.getQuestCompleted(
                     CONSTANTS.PREREQUISITES.AL_KHARID_FURNACE

@@ -48,7 +48,7 @@ export class Furnace extends ClickableObject {
         const selectedIndex = inv.curSelectedItemIndex;
         const selectedItem = inv.inventory[selectedIndex];
 
-        if (selectedIndex < 0 || !selectedItem || this.validMaterials.has(selectedItem)) {
+        if (selectedIndex < 0 || !selectedItem || !this.validMaterials.has(selectedItem)) {
             chat.writeText("Select an ore in your inventory first.");
             return;
         }

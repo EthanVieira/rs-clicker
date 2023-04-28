@@ -69,6 +69,11 @@ export class MusicPanel {
                 unlocked: false,
             },
             {
+                name: "the-rogues-den",
+                prereq: CONSTANTS.PREREQUISITES.ROGUES_DEN_COOKING,
+                unlocked: false,
+            },
+            {
                 name: "the-trade-parade",
                 prereq: "NONE",
                 unlocked: true,
