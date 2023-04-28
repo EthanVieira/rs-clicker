@@ -73,6 +73,11 @@ export class MusicPanel {
                 prereq: "NONE",
                 unlocked: true,
             },
+            {
+                name: "unknown-land",
+                prereq: CONSTANTS.PREREQUISITES.DRAYNOR_FISHING,
+                unlocked: false,
+            },
         ];
 
         // Add song names to scroll window

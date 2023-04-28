@@ -142,6 +142,24 @@ export const itemManifest = {
         imageName: "oak-shortbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    RawAnchovies: {
+        classPath: "./fish/raw-anchovies.js",
+        imagePath: "resources/RawAnchovies.png",
+        imageName: "raw-anchovies",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
+    RawShrimps: {
+        classPath: "./fish/raw-shrimps.js",
+        imagePath: "resources/RawShrimps.png",
+        imageName: "raw-shrimps",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
+    SmallFishingNet: {
+        classPath: "./tools/small-fishing-net.js",
+        imagePath: "tools/SmallFishingNet.png",
+        imageName: "small-fishing-net",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
+    },
     Steel2hSword: {
         classPath: "./equipment/swords/steel-2h-sword.js",
         imagePath: "weapons/Steel2hSword.png",

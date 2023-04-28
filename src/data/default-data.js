@@ -17,6 +17,7 @@ export const defaultData = {
         { item: "BronzePickaxe", count: 1 },
         { item: "Knife", count: 1 },
         { item: "Hammer", count: 1 },
+        { item: "SmallFishingNet", count: 1 },
         { item: "Coin", count: 25 },
     ],
     equipment: {
@@ -81,6 +82,13 @@ export const defaultData = {
             unlocked: false,
             enemiesKilled: {
                 tree: 0,
+            },
+        },
+        DRAYNOR_FISHING: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                smallNetFishingSpot: 0,
             },
         },
         AL_KHARID_FURNACE: {

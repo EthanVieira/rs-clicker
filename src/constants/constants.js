@@ -13,6 +13,7 @@ export const CONSTANTS = {
         TUTORIAL_ISLAND: "TUTORIAL_ISLAND",
         LUMBRIDGE: "LUMBRIDGE",
         LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
+        DRAYNOR_FISHING: "DRAYNOR_FISHING",
         AL_KHARID_FURNACE: "AL_KHARID_FURNACE",
         VARROCK_ANVIL: "VARROCK_ANVIL",
         VARROCK_MINE: "VARROCK_MINE",
@@ -26,6 +27,7 @@ export const CONSTANTS = {
     PREREQUISITES: {
         LUMBRIDGE: "TUTORIAL_ISLAND",
         LUMBRIDGE_TREES: "TUTORIAL_ISLAND",
+        DRAYNOR_FISHING: "TUTORIAL_ISLAND",
         AL_KHARID_FURNACE: "LUMBRIDGE",
         VARROCK_ANVIL: "AL_KHARID_FURNACE",
         VARROCK_MINE: "LUMBRIDGE",
@@ -39,8 +41,9 @@ export const CONSTANTS = {
         RANGER: "RANGER",
     },
     RESOURCES: {
-        WOOD: "WOOD",
+        FISH: "FISH",
         ORE: "ORE",
+        WOOD: "WOOD",
     },
     ITEM_TYPES: {
         WEAPON: "WEAPON",
@@ -132,6 +135,10 @@ export const MAP = {
     LUMBRIDGE_TREES: {
         X: 2820,
         Y: 3075,
+    },
+    DRAYNOR_FISHING: {
+        X: 2530,
+        Y: 3015,
     },
     AL_KHARID_FURNACE: {
         X: 3230,

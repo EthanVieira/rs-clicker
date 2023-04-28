@@ -26,10 +26,11 @@ export class AudioScene extends Phaser.Scene {
         this.load.audio("newbie-melody", "src/assets/audio/bgm/NewbieMelody.ogg");
         this.load.audio("harmony", "src/assets/audio/bgm/Harmony.ogg");
         this.load.audio("al-kharid", "src/assets/audio/bgm/AlKharid.ogg");
-        this.load.audio("expanse", "src/assets/audio/bgm/Expanse.mp3");
+        this.load.audio("expanse", "src/assets/audio/bgm/Expanse.ogg");
         this.load.audio("barbarianism", "src/assets/audio/bgm/Barbarianism.ogg");
         this.load.audio("the-trade-parade", "src/assets/audio/bgm/TheTradeParade.ogg");
-        this.load.audio("still-night", "src/assets/audio/bgm/StillNight.mp3");
+        this.load.audio("still-night", "src/assets/audio/bgm/StillNight.ogg");
+        this.load.audio("unknown-land", "src/assets/audio/bgm/UnknownLand.ogg");
 
         // SFX
         this.load.audio(

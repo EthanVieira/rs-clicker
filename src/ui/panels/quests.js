@@ -209,17 +209,23 @@ export class Quests {
 
                     const printedAmount = isQuestComplete ? questAmount : enemiesKilled;
                     let questText = this.questsScrollWindow.add
-                        .text(0, 0, prettyPrintCamelCase(enemy) + "s: ", {
-                            fill: isQuestComplete ? "#00ff00" : "yellow",
-                            font: "16px runescape",
-                        })
+                        .text(
+                            0,
+                            0,
+                            prettyPrintCamelCase(enemy) +
+                                (enemy.endsWith("s") ? ": " : "s: "),
+                            {
+                                fill: isQuestComplete ? "#00ff00" : "yellow",
+                                font: "12px runescape",
+                            }
+                        )
                         .setDepth(3);
                     row.add(questText);
 
                     let questTxtAmount = this.questsScrollWindow.add
-                        .text(90, 0, printedAmount + "/" + questAmount, {
+                        .text(110, 0, printedAmount + "/" + questAmount, {
                             fill: isQuestComplete ? "#00ff00" : "yellow",
-                            font: "16px runescape",
+                            font: "12px runescape",
                         })
                         .setDepth(3);
                     row.add(questTxtAmount);

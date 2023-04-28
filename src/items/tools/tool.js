@@ -6,6 +6,16 @@ import { CONSTANTS } from "../../constants/constants.js";
 export default class Tool extends Item {
     canCraft = true;
 
+    animation = {
+        imageName: "",
+        scale: 0.25,
+        curve: 1,
+        startX: 450,
+        startY: 400,
+        alpha: 1,
+        flipX: true,
+    };
+
     constructor() {
         super();
     }
@@ -57,5 +67,13 @@ export default class Tool extends Item {
         // Write to chat window
         const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
         chatScene.writeText(outputString);
+    }
+
+    getAnimation() {
+        let animation = this.animation;
+        if (animation.imageName == "") {
+            animation.imageName = this.sprite.texture.key + "-model";
+        }
+        return animation;
     }
 }

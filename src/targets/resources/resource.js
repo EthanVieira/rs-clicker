@@ -50,6 +50,9 @@ export class Resource extends Target {
             case "mining":
                 toolKeyword = "Pickaxe";
                 break;
+            case "fishing":
+                toolKeyword = this.requiredTool;
+                break;
             default:
                 console.log("Error: invalid skill.");
         }

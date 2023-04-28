@@ -25,11 +25,17 @@ smithingTestData["inventory"].find((x) => x.item == "Coin").count = 69240;
 smithingTestData["inventory"].push({ item: "BronzeBar", count: 42069 });
 smithingTestData["inventory"].push({ item: "CopperOre", count: 76543 });
 smithingTestData["inventory"].push({ item: "TinOre", count: 76543 });
+
+const fishingTestData = JSON.parse(JSON.stringify(allLevelsUnlockedData));
+fishingTestData["inventory"].find((x) => x.item == "Coin").count = 69240;
+fishingTestData["inventory"].push({ item: "SmallFishingNet", count: 42069 });
+
 // ---------------------------------------------------------------------
 export const dataMap = {
     "new-game": defaultData,
     "all-levels": allLevelsUnlockedData,
     "autoclicker-performance": autoclickerPerformanceTestData,
     smithing: smithingTestData,
+    fishing: fishingTestData,
     rich: richData,
 };
