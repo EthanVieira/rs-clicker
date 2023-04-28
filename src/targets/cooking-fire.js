@@ -80,9 +80,6 @@ export class CookingFire extends ClickableObject {
             initialRate + increasePerLevel * (currentLevel - reqLevel)
         );
 
-        console.log(increasePerLevel);
-        console.log(rate);
-
         const rawFoodName = selectedItem.name;
 
         const cooked = rate >= Math.random();
