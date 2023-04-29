@@ -42,7 +42,7 @@ export class AlKharidWarrior extends Enemy {
             drops: [
                 { item: NormalBones, rate: 0.5 },
                 // { item: BronzeMedHelm, rate: 1 / 64 },
-                { item: BronzeDagger, rate: 1 / 128 }, // TODO: Replace when IronDagger when it's implemented
+                { item: BronzeDagger, rate: 1 / 128 }, // TODO: Replace with IronDagger when it's implemented
             ],
         });
     }
