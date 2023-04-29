@@ -25,10 +25,17 @@ smithingTestData["inventory"].find((x) => x.item == "Coin").count = 69240;
 smithingTestData["inventory"].push({ item: "BronzeBar", count: 42069 });
 smithingTestData["inventory"].push({ item: "CopperOre", count: 76543 });
 smithingTestData["inventory"].push({ item: "TinOre", count: 76543 });
+// ---------------------------------------------------------------------
 
 const fishingTestData = JSON.parse(JSON.stringify(allLevelsUnlockedData));
 fishingTestData["inventory"].find((x) => x.item == "Coin").count = 69240;
-fishingTestData["inventory"].push({ item: "SmallFishingNet", count: 42069 });
+fishingTestData["inventory"].find((x) => x.item == "SmallFishingNet").count = 69240;
+// ---------------------------------------------------------------------
+
+const cookingTestData = JSON.parse(JSON.stringify(allLevelsUnlockedData));
+cookingTestData["inventory"].find((x) => x.item == "Coin").count = 69240;
+cookingTestData["inventory"].push({ item: "RawShrimps", count: 42069 });
+cookingTestData["inventory"].push({ item: "RawAnchovies", count: 42069 });
 
 // ---------------------------------------------------------------------
 export const dataMap = {
@@ -37,5 +44,6 @@ export const dataMap = {
     "autoclicker-performance": autoclickerPerformanceTestData,
     smithing: smithingTestData,
     fishing: fishingTestData,
+    cooking: cookingTestData,
     rich: richData,
 };

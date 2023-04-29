@@ -5,7 +5,6 @@ import { calcLevel } from "../utilities.js";
 import { Button } from "../ui/button.js";
 import { getItemClass } from "../utilities.js";
 import { SmithingModalWindow } from "../ui/modals/smithing-modal-window.js";
-import { LevelScene } from "../scenes/level.js";
 
 export class Anvil extends ClickableObject {
     name = "Anvil";
