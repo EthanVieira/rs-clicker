@@ -91,6 +91,15 @@ export class WorldMapScene extends Phaser.Scene {
                 key: CONSTANTS.SCENES.AL_KHARID_FURNACE,
             },
             {
+                text: "Al Kharid\nPalace",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.AL_KHARID_PALACE
+                ),
+                x: MAP.AL_KHARID_PALACE.X,
+                y: MAP.AL_KHARID_PALACE.Y,
+                key: CONSTANTS.SCENES.AL_KHARID_PALACE,
+            },
+            {
                 text: "Varrock Anvil",
                 condition: characterData.getQuestCompleted(
                     CONSTANTS.PREREQUISITES.VARROCK_ANVIL
