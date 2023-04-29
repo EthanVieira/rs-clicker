@@ -98,6 +98,13 @@ export const defaultData = {
                 bar: 0,
             },
         },
+        AL_KHARID_PALACE: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                alKharidWarrior: 0,
+            },
+        },
         VARROCK_ANVIL: {
             questCompleted: false,
             unlocked: false,
