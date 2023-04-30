@@ -95,7 +95,7 @@ export class CookingFire extends ClickableObject {
             // Log click for stats
             this.scene.stats.updateClickedTargetStat();
             if (cooked) {
-                characterData.addSkillXp("cooking", selectedItem.cookingXp);
+                characterData.addSkillXp({ cooking: selectedItem.cookingXp });
                 this.scene.enemyKilled(foodName.toLowerCase());
             }
 

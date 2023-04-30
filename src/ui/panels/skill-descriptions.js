@@ -4,10 +4,20 @@ export function getSkillDescription(skill) {
 
     switch (skill) {
         case "attack":
-            description += "Increase melee damage and accuracy.\n";
+            description += "Increase melee accuracy.\n";
             description += "Equip stronger melee weapons.";
             body += "Lv 1: Equip bronze weapons\n";
             body += "Lv 5: Equip steel weapons\n";
+            break;
+        case "strength":
+            description += "Increase melee damage.\n";
+            description += "Equip stronger melee weapons.";
+            break;
+        case "defense":
+            description += "Decrease damage taken.\n";
+            description += "Equip stronger armor.";
+            body += "Lv 1: Equip bronze armor\n";
+            body += "Lv 5: Equip steel armor\n";
             break;
         case "ranged":
             description += "Increase ranged damage and accuracy.\n";

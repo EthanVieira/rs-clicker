@@ -21,15 +21,44 @@ export class Animation extends Phaser.Scene {
         this.dashboard = this.scene.get(CONSTANTS.SCENES.DASHBOARD);
     }
 
-    showXp(skill, xp) {
-        if (xp <= 0 || !this.dashboard.xpCounterOn) {
+    // map of skill: xp as input
+    showXp(skillXpMap) {
+        if (
+            !this.dashboard.xpCounterOn ||
+            skillXpMap === undefined ||
+            skillXpMap.length == 0
+        ) {
             return;
         }
 
-        const startX = 470;
+        let targets = [];
+        let totalXp = 0;
+
+        const xpStartX = 470;
+        let iconStartX = xpStartX - 35;
         const startY = 100;
-        const endX = startX;
         const endY = 20;
+
+        for (var skill of Object.keys(skillXpMap)) {
+            const xp = skillXpMap[skill];
+            if (xp <= 0) {
+                continue;
+            }
+
+            // Moving skill icon
+            const skillIcon = this.add
+                .image(iconStartX, startY, skill + "Icon")
+                .setOrigin(0.5, 0.5)
+                .setDepth(1);
+
+            targets.push(skillIcon);
+            totalXp += xp;
+            iconStartX -= 20;
+        }
+
+        if (totalXp <= 0) {
+            return;
+        }
 
         // Gold runescape font
         const font = {
@@ -45,50 +74,26 @@ export class Animation extends Phaser.Scene {
 
         // Moving xp text
         const xpText = this.add
-            .text(startX, startY, xp + " xp", font)
+            .text(xpStartX, startY, totalXp + " xp", font)
             .setOrigin(0.5, 0.5);
 
-        // Fixed skill text
-        const skillIcon = this.add
-            .image(startX, 25, skill + "Icon")
-            .setOrigin(0.5, 0.5)
-            .setDepth(1);
-
-        // Skill background
-        const shape = new Phaser.Geom.Circle(startX, 25, 20);
-        const graphics = this.add
-            .graphics({
-                lineStyle: { width: 1, color: 0x000000 },
-                fillStyle: { color: 0x707070 },
-            })
-            .fillCircleShape(shape)
-            .strokeCircleShape(shape);
+        targets.push(xpText);
 
         this.tweens.add({
-            targets: xpText,
-            x: endX,
+            targets: targets,
             y: endY,
             duration: 1000,
             ease: (t) => {
                 return Math.pow(Math.sin(t * 3), 3);
             },
             onComplete: () => {
-                xpText.destroy();
-                skillIcon.destroy();
-                graphics.destroy();
+                targets.forEach((target) => target.destroy());
             },
             onUpdate: () => {
                 // Destroy if within 1 pixel of end point
                 // Otherwise image will return to origin
-                if (
-                    xpText.x >= endX - 1 &&
-                    xpText.x <= endX + 1 &&
-                    xpText.y >= endY - 1 &&
-                    xpText.y <= endY + 1
-                ) {
-                    xpText.destroy();
-                    skillIcon.destroy();
-                    graphics.destroy();
+                if (xpText.y >= endY - 1 && xpText.y <= endY + 1) {
+                    targets.forEach((target) => target.destroy());
                 } else {
                     xpText.scale -= 0.0005;
                 }

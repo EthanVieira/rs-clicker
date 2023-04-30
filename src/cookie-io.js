@@ -163,37 +163,46 @@ class CharacterData {
         }
     }
 
-    addSkillXp(skill, xp) {
-        if (this.characterData.skills[skill] != undefined) {
-            const prevLevel = Utilities.calcLevel(this.characterData.skills[skill]);
-            this.characterData.skills[skill] = Math.min(
-                this.characterData.skills[skill] + xp,
-                CONSTANTS.LIMITS.MAX_XP
-            );
+    // map of skill: xp as input
+    addSkillXp(skillXpMap) {
+        let animationMap = {};
 
-            const curLevel = Utilities.calcLevel(this.characterData.skills[skill]);
+        for (var skill of Object.keys(skillXpMap)) {
+            const xp = skillXpMap[skill];
+            if (this.characterData.skills[skill] != undefined) {
+                const prevLevel = Utilities.calcLevel(this.characterData.skills[skill]);
+                this.characterData.skills[skill] = Math.min(
+                    this.characterData.skills[skill] + xp,
+                    CONSTANTS.LIMITS.MAX_XP
+                );
 
-            // Play level up sfx
-            if (curLevel > prevLevel) {
-                const audioScene = this.getScene(CONSTANTS.SCENES.AUDIO);
-                audioScene.playSfx(skill + "-level-up");
+                const curLevel = Utilities.calcLevel(this.characterData.skills[skill]);
 
-                // Write level up text to chat
-                const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
-                const logString =
-                    Utilities.prettyPrintCamelCase(skill) + " leveled up to " + curLevel;
-                chatScene.writeText(logString, FONTS.ITEM_STATS);
+                // Play level up sfx
+                if (curLevel > prevLevel) {
+                    const audioScene = this.getScene(CONSTANTS.SCENES.AUDIO);
+                    audioScene.playSfx(skill + "-level-up");
+
+                    // Write level up text to chat
+                    const chatScene = this.getScene(CONSTANTS.SCENES.CHAT);
+                    const logString =
+                        Utilities.prettyPrintCamelCase(skill) +
+                        " leveled up to " +
+                        curLevel;
+                    chatScene.writeText(logString, FONTS.ITEM_STATS);
+                }
+
+                // Update xp text on dashboard
+                const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
+                dashboardScene.skills.updateSkillsText();
+                animationMap[skill] = xp;
+            } else {
+                console.log("Error: setting invalid skill", skill, xp);
             }
-
-            // Update xp text on dashboard
-            const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
-            dashboardScene.skills.updateSkillsText();
-
-            // Show xp animation
-            this.getScene(CONSTANTS.SCENES.ANIMATION).showXp(skill, xp);
-        } else {
-            console.log("Error: setting invalid skill", skill, xp);
         }
+
+        // Show xp animation
+        this.getScene(CONSTANTS.SCENES.ANIMATION).showXp(animationMap);
     }
 
     setSkillXp(skill, xp) {

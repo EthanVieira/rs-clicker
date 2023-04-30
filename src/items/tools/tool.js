@@ -49,7 +49,7 @@ export default class Tool extends Item {
 
                 outputString =
                     "Crafted " + newItemName + ", added " + recipe.xpGiven + "xp";
-                characterData.addSkillXp("fletching", recipe.xpGiven);
+                characterData.addSkillXp({fletching: recipe.xpGiven});
             }
         }
         // Insufficient materials

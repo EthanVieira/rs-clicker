@@ -1,5 +1,5 @@
 import { Item } from "../item.js";
-import { CONSTANTS, OBJECT_TYPES } from "../../constants/constants.js";
+import { CONSTANTS, OBJECT_TYPES, EQUIPMENT } from "../../constants/constants.js";
 import {
     calcLevel,
     getItemClass,
@@ -82,7 +82,11 @@ export default class Equipment extends Item {
                     .playSfx(this.equipSound, false);
             } else {
                 console.log("Not high enough level to equip that.");
-                let skillText = getRequiredCombatSkill(this.skill);
+
+                const skillText =
+                    this.skill == EQUIPMENT.WEAPON_TYPES.MELEE
+                        ? "attack"
+                        : getRequiredCombatSkill(this.skill);
                 this.scene.scene
                     .get(CONSTANTS.SCENES.CHAT)
                     .writeText(
@@ -129,7 +133,12 @@ export default class Equipment extends Item {
     }
 
     checkRequiredLevel() {
-        let skill = getRequiredCombatSkill(this.skill);
+        // TODO: when we have items that require strength levels, will need to update this
+        const skill =
+            this.skill == EQUIPMENT.WEAPON_TYPES.MELEE
+                ? "attack"
+                : getRequiredCombatSkill(this.skill);
+
         return calcLevel(characterData.getSkillXp(skill)) >= this.requiredLevels[skill];
     }
 

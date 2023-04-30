@@ -143,7 +143,7 @@ export class Anvil extends ClickableObject {
 
                 // Log click for stats
                 this.scene.stats.updateClickedTargetStat();
-                characterData.addSkillXp("smithing", item.xp);
+                characterData.addSkillXp({ smithing: item.xp });
                 this.scene.enemyKilled(item.questName);
 
                 // Show smith animation

@@ -44,6 +44,7 @@ export class AudioScene extends Phaser.Scene {
         const skills = [
             "Attack",
             "Cooking",
+            "Defense",
             "Fletching",
             "Fishing",
             "Magic",
@@ -51,6 +52,7 @@ export class AudioScene extends Phaser.Scene {
             "Prayer",
             "Ranged",
             "Smithing",
+            "Strength",
             "Woodcutting",
         ];
         for (let skill of skills) {

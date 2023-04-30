@@ -129,7 +129,8 @@ export class Enemy extends Target {
         // Get damage based on level
         // Normally for melee you would use strength for damage and attack for accuracy
         // But for now we'll use attack for both
-        let damageLevel = this.getDamageLevel();
+        const damageLevel = this.getDamageLevel();
+        const accuracyLevel = this.getAccuracyLevel();
 
         // Get weapon stats and enemy bonuses
         let equipmenStrength = 0;
@@ -191,7 +192,8 @@ export class Enemy extends Target {
         // Check accuracy
         let affinity = 55;
         let accuracy =
-            this.calcLevelCoeff(damageLevel) + 2.5 * this.calcLevelCoeff(equipmentAttack);
+            this.calcLevelCoeff(accuracyLevel) +
+            2.5 * this.calcLevelCoeff(equipmentAttack);
         let defense =
             this.calcLevelCoeff(this.defense) + 2.5 * this.calcLevelCoeff(enemyBonus);
         let hitChance = affinity * (accuracy / defense);
@@ -265,15 +267,41 @@ export class Enemy extends Target {
 
     getDamageLevel() {
         const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
-        return calcLevel(characterData.getSkillXp(getRequiredCombatSkill(skill)));
+        const requiredCombatSkill =
+            skill == EQUIPMENT.WEAPON_TYPES.MELEE
+                ? "strength"
+                : getRequiredCombatSkill(skill);
+
+        return calcLevel(characterData.getSkillXp(requiredCombatSkill));
+    }
+
+    getAccuracyLevel() {
+        const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
+        const requiredCombatSkill =
+            skill == EQUIPMENT.WEAPON_TYPES.MELEE
+                ? "attack"
+                : getRequiredCombatSkill(skill);
+
+        return calcLevel(characterData.getSkillXp(requiredCombatSkill));
     }
 
     increaseXp(hitValue) {
         const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
-
-        // Increase attack/ranged/magic XP
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
-        characterData.addSkillXp(getRequiredCombatSkill(skill), xpIncrease);
+        let skillXpMap = {};
+
+        // 50% ranged/mage xp and 50% defense for this case
+        if (
+            characterData.getAttackStyle() == 2 &&
+            skill != EQUIPMENT.WEAPON_TYPES.MELEE
+        ) {
+            xpIncrease /= 2;
+            skillXpMap["defense"] = xpIncrease;
+        }
+
+        // Increase attack/strength/defense/ranged/magic XP
+        skillXpMap[getRequiredCombatSkill(skill)] = xpIncrease;
+        characterData.addSkillXp(skillXpMap);
     }
 }
