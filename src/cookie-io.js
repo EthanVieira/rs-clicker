@@ -165,7 +165,7 @@ class CharacterData {
 
     // map of skill: xp as input
     addSkillXp(skillXpMap) {
-        let animationMap = {};
+        const animationMap = {};
 
         for (var skill in skillXpMap) {
             const xp = skillXpMap[skill];

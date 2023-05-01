@@ -289,7 +289,7 @@ export class Enemy extends Target {
         const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
-        let skillXpMap = {};
+        const skillXpMap = {};
 
         // 50% ranged/mage xp and 50% defence for this case
         if (
