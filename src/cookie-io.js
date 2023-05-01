@@ -167,7 +167,7 @@ class CharacterData {
     addSkillXp(skillXpMap) {
         let animationMap = {};
 
-        for (var skill of Object.keys(skillXpMap)) {
+        for (var skill in skillXpMap) {
             const xp = skillXpMap[skill];
             if (this.characterData.skills[skill] != undefined) {
                 const prevLevel = Utilities.calcLevel(this.characterData.skills[skill]);
