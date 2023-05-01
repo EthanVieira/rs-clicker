@@ -6,11 +6,11 @@ export default class NormalStaff extends Staff {
     crushBonus = 7;
     magicBonus = 4;
 
-    // Defense bonuses
-    stabDefenseBonus = 2;
-    slashDefenseBonus = 3;
-    crushDefenseBonus = 1;
-    magicDefenseBonus = 4;
+    // defence bonuses
+    stabdefenceBonus = 2;
+    slashdefenceBonus = 3;
+    crushdefenceBonus = 1;
+    magicdefenceBonus = 4;
 
     // Other
     strengthBonus = 3;

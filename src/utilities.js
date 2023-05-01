@@ -122,7 +122,7 @@ export function getRequiredCombatSkill(skillConstant) {
                 case 1:
                     return "strength";
                 case 2:
-                    return "defense";
+                    return "defence";
                 default:
                     return "attack";
             }

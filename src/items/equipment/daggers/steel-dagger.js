@@ -6,7 +6,7 @@ export default class SteelDagger extends Dagger {
     slashBonus = 4;
     crushBonus = -4;
     magicBonus = 1;
-    magicDefenseBonus = 1;
+    magicDefenceBonus = 1;
     strengthBonus = 7;
 
     // Text data

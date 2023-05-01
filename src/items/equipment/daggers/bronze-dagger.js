@@ -12,7 +12,7 @@ export default class BronzeDagger extends Dagger {
     stabBonus = 4;
     slashBonus = 2;
     crushBonus = -4;
-    magicDefenseBonus = 1;
+    magicDefenceBonus = 1;
     strengthBonus = 3;
 
     // Text data

@@ -17,12 +17,12 @@ export default class Equipment extends Item {
     magicBonus = 0;
     rangedBonus = 0;
 
-    // Defense bonuses
-    stabDefenseBonus = 0;
-    slashDefenseBonus = 0;
-    crushDefenseBonus = 0;
-    magicDefenseBonus = 0;
-    rangedDefenseBonus = 0;
+    // Defence bonuses
+    stabDefenceBonus = 0;
+    slashDefenceBonus = 0;
+    crushDefenceBonus = 0;
+    magicDefenceBonus = 0;
+    rangedDefenceBonus = 0;
 
     // Other bonuses
     strengthBonus = 0;

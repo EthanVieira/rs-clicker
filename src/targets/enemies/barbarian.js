@@ -5,7 +5,7 @@ export class Barbarian extends Enemy {
     // Base stats
     attack = 6;
     strength = 5;
-    defense = 5;
+    defence = 5;
     magic = 1;
     ranged = 1;
 
@@ -15,9 +15,9 @@ export class Barbarian extends Enemy {
     // Strength bonuses
     strengthBonus = 10;
 
-    // Defense
-    stabDefense = 1;
-    slashDefense = 1;
+    // defence
+    stabdefence = 1;
+    slashdefence = 1;
 
     // Text
     examineText = "Wotan, a sturdy barbarian warrior.";

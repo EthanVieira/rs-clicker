@@ -6,7 +6,8 @@ export default class BronzeAxe extends Axe {
     smithingLevel = 1;
     questName = "bronzeAxe";
     smithingErrorMessage = "You don't have enough bronze bars to make a bronze axe.";
-    smithingLevelErrorMessage = "You don't have a high enough smithing level to make a bronze axe.";
+    smithingLevelErrorMessage =
+        "You don't have a high enough smithing level to make a bronze axe.";
 
     // Attack bonuses
     stabBonus = -2;
@@ -15,12 +16,12 @@ export default class BronzeAxe extends Axe {
     magicBonus = 0;
     rangedBonus = 0;
 
-    // Defense bonuses
-    stabDefenseBonus = 0;
-    slashDefenseBonus = 1;
-    crushDefenseBonus = 0;
-    magicDefenseBonus = 0;
-    rangedDefenseBonus = 0;
+    // Defence bonuses
+    stabDefenceBonus = 0;
+    slashDefenceBonus = 1;
+    crushDefenceBonus = 0;
+    magicDefenceBonus = 0;
+    rangedDefenceBonus = 0;
 
     // Other bonuses
     strengthBonus = 5;

@@ -13,7 +13,7 @@ export function getSkillDescription(skill) {
             description += "Increase melee damage.\n";
             description += "Equip stronger melee weapons.";
             break;
-        case "defense":
+        case "defence":
             description += "Decrease damage taken.\n";
             description += "Equip stronger armor.";
             body += "Lv 1: Equip bronze armor\n";

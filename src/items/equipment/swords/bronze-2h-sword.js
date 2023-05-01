@@ -6,7 +6,8 @@ export default class Bronze2hSword extends Sword {
     smithingLevel = 14;
     questName = "bronzeSword";
     smithingErrorMessage = "You don't have enough bronze bars to make a bronze 2h sword.";
-    smithingLevelErrorMessage = "You don't have a high enough smithing level to make a bronze 2h sword.";
+    smithingLevelErrorMessage =
+        "You don't have a high enough smithing level to make a bronze 2h sword.";
 
     // Attack bonuses
     stabBonus = -4;
@@ -15,12 +16,12 @@ export default class Bronze2hSword extends Sword {
     magicBonus = -4;
     rangedBonus = 0;
 
-    // Defense bonuses
-    stabDefenseBonus = 0;
-    slashDefenseBonus = 0;
-    crushDefenseBonus = 0;
-    magicDefenseBonus = 0;
-    rangedDefenseBonus = -1;
+    // defence bonuses
+    stabdefenceBonus = 0;
+    slashdefenceBonus = 0;
+    crushdefenceBonus = 0;
+    magicdefenceBonus = 0;
+    rangeddefenceBonus = -1;
 
     // Other bonuses
     strengthBonus = 10;
