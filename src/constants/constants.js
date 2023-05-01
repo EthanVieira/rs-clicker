@@ -121,6 +121,18 @@ export const EQUIPMENT = {
     },
 };
 
+// corresponding to attack style panel buttons 0-2
+export const ATTACK_STYLES = {
+    PUNCH: 0,
+    ACCURATE: 0,
+    KICK: 1,
+    AGGRESSIVE: 1,
+    RAPID: 1,
+    BLOCK: 2,
+    DEFENSIVE: 2,
+    LONG_RANGE: 2,
+};
+
 export const SCREEN = {
     WIDTH: 765,
     HEIGHT: 503,

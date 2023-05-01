@@ -1,6 +1,6 @@
 import { HealthBar } from "../../ui/health-bar.js";
 import { Target } from "../target.js";
-import { OBJECT_TYPES, EQUIPMENT } from "../../constants/constants.js";
+import { OBJECT_TYPES, EQUIPMENT, ATTACK_STYLES } from "../../constants/constants.js";
 import { calcLevel, getRequiredCombatSkill } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 
@@ -293,7 +293,7 @@ export class Enemy extends Target {
 
         // 50% ranged/mage xp and 50% defence for this case
         if (
-            characterData.getAttackStyle() == 2 &&
+            characterData.getAttackStyle() == ATTACK_STYLES.DEFENSIVE &&
             skill != EQUIPMENT.WEAPON_TYPES.MELEE
         ) {
             xpIncrease /= 2;

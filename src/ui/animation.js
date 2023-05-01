@@ -31,7 +31,7 @@ export class Animation extends Phaser.Scene {
             return;
         }
 
-        let targets = [];
+        const targets = [];
         let totalXp = 0;
 
         const xpStartX = 470;

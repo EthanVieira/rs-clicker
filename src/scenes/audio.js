@@ -44,7 +44,7 @@ export class AudioScene extends Phaser.Scene {
         const skills = [
             "Attack",
             "Cooking",
-            "defence",
+            "Defence",
             "Fletching",
             "Fishing",
             "Magic",
