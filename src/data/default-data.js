@@ -38,7 +38,7 @@ export const defaultData = {
         strength: 0,
         agility: 0,
         smithing: 0,
-        defense: 0,
+        defence: 0,
         herblore: 0,
         fishing: 0,
         ranged: 0,

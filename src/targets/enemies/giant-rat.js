@@ -5,7 +5,7 @@ export class GiantRat extends Enemy {
     // Base stats
     attack = 2;
     strength = 3;
-    defense = 2;
+    defence = 2;
     magic = 1;
     ranged = 1;
 

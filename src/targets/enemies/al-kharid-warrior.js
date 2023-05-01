@@ -6,7 +6,7 @@ export class AlKharidWarrior extends Enemy {
     // Base stats
     attack = 7;
     strength = 5;
-    defense = 4;
+    defence = 4;
     magic = 1;
     ranged = 1;
 
@@ -14,12 +14,12 @@ export class AlKharidWarrior extends Enemy {
     attackBonus = 10;
     strengthBonus = 9;
 
-    // Defense
-    stabDefense = 12;
-    slashDefense = 15;
-    crushDefense = 10;
-    magicDefense = -1;
-    rangedDefense = 12;
+    // defence
+    stabdefence = 12;
+    slashdefence = 15;
+    crushdefence = 10;
+    magicdefence = -1;
+    rangeddefence = 12;
 
     // Text
     examineText = "Part of Al Kharid's elite fighting force.";

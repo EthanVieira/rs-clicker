@@ -7,11 +7,11 @@ export default class AirStaff extends Staff {
     crushBonus = 7;
     magicBonus = 20; // Buffed from 10
 
-    // Defense bonuses
-    stabDefenseBonus = 2;
-    slashDefenseBonus = 3;
-    crushDefenseBonus = 1;
-    magicDefenseBonus = 10;
+    // defence bonuses
+    stabdefenceBonus = 2;
+    slashdefenceBonus = 3;
+    crushdefenceBonus = 1;
+    magicdefenceBonus = 10;
 
     // Other
     strengthBonus = 3;

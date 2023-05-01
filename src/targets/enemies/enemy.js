@@ -1,6 +1,6 @@
 import { HealthBar } from "../../ui/health-bar.js";
 import { Target } from "../target.js";
-import { OBJECT_TYPES, EQUIPMENT } from "../../constants/constants.js";
+import { OBJECT_TYPES, EQUIPMENT, ATTACK_STYLES } from "../../constants/constants.js";
 import { calcLevel, getRequiredCombatSkill } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 
@@ -15,7 +15,7 @@ export class Enemy extends Target {
     maxHealth = 0;
     attack = 1;
     strength = 1;
-    defense = 1;
+    defence = 1;
     magic = 1;
     ranged = 1;
 
@@ -27,12 +27,12 @@ export class Enemy extends Target {
     rangedBonus = 0;
     rangedStrengthBonus = 0;
 
-    // Defenses
-    stabDefense = 0;
-    slashDefense = 0;
-    crushDefense = 0;
-    magicDefense = 0;
-    rangedDefense = 0;
+    // defences
+    stabdefence = 0;
+    slashdefence = 0;
+    crushdefence = 0;
+    magicdefence = 0;
+    rangeddefence = 0;
 
     actions = [
         { text: "Attack", func: "clickTarget" },
@@ -120,7 +120,7 @@ export class Enemy extends Target {
         }
     }
 
-    // Player: (attack/items/bonuses) and enemy:  (defense/bonuses) affects accuracy
+    // Player: (attack/items/bonuses) and enemy:  (defence/bonuses) affects accuracy
     // Player: (strength/items/bonuses) affect max hit
     // Equal chance to deal (1 - max hit) damage if it hits
     getClickValue() {
@@ -129,7 +129,8 @@ export class Enemy extends Target {
         // Get damage based on level
         // Normally for melee you would use strength for damage and attack for accuracy
         // But for now we'll use attack for both
-        let damageLevel = this.getDamageLevel();
+        const damageLevel = this.getDamageLevel();
+        const accuracyLevel = this.getAccuracyLevel();
 
         // Get weapon stats and enemy bonuses
         let equipmenStrength = 0;
@@ -139,12 +140,12 @@ export class Enemy extends Target {
             case EQUIPMENT.WEAPON_TYPES.MAGIC:
                 equipmentAttack = weapon.magicBonus;
                 equipmenStrength = weapon.magicStrengthBonus;
-                enemyBonus = this.magicDefense;
+                enemyBonus = this.magicdefence;
                 break;
             case EQUIPMENT.WEAPON_TYPES.RANGED:
                 equipmentAttack = weapon.rangedBonus;
                 equipmenStrength = weapon.rangedStrengthBonus;
-                enemyBonus = this.rangedDefense;
+                enemyBonus = this.rangeddefence;
                 break;
             case EQUIPMENT.WEAPON_TYPES.MELEE: {
                 equipmenStrength = weapon.strengthBonus;
@@ -152,22 +153,22 @@ export class Enemy extends Target {
                 switch (weapon.style) {
                     case EQUIPMENT.ATTACK_STYLE.STAB:
                         equipmentAttack = weapon.stabBonus;
-                        enemyBonus = this.stabDefense;
+                        enemyBonus = this.stabdefence;
                         break;
                     case EQUIPMENT.ATTACK_STYLE.SLASH:
                         equipmentAttack = weapon.slashBonus;
-                        enemyBonus = this.slashDefense;
+                        enemyBonus = this.slashdefence;
                         break;
                     case EQUIPMENT.ATTACK_STYLE.CRUSH:
                         equipmentAttack = weapon.crushBonus;
-                        enemyBonus = this.crushDefense;
+                        enemyBonus = this.crushdefence;
                         break;
                 }
                 break;
             }
             // Unarmed uses crush type attack
             default:
-                enemyBonus = this.crushDefense;
+                enemyBonus = this.crushdefence;
                 break;
         }
 
@@ -191,10 +192,11 @@ export class Enemy extends Target {
         // Check accuracy
         let affinity = 55;
         let accuracy =
-            this.calcLevelCoeff(damageLevel) + 2.5 * this.calcLevelCoeff(equipmentAttack);
-        let defense =
-            this.calcLevelCoeff(this.defense) + 2.5 * this.calcLevelCoeff(enemyBonus);
-        let hitChance = affinity * (accuracy / defense);
+            this.calcLevelCoeff(accuracyLevel) +
+            2.5 * this.calcLevelCoeff(equipmentAttack);
+        let defence =
+            this.calcLevelCoeff(this.defence) + 2.5 * this.calcLevelCoeff(enemyBonus);
+        let hitChance = affinity * (accuracy / defence);
 
         let rand = Math.random() * 100;
         let hitValue = 0;
@@ -209,10 +211,10 @@ export class Enemy extends Target {
             console.log("player level", damageLevel);
             console.log("item str", equipmenStrength);
             console.log("item attack", equipmentAttack);
-            console.log("enemy defense", this.defense);
+            console.log("enemy defence", this.defence);
             console.log("enemy bonus", enemyBonus);
             console.log("accuracy", accuracy);
-            console.log("defense", defense);
+            console.log("defence", defence);
             console.log("effective damage level", effectiveDamageLevel);
             console.log("hit chance", hitChance);
             console.log("max hit", maxHit);
@@ -265,15 +267,41 @@ export class Enemy extends Target {
 
     getDamageLevel() {
         const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
-        return calcLevel(characterData.getSkillXp(getRequiredCombatSkill(skill)));
+        const requiredCombatSkill =
+            skill == EQUIPMENT.WEAPON_TYPES.MELEE
+                ? "strength"
+                : getRequiredCombatSkill(skill);
+
+        return calcLevel(characterData.getSkillXp(requiredCombatSkill));
+    }
+
+    getAccuracyLevel() {
+        const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
+        const requiredCombatSkill =
+            skill == EQUIPMENT.WEAPON_TYPES.MELEE
+                ? "attack"
+                : getRequiredCombatSkill(skill);
+
+        return calcLevel(characterData.getSkillXp(requiredCombatSkill));
     }
 
     increaseXp(hitValue) {
         const skill = this.scene.dashboard.equipment.equipment.WEAPON?.skill;
-
-        // Increase attack/ranged/magic XP
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
-        characterData.addSkillXp(getRequiredCombatSkill(skill), xpIncrease);
+        const skillXpMap = {};
+
+        // 50% ranged/mage xp and 50% defence for this case
+        if (
+            characterData.getAttackStyle() == ATTACK_STYLES.DEFENSIVE &&
+            skill != EQUIPMENT.WEAPON_TYPES.MELEE
+        ) {
+            xpIncrease /= 2;
+            skillXpMap["defence"] = xpIncrease;
+        }
+
+        // Increase attack/strength/defence/ranged/magic XP
+        skillXpMap[getRequiredCombatSkill(skill)] = xpIncrease;
+        characterData.addSkillXp(skillXpMap);
     }
 }

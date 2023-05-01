@@ -8,12 +8,12 @@ export default class SteelSword extends Sword {
     rangedBonus = 0;
     magicBonus = 0;
 
-    // Defense bonuses
-    stabDefenseBonus = 0;
-    slashDefenseBonus = 2;
-    crushDefenseBonus = 1;
-    magicDefenseBonus = 0;
-    rangedDefenseBonus = 0;
+    // defence bonuses
+    stabdefenceBonus = 0;
+    slashdefenceBonus = 2;
+    crushdefenceBonus = 1;
+    magicdefenceBonus = 0;
+    rangeddefenceBonus = 0;
 
     // Other bonuses
     strengthBonus = 12;

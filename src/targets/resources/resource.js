@@ -94,7 +94,7 @@ export class Resource extends Target {
     onClick(clickValue) {}
 
     onCompletion() {
-        characterData.addSkillXp(this.skill, this.neededClicks);
+        characterData.addSkillXp({ [this.skill]: this.neededClicks });
 
         // Update quest and stats
         this.scene.enemyKilled(this.varName);

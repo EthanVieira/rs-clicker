@@ -8,12 +8,12 @@ export default class SteelPickaxe extends Pickaxe {
     magicBonus = 0;
     rangedBonus = 0;
 
-    // Defense bonuses
-    stabDefenseBonus = 0;
-    slashDefenseBonus = 1;
-    crushDefenseBonus = 0;
-    magicDefenseBonus = 0;
-    rangedDefenseBonus = 0;
+    // defence bonuses
+    stabdefenceBonus = 0;
+    slashdefenceBonus = 1;
+    crushdefenceBonus = 0;
+    magicdefenceBonus = 0;
+    rangeddefenceBonus = 0;
 
     // Other bonuses
     strengthBonus = 9;

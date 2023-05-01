@@ -1,4 +1,5 @@
-import { EQUIPMENT } from "./constants/constants.js";
+import { EQUIPMENT, ATTACK_STYLES } from "./constants/constants.js";
+import { characterData } from "./cookie-io.js";
 
 // Returns XP needed for given level, not total xp
 function calcLevelUpXp(lv) {
@@ -115,7 +116,17 @@ export function aOrAn(followingWord) {
 export function getRequiredCombatSkill(skillConstant) {
     switch (skillConstant) {
         case EQUIPMENT.WEAPON_TYPES.MELEE:
-            return "attack";
+            switch (characterData.getAttackStyle()) {
+                case ATTACK_STYLES.ACCURATE:
+                    return "attack";
+                case ATTACK_STYLES.AGGRESSIVE:
+                    return "strength";
+                case ATTACK_STYLES.DEFENSIVE:
+                    return "defence";
+                default:
+                    return "attack";
+            }
+            break;
         case EQUIPMENT.WEAPON_TYPES.RANGED:
             return "ranged";
         case EQUIPMENT.WEAPON_TYPES.MAGIC:

@@ -5,16 +5,16 @@ export class Goblin extends Enemy {
     // Base stats
     attack = 1;
     strength = 1;
-    defense = 1;
+    defence = 1;
     magic = 1;
     ranged = 1;
 
-    // Defenses
-    stabDefense = -15;
-    slashDefense = -15;
-    crushDefense = -15;
-    magicDefense = -15;
-    rangedDefense = -15;
+    // defences
+    stabdefence = -15;
+    slashdefence = -15;
+    crushdefence = -15;
+    magicdefence = -15;
+    rangeddefence = -15;
 
     // Text
     examineText = "An ugly green creature.";

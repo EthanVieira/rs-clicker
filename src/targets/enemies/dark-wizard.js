@@ -5,12 +5,12 @@ export class DarkWizard extends Enemy {
     // Base stats
     attack = 5;
     strength = 2;
-    defense = 5;
+    defence = 5;
     magic = 6;
     ranged = 1;
 
-    // Defense
-    magicDefense = 3;
+    // defence
+    magicdefence = 3;
 
     // Text
     examineText = "He works evil magic.";

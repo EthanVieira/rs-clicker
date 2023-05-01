@@ -5,7 +5,7 @@ export class Cow extends Enemy {
     // Base stats
     attack = 1;
     strength = 1;
-    defense = 1;
+    defence = 1;
     magic = 1;
     ranged = 1;
 
@@ -15,12 +15,12 @@ export class Cow extends Enemy {
     // Strength bonuses
     strengthBonus = -15;
 
-    // Defense
-    stabDefense = -21;
-    slashDefense = -21;
-    crushDefense = -21;
-    magicDefense = -21;
-    rangedDefense = -21;
+    // defence
+    stabdefence = -21;
+    slashdefence = -21;
+    crushdefence = -21;
+    magicdefence = -21;
+    rangeddefence = -21;
 
     // Text
     examineText = "Converts grass to beef.";

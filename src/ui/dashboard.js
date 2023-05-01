@@ -18,6 +18,7 @@ export class DashboardScene extends Phaser.Scene {
     currentPanel = "";
 
     // Panels
+    attackStyle;
     inventory;
     skills;
     prayer;

@@ -8,12 +8,12 @@ export default class Steel2hSword extends Sword {
     magicBonus = -4;
     rangedBonus = 0;
 
-    // Defense bonuses
-    stabDefenseBonus = 0;
-    slashDefenseBonus = 0;
-    crushDefenseBonus = 0;
-    magicDefenseBonus = 0;
-    rangedDefenseBonus = -1;
+    // defence bonuses
+    stabdefenceBonus = 0;
+    slashdefenceBonus = 0;
+    crushdefenceBonus = 0;
+    magicdefenceBonus = 0;
+    rangeddefenceBonus = -1;
 
     // Other bonuses
     strengthBonus = 22;

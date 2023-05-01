@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../../constants/constants.js";
+import { CONSTANTS, ATTACK_STYLES } from "../../constants/constants.js";
 import { characterData } from "../../cookie-io.js";
 
 export class AttackStyle {
@@ -7,7 +7,6 @@ export class AttackStyle {
     button;
     styleButtons = [];
     retaliateButton;
-    currentStyle = 1;
 
     constructor(dashboard) {
         this.dashboard = dashboard;
@@ -29,29 +28,29 @@ export class AttackStyle {
             });
 
         // Style buttons
-        this.styleButtons[0] = dashboard.add
+        this.styleButtons[ATTACK_STYLES.ACCURATE] = dashboard.add
             .image(567, 250, "attack-style-1-button")
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.setStyle(0);
+                this.setStyle(ATTACK_STYLES.ACCURATE);
             });
-        this.styleButtons[1] = dashboard.add
+        this.styleButtons[ATTACK_STYLES.AGGRESSIVE] = dashboard.add
             .image(646, 250, "attack-style-2-button")
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.setStyle(1);
+                this.setStyle(ATTACK_STYLES.AGGRESSIVE);
             });
-        this.styleButtons[2] = dashboard.add
+        this.styleButtons[ATTACK_STYLES.DEFENSIVE] = dashboard.add
             .image(567, 304, "attack-style-3-button")
             .setOrigin(0, 0)
             .setDepth(2)
             .setInteractive()
             .on("pointerdown", () => {
-                this.setStyle(2);
+                this.setStyle(ATTACK_STYLES.DEFENSIVE);
             });
         this.retaliateButton = dashboard.add
             .image(567, 358, "attack-style-retaliate-button")

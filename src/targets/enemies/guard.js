@@ -5,7 +5,7 @@ export class Guard extends Enemy {
     // Base stats
     attack = 19;
     strength = 18;
-    defense = 14;
+    defence = 14;
     magic = 1;
     ranged = 1;
 
@@ -15,12 +15,12 @@ export class Guard extends Enemy {
     // Strength bonuses
     strengthBonus = 5;
 
-    // Defenses
-    stabDefense = 18;
-    slashDefense = 25;
-    crushDefense = 19;
-    magicDefense = -4;
-    rangedDefense = 20;
+    // defences
+    stabdefence = 18;
+    slashdefence = 25;
+    crushdefence = 19;
+    magicdefence = -4;
+    rangeddefence = 20;
 
     // Text
     examineText = "He tries to keep order around here.";
