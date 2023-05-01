@@ -35,25 +35,35 @@ export default class Tool extends Item {
         console.log("Combining", this.name, item.name);
 
         // Craft item if possible
-        if (recipe.className !== "" && item.numItems >= recipe.numRequiredItems) {
+        if (item.numItems >= recipe.numRequiredItems) {
             const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
-            let newItem = await getItemClass(recipe.className, dashboard);
 
-            // Get name before adding it to inventory because
-            // if it's a duplicate it will be destroyed
-            const newItemName = newItem.name;
+            if (recipe.className !== "") {
+                let newItem = await getItemClass(recipe.className, dashboard);
 
-            // Item was added
-            if (dashboard.inventory.addToInventory(newItem)) {
+                // Get name before adding it to inventory because
+                // if it's a duplicate it will be destroyed
+                const newItemName = newItem.name;
+
+                // Item was added
+                if (dashboard.inventory.addToInventory(newItem)) {
+                    item.setNumItems(item.numItems - recipe.numRequiredItems);
+
+                    // TODO: differentiate between skills when we support more
+                    outputString =
+                        "Fletched " + newItemName + ".";
+                    characterData.addSkillXp({ fletching: recipe.xpGiven });
+                }
+            } else {
+                // No new item is created
                 item.setNumItems(item.numItems - recipe.numRequiredItems);
-
                 outputString =
-                    "Crafted " + newItemName + ", added " + recipe.xpGiven + "xp";
-                characterData.addSkillXp({fletching: recipe.xpGiven});
+                    "Firemaked " + item.name + ".";
+                characterData.addSkillXp({ firemaking: recipe.xpGiven });
             }
         }
         // Insufficient materials
-        else if (recipe.className !== "" && item.numItems < recipe.numRequiredItems) {
+        else if (item.numItems < recipe.numRequiredItems) {
             outputString =
                 recipe.numRequiredItems + " " + item.name + " are needed to craft that";
         }

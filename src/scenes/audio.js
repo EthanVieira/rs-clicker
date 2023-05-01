@@ -42,17 +42,28 @@ export class AudioScene extends Phaser.Scene {
         this.load.audio("quest-complete-2", "src/assets/audio/sfx/QuestCompleted2.ogg");
 
         const skills = [
+            "Agility",
             "Attack",
+            "Construction",
             "Cooking",
+            "Crafting",
             "Defence",
-            "Fletching",
+            "Farming",
+            "Firemaking",
             "Fishing",
+            "Fletching",
+            "Herblore",
+            "Hitpoints",
+            "Hunter",
             "Magic",
             "Mining",
             "Prayer",
             "Ranged",
+            "Runecrafting",
+            "Slayer",
             "Smithing",
             "Strength",
+            "Thieving",
             "Woodcutting",
         ];
         for (let skill of skills) {

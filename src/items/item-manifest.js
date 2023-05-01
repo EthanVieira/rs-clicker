@@ -232,6 +232,12 @@ export const itemManifest = {
         imageName: "steel-sword",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    Tinderbox: {
+        classPath: "./tools/tinderbox.js",
+        imagePath: "tools/Tinderbox.png",
+        imageName: "tinderbox",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
+    },
     TinOre: {
         classPath: "./ores/tin-ore.js",
         imagePath: "resources/TinOre.png",
