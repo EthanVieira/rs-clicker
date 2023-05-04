@@ -1,7 +1,4 @@
 import { Item } from "../item.js";
-import { getItemClass } from "../../utilities.js";
-import { characterData } from "../../cookie-io.js";
-import { CONSTANTS } from "../../constants/constants.js";
 
 export default class Tool extends Item {
     canCraft = true;
@@ -30,53 +27,7 @@ export default class Tool extends Item {
     }
 
     async craft(item) {
-        let outputString = "";
-        const recipe = this.getRecipe(item.name);
         console.log("Combining", this.name, item.name);
-
-        // Craft item if possible
-        if (item.numItems >= recipe.numRequiredItems) {
-            const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
-
-            if (recipe.className !== "") {
-                let newItem = await getItemClass(recipe.className, dashboard);
-
-                // Get name before adding it to inventory because
-                // if it's a duplicate it will be destroyed
-                const newItemName = newItem.name;
-
-                // Item was added
-                if (dashboard.inventory.addToInventory(newItem)) {
-                    item.setNumItems(item.numItems - recipe.numRequiredItems);
-
-                    // TODO: differentiate between skills when we support more
-                    outputString =
-                        "Fletched " + newItemName + ".";
-                    characterData.addSkillXp({ fletching: recipe.xpGiven });
-                }
-            } else {
-                // No new item is created
-                item.setNumItems(item.numItems - recipe.numRequiredItems);
-                outputString =
-                    "Firemaked " + item.name + ".";
-                characterData.addSkillXp({ firemaking: recipe.xpGiven });
-            }
-        }
-        // Insufficient materials
-        else if (item.numItems < recipe.numRequiredItems) {
-            outputString =
-                recipe.numRequiredItems + " " + item.name + " are needed to craft that";
-        }
-        // Invalid selection
-        else if (recipe.requires && recipe.requires === "Anvil") {
-            outputString = "You need an anvil to do this.";
-        } else {
-            outputString = "Not a valid crafting combination.";
-        }
-
-        // Write to chat window
-        const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
-        chatScene.writeText(outputString);
     }
 
     getAnimation() {
