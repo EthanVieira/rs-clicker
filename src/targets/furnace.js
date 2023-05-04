@@ -45,8 +45,6 @@ export class Furnace extends ClickableObject {
         const selectedIndex = inv.curSelectedItemIndex;
         const selectedItem = inv.inventory[selectedIndex];
 
-        console.log(selectedItem);
-
         if (
             selectedIndex < 0 ||
             !selectedItem ||
