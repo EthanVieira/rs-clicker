@@ -63,6 +63,8 @@ export default class Knife extends Tool {
 
                     outputString = "Fletched " + newItemName + ".";
                     characterData.addSkillXp({ fletching: recipe.xpGiven });
+                } else {
+                    outputString = "There is insufficient inventory space to fletch that.";
                 }
             }
             // Insufficient materials
