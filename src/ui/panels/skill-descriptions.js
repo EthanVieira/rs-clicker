@@ -55,6 +55,11 @@ export function getSkillDescription(skill) {
             body += "Lv 1: Shrimps\n";
             body += "Lv 1: Anchovies\n";
             break;
+        case "firemaking":
+            description = "Create fires from logs.";
+            body += "Lv 1: Logs\n";
+            body += "Lv 15: Oak Logs\n";
+            break;
         case "woodcutting":
             description += "Chop down stronger trees, faster.\n";
             description += "Use stronger axes.";

@@ -48,7 +48,7 @@ export class Furnace extends ClickableObject {
         if (
             selectedIndex < 0 ||
             !selectedItem ||
-            !this.validMaterials.has(selectedItem)
+            !this.validMaterials.has(selectedItem.name)
         ) {
             chat.writeText("Select an ore in your inventory first.");
             return;
@@ -87,7 +87,7 @@ export class Furnace extends ClickableObject {
 
                 // Log click for stats
                 this.scene.stats.updateClickedTargetStat();
-                characterData.addSkillXp({smithing: bar.xp});
+                characterData.addSkillXp({ smithing: bar.xp });
                 this.scene.enemyKilled("bar");
 
                 // Show smelt animation
