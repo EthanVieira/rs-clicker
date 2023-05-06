@@ -18,7 +18,7 @@ export default class Tinderbox extends Tool {
     }
 
     getRecipe(itemName) {
-        let output = {
+        const output = {
             className: null,
             numRequiredItems: 0,
             xpGiven: 0,

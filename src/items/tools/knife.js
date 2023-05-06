@@ -19,7 +19,7 @@ export default class Knife extends Tool {
     }
 
     getRecipe(itemName) {
-        let output = {
+        const output = {
             className: "",
             numRequiredItems: 0,
             xpGiven: 0,
@@ -51,7 +51,7 @@ export default class Knife extends Tool {
             const dashboard = characterData.getScene(CONSTANTS.SCENES.DASHBOARD);
 
             if (recipe.className) {
-                let newItem = await getItemClass(recipe.className, dashboard);
+                const newItem = await getItemClass(recipe.className, dashboard);
 
                 // Get name before adding it to inventory because
                 // if it's a duplicate it will be destroyed
