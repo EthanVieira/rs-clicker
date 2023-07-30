@@ -135,6 +135,15 @@ export class WorldMapScene extends Phaser.Scene {
                 y: MAP.BARBARIAN_VILLAGE.Y,
                 key: CONSTANTS.SCENES.BARBARIAN_VILLAGE,
             },
+            {
+                text: "Gnome Village Agility",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.GNOME_VILLAGE_AGILITY
+                ),
+                x: MAP.GNOME_VILLAGE_AGILITY.X,
+                y: MAP.GNOME_VILLAGE_AGILITY.Y,
+                key: CONSTANTS.SCENES.GNOME_VILLAGE_AGILITY,
+            },
         ];
 
         // Tutorial Island and Lumbridge use default starting location, others are centered

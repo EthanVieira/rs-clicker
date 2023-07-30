@@ -97,9 +97,8 @@ export class StatsScene extends Phaser.Scene {
 
     updateAutoClickDamageStat(damageDone) {
         characterData.addDamageByAutoClicker(damageDone);
-        this.statText["damageByAutoclickers"][
-            "amount"
-        ] = characterData.getDamageByAutoclicker();
+        this.statText["damageByAutoclickers"]["amount"] =
+            characterData.getDamageByAutoclicker();
     }
 
     updateAutoClickerDPS(dps) {
