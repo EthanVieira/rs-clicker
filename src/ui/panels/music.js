@@ -49,6 +49,11 @@ export class MusicPanel {
                 unlocked: false,
             },
             {
+                name: "gnome-village",
+                prereq: CONSTANTS.PREREQUISITES.GNOME_VILLAGE_AGILITY,
+                unlocked: false,
+            },
+            {
                 name: "harmony",
                 prereq: CONSTANTS.PREREQUISITES.LUMBRIDGE,
                 unlocked: false,

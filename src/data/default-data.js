@@ -144,5 +144,12 @@ export const defaultData = {
                 barbarian: 0,
             },
         },
+        GNOME_VILLAGE_AGILITY: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                logObstacle: 0,
+            },
+        },
     },
 };

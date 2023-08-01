@@ -21,6 +21,7 @@ export const CONSTANTS = {
         VARROCK_MINE: "VARROCK_MINE",
         VARROCK: "VARROCK",
         BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE",
+        GNOME_VILLAGE_AGILITY: "GNOME_VILLAGE_AGILITY",
     },
     QUEST_TABS: {
         QUESTS: "QUESTS",
@@ -37,6 +38,7 @@ export const CONSTANTS = {
         VARROCK_MINE: "LUMBRIDGE",
         VARROCK: "LUMBRIDGE",
         BARBARIAN_VILLAGE: "VARROCK",
+        GNOME_VILLAGE_AGILITY: "TUTORIAL_ISLAND",
     },
     CLASS: {
         UNARMED: "UNARMED",
@@ -62,6 +64,7 @@ export const CONSTANTS = {
         CRAFTING: "CRAFTING",
         SMITHING: "SMITHING",
         COOKING: "COOKING",
+        AGILITY: "AGILITY",
     },
     PANEL: {
         INVENTORY: "INVENTORY",
@@ -139,51 +142,55 @@ export const SCREEN = {
 };
 
 export const MAP = {
-    WIDTH: 4001,
-    HEIGHT: 4431,
+    WIDTH: 7417,
+    HEIGHT: 6165,
     TUTORIAL_ISLAND: {
-        X: 2500,
-        Y: 3570,
+        X: 4150,
+        Y: 4000,
     },
     LUMBRIDGE: {
-        X: 3000,
-        Y: 3075,
+        X: 4650,
+        Y: 3505,
     },
     LUMBRIDGE_TREES: {
-        X: 2820,
-        Y: 3075,
+        X: 4470,
+        Y: 3505,
     },
     DRAYNOR_FISHING: {
-        X: 2530,
-        Y: 3015,
+        X: 4180,
+        Y: 3445,
     },
     ROGUES_DEN_COOKING: {
-        X: 1750,
-        Y: 1725,
+        X: 3400,
+        Y: 2155,
     },
     AL_KHARID_FURNACE: {
-        X: 3230,
-        Y: 3170,
+        X: 4880,
+        Y: 3600,
     },
     AL_KHARID_PALACE: {
-        X: 3300,
-        Y: 3250,
+        X: 4950,
+        Y: 3680,
     },
     VARROCK_ANVIL: {
-        X: 2860,
-        Y: 2250,
+        X: 4510,
+        Y: 2680,
     },
     VARROCK_MINE: {
-        X: 3250,
-        Y: 2450,
+        X: 4900,
+        Y: 2880,
     },
     VARROCK: {
-        X: 2980,
-        Y: 2210,
+        X: 4630,
+        Y: 2640,
     },
     BARBARIAN_VILLAGE: {
-        X: 2400,
-        Y: 2250,
+        X: 4050,
+        Y: 2680,
+    },
+    GNOME_VILLAGE_AGILITY: {
+        X: 1630,
+        Y: 2610,
     },
 };
 

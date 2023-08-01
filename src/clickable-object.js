@@ -24,6 +24,7 @@ export class ClickableObject {
         this.chat.showObjectInfo(true, this, isShop);
     }
 
+    // TODO: fix right click menu to have menu width be based on text length
     createRightClickMenu(x, y, actions) {
         let numActions = actions.length; // not including cancel
         let halfHeight = this.RCM_HALF_HEIGHTS[numActions - 1];

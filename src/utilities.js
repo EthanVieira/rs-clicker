@@ -126,7 +126,6 @@ export function getRequiredCombatSkill(skillConstant) {
                 default:
                     return "attack";
             }
-            break;
         case EQUIPMENT.WEAPON_TYPES.RANGED:
             return "ranged";
         case EQUIPMENT.WEAPON_TYPES.MAGIC:

@@ -37,10 +37,29 @@ export function getSkillDescription(skill) {
             body += "Lv 20: Equip staff of water\n";
             body += "Lv 25: Equip staff of fire\n";
             break;
+        case "agility":
+            description = "Traverse obstacles.";
+            body += "Lv 1: Gnome Agility Course";
+            break;
         case "fletching":
             description = "Create ranged weapons using a knife\nand logs";
             body += "Lv 1: Shortbow (50 Logs)\n";
             body += "Lv 5: Oak Shortbow (50 Oak Logs)\n";
+            break;
+        case "mining":
+            description += "Mine greater rocks, faster.\n";
+            description += "Use stronger pickaxes.";
+            body += "Lv 1: Mine tin rocks\n";
+            body += "Lv 1: Mine copper rocks\n";
+            break;
+        case "smithing":
+            description = "Smelt greater ores and\nsmith better equipment.";
+            body += "Lv 1: Smelt bronze bars\n";
+            body += "Lv 1: Smith bronze daggers\n";
+            body += "Lv 1: Smith bronze axe\n";
+            body += "Lv 4: Smith bronze swords\n";
+            body += "Lv 5: Smith bronze scimitars\n";
+            body += "Lv 14: Smith bronze 2h swords\n";
             break;
         case "fishing":
             description += "Fish larger fish, faster.\n";
@@ -67,21 +86,6 @@ export function getSkillDescription(skill) {
             body += "Lv 1: Equip bronze axes\n";
             body += "Lv 5: Oak trees\n";
             body += "Lv 5: Equip steel axes\n";
-            break;
-        case "mining":
-            description += "Mine greater rocks, faster.\n";
-            description += "Use stronger pickaxes.";
-            body += "Lv 1: Mine tin rocks\n";
-            body += "Lv 1: Mine copper rocks\n";
-            break;
-        case "smithing":
-            description = "Smelt greater ores and\nsmith better equipment.";
-            body += "Lv 1: Smelt bronze bars\n";
-            body += "Lv 1: Smith bronze daggers\n";
-            body += "Lv 1: Smith bronze axe\n";
-            body += "Lv 4: Smith bronze swords\n";
-            body += "Lv 5: Smith bronze scimitars\n";
-            body += "Lv 14: Smith bronze 2h swords\n";
             break;
         default:
             description = "Not currently supported";
