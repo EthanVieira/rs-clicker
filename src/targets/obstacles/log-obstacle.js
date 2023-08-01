@@ -14,7 +14,7 @@ export class LogObstacle extends Obstacle {
             requiredLevel: 1,
             xpReward: 7.5,
             neededClicks: 5,
-            height: 100,
+            height: 250,
             width: 200,
         });
     }

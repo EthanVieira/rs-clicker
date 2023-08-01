@@ -40,7 +40,13 @@ export class Obstacle extends ClickableObject {
         const y = cameraHeight / 2;
 
         // Add invisible button for clicking obstacle
-        this.sprite = new Button(this.scene, x - this.width, y, this.width, this.height);
+        this.sprite = new Button(
+            this.scene,
+            x - this.width,
+            y - this.height / 2,
+            this.width,
+            this.height
+        );
         this.sprite.on("pointerdown", (pointer) => {
             if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
                 this.createRightClickMenu(pointer.x, pointer.y, this.actions);

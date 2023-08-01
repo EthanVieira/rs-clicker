@@ -40,6 +40,7 @@ export function getSkillDescription(skill) {
         case "agility":
             description = "Traverse obstacles.";
             body += "Lv 1: Gnome Agility Course";
+            break;
         case "fletching":
             description = "Create ranged weapons using a knife\nand logs";
             body += "Lv 1: Shortbow (50 Logs)\n";
