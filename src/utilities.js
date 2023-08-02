@@ -159,6 +159,33 @@ export function getItemText(amount) {
     }
 }
 
+// Returns a rough estimate of the pixel length of
+// a string based on the letters in the string
+// in RS font. Didn't consider numbers or other symbols.
+export function getEstimatedPixelLength(str) {
+    let i = str.length;
+    let totalLength = 0;
+
+    while (i--) {
+        switch (true) {
+            case ["i", "l"].includes(str[i]):
+                totalLength += 1;
+                break;
+            case ["m", "w"].includes(str[i]):
+                totalLength += 8;
+                break;
+            case str[i] == str[i].toUpperCase():
+                totalLength += 8;
+                break;
+            default:
+                totalLength += 6;
+                break;
+        }
+    }
+
+    return totalLength;
+}
+
 export class ListWithTimeout {
     constructor() {
         this.items = new Array();

@@ -1,4 +1,5 @@
 import { CONSTANTS, FONTS, SCREEN } from "./constants/constants.js";
+import { getEstimatedPixelLength } from "./utilities.js";
 
 export class ClickableObject {
     // Basic info
@@ -24,10 +25,20 @@ export class ClickableObject {
         this.chat.showObjectInfo(true, this, isShop);
     }
 
-    // TODO: fix right click menu to have menu width be based on text length
     createRightClickMenu(x, y, actions) {
         let numActions = actions.length; // not including cancel
         let halfHeight = this.RCM_HALF_HEIGHTS[numActions - 1];
+
+        let actionTextSize = 0;
+
+        actions.forEach((action) => {
+            actionTextSize = Math.max(
+                actionTextSize,
+                getEstimatedPixelLength(action.text)
+            );
+        });
+
+        const itemTextSize = getEstimatedPixelLength(this.name);
 
         // In order to get phaser to register a 'pointerout' event,
         // it first has to have registered it as 'pointerover'.
@@ -38,7 +49,7 @@ export class ClickableObject {
         // it is not over the menu, the menu will not get destroyed.
 
         // This buffer is the number of pixels your mouse is below the top of the menu
-        // when it is created. Four seemed to be the optimal number of making it sufficiently difficult
+        // when it is created. Five seemed to be the optimal number of making it sufficiently difficult
         // to reproduce the above bug while not having the pointer be too far down the list on creation.
         const buffer = 5;
 
@@ -58,6 +69,7 @@ export class ClickableObject {
         } else if (y < 0) {
             y = 0;
         }
+
         let menuBox = this.scene.add
             .image(x, y, "right-click-menu-" + (numActions + 1).toString())
             .setDepth(6)
@@ -81,16 +93,20 @@ export class ClickableObject {
         menu.add(menuBox);
         let optionsY = 20 + (y - menuBox.height / 2);
 
+        const startTextX = x - 78;
+        const remainingXPixelsOnRCM = this.RCM_HALF_WIDTH * 2 - actionTextSize - 5;
+        // this assumes there will always be enough room to house both
+        // the action and the item text on the RCM image
+        const bufferBtwnActionAndItem = Math.max(
+            2,
+            (remainingXPixelsOnRCM - itemTextSize) / 2
+        );
+        const itemStartTextX = startTextX + actionTextSize + bufferBtwnActionAndItem;
+
         // Generate dynamic list of actions (wield, bury, etc.)
         actions.forEach((action) => {
-            let itemText = this.scene.add.text(
-                x - 20,
-                optionsY,
-                this.name,
-                FONTS.ITEM_NAME
-            );
             let actionText = this.scene.add
-                .text(x - 78, optionsY, action.text, FONTS.OPTIONS_MENU)
+                .text(startTextX, optionsY, action.text, FONTS.OPTIONS_MENU)
                 .setInteractive()
                 .setDepth(6)
                 .on("pointerdown", () => {
@@ -98,13 +114,20 @@ export class ClickableObject {
                     menu.destroy();
                 });
 
+            let itemText = this.scene.add.text(
+                itemStartTextX,
+                optionsY,
+                this.name,
+                FONTS.ITEM_NAME
+            );
+
             menu.add(actionText);
             menu.add(itemText);
             optionsY += 15;
         });
 
         let cancelText = this.scene.add
-            .text(x - 78, optionsY, "Cancel", FONTS.OPTIONS_MENU)
+            .text(startTextX, optionsY, "Cancel", FONTS.OPTIONS_MENU)
             .setInteractive()
             .setDepth(6)
             .on("pointerdown", () => {

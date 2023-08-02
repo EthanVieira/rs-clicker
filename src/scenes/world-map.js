@@ -183,6 +183,7 @@ export class WorldMapScene extends Phaser.Scene {
             new Phaser.Geom.Rectangle(0, 0, MAP.WIDTH, MAP.HEIGHT),
             Phaser.Geom.Rectangle.Contains
         );
+
         this.input.setDraggable(container);
         const _this = this;
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
@@ -200,6 +201,26 @@ export class WorldMapScene extends Phaser.Scene {
         // When exiting the scene
         this.events.on("shutdown", () => {
             this.scale.resize(SCREEN.WIDTH, SCREEN.HEIGHT);
+        });
+
+        container.on("wheel", function (pointer, deltaX, deltaY, deltaZ) {
+            // how fast it zooms
+            const scaleFactor = -0.0005;
+
+            // arbitrary zoom scaling limits
+            const scaleMin = 0.4;
+            const scaleMax = 1;
+
+            // position factor needed to keep the map in place when zooming
+            const xyFactor = 2;
+
+            const newScale = this.scale + deltaY * scaleFactor;
+
+            if (newScale < scaleMax && newScale > scaleMin) {
+                this.scale = newScale;
+                this.x += deltaY * xyFactor;
+                this.y += deltaY * xyFactor;
+            }
         });
     }
 
