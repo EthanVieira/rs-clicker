@@ -108,7 +108,7 @@ export default class Equipment extends Item {
         if (this.equipped) {
             console.log("Trying to unequip", this.name, this.index);
 
-            let wasAdded = this.scene.inventory.addToInventory(this, false);
+            let wasAdded = this.scene.inventory.addToInventory(this, true);
             if (wasAdded) {
                 this.scene.equipment.unequipItem(this.slot);
 
