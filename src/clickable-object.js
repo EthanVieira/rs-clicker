@@ -1,5 +1,5 @@
 import { CONSTANTS, FONTS, SCREEN } from "./constants/constants.js";
-import { getEstimatedPixelLength } from "./utilities.js";
+import { getEstimatedPixelWidth } from "./utilities.js";
 
 export class ClickableObject {
     // Basic info
@@ -29,16 +29,11 @@ export class ClickableObject {
         let numActions = actions.length; // not including cancel
         let halfHeight = this.RCM_HALF_HEIGHTS[numActions - 1];
 
-        let actionTextSize = 0;
+        const actionTextWidth = actions
+            .map((action) => getEstimatedPixelWidth(action.text))
+            .reduce((widest, current) => Math.max(widest, current), 0);
 
-        actions.forEach((action) => {
-            actionTextSize = Math.max(
-                actionTextSize,
-                getEstimatedPixelLength(action.text)
-            );
-        });
-
-        const itemTextSize = getEstimatedPixelLength(this.name);
+        const itemTextWidth = getEstimatedPixelWidth(this.name);
 
         // In order to get phaser to register a 'pointerout' event,
         // it first has to have registered it as 'pointerover'.
@@ -94,14 +89,14 @@ export class ClickableObject {
         let optionsY = 20 + (y - menuBox.height / 2);
 
         const startTextX = x - 78;
-        const remainingXPixelsOnRCM = this.RCM_HALF_WIDTH * 2 - actionTextSize - 5;
+        const remainingXPixelsOnRCM = this.RCM_HALF_WIDTH * 2 - actionTextWidth - 5;
         // this assumes there will always be enough room to house both
         // the action and the item text on the RCM image
         const bufferBtwnActionAndItem = Math.max(
             2,
-            (remainingXPixelsOnRCM - itemTextSize) / 2
+            (remainingXPixelsOnRCM - itemTextWidth) / 2
         );
-        const itemStartTextX = startTextX + actionTextSize + bufferBtwnActionAndItem;
+        const itemStartTextX = startTextX + actionTextWidth + bufferBtwnActionAndItem;
 
         // Generate dynamic list of actions (wield, bury, etc.)
         actions.forEach((action) => {
