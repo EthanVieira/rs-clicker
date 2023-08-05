@@ -159,6 +159,17 @@ export function getItemText(amount) {
     }
 }
 
+// Returns a rough estimate of the pixel width of
+// a string based on the letters in the string
+// in RS font. Didn't consider numbers or other symbols.
+export const getEstimatedPixelWidth = (str) =>
+    str.split("").reduce((sum, char) => {
+        if (["i", "l"].includes(char)) return sum + 1;
+        if (["m", "w"].includes(char)) return sum + 8;
+        if (char == char.toUpperCase()) return sum + 8;
+        return sum + 6;
+    }, 0);
+
 export class ListWithTimeout {
     constructor() {
         this.items = new Array();
