@@ -92,7 +92,6 @@ export class Inventory {
                 return;
             }
 
-            console.log("pointerup");
             const newX = pointer.x;
             const newY = pointer.y;
             const oldIndex = item.index;
@@ -113,30 +112,27 @@ export class Inventory {
                 let newRow = Math.floor((newY - modifiedInventStartY) / this.ITEM_HEIGHT);
                 const newIndex = newCol + newRow * this.NUM_COLS;
 
-                // don't allow a left click if dragging
                 if (newIndex == oldIndex) {
+                    // don't allow a left click if dragging
                     if (!this.dragging) {
-                        console.log("triggered left click");
                         item.leftClick();
 
-                        // if item is still in inventory after left click, make sure it is still in old position
-                        if (this.inventory[newIndex] != null) {
-                            this.setItemAtIndex(item, oldIndex);
+                        // if there's still an item at this index after a left click, make sure it is still in old position
+                        const itemAtIndex = this.inventory[newIndex];
+                        if (itemAtIndex != null) {
+                            this.setItemAtIndex(itemAtIndex, oldIndex);
                         }
                     } else {
                         // snap back to original position
                         this.setItemAtIndex(item, oldIndex);
-                        console.log("dragging, don't left click");
                     }
                 } else {
                     // swap items if one exists at newIndex
                     if (this.inventory.length > newIndex) {
                         let tempItem = this.inventory[newIndex];
                         this.setItemAtIndex(item, newIndex);
-                        console.log("new: ", newIndex);
 
                         this.setItemAtIndex(tempItem, oldIndex);
-                        console.log("old: ", oldIndex);
                     } else if (newIndex < CONSTANTS.LIMITS.MAX_INVENTORY_SPACE) {
                         this.setItemAtIndex(item, newIndex);
                         this.setItemAtIndex(null, oldIndex);
@@ -145,7 +141,6 @@ export class Inventory {
             } else {
                 // snap back to original position
                 this.setItemAtIndex(item, oldIndex);
-                console.log("not within bounds");
             }
 
             this.dragging = false;
