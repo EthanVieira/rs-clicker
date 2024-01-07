@@ -13,9 +13,9 @@ export class Inventory {
     dragging = false;
 
     ITEM_WIDTH = 45;
-    ITEM_HEIGHT = 35;
+    ITEM_HEIGHT = 37;
     INVENT_START_X = 570;
-    INVENT_START_Y = 225;
+    INVENT_START_Y = 226;
     ITEM_AMOUNT_X_OFFSET = 15;
     ITEM_AMOUNT_Y_OFFSET = 18;
     NUM_COLS = 4;
@@ -92,6 +92,23 @@ export class Inventory {
                 return;
             }
 
+            // dragend event is heard before pointerup
+            // don't allow left click if dragging
+            if (this.dragging) {
+                this.dragging = false;
+                this.setItemAtIndex(item, item.index);
+                return;
+            }
+
+            // don't allow a left click if dragging
+            item.leftClick();
+        });
+
+        item.sprite.on("dragend", (pointer) => {
+            if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
+                return;
+            }
+
             const newX = pointer.x;
             const newY = pointer.y;
             const oldIndex = item.index;
@@ -99,7 +116,7 @@ export class Inventory {
             const modifiedInventStartX = this.INVENT_START_X - 20;
             const modifiedInventStartY = this.INVENT_START_Y - 20;
             const inventEndX = modifiedInventStartX + this.ITEM_WIDTH * this.NUM_COLS;
-            const inventEndY = modifiedInventStartX + this.ITEM_HEIGHT * this.NUM_ROWS;
+            const inventEndY = modifiedInventStartY + this.ITEM_HEIGHT * this.NUM_ROWS;
 
             if (
                 newX >= modifiedInventStartX &&
@@ -113,25 +130,13 @@ export class Inventory {
                 const newIndex = newCol + newRow * this.NUM_COLS;
 
                 if (newIndex == oldIndex) {
-                    // don't allow a left click if dragging
-                    if (!this.dragging) {
-                        item.leftClick();
-
-                        // if there's still an item at this index after a left click, make sure it is still in old position
-                        const itemAtIndex = this.inventory[newIndex];
-                        if (itemAtIndex != null) {
-                            this.setItemAtIndex(itemAtIndex, oldIndex);
-                        }
-                    } else {
-                        // snap back to original position
-                        this.setItemAtIndex(item, oldIndex);
-                    }
+                    // snap back to original position
+                    this.setItemAtIndex(item, oldIndex);
                 } else {
                     // swap items if one exists at newIndex
                     if (this.inventory.length > newIndex) {
                         let tempItem = this.inventory[newIndex];
                         this.setItemAtIndex(item, newIndex);
-
                         this.setItemAtIndex(tempItem, oldIndex);
                     } else if (newIndex < CONSTANTS.LIMITS.MAX_INVENTORY_SPACE) {
                         this.setItemAtIndex(item, newIndex);
@@ -143,11 +148,10 @@ export class Inventory {
                 this.setItemAtIndex(item, oldIndex);
             }
 
-            this.dragging = false;
             item.sprite.setDepth(4);
         });
 
-        this.setItemAtIndex(item, index);
+        this.setItemAtIndex(item, item.index);
     }
 
     setItemAtIndex(item, index) {
