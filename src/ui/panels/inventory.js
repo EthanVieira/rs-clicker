@@ -10,6 +10,17 @@ export class Inventory {
     inventory = []; // Images
     curSelectedItemIndex = -1;
 
+    dragging = false;
+
+    ITEM_WIDTH = 45;
+    ITEM_HEIGHT = 37;
+    INVENT_START_X = 570;
+    INVENT_START_Y = 226;
+    ITEM_AMOUNT_X_OFFSET = 15;
+    ITEM_AMOUNT_Y_OFFSET = 18;
+    NUM_COLS = 4;
+    NUM_ROWS = 7;
+
     constructor(scene) {
         this.scene = scene;
         this.stats = this.scene.scene.get(CONSTANTS.SCENES.STATS);
@@ -49,17 +60,11 @@ export class Inventory {
 
     // Add to specific index
     addToInventoryAtIndex(item, index, createSprite = true) {
-        // Add to saved data
-        characterData.setInventory(index, {
-            item: item.constructor.name,
-            count: item.numItems,
-        });
-
         // Add item images
-        const column = index % 4;
-        const row = Math.floor(index / 4);
-        const x = 570 + column * 45;
-        const y = 225 + row * 35;
+        const column = index % this.NUM_COLS;
+        const row = Math.floor(index / this.NUM_COLS);
+        const x = this.INVENT_START_X + column * this.ITEM_WIDTH;
+        const y = this.INVENT_START_Y + row * this.ITEM_HEIGHT;
 
         // Draw sprite or move it if it already exists
         if (createSprite) {
@@ -68,11 +73,118 @@ export class Inventory {
             item.move(x, y, index);
         }
 
-        // Hide if inventory is not selected
-        const showItem = this.scene.currentPanel === CONSTANTS.PANEL.INVENTORY;
-        item.setVisible(showItem);
+        item.sprite.on("drag", (pointer, dragX, dragY) => {
+            if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
+                return;
+            }
 
-        // Add object to the scene
+            if (this.curSelectedItemIndex != -1) {
+                const selectedItem = this.inventory[this.curSelectedItemIndex];
+                selectedItem.setHighlight(false);
+                this.curSelectedItemIndex = -1;
+            }
+
+            item.sprite.setPosition(dragX, dragY);
+            item.numItemsText.setPosition(
+                dragX - this.ITEM_AMOUNT_X_OFFSET,
+                dragY - this.ITEM_AMOUNT_Y_OFFSET
+            );
+            // bring it to the front of other items in invent
+            item.sprite.setDepth(5);
+            this.dragging = true;
+        });
+
+        item.sprite.on("pointerup", (pointer) => {
+            if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
+                return;
+            }
+
+            // dragend event is heard before pointerup
+            // don't allow left click if dragging
+            if (this.dragging) {
+                this.dragging = false;
+                this.setItemAtIndex(item, item.index);
+                return;
+            }
+
+            item.leftClick();
+        });
+
+        item.sprite.on("dragend", (pointer) => {
+            if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
+                return;
+            }
+
+            const newX = pointer.x;
+            const newY = pointer.y;
+            const oldIndex = item.index;
+
+            const modifiedInventStartX = this.INVENT_START_X - 20;
+            const modifiedInventStartY = this.INVENT_START_Y - 20;
+            const inventEndX = modifiedInventStartX + this.ITEM_WIDTH * this.NUM_COLS;
+            const inventEndY = modifiedInventStartY + this.ITEM_HEIGHT * this.NUM_ROWS;
+
+            if (
+                newX >= modifiedInventStartX &&
+                newX <= inventEndX &&
+                newY >= modifiedInventStartY &&
+                newY <= inventEndY
+            ) {
+                // find closest index and snap to it
+                let newCol = Math.floor((newX - modifiedInventStartX) / this.ITEM_WIDTH);
+                let newRow = Math.floor((newY - modifiedInventStartY) / this.ITEM_HEIGHT);
+                const newIndex = newCol + newRow * this.NUM_COLS;
+
+                if (newIndex == oldIndex) {
+                    // snap back to original position
+                    this.setItemAtIndex(item, oldIndex);
+                } else {
+                    // swap items if one exists at newIndex
+                    if (this.inventory.length > newIndex) {
+                        let tempItem = this.inventory[newIndex];
+                        this.setItemAtIndex(item, newIndex);
+                        this.setItemAtIndex(tempItem, oldIndex);
+                    } else if (newIndex < CONSTANTS.LIMITS.MAX_INVENTORY_SPACE) {
+                        this.setItemAtIndex(item, newIndex);
+                        this.setItemAtIndex(null, oldIndex);
+                    }
+                }
+            } else {
+                // snap back to original position
+                this.setItemAtIndex(item, oldIndex);
+            }
+
+            item.sprite.setDepth(4);
+        });
+
+        this.setItemAtIndex(item, item.index);
+    }
+
+    setItemAtIndex(item, index) {
+        if (item != null) {
+            const col = index % this.NUM_COLS;
+            const row = Math.floor(index / this.NUM_COLS);
+            const x = this.INVENT_START_X + col * this.ITEM_WIDTH;
+            const y = this.INVENT_START_Y + row * this.ITEM_HEIGHT;
+            item.sprite.setPosition(x, y);
+            item.numItemsText.setPosition(
+                x - this.ITEM_AMOUNT_X_OFFSET,
+                y - this.ITEM_AMOUNT_Y_OFFSET
+            );
+            item.index = index;
+
+            // Add to saved data
+            characterData.setInventory(index, {
+                item: item.constructor.name,
+                count: item.numItems,
+            });
+
+            // Hide if inventory is not selected
+            item.setVisible(this.scene.currentPanel === CONSTANTS.PANEL.INVENTORY);
+        } else {
+            characterData.setInventory(index, null);
+        }
+
         this.inventory[index] = item;
     }
 

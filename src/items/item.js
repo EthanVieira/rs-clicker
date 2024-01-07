@@ -57,18 +57,20 @@ export class Item extends ClickableObject {
             .image(x, y, spritePath)
             .setScale(this.scale)
             .setDepth(4)
-            .setInteractive()
+            .setInteractive({ draggable: true })
             .on("pointerdown", (pointer) => {
                 // Need to make sure left button isn't down to fix a bug where left clicking
                 // immediately after would trigger this twice and on the second time the
                 // right button would still be considered down, creating two menus
                 if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
                     this.createRightClickMenu(pointer.x, pointer.y, this.actions);
-                } else {
+                } else if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
                     this.leftClick();
                 }
             });
         this.displayHeight = this.sprite.displayHeight;
+        // The pointer has to move 5 pixels before it's considered a drag
+        this.scene.input.dragDistanceThreshold = 5;
 
         // Add text in top left for stackable items
         const [visualNum, fillColor] = getItemText(this.numItems);
