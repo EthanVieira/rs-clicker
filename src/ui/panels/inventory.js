@@ -77,6 +77,13 @@ export class Inventory {
             if (this.scene.currentPanel != CONSTANTS.PANEL.INVENTORY) {
                 return;
             }
+
+            if (this.curSelectedItemIndex != -1) {
+                const selectedItem = this.inventory[this.curSelectedItemIndex];
+                selectedItem.setHighlight(false);
+                this.curSelectedItemIndex = -1;
+            }
+
             item.sprite.setPosition(dragX, dragY);
             item.numItemsText.setPosition(
                 dragX - this.ITEM_AMOUNT_X_OFFSET,
