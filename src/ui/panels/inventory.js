@@ -100,7 +100,6 @@ export class Inventory {
                 return;
             }
 
-            // don't allow a left click if dragging
             item.leftClick();
         });
 
