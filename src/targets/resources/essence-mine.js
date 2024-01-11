@@ -15,6 +15,11 @@ export class EssenceMine extends ClickableObject {
     varName = "pureEssence";
     xpReward = 5;
     animation;
+    examineText = "The source of all runes.";
+    actions = [
+        { text: "Mine", func: "clickTarget" },
+        { text: "Examine", func: "examine" },
+    ];
 
     stats;
 
