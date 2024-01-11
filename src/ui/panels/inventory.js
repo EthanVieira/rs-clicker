@@ -249,13 +249,6 @@ export class Inventory {
                     CONSTANTS.LIMITS.MAX_ITEM_STACK
                 )
             );
-            if (curItem.constructor.name == "Coin") {
-                const column = i % 4;
-                const row = Math.floor(i / 4);
-                const x = 570 + column * 45;
-                const y = 225 + row * 35;
-                curItem.createSprite(x, y, i);
-            }
 
             // Delete old item
             item.destroy();

@@ -151,5 +151,12 @@ export const defaultData = {
                 logObstacle: 0,
             },
         },
+        RUNE_ESSENCE_MINE: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                pureEssence: 0,
+            },
+        },
     },
 };

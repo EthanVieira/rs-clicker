@@ -22,6 +22,7 @@ export const CONSTANTS = {
         VARROCK: "VARROCK",
         BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE",
         GNOME_VILLAGE_AGILITY: "GNOME_VILLAGE_AGILITY",
+        RUNE_ESSENCE_MINE: "RUNE_ESSENCE_MINE",
     },
     QUEST_TABS: {
         QUESTS: "QUESTS",
@@ -39,6 +40,7 @@ export const CONSTANTS = {
         VARROCK: "LUMBRIDGE",
         BARBARIAN_VILLAGE: "VARROCK",
         GNOME_VILLAGE_AGILITY: "TUTORIAL_ISLAND",
+        RUNE_ESSENCE_MINE: "LUMBRIDGE",
     },
     CLASS: {
         UNARMED: "UNARMED",
@@ -50,6 +52,7 @@ export const CONSTANTS = {
         FISH: "FISH",
         ORE: "ORE",
         WOOD: "WOOD",
+        ESSENCE: "ESSENCE",
     },
     ITEM_TYPES: {
         WEAPON: "WEAPON",
@@ -191,6 +194,10 @@ export const MAP = {
     GNOME_VILLAGE_AGILITY: {
         X: 1630,
         Y: 2610,
+    },
+    RUNE_ESSENCE_MINE: {
+        X: 4720,
+        Y: 2800,
     },
 };
 

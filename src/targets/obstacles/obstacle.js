@@ -64,8 +64,6 @@ export class Obstacle extends ClickableObject {
     }
 
     async clickTarget() {
-        console.log("clicked");
-
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
         const currentLevel = calcLevel(characterData.getSkillXp(this.skill));
@@ -79,8 +77,6 @@ export class Obstacle extends ClickableObject {
 
         // TODO: maybe have an animation
         let progress = this.getClickValue();
-
-        console.log("prog", progress);
 
         // Click interaction to be implemented by the child
         this.onClick(progress);
