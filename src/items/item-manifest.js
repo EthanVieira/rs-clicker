@@ -160,6 +160,12 @@ export const itemManifest = {
         imageName: "oak-shortbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
+    PureEssence: {
+        classPath: "./essence/pure-essence.js",
+        imagePath: "resources/essence/PureEssence.png",
+        imageName: "pure-essence",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
     RawAnchovies: {
         classPath: "./fish/raw-anchovies.js",
         imagePath: "resources/fish/RawAnchovies.png",
@@ -170,6 +176,12 @@ export const itemManifest = {
         classPath: "./fish/raw-shrimps.js",
         imagePath: "resources/fish/RawShrimps.png",
         imageName: "raw-shrimps",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
+    RuneEssence: {
+        classPath: "./essence/rune-essence.js",
+        imagePath: "resources/essence/RuneEssence.png",
+        imageName: "rune-essence",
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     Shrimps: {

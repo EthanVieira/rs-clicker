@@ -35,6 +35,10 @@ cookingTestData["inventory"].push({ item: "RawAnchovies", count: 42069 });
 const firemakingTestData = JSON.parse(JSON.stringify(generalTestData));
 firemakingTestData["inventory"].push({ item: "NormalLogs", count: 42069 });
 // ---------------------------------------------------------------------
+const runecraftingTestData = JSON.parse(JSON.stringify(generalTestData));
+runecraftingTestData["inventory"].push({ item: "RuneEssence", count: 42069 });
+runecraftingTestData["inventory"].push({ item: "PureEssence", count: 42069 });
+// ---------------------------------------------------------------------
 export const dataMap = {
     "new-game": defaultData,
     "all-levels": allLevelsUnlockedData,
@@ -44,5 +48,6 @@ export const dataMap = {
     fishing: fishingTestData,
     cooking: cookingTestData,
     firemaking: firemakingTestData,
+    runecrafting: runecraftingTestData,
     rich: richData,
 };

@@ -159,6 +159,25 @@ export function getItemText(amount) {
     }
 }
 
+// don't need an 's' to pluralize these
+const noncountNouns = ["essence"];
+
+export function pluralize(text) {
+    let pluralText = text;
+
+    if (!text.endsWith("s")) {
+        const dontAddS = noncountNouns.some((word) => {
+            return text.toLowerCase().endsWith(word);
+        });
+
+        if (!dontAddS) {
+            pluralText += "s";
+        }
+    }
+
+    return pluralText;
+}
+
 // Returns a rough estimate of the pixel width of
 // a string based on the letters in the string
 // in RS font. Didn't consider numbers or other symbols.

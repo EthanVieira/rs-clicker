@@ -1,7 +1,7 @@
 import { CONSTANTS } from "../../constants/constants.js";
 import { ScrollWindow } from "../scroll-window.js";
 import { characterData } from "../../cookie-io.js";
-import { prettyPrintCamelCase, getItemText } from "../../utilities.js";
+import { pluralize, prettyPrintCamelCase, getItemText } from "../../utilities.js";
 import { TextRow } from "../text-row.js";
 
 export class Quests {
@@ -209,16 +209,10 @@ export class Quests {
 
                     const printedAmount = isQuestComplete ? questAmount : enemiesKilled;
                     let questText = this.questsScrollWindow.add
-                        .text(
-                            0,
-                            0,
-                            prettyPrintCamelCase(enemy) +
-                                (enemy.endsWith("s") ? ": " : "s: "),
-                            {
-                                fill: isQuestComplete ? "#00ff00" : "yellow",
-                                font: "12px runescape",
-                            }
-                        )
+                        .text(0, 0, pluralize(prettyPrintCamelCase(enemy)) + ": ", {
+                            fill: isQuestComplete ? "#00ff00" : "yellow",
+                            font: "12px runescape",
+                        })
                         .setDepth(3);
                     row.add(questText);
 

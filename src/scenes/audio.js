@@ -28,6 +28,7 @@ export class AudioScene extends Phaser.Scene {
         this.load.audio("gnome-village", "src/assets/audio/bgm/GnomeVillage.ogg");
         this.load.audio("harmony", "src/assets/audio/bgm/Harmony.ogg");
         this.load.audio("newbie-melody", "src/assets/audio/bgm/NewbieMelody.ogg");
+        this.load.audio("rune-essence", "src/assets/audio/bgm/RuneEssence.ogg");
         this.load.audio("scape-main", "src/assets/audio/bgm/ScapeMain.ogg");
         this.load.audio("still-night", "src/assets/audio/bgm/StillNight.ogg");
         this.load.audio("the-rogues-den", "src/assets/audio/bgm/TheRoguesDen.ogg");

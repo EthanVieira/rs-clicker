@@ -144,6 +144,15 @@ export class WorldMapScene extends Phaser.Scene {
                 y: MAP.GNOME_VILLAGE_AGILITY.Y,
                 key: CONSTANTS.SCENES.GNOME_VILLAGE_AGILITY,
             },
+            {
+                text: "Rune Essence Mine",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.RUNE_ESSENCE_MINE
+                ),
+                x: MAP.RUNE_ESSENCE_MINE.X,
+                y: MAP.RUNE_ESSENCE_MINE.Y,
+                key: CONSTANTS.SCENES.RUNE_ESSENCE_MINE,
+            },
         ];
 
         // Tutorial Island and Lumbridge use default starting location, others are centered
