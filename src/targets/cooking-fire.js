@@ -13,8 +13,8 @@ export class CookingFire extends ClickableObject {
         { text: "Examine", func: "examine" },
     ];
 
-    // Potential TODO: do we want to be able to cook already cooked food to make them burnt?
-    validMaterials = new Set(["Raw Shrimps", "Raw Anchovies"]);
+    validRawMaterials = new Set(["Raw Shrimps", "Raw Anchovies"]);
+    validCookedMaterials = new Set(["Shrimps", "Anchovies"]);
 
     constructor(scene) {
         super();
@@ -49,44 +49,49 @@ export class CookingFire extends ClickableObject {
         if (
             selectedIndex < 0 ||
             !selectedItem ||
-            !this.validMaterials.has(selectedItem.name)
+            (!this.validRawMaterials.has(selectedItem.name) &&
+                !this.validCookedMaterials.has(selectedItem.name))
         ) {
             chat.writeText("Select an item to be cooked in your inventory first.");
             return;
         }
 
-        const reqLevel = selectedItem.cookingLvl;
-        const currentLevel = calcLevel(characterData.getSkillXp("cooking"));
+        let foodName = selectedItem.name;
+        let cooked = false;
 
-        if (currentLevel < reqLevel) {
-            chat.writeText(
-                "You do not have the required cooking level to cook this item."
+        if (this.validRawMaterials.has(selectedItem.name)) {
+            const reqLevel = selectedItem.cookingLvl;
+            const currentLevel = calcLevel(characterData.getSkillXp("cooking"));
+
+            if (currentLevel < reqLevel) {
+                chat.writeText(
+                    "You do not have the required cooking level to cook this item."
+                );
+                return;
+            }
+
+            // calculate cook/burn rate
+            // start at 50% success rate and uniformly increase
+            // until the level where it can no longer be burned
+            const initialRate = 0.5;
+
+            const increasePerLevel = initialRate / (selectedItem.burnLvlLimit - reqLevel);
+
+            const rate = Math.min(
+                1,
+                initialRate + increasePerLevel * (currentLevel - reqLevel)
             );
-            return;
+
+            cooked = rate >= Math.random();
+
+            foodName = cooked
+                ? foodName.replace("Raw ", "")
+                : foodName.replace("Raw ", "Burnt");
+        } else {
+            foodName = "Burnt" + foodName;
         }
 
-        // calculate cook/burn rate
-        // start at 50% success rate and uniformly increase
-        // until the level where it can no longer be burned
-        const initialRate = 0.5;
-
-        const increasePerLevel = initialRate / (selectedItem.burnLvlLimit - reqLevel);
-
-        const rate = Math.min(
-            1,
-            initialRate + increasePerLevel * (currentLevel - reqLevel)
-        );
-
-        const rawFoodName = selectedItem.name;
-
-        const cooked = rate >= Math.random();
-
-        const foodName = cooked
-            ? rawFoodName.replace("Raw ", "")
-            : rawFoodName.replace("Raw ", "Burnt");
-
         const food = await getItemClass(foodName, this.scene.dashboard);
-
         const added = inv.addToInventory(food, true);
 
         if (added) {

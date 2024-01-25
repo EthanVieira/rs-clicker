@@ -189,9 +189,7 @@ export class Inventory {
     }
 
     getInventoryIndex(itemName) {
-        return characterData
-            .getInventory()
-            .findIndex((item) => item && item.item === itemName);
+        return characterData.getInventory().findIndex((item) => item.item === itemName);
     }
 
     // Returns first instance of an item in inventory
@@ -233,6 +231,11 @@ export class Inventory {
                 .getInventory()
                 .findIndex((item) => item.item.includes(keyword));
         }
+    }
+
+    getNumItems(item) {
+        const i = this.getInventoryIndex(item.constructor.name);
+        return i >= 0 ? this.inventory[i].numItems : 0;
     }
 
     // Add to first available slot

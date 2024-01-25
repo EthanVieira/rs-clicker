@@ -317,7 +317,7 @@ export class ChatScene extends Phaser.Scene {
     }
 
     // Show object info in chat window
-    showObjectInfo(isVisible, object = false, isShop = false) {
+    showObjectInfo(isVisible, object = undefined, isShop = false) {
         if (object && isVisible) {
             this.setVisible();
 
@@ -341,12 +341,18 @@ export class ChatScene extends Phaser.Scene {
             switch (object.objectType) {
                 case OBJECT_TYPES.EQUIPMENT:
                     this.writeEquipmentInfo(object);
+                    if (!isShop) {
+                        this.writeAmountText(object);
+                    }
                     break;
                 case OBJECT_TYPES.ITEM:
                     this.writeStrings(
                         { x: 0, text: "Sells for:", format: FONTS.ITEM_HEADER },
                         { x: col1, text: object.cost + "gp", format: FONTS.ITEM_STATS }
                     );
+                    if (!isShop) {
+                        this.writeAmountText(object);
+                    }
                     break;
                 case OBJECT_TYPES.ENEMY:
                     this.writeEnemyInfo(object);
@@ -365,6 +371,23 @@ export class ChatScene extends Phaser.Scene {
             }
         } else {
             this.setVisible(false);
+        }
+    }
+
+    writeAmountText(item) {
+        const amount = this.scene
+            .get(CONSTANTS.SCENES.DASHBOARD)
+            .inventory.getNumItems(item);
+
+        if (amount > 100000) {
+            this.writeStrings(
+                {
+                    x: 0,
+                    text: "Amount:",
+                    format: FONTS.ITEM_HEADER,
+                },
+                { x: this.col1, text: amount, format: FONTS.ITEM_STATS }
+            );
         }
     }
 
