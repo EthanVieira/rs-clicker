@@ -29,7 +29,10 @@ export class Goblin extends Enemy {
             ],
             maxHealth: 5,
             killGold: 3,
-            drops: [{ item: NormalBones, rate: 0.5 }],
+            drops: [
+                { item: NormalBones, rate: 0.5 },
+                { item: AirTalisman, rate: 1 / 128 },
+            ],
             offsetY: 50,
         });
     }

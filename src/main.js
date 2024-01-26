@@ -18,6 +18,7 @@ import { VarrockScene } from "./scenes/varrock.js";
 import { BarbarianVillageScene } from "./scenes/barbarian-village.js";
 import { GnomeVillageAgilityScene } from "./scenes/gnome-village-agility.js";
 import { RuneEssenceMineScene } from "./scenes/rune-essence-mine.js";
+import { AirAltarScene } from "./scenes/air-altar.js";
 import { DashboardScene } from "./ui/dashboard.js";
 import { ChatScene } from "./ui/chat-window.js";
 import { StatsScene } from "./ui/stats.js";
@@ -53,6 +54,7 @@ let game = new Phaser.Game({
         BarbarianVillageScene,
         GnomeVillageAgilityScene,
         RuneEssenceMineScene,
+        AirAltarScene,
         ChatScene,
         DashboardScene,
         Animation,

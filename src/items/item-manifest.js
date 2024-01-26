@@ -1,11 +1,23 @@
 import { CONSTANTS } from "../constants/constants.js";
 
 export const itemManifest = {
+    AirRune: {
+        classPath: "./runes/air-rune.js",
+        imagePath: "runes/AirRune.png",
+        imageName: "air-rune",
+        type: CONSTANTS.ITEM_TYPES.RUNE,
+    },
     AirStaff: {
         classPath: "./equipment/staves/air-staff.js",
         imagePath: "weapons/AirStaff.png",
         imageName: "air-staff",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    AirTalisman: {
+        classPath: "./tools/talismans/air-talisman.js",
+        imagePath: "tools/talismans/AirTalisman.png",
+        imageName: "air-talisman",
+        type: CONSTANTS.ITEM_TYPES.TOOL,
     },
     Anchovies: {
         classPath: "./fish/anchovies.js",
