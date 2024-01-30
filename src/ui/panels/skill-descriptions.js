@@ -37,9 +37,15 @@ export function getSkillDescription(skill) {
             body += "Lv 20: Equip staff of water\n";
             body += "Lv 25: Equip staff of fire\n";
             break;
+        case "runecrafting":
+            description = "Create runes from essence.";
+            body += "Lv 1: Air Runes\n";
+            body += "Lv 2: Mind Runes\n";
+            body += "Lv 5: Water Runes\n";
+            break;
         case "agility":
             description = "Traverse obstacles.";
-            body += "Lv 1: Gnome Agility Course";
+            body += "Lv 1: Gnome Agility Course\n";
             break;
         case "fletching":
             description = "Create ranged weapons using a knife\nand logs";

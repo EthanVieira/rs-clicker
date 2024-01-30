@@ -1,9 +1,8 @@
 import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
-import { calcLevel } from "../utilities.js";
+import { calcLevel, getItemClass } from "../utilities.js";
 import { Button } from "../ui/button.js";
-import { getItemClass } from "../utilities.js";
 
 export class CookingFire extends ClickableObject {
     name = "Cooking Fire";

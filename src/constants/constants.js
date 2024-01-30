@@ -23,6 +23,7 @@ export const CONSTANTS = {
         BARBARIAN_VILLAGE: "BARBARIAN_VILLAGE",
         GNOME_VILLAGE_AGILITY: "GNOME_VILLAGE_AGILITY",
         RUNE_ESSENCE_MINE: "RUNE_ESSENCE_MINE",
+        AIR_ALTAR: "AIR_ALTAR",
     },
     QUEST_TABS: {
         QUESTS: "QUESTS",
@@ -41,6 +42,7 @@ export const CONSTANTS = {
         BARBARIAN_VILLAGE: "VARROCK",
         GNOME_VILLAGE_AGILITY: "TUTORIAL_ISLAND",
         RUNE_ESSENCE_MINE: "LUMBRIDGE",
+        AIR_ALTAR: "LUMBRIDGE",
     },
     CLASS: {
         UNARMED: "UNARMED",
@@ -60,6 +62,7 @@ export const CONSTANTS = {
         CONSUMABLE: "CONSUMABLE",
         RESOURCE: "RESOURCE",
         CURRENCY: "CURRENCY",
+        RUNE: "RUNE",
     },
     LEVEL_TYPE: {
         ENEMY: "ENEMY",
@@ -68,6 +71,7 @@ export const CONSTANTS = {
         SMITHING: "SMITHING",
         COOKING: "COOKING",
         AGILITY: "AGILITY",
+        RUNECRAFTING: "RUNECRAFTING",
     },
     PANEL: {
         INVENTORY: "INVENTORY",
@@ -198,6 +202,10 @@ export const MAP = {
     RUNE_ESSENCE_MINE: {
         X: 4720,
         Y: 2800,
+    },
+    AIR_ALTAR: {
+        X: 3750,
+        Y: 3230,
     },
 };
 

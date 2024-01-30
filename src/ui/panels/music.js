@@ -64,9 +64,19 @@ export class MusicPanel {
                 unlocked: true,
             },
             {
+                name: "rune-essence",
+                prereq: CONSTANTS.PREREQUISITES.RUNE_ESSENCE_MINE,
+                unlocked: false,
+            },
+            {
                 name: "scape-main",
                 prereq: "NONE",
                 unlocked: true,
+            },
+            {
+                name: "serene",
+                prereq: CONSTANTS.PREREQUISITES.AIR_ALTAR,
+                unlocked: false,
             },
             {
                 name: "still-night",

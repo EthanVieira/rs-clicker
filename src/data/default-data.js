@@ -158,5 +158,12 @@ export const defaultData = {
                 pureEssence: 0,
             },
         },
+        AIR_ALTAR: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                airRune: 0,
+            },
+        },
     },
 };

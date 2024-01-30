@@ -153,6 +153,15 @@ export class WorldMapScene extends Phaser.Scene {
                 y: MAP.RUNE_ESSENCE_MINE.Y,
                 key: CONSTANTS.SCENES.RUNE_ESSENCE_MINE,
             },
+            {
+                text: "Air Altar",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.AIR_ALTAR
+                ),
+                x: MAP.AIR_ALTAR.X,
+                y: MAP.AIR_ALTAR.Y,
+                key: CONSTANTS.SCENES.AIR_ALTAR,
+            },
         ];
 
         // Tutorial Island and Lumbridge use default starting location, others are centered

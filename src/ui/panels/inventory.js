@@ -281,15 +281,8 @@ export class Inventory {
     }
 
     addNToInventory(item, amount) {
-        if (item.stackable) {
-            item.numItems = Math.min(amount, CONSTANTS.LIMITS.MAX_ITEM_STACK);
-            this.addToInventory(item);
-        } else {
-            //TODO: I think we should have every item be stackable, but leaving this for now
-            for (let i = 0; i < min(amount, CONSTANTS.LIMITS.MAX_INVENTORY_SPACE); i++) {
-                this.addToInventory(item);
-            }
-        }
+        item.numItems = Math.min(amount, CONSTANTS.LIMITS.MAX_ITEM_STACK);
+        return this.addToInventory(item);
     }
 
     addGold(amount) {
