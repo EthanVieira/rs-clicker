@@ -189,7 +189,9 @@ export class Inventory {
     }
 
     getInventoryIndex(itemName) {
-        return characterData.getInventory().findIndex((item) => item.item === itemName);
+        return characterData
+            .getInventory()
+            .findIndex((item) => item != null && item.item === itemName);
     }
 
     // Returns first instance of an item in inventory
