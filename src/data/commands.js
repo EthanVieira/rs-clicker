@@ -152,15 +152,24 @@ export function load(dataName) {
     const chatScene = characterData.getScene(CONSTANTS.SCENES.CHAT);
     // check if data exists
     if (dataMap.hasOwnProperty(dataName)) {
-        // set current location to Tutorial Island to avoid any bugs of being
-        // somewhere you haven't unlocked as per the newly loaded data
-        characterData
-            .getScene(characterData.getCurrentLevel())
-            .scene.start(CONSTANTS.SCENES.TUTORIAL_ISLAND);
+        chatScene.writeText(`Loading: ${dataName}`);
+
+        const prevLevel = characterData.getCurrentLevel();
+
         // load in the new data
         characterData.loadData(JSON.parse(JSON.stringify(dataMap[dataName])));
 
-        chatScene.writeText(`Loading: ${dataName}`);
+        let currentLevel = characterData.getCurrentLevel();
+
+        if (!characterData.isLevelUnlocked(currentLevel)) {
+            currentLevel = CONSTANTS.SCENES.TUTORIAL_ISLAND;
+
+            chatScene.writeText(
+                "Attempted to start a scene that isn't unlocked yet. Defaulting to Tutorial Island."
+            );
+        }
+
+        characterData.getScene(prevLevel).scene.start(currentLevel);
     } else {
         chatScene.writeText(`The test data '${dataName}' does not exist.`);
     }
