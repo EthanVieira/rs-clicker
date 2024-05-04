@@ -21,6 +21,7 @@ export class SawmillScene extends LevelScene {
             },
             questPointAward: 1,
             audio: { bgm: "parade" },
+            shouldAutoclick: false,
         });
     }
 }

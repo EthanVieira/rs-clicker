@@ -20,6 +20,7 @@ export class DraynorFishingScene extends LevelScene {
             questAmounts: { smallNetFishingSpot: [10, 100, 1000] },
             questPointAward: 1,
             audio: { bgm: "unknown-land" },
+            shouldAutoclick: true,
         });
     }
 }

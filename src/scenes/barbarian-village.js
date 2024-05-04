@@ -21,6 +21,7 @@ export class BarbarianVillageScene extends LevelScene {
             },
             questPointAward: 2,
             audio: { bgm: "barbarianism" },
+            shouldAutoclick: true,
         });
     }
 }

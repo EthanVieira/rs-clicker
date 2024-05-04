@@ -47,7 +47,7 @@ export class SawmillOperator extends ClickableObject {
         if (
             selectedIndex < 0 ||
             !selectedItem ||
-            !this.validMaterialsToCostMap.hasOwnProperty(selectedItem.name)
+            !this.validMaterialsToCostMap[selectedItem.name]
         ) {
             chat.writeText("Select some logs in your inventory first.");
             return;

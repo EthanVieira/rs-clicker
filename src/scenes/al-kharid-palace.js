@@ -21,6 +21,7 @@ export class AlKharidPalaceScene extends LevelScene {
             },
             questPointAward: 2,
             audio: { bgm: "al-kharid" },
+            shouldAutoclick: true,
         });
     }
 }

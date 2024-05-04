@@ -23,6 +23,7 @@ export class RuneEssenceMineScene extends LevelScene {
             },
             questPointAward: 2,
             audio: { bgm: "rune-essence" },
+            shouldAutoclick: true,
         });
     }
 }

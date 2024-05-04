@@ -36,6 +36,9 @@ export class LevelScene extends Phaser.Scene {
     stats;
     audioScene;
 
+    // Don't autoclick on resource consuming levels. Default to false
+    shouldAutoclick = false;
+
     constructor(data) {
         super({
             key: data.key,
@@ -53,6 +56,7 @@ export class LevelScene extends Phaser.Scene {
         this.currentLevel = data.key;
         this.levelType = data.levelType;
         this.resourceType = data.resourceType;
+        this.shouldAutoclick = Boolean(data.shouldAutoclick);
     }
 
     preload() {
@@ -147,10 +151,11 @@ export class LevelScene extends Phaser.Scene {
         }
     }
 
-    // Used by autoclicker
-    clickCurrentTarget(damage) {
-        this.targets[this.currentTargetIndex].updateProgress(damage);
-        this.scene.get(CONSTANTS.SCENES.DASHBOARD).quests.refreshStats();
+    autoclickCurrentTarget(damage) {
+        if (this.shouldAutoclick) {
+            this.targets[this.currentTargetIndex].updateProgress(damage);
+            this.scene.get(CONSTANTS.SCENES.DASHBOARD).quests.refreshStats();
+        }
     }
 
     enemyKilled(name) {

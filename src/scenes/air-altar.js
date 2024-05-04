@@ -21,6 +21,7 @@ export class AirAltarScene extends LevelScene {
             },
             questPointAward: 1,
             audio: { bgm: "serene" },
+            shouldAutoclick: false,
         });
     }
 }

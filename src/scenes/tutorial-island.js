@@ -21,6 +21,7 @@ export class TutorialIslandScene extends LevelScene {
             },
             questPointAward: 1,
             audio: { bgm: "newbie-melody" },
+            shouldAutoclick: true,
         });
     }
 }
