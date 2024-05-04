@@ -21,6 +21,7 @@ export class AlKharidFurnaceScene extends LevelScene {
             },
             questPointAward: 3,
             audio: { bgm: "al-kharid" },
+            shouldAutoclick: false,
         });
     }
 }

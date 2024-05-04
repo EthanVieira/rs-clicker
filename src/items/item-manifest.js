@@ -157,7 +157,7 @@ export const itemManifest = {
     },
     NormalLogs: {
         classPath: "./logs/normal-logs.js",
-        imagePath: "resources/Logs.png",
+        imagePath: "resources/logs/Logs.png",
         imageName: "logs",
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
@@ -171,6 +171,12 @@ export const itemManifest = {
         imagePath: "weapons/OakShortbow.png",
         imageName: "oak-shortbow",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    NormalPlank: {
+        classPath: "./planks/normal-plank.js",
+        imagePath: "resources/planks/Plank.png",
+        imageName: "plank",
+        type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
     PureEssence: {
         classPath: "./essence/pure-essence.js",

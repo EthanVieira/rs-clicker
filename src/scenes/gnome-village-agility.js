@@ -23,6 +23,7 @@ export class GnomeVillageAgilityScene extends LevelScene {
             audio: { bgm: "gnome-village" },
             height: 500,
             width: 230,
+            shouldAutoclick: true,
         });
     }
 }

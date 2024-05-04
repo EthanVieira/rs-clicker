@@ -24,6 +24,7 @@ export const CONSTANTS = {
         GNOME_VILLAGE_AGILITY: "GNOME_VILLAGE_AGILITY",
         RUNE_ESSENCE_MINE: "RUNE_ESSENCE_MINE",
         AIR_ALTAR: "AIR_ALTAR",
+        SAWMILL: "SAWMILL",
     },
     QUEST_TABS: {
         QUESTS: "QUESTS",
@@ -43,6 +44,7 @@ export const CONSTANTS = {
         GNOME_VILLAGE_AGILITY: "TUTORIAL_ISLAND",
         RUNE_ESSENCE_MINE: "LUMBRIDGE",
         AIR_ALTAR: "LUMBRIDGE",
+        SAWMILL: "LUMBRIDGE",
     },
     CLASS: {
         UNARMED: "UNARMED",
@@ -206,6 +208,10 @@ export const MAP = {
     AIR_ALTAR: {
         X: 3750,
         Y: 3230,
+    },
+    SAWMILL: {
+        X: 4950,
+        Y: 2400,
     },
 };
 

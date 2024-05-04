@@ -64,6 +64,11 @@ export class MusicPanel {
                 unlocked: true,
             },
             {
+                name: "parade",
+                prereq: CONSTANTS.PREREQUISITES.VARROCK,
+                unlocked: false,
+            },
+            {
                 name: "rune-essence",
                 prereq: CONSTANTS.PREREQUISITES.RUNE_ESSENCE_MINE,
                 unlocked: false,

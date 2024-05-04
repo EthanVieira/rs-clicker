@@ -24,6 +24,7 @@ export class VarrockMineScene extends LevelScene {
             },
             questPointAward: 2,
             audio: { bgm: "still-night" },
+            shouldAutoclick: true,
         });
     }
 }

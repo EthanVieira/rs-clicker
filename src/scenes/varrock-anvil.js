@@ -21,6 +21,7 @@ export class VarrockAnvilScene extends LevelScene {
             },
             questPointAward: 2,
             audio: { bgm: "expanse" },
+            shouldAutoclick: false,
         });
     }
 }

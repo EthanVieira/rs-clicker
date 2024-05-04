@@ -23,6 +23,7 @@ export class LumbridgeScene extends LevelScene {
             },
             questPointAward: 1,
             audio: { bgm: "harmony" },
+            shouldAutoclick: true,
         });
     }
 }

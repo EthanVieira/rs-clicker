@@ -22,6 +22,7 @@ export class RoguesDenCookingScene extends LevelScene {
             },
             questPointAward: 1,
             audio: { bgm: "the-rogues-den" },
+            shouldAutoclick: false,
         });
     }
 }

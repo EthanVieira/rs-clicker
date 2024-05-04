@@ -47,6 +47,11 @@ runecraftingTestData["inventory"].push({ item: "PureEssence", count: 42069 });
 runecraftingTestData["inventory"].push({ item: "AirTalisman", count: 42069 });
 runecraftingTestData["currentLevel"] = CONSTANTS.SCENES.AIR_ALTAR;
 // ---------------------------------------------------------------------
+const constructionTestData = JSON.parse(JSON.stringify(generalTestData));
+constructionTestData["inventory"].push({ item: "NormalLogs", count: 42069 });
+constructionTestData["inventory"].push({ item: "NormalPlank", count: 42069 });
+constructionTestData["currentLevel"] = CONSTANTS.SCENES.SAWMILL;
+// ---------------------------------------------------------------------
 export const dataMap = {
     "new-game": defaultData,
     "all-levels": allLevelsUnlockedData,
@@ -58,5 +63,6 @@ export const dataMap = {
     cooking: cookingTestData,
     firemaking: firemakingTestData,
     runecrafting: runecraftingTestData,
+    construction: constructionTestData,
     rich: richData,
 };

@@ -43,6 +43,9 @@ export function getSkillDescription(skill) {
             body += "Lv 2: Mind Runes\n";
             body += "Lv 5: Water Runes\n";
             break;
+        case "construction":
+            description += "Construct things from planks.\n";
+            break;
         case "agility":
             description = "Traverse obstacles.";
             body += "Lv 1: Gnome Agility Course\n";

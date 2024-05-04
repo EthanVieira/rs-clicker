@@ -165,5 +165,12 @@ export const defaultData = {
                 airRune: 0,
             },
         },
+        SAWMILL: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                plank: 0,
+            },
+        },
     },
 };

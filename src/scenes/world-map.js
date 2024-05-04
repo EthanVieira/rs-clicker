@@ -162,6 +162,15 @@ export class WorldMapScene extends Phaser.Scene {
                 y: MAP.AIR_ALTAR.Y,
                 key: CONSTANTS.SCENES.AIR_ALTAR,
             },
+            {
+                text: "Sawmill",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.SAWMILL
+                ),
+                x: MAP.SAWMILL.X,
+                y: MAP.SAWMILL.Y,
+                key: CONSTANTS.SCENES.SAWMILL,
+            },
         ];
 
         // Tutorial Island and Lumbridge use default starting location, others are centered

@@ -24,7 +24,7 @@ export class RunecraftingAltar extends ClickableObject {
         super();
         this.scene = data.scene;
         this.name = data.name;
-        this.runeVarName = data.runeVarName;
+        this.varName = data.varName;
         this.altarType = data.altarType;
         this.needsPureEssence = data.needsPureEssence;
         this.numRunesPerEssenceLvlThreshold = data.numRunesPerEssenceLvlThreshold;
@@ -109,7 +109,7 @@ export class RunecraftingAltar extends ClickableObject {
             // Log click for stats
             this.scene.stats.updateClickedTargetStat();
             characterData.addSkillXp({ runecrafting: this.runecraftingXp });
-            this.scene.enemyKilled(this.runeVarName);
+            this.scene.enemyKilled(this.varName);
 
             this.scene.scene.get(CONSTANTS.SCENES.ANIMATION).clickAnimation({
                 imageName: this.altarType.toLowerCase() + "-talisman-model",

@@ -23,6 +23,7 @@ export class VarrockScene extends LevelScene {
             },
             questPointAward: 2,
             audio: { bgm: "expanse" },
+            shouldAutoclick: true,
         });
     }
 }
