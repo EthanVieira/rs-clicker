@@ -1,5 +1,6 @@
 import { Enemy } from "./enemy.js";
 import NormalBones from "../../items/bones/normal-bones.js";
+import AirTalisman from "../../items/tools/talismans/air-talisman.js";
 
 export class Goblin extends Enemy {
     // Base stats
