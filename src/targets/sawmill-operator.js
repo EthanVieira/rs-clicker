@@ -6,7 +6,6 @@ import { Button } from "../ui/button.js";
 export class SawmillOperator extends ClickableObject {
     name = "Sawmill Operator";
     examineText = "He changes the shape of wood.";
-    varName = "plank";
     actions = [
         { text: "Buy planks", func: "clickTarget" },
         { text: "Examine", func: "examine" },
@@ -72,7 +71,7 @@ export class SawmillOperator extends ClickableObject {
 
             // Log click for stats
             this.scene.stats.updateClickedTargetStat();
-            this.scene.enemyKilled("plank");
+            this.scene.enemyKilled(selectedItem.type.toLowerCase() + "Plank");
 
             this.scene.scene.get(CONSTANTS.SCENES.ANIMATION).purchaseAnimation(cost);
         } else {

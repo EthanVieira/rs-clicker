@@ -171,6 +171,15 @@ export class WorldMapScene extends Phaser.Scene {
                 y: MAP.SAWMILL.Y,
                 key: CONSTANTS.SCENES.SAWMILL,
             },
+            {
+                text: "Player Owned House",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.PLAYER_OWNED_HOUSE
+                ),
+                x: MAP.PLAYER_OWNED_HOUSE.X,
+                y: MAP.PLAYER_OWNED_HOUSE.Y,
+                key: CONSTANTS.SCENES.PLAYER_OWNED_HOUSE,
+            },
         ];
 
         // Tutorial Island and Lumbridge use default starting location, others are centered

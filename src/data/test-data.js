@@ -50,7 +50,7 @@ runecraftingTestData["currentLevel"] = CONSTANTS.SCENES.AIR_ALTAR;
 const constructionTestData = JSON.parse(JSON.stringify(generalTestData));
 constructionTestData["inventory"].push({ item: "NormalLogs", count: 42069 });
 constructionTestData["inventory"].push({ item: "NormalPlank", count: 42069 });
-constructionTestData["currentLevel"] = CONSTANTS.SCENES.SAWMILL;
+constructionTestData["currentLevel"] = CONSTANTS.SCENES.PLAYER_OWNED_HOUSE;
 // ---------------------------------------------------------------------
 export const dataMap = {
     "new-game": defaultData,

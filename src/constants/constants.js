@@ -25,6 +25,7 @@ export const CONSTANTS = {
         RUNE_ESSENCE_MINE: "RUNE_ESSENCE_MINE",
         AIR_ALTAR: "AIR_ALTAR",
         SAWMILL: "SAWMILL",
+        PLAYER_OWNED_HOUSE: "PLAYER_OWNED_HOUSE",
     },
     QUEST_TABS: {
         QUESTS: "QUESTS",
@@ -45,6 +46,7 @@ export const CONSTANTS = {
         RUNE_ESSENCE_MINE: "LUMBRIDGE",
         AIR_ALTAR: "LUMBRIDGE",
         SAWMILL: "LUMBRIDGE",
+        PLAYER_OWNED_HOUSE: "LUMBRIDGE",
     },
     CLASS: {
         UNARMED: "UNARMED",
@@ -74,6 +76,7 @@ export const CONSTANTS = {
         COOKING: "COOKING",
         AGILITY: "AGILITY",
         RUNECRAFTING: "RUNECRAFTING",
+        CONSTRUCTION: "CONSTRUCTION",
     },
     PANEL: {
         INVENTORY: "INVENTORY",
@@ -212,6 +215,10 @@ export const MAP = {
     SAWMILL: {
         X: 4950,
         Y: 2400,
+    },
+    PLAYER_OWNED_HOUSE: {
+        X: 3520,
+        Y: 3485,
     },
 };
 
