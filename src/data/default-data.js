@@ -169,7 +169,14 @@ export const defaultData = {
             questCompleted: false,
             unlocked: false,
             enemiesKilled: {
-                plank: 0,
+                normalPlank: 0,
+            },
+        },
+        PLAYER_OWNED_HOUSE: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                normalTable: 0,
             },
         },
     },

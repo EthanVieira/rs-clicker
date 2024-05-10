@@ -176,6 +176,9 @@ export class LevelScene extends Phaser.Scene {
                     (enemy) =>
                         // A level is considered complete when
                         // all of the tier 1 (index 0) quests are complete.
+                        // TODO: this doesn't work for resource-consuming targets
+                        // that use different resources to create different things
+                        enemy.varName &&
                         characterData.getEnemiesKilled(
                             this.currentLevel,
                             enemy.varName

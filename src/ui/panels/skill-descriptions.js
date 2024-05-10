@@ -45,6 +45,10 @@ export function getSkillDescription(skill) {
             break;
         case "construction":
             description += "Construct things from planks.\n";
+            body += "Lv 1: Normal Planks\n";
+            body += "lv 22: Oak Planks\n";
+            body += "lv 38: Teak Planks\n";
+            body += "lv 52: Mahogany Planks\n";
             break;
         case "agility":
             description = "Traverse obstacles.";

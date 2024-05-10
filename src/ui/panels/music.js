@@ -59,6 +59,11 @@ export class MusicPanel {
                 unlocked: false,
             },
             {
+                name: "home-sweet-home",
+                prereq: CONSTANTS.PREREQUISITES.PLAYER_OWNED_HOUSE,
+                unlocked: false,
+            },
+            {
                 name: "newbie-melody",
                 prereq: "NONE",
                 unlocked: true,

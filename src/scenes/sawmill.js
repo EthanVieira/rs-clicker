@@ -17,7 +17,7 @@ export class SawmillScene extends LevelScene {
             },
             targets: [SawmillOperator],
             questAmounts: {
-                plank: [10, 100, 1000],
+                normalPlank: [10, 100, 1000],
             },
             questPointAward: 1,
             audio: { bgm: "parade" },

@@ -20,6 +20,7 @@ import { GnomeVillageAgilityScene } from "./scenes/gnome-village-agility.js";
 import { RuneEssenceMineScene } from "./scenes/rune-essence-mine.js";
 import { AirAltarScene } from "./scenes/air-altar.js";
 import { SawmillScene } from "./scenes/sawmill.js";
+import { PlayerOwnedHouseScene } from "./scenes/player-owned-house.js";
 import { DashboardScene } from "./ui/dashboard.js";
 import { ChatScene } from "./ui/chat-window.js";
 import { StatsScene } from "./ui/stats.js";
@@ -57,6 +58,7 @@ let game = new Phaser.Game({
         RuneEssenceMineScene,
         AirAltarScene,
         SawmillScene,
+        PlayerOwnedHouseScene,
         ChatScene,
         DashboardScene,
         Animation,
