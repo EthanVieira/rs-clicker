@@ -262,7 +262,7 @@ export class Enemy extends Target {
         console.log(this.name + " killed, getting " + this.killGold + " extra gold");
 
         // Update quest and stats
-        this.scene.enemyKilled(this.varName);
+        this.scene.enemyKilled(this.questName);
     }
 
     getDamageLevel() {

@@ -12,11 +12,13 @@ export class Obstacle extends ClickableObject {
     height = 0;
     width = 0;
 
+    isStaticTarget = false;
+
     progressBar;
     neededClicks = 0;
     name = "Obstacle";
     skill = "agility";
-    varName = "";
+    questName = "";
 
     stats;
 
@@ -24,7 +26,7 @@ export class Obstacle extends ClickableObject {
         super();
         this.scene = data.scene;
         this.name = data.name;
-        this.varName = data.varName;
+        this.questName = data.questName;
         this.examineText = data.examineText;
         this.actions = data.actions;
         this.requiredLevel = data.requiredLevel;
@@ -92,7 +94,7 @@ export class Obstacle extends ClickableObject {
 
         if (isFinished) {
             characterData.addSkillXp({ agility: this.xpReward });
-            this.scene.enemyKilled(this.varName);
+            this.scene.enemyKilled(this.questName);
         }
     }
 

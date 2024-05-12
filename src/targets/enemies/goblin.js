@@ -24,7 +24,7 @@ export class Goblin extends Enemy {
         super({
             scene: scene,
             name: "Goblin",
-            varName: "goblin",
+            questName: "goblin",
             images: [
                 { name: "goblin", path: "src/assets/sprites/Goblin.png", scale: 0.4 },
             ],

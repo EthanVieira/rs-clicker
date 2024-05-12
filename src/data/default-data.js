@@ -104,7 +104,7 @@ export const defaultData = {
             questCompleted: false,
             unlocked: false,
             enemiesKilled: {
-                bar: 0,
+                bronzeBar: 0,
             },
         },
         AL_KHARID_PALACE: {

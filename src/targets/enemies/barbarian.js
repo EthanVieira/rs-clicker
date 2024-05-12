@@ -26,7 +26,7 @@ export class Barbarian extends Enemy {
         super({
             scene: scene,
             name: "Barbarian",
-            varName: "barbarian",
+            questName: "barbarian",
             images: [
                 {
                     name: "male-barbarian",

@@ -8,7 +8,7 @@ export class TinRock extends Rock {
         super({
             scene: scene,
             name: "Tin Rock",
-            varName: "tinRock",
+            questName: "tinRock",
             images: [
                 { name: "tin-rock", path: "src/assets/sprites/TinRock.png", scale: 1 },
             ],

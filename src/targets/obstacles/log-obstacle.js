@@ -5,7 +5,7 @@ export class LogObstacle extends Obstacle {
         super({
             scene: scene,
             name: "Log Obstacle",
-            varName: "logObstacle",
+            questName: "logObstacle",
             examineText: "A slippery log I can walk across",
             actions: [
                 { text: "Walk Across", func: "clickTarget" },

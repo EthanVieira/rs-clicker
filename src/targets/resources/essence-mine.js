@@ -10,9 +10,12 @@ export class EssenceMine extends ClickableObject {
     progressBar;
     name = "Rune Essence";
     skill = "mining";
-    // only need the varName for updating quest stats
+
+    isStaticTarget = false;
+
+    // only need the questName for updating quest stats
     // and there is only a quest for pure essence
-    varName = "pureEssence";
+    questName = "pureEssence";
     xpReward = 5;
     animation;
     examineText = "The source of all runes.";
@@ -110,7 +113,7 @@ export class EssenceMine extends ClickableObject {
             characterData.addSkillXp({ mining: this.xpReward });
 
             if (canMinePureEssence) {
-                this.scene.enemyKilled(this.varName);
+                this.scene.enemyKilled(this.questName);
             }
         }
     }

@@ -12,7 +12,7 @@ export class SmallNetFishingSpot extends FishingSpot {
         super({
             scene: scene,
             name: "",
-            varName: "smallNetFishingSpot",
+            questName: "smallNetFishingSpot",
             images: [
                 {
                     name: "fishing-spot",

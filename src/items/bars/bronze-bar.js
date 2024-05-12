@@ -6,6 +6,7 @@ export default class BronzeBar extends Bar {
     item = "Bar";
     type = "Bronze";
     examineText = "It's a bar of bronze.";
+    questName = "bronzeBar";
 
     // Other
     cost = 8;

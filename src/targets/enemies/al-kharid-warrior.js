@@ -28,7 +28,7 @@ export class AlKharidWarrior extends Enemy {
         super({
             scene: scene,
             name: "Al Kharid Warrior",
-            varName: "alKharidWarrior",
+            questName: "alKharidWarrior",
             images: [
                 {
                     name: "al-kharid-warrior",

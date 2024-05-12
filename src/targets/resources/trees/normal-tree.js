@@ -8,7 +8,7 @@ export class NormalTree extends Tree {
         super({
             scene: scene,
             name: "Tree",
-            varName: "tree",
+            questName: "tree",
             images: [
                 { name: "tree1", path: "src/assets/sprites/Tree1.png", scale: 0.7 },
                 { name: "tree2", path: "src/assets/sprites/Tree2.png", scale: 0.4 },

@@ -12,6 +12,8 @@ export class TableSpace extends ClickableObject {
         { text: "Examine", func: "examine" },
     ];
 
+    isStaticTarget = true;
+
     validMaterials = new Set(["Plank"]);
 
     constructor(scene) {

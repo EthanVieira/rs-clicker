@@ -10,6 +10,7 @@ export class Target extends ClickableObject {
     name = "";
     drops = [];
     uniqueDrops = [];
+    isStaticTarget = false;
 
     x = 0;
     y = 0;
@@ -54,7 +55,7 @@ export class Target extends ClickableObject {
 
         // Set other vars
         this.name = data.name;
-        this.varName = data.varName;
+        this.questName = data.questName;
         this.drops = data.drops;
         this.uniqueDrops = data.uniqueDrops;
         this.images = data.images;
