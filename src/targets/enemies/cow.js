@@ -29,7 +29,7 @@ export class Cow extends Enemy {
         super({
             scene: scene,
             name: "Cow",
-            varName: "cow",
+            questName: "cow",
             images: [{ name: "cow", path: "src/assets/sprites/Cow.png", scale: 0.4 }],
             maxHealth: 8,
             killGold: 5,

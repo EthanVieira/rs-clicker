@@ -12,6 +12,7 @@ export class CookingFire extends ClickableObject {
         { text: "Examine", func: "examine" },
     ];
 
+    isStaticTarget = true;
     validRawMaterials = new Set(["Raw Shrimps", "Raw Anchovies"]);
     validCookedMaterials = new Set(["Shrimps", "Anchovies"]);
 

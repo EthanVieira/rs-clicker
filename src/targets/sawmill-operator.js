@@ -11,6 +11,8 @@ export class SawmillOperator extends ClickableObject {
         { text: "Examine", func: "examine" },
     ];
 
+    isStaticTarget = true;
+
     validMaterialsToCostMap = { Logs: 100 };
 
     constructor(scene) {

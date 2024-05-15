@@ -29,7 +29,7 @@ export class Guard extends Enemy {
         super({
             scene: scene,
             name: "Guard",
-            varName: "guard",
+            questName: "guard",
             images: [{ name: "guard", path: "src/assets/sprites/Guard.png", scale: 0.4 }],
             maxHealth: 22,
             killGold: 15,

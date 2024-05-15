@@ -16,7 +16,7 @@ export class GiantRat extends Enemy {
         super({
             scene: scene,
             name: "Giant Rat",
-            varName: "giantRat",
+            questName: "giantRat",
             images: [
                 {
                     name: "giant-rat",

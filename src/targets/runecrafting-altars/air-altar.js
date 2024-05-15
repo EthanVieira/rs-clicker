@@ -5,7 +5,7 @@ export class AirAltar extends RunecraftingAltar {
         super({
             scene: scene,
             name: "Air Altar",
-            varName: "airRune",
+            questName: "airRune",
             altarType: "Air",
             needsPureEssence: false,
             numRunesPerEssenceLvlThreshold: 11,

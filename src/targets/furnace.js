@@ -6,12 +6,13 @@ import { getItemClass } from "../utilities.js";
 
 export class Furnace extends ClickableObject {
     name = "Furnace";
-    varName = "bar"; // Use # bars forged as quest
     examineText = "A red hot furnace.";
     actions = [
         { text: "Forge", func: "clickTarget" },
         { text: "Examine", func: "examine" },
     ];
+
+    isStaticTarget = true;
 
     validMaterials = new Set(["Copper Ore", "Tin Ore"]);
 
@@ -88,7 +89,7 @@ export class Furnace extends ClickableObject {
                 // Log click for stats
                 this.scene.stats.updateClickedTargetStat();
                 characterData.addSkillXp({ smithing: bar.xp });
-                this.scene.enemyKilled("bar");
+                this.scene.enemyKilled(bar.questName);
 
                 // Show smelt animation
                 this.scene.scene.get(CONSTANTS.SCENES.ANIMATION).clickAnimation({

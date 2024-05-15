@@ -8,7 +8,7 @@ export class CopperRock extends Rock {
         super({
             scene: scene,
             name: "Copper Rock",
-            varName: "copperRock",
+            questName: "copperRock",
             images: [
                 {
                     name: "copper-rock",

@@ -19,7 +19,7 @@ export class DarkWizard extends Enemy {
         super({
             scene: scene,
             name: "Dark Wizard",
-            varName: "darkWizard",
+            questName: "darkWizard",
             images: [
                 {
                     name: "dark-wizard",

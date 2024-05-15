@@ -24,7 +24,7 @@ export class LevelScene extends Phaser.Scene {
     levelType = "";
     resourceType = "";
     // For enemy levels
-    // varName: amount
+    // questName: amount
     // giantRat: 10
     questAmounts = {};
     // The number of quest points awarded for completing a level
@@ -172,18 +172,31 @@ export class LevelScene extends Phaser.Scene {
         if (enemiesKilled <= maxKillCount) {
             if (!characterData.getQuestCompleted(this.currentLevel)) {
                 // Check for level completion.
-                const questCompleted = this.targets.every(
-                    (enemy) =>
-                        // A level is considered complete when
-                        // all of the tier 1 (index 0) quests are complete.
-                        // TODO: this doesn't work for resource-consuming targets
-                        // that use different resources to create different things
-                        enemy.varName &&
-                        characterData.getEnemiesKilled(
-                            this.currentLevel,
-                            enemy.varName
-                        ) >= this.questAmounts[enemy.varName][0]
-                );
+                const questCompleted = this.targets.every((target) => {
+                    // A level is considered complete when
+                    // all of the tier 1 (index 0) quests are complete.
+
+                    // Static targets can affect multiple different quests.
+                    // e.g. an anvil target will never change (i.e. no progress bar and no target switching)
+                    // and it will affect different quests for creating different items
+                    if (target.isStaticTarget) {
+                        return this.questAmounts.every(
+                            (quest) =>
+                                characterData.getEnemiesKilled(
+                                    this.currentLevel,
+                                    quest
+                                ) >= this.questAmounts[quest][0]
+                        );
+                    } else {
+                        return (
+                            target.questName &&
+                            characterData.getEnemiesKilled(
+                                this.currentLevel,
+                                target.questName
+                            ) >= this.questAmounts[target.questName][0]
+                        );
+                    }
+                });
 
                 // Set as complete if all passed
                 if (questCompleted) {

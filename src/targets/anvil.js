@@ -8,13 +8,14 @@ import { SmithingModalWindow } from "../ui/modals/smithing-modal-window.js";
 
 export class Anvil extends ClickableObject {
     name = "Anvil";
-    varName = "bronzeDagger"; // Use # bronze daggers forged as quest
     examineText = "Used for fashioning metal items.";
     actions = [
         { text: "Forge", func: "clickTarget" },
         { text: "Choose", func: "selectRecipe" },
         { text: "Examine", func: "examine" },
     ];
+
+    isStaticTarget = true;
 
     validMaterials = new Set();
     modalWindow;
