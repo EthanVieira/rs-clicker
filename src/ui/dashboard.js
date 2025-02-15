@@ -11,6 +11,7 @@ import { Prayer } from "./panels/prayer.js";
 import { Settings } from "./panels/settings.js";
 import { AttackStyle } from "./panels/attack-style.js";
 import { Friends } from "./panels/friends.js";
+import { Spellbook } from "./panels/spellbook.js";
 
 export class DashboardScene extends Phaser.Scene {
     currentScene;
@@ -28,6 +29,7 @@ export class DashboardScene extends Phaser.Scene {
     clan;
     music;
     friends;
+    spellbook;
 
     xpCounterOn = true;
     xpCounterOnButton;
@@ -93,6 +95,7 @@ export class DashboardScene extends Phaser.Scene {
         this.music = new MusicPanel(this);
         this.attackStyle = new AttackStyle(this);
         this.friends = new Friends(this);
+        this.spellbook = new Spellbook(this);
     }
 
     update(time, delta) {
@@ -110,5 +113,6 @@ export class DashboardScene extends Phaser.Scene {
         this.inventory.setVisible(false);
         this.attackStyle.setVisible(false);
         this.friends.setVisible(false);
+        this.spellbook.setVisible(false);
     }
 }

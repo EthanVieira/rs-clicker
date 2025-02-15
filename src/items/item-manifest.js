@@ -125,6 +125,18 @@ export const itemManifest = {
         imageName: "copper-ore",
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
     },
+    EarthRune: {
+        classPath: "./runes/earth-rune.js",
+        imagePath: "runes/EarthRune.png",
+        imageName: "earth-rune",
+        type: CONSTANTS.ITEM_TYPES.RUNE,
+    },
+    FireRune: {
+        classPath: "./runes/fire-rune.js",
+        imagePath: "runes/FireRune.png",
+        imageName: "fire-rune",
+        type: CONSTANTS.ITEM_TYPES.RUNE,
+    },
     Hammer: {
         classPath: "./tools/hammer.js",
         imagePath: "tools/Hammer.png",
@@ -142,6 +154,12 @@ export const itemManifest = {
         imagePath: "weapons/MagicStaff.png",
         imageName: "magic-staff",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
+    MindRune: {
+        classPath: "./runes/mind-rune.js",
+        imagePath: "runes/MindRune.png",
+        imageName: "mind-rune",
+        type: CONSTANTS.ITEM_TYPES.RUNE,
     },
     NormalShortbow: {
         classPath: "./equipment/bows/normal-shortbow.js",
@@ -273,5 +291,11 @@ export const itemManifest = {
         imagePath: "resources/TinOre.png",
         imageName: "tin-ore",
         type: CONSTANTS.ITEM_TYPES.RESOURCE,
+    },
+    WaterRune: {
+        classPath: "./runes/water-rune.js",
+        imagePath: "runes/WaterRune.png",
+        imageName: "water-rune",
+        type: CONSTANTS.ITEM_TYPES.RUNE,
     },
 };

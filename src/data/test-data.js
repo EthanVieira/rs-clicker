@@ -52,6 +52,13 @@ constructionTestData["inventory"].push({ item: "NormalLogs", count: 42069 });
 constructionTestData["inventory"].push({ item: "NormalPlank", count: 42069 });
 constructionTestData["currentLevel"] = CONSTANTS.SCENES.PLAYER_OWNED_HOUSE;
 // ---------------------------------------------------------------------
+const magicTestData = JSON.parse(JSON.stringify(generalTestData));
+magicTestData["inventory"].push({ item: "AirRune", count: 42069 });
+magicTestData["inventory"].push({ item: "WaterRune", count: 42069 });
+magicTestData["inventory"].push({ item: "EarthRune", count: 42069 });
+magicTestData["inventory"].push({ item: "FireRune", count: 42069 });
+magicTestData["inventory"].push({ item: "MindRune", count: 42069 });
+// ---------------------------------------------------------------------
 export const dataMap = {
     "new-game": defaultData,
     "all-levels": allLevelsUnlockedData,
@@ -64,5 +71,6 @@ export const dataMap = {
     firemaking: firemakingTestData,
     runecrafting: runecraftingTestData,
     construction: constructionTestData,
+    magic: magicTestData,
     rich: richData,
 };

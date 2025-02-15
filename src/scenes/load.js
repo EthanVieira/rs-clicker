@@ -1,4 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
+import { SPELL_MANIFEST } from "../spell-manifest.js";
 import { characterData } from "../cookie-io.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
@@ -135,11 +136,27 @@ export class LoadScene extends Phaser.Scene {
         );
         this.load.image("music-panel", "src/assets/ui/MusicPanel.png");
         this.load.image("music-button", "src/assets/ui/buttons/MusicButton.png");
-        this.load.image("right-click-menu-2", "src/assets/ui/RightClickMenu_2.png");
-        this.load.image("right-click-menu-3", "src/assets/ui/RightClickMenu_3.png");
-        this.load.image("right-click-menu-4", "src/assets/ui/RightClickMenu_4.png");
-        this.load.image("right-click-menu-5", "src/assets/ui/RightClickMenu_5.png");
-        this.load.image("right-click-menu-6", "src/assets/ui/RightClickMenu_6.png");
+
+        this.load.image("spellbook-panel", "src/assets/ui/SpellbookPanel.png");
+        this.load.image("spellbook-button", "src/assets/ui/buttons/SpellbookButton.png");
+
+        for (const spell in SPELL_MANIFEST.NormalSpellbook) {
+            const spellManifest = SPELL_MANIFEST.NormalSpellbook[spell];
+            spellManifest.imageNames.forEach((iconName, i) =>
+                this.load.image(
+                    iconName,
+                    "src/assets/ui/icons/spells/" + spellManifest.imagePaths[i]
+                )
+            );
+        }
+
+        for (let i = 2; i <= 6; i++) {
+            this.load.image(
+                `right-click-menu-${i}`,
+                `src/assets/ui/RightClickMenu_${i}.png`
+            );
+        }
+
         this.load.image("scroll-background", "src/assets/ui/ScrollBackground.png");
         this.load.image("scroll-header", "src/assets/ui/ScrollHeader.png");
         this.load.image("scroll-footer", "src/assets/ui/ScrollFooter.png");

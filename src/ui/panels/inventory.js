@@ -236,8 +236,12 @@ export class Inventory {
     }
 
     getNumItems(item) {
-        const i = this.getInventoryIndex(item.constructor.name);
-        return i >= 0 ? this.inventory[i].numItems : 0;
+        getNumItemsByName(item.constructor.name);
+    }
+
+    getNumItemsByName(itemName) {
+        const i = this.getInventoryIndex(itemName);
+        return (i >= 0 && this.inventory[i]) ? this.inventory[i].numItems : 0;
     }
 
     // Add to first available slot
