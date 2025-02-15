@@ -7,7 +7,7 @@ export const AVAILABLE_INDEX = 0;
 export const UNAVAILABLE_INDEX = 1;
 
 export const SPELL_MANIFEST = {
-    NormalSpellbook: {
+    StandardSpellbook: {
         WindStrike: {
             imagePaths: ["WindStrike.png", "WindStrikeUnavailable.png"],
             imageNames: ["wind-strike", "wind-strike-unavailable"],

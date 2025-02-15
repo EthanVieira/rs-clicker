@@ -35,7 +35,7 @@ export class Spellbook {
         // TODO: handle y dif when we have more spells
         const xDif = 30;
 
-        Object.values(SPELL_MANIFEST.NormalSpellbook).forEach((spell, i) => {
+        Object.values(SPELL_MANIFEST.StandardSpellbook).forEach((spell, i) => {
             spell.imageNames.forEach((iconName, j) => {
                 this.spells[iconName] = this.dashboard.add
                     .image(560 + xDif * i, 213, iconName)
@@ -51,7 +51,7 @@ export class Spellbook {
     }
 
     refreshSpells(isVisible = true) {
-        Object.values(SPELL_MANIFEST.NormalSpellbook).forEach((spell) => {
+        Object.values(SPELL_MANIFEST.StandardSpellbook).forEach((spell) => {
             const hasRunes = Object.keys(spell.requiredRunes).every((rune) => {
                 return (
                     this.dashboard.inventory.getNumItemsByName(rune) >=

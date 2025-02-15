@@ -140,8 +140,8 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("spellbook-panel", "src/assets/ui/SpellbookPanel.png");
         this.load.image("spellbook-button", "src/assets/ui/buttons/SpellbookButton.png");
 
-        for (const spell in SPELL_MANIFEST.NormalSpellbook) {
-            const spellManifest = SPELL_MANIFEST.NormalSpellbook[spell];
+        for (const spell in SPELL_MANIFEST.StandardSpellbook) {
+            const spellManifest = SPELL_MANIFEST.StandardSpellbook[spell];
             spellManifest.imageNames.forEach((iconName, i) =>
                 this.load.image(
                     iconName,
