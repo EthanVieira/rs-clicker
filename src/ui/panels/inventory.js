@@ -236,7 +236,7 @@ export class Inventory {
     }
 
     getNumItems(item) {
-        getNumItemsByName(item.constructor.name);
+        this.getNumItemsByName(item.constructor.name);
     }
 
     getNumItemsByName(itemName) {
