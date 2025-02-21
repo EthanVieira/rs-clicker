@@ -116,6 +116,7 @@ export const EQUIPMENT = {
         MELEE: "MELEE",
         RANGED: "RANGED",
         MAGIC: "MAGIC",
+        UNARMED: "UNARMED"
     },
     SLOTS: {
         HEAD: "HEAD",

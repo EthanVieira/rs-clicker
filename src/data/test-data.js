@@ -58,6 +58,10 @@ magicTestData["inventory"].push({ item: "WaterRune", count: 42069 });
 magicTestData["inventory"].push({ item: "EarthRune", count: 42069 });
 magicTestData["inventory"].push({ item: "FireRune", count: 42069 });
 magicTestData["inventory"].push({ item: "MindRune", count: 42069 });
+magicTestData["inventory"].push({ item: "AirStaff", count: 1 });
+magicTestData["inventory"].push({ item: "WaterStaff", count: 1 });
+magicTestData["inventory"].push({ item: "EarthStaff", count: 1 });
+magicTestData["inventory"].push({ item: "FireStaff", count: 1 });
 // ---------------------------------------------------------------------
 export const dataMap = {
     "new-game": defaultData,
