@@ -89,6 +89,7 @@ export const CONSTANTS = {
         CLAN: "CLAN",
         ATTACK_STYLE: "ATTACK_STYLE",
         FRIENDS: "FRIENDS",
+        SPELLBOOK: "SPELLBOOK",
     },
     LIMITS: {
         MAX_LEVEL: 99,

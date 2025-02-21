@@ -22,8 +22,8 @@ export class TableSpace extends ClickableObject {
 
         const cameraWidth = scene.cameras.main.width;
         const cameraHeight = scene.cameras.main.height;
-        const width = 230;
-        const height = 230;
+        const width = 250;
+        const height = 275;
         const x = cameraWidth / 2 - width;
         const y = cameraHeight / 2 - 100;
 

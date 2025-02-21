@@ -12,7 +12,7 @@ export class Animation extends Phaser.Scene {
         for (const skill in characterData.getSkills()) {
             this.load.image(
                 skill + "Icon",
-                "src/assets/ui/icons/" + capitalize(skill) + ".png"
+                "src/assets/ui/icons/skills/" + capitalize(skill) + ".png"
             );
         }
     }
