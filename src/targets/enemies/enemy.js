@@ -263,6 +263,27 @@ export class Enemy extends Target {
     }
 
     onClick(hitValue) {
+        // consume runes if using magic
+        if (this.getSkill() == EQUIPMENT.WEAPON_TYPES.MAGIC) {
+            const weapon = this.scene.dashboard.equipment.equipment.WEAPON;
+            const staffType = weapon && weapon.item == "Staff" ? weapon.type : "None";
+            const spell =
+                SPELL_MANIFEST.StandardSpellbook[
+                    dashToPascalCase(this.scene.dashboard.spellbook.selectedSpell)
+                ];
+
+            Object.keys(spell.requiredRunes).forEach((rune) => {
+                if (!rune.startsWith(staffType)) {
+                    this.scene.dashboard.inventory.removeNFromInventoryByName(
+                        rune,
+                        spell.requiredRunes[rune]
+                    );
+                }
+            });
+
+            this.scene.dashboard.spellbook.refreshSpells();
+        }
+
         // Get bonus gold for using mouseclick to encourage user interaction
         this.scene.dashboard.inventory.addGold(hitValue);
 

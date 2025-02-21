@@ -17,6 +17,7 @@ export class Spellbook {
     spells = {};
     selectedSpell = "None";
     selectedRectangle;
+    isVisible = false;
 
     constructor(dashboard) {
         this.dashboard = dashboard;
@@ -85,7 +86,7 @@ export class Spellbook {
         this.selectedRectangle.setVisible(false);
     }
 
-    refreshSpells(isVisible = true) {
+    refreshSpells() {
         Object.values(SPELL_MANIFEST.StandardSpellbook).forEach((spell) => {
             let isSpellAvailable = false;
             const availableName = spell.imageNames[AVAILABLE_INDEX];
@@ -110,14 +111,14 @@ export class Spellbook {
             }
 
             if (isSpellAvailable) {
-                this.spells[availableName][BUTTON_INDEX].setVisible(isVisible);
+                this.spells[availableName][BUTTON_INDEX].setVisible(this.isVisible);
                 this.spells[unavailableName][BUTTON_INDEX].setVisible(false);
             } else {
                 if (this.selectedSpell == availableName) {
                     this.unselectSpell();
                 }
                 this.spells[availableName][BUTTON_INDEX].setVisible(false);
-                this.spells[unavailableName][BUTTON_INDEX].setVisible(isVisible);
+                this.spells[unavailableName][BUTTON_INDEX].setVisible(this.isVisible);
             }
             this.spells[availableName][AVAILABILITY_INDEX] = isSpellAvailable;
         });
@@ -136,6 +137,7 @@ export class Spellbook {
             this.selectedRectangle.setVisible(false);
         }
         this.panel.visible = isVisible;
-        this.refreshSpells(isVisible);
+        this.isVisible = isVisible;
+        this.refreshSpells();
     }
 }
