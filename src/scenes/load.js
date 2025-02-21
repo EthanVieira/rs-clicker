@@ -3,7 +3,7 @@ import { AVAILABLE_INDEX, SPELL_MANIFEST } from "../spell-manifest.js";
 import { characterData } from "../cookie-io.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
-import { dashToPascalCase, setItemClass } from "../utilities.js";
+import { setItemClass } from "../utilities.js";
 
 export class LoadScene extends Phaser.Scene {
     // Loading bar info
@@ -151,7 +151,7 @@ export class LoadScene extends Phaser.Scene {
                 if (i == AVAILABLE_INDEX) {
                     this.load.image(
                         iconName + "-effect",
-                        "src/assets/effects/spells/" + dashToPascalCase(iconName) + ".png"
+                        "src/assets/effects/spells/" + spellManifest.imagePaths[i]
                     );
                 }
             });
