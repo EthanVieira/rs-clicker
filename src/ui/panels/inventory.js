@@ -241,7 +241,7 @@ export class Inventory {
 
     getNumItemsByName(itemName) {
         const i = this.getInventoryIndex(itemName);
-        return (i >= 0 && this.inventory[i]) ? this.inventory[i].numItems : 0;
+        return i >= 0 && this.inventory[i] ? this.inventory[i].numItems : 0;
     }
 
     // Add to first available slot
@@ -289,6 +289,18 @@ export class Inventory {
     addNToInventory(item, amount) {
         item.numItems = Math.min(amount, CONSTANTS.LIMITS.MAX_ITEM_STACK);
         return this.addToInventory(item);
+    }
+
+    removeNFromInventoryByName(itemName, amount) {
+        let removed = false;
+        // currently all items are stackable, but need to extend this if we change that
+        let i = this.getInventoryIndex(itemName);
+        if (i >= 0) {
+            const curItem = this.inventory[i];
+            curItem.setNumItems(Math.max(curItem.numItems - amount, 0));
+            removed = true;
+        }
+        return removed;
     }
 
     addGold(amount) {

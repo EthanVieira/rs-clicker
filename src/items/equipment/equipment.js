@@ -53,7 +53,7 @@ export default class Equipment extends Item {
 
     async equip() {
         if (!this.equipped) {
-            if (this.checkRequiredLevel()) {
+            if (this.checkRequiredLevels()) {
                 console.log("Equipping", this.name);
 
                 // Move item into equipment
@@ -132,14 +132,12 @@ export default class Equipment extends Item {
         console.log("use", this.name);
     }
 
-    checkRequiredLevel() {
-        // TODO: when we have items that require strength levels, will need to update this
-        const skill =
-            this.skill == EQUIPMENT.WEAPON_TYPES.MELEE
-                ? "attack"
-                : getRequiredCombatSkill(this.skill);
-
-        return calcLevel(characterData.getSkillXp(skill)) >= this.requiredLevels[skill];
+    checkRequiredLevels() {
+        return Object.keys(this.requiredLevels).every((skill) => {
+            return (
+                calcLevel(characterData.getSkillXp(skill)) >= this.requiredLevels[skill]
+            );
+        });
     }
 
     getAnimation() {

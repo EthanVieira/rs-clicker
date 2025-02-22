@@ -131,11 +131,23 @@ export const itemManifest = {
         imageName: "earth-rune",
         type: CONSTANTS.ITEM_TYPES.RUNE,
     },
+    EarthStaff: {
+        classPath: "./equipment/staves/earth-staff.js",
+        imagePath: "weapons/EarthStaff.png",
+        imageName: "earth-staff",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
+    },
     FireRune: {
         classPath: "./runes/fire-rune.js",
         imagePath: "runes/FireRune.png",
         imageName: "fire-rune",
         type: CONSTANTS.ITEM_TYPES.RUNE,
+    },
+    FireStaff: {
+        classPath: "./equipment/staves/fire-staff.js",
+        imagePath: "weapons/FireStaff.png",
+        imageName: "fire-staff",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
     Hammer: {
         classPath: "./tools/hammer.js",
@@ -297,5 +309,11 @@ export const itemManifest = {
         imagePath: "runes/WaterRune.png",
         imageName: "water-rune",
         type: CONSTANTS.ITEM_TYPES.RUNE,
+    },
+    WaterStaff: {
+        classPath: "./equipment/staves/water-staff.js",
+        imagePath: "weapons/WaterStaff.png",
+        imageName: "water-staff",
+        type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
 };

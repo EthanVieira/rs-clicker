@@ -78,6 +78,20 @@ export function prettyPrintConstant(str) {
     return resultStr;
 }
 
+// Transforms varrock-mine -> VarrockMine
+export function dashToPascalCase(str) {
+    let resultStr = "";
+    for (let i = 0; i < str.length; i++) {
+        if (i == 0 || str.charAt(i - 1) == "-") {
+            resultStr += str.charAt(i).toUpperCase();
+        } else {
+            resultStr += str.charAt(i).toLowerCase();
+        }
+    }
+
+    return resultStr.replaceAll("-", "");
+}
+
 // Transforms newbie-melody -> Newbie Melody
 export function prettyPrintDash(str) {
     const spaceStr = str.replaceAll("-", " ");

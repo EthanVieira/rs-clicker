@@ -1,5 +1,5 @@
 import { CONSTANTS } from "../constants/constants.js";
-import { SPELL_MANIFEST } from "../spell-manifest.js";
+import { AVAILABLE_INDEX, SPELL_MANIFEST } from "../spell-manifest.js";
 import { characterData } from "../cookie-io.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
@@ -142,12 +142,19 @@ export class LoadScene extends Phaser.Scene {
 
         for (const spell in SPELL_MANIFEST.StandardSpellbook) {
             const spellManifest = SPELL_MANIFEST.StandardSpellbook[spell];
-            spellManifest.imageNames.forEach((iconName, i) =>
+            spellManifest.imageNames.forEach((iconName, i) => {
                 this.load.image(
                     iconName,
                     "src/assets/ui/icons/spells/" + spellManifest.imagePaths[i]
-                )
-            );
+                );
+
+                if (i == AVAILABLE_INDEX) {
+                    this.load.image(
+                        iconName + "-effect",
+                        "src/assets/effects/spells/" + spellManifest.imagePaths[i]
+                    );
+                }
+            });
         }
 
         for (let i = 2; i <= 6; i++) {
@@ -214,7 +221,6 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("fist", "src/assets/effects/Fist.png");
         this.load.image("bronze-arrow", "src/assets/effects/BronzeArrow.png");
         this.load.image("bronze-bolt", "src/assets/effects/BronzeBolt.png");
-        this.load.image("fire-bolt", "src/assets/effects/FireBolt.png");
         this.load.image("furnace-hands", "src/assets/effects/FurnaceHands.png");
         this.load.image("hammer-hand", "src/assets/effects/HammerHand.png");
     }

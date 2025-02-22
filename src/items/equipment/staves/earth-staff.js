@@ -1,10 +1,10 @@
 import Staff from "./staff.js";
 
-export default class AirStaff extends Staff {
+export default class EarthStaff extends Staff {
     // Attack bonuses
-    stabBonus = 0;
+    stabBonus = 1;
     slashBonus = -1;
-    crushBonus = 7;
+    crushBonus = 9;
     magicBonus = 10;
 
     // defence bonuses
@@ -14,13 +14,13 @@ export default class AirStaff extends Staff {
     magicdefenceBonus = 10;
 
     // Other
-    strengthBonus = 3;
+    strengthBonus = 5;
     magicStrengthBonus = 0;
 
     // Text data
-    name = "Staff of air";
+    name = "Staff of earth";
     item = "Staff";
-    type = "Air";
+    type = "Earth";
     examineText = "A Magical staff.";
 
     // Other
