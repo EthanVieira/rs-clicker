@@ -9,11 +9,11 @@ export class BarbarianVillageScene extends LevelScene {
             key: CONSTANTS.SCENES.BARBARIAN_VILLAGE,
             background: {
                 name: "barbarian-village",
-                path: "src/assets/backgrounds/BarbarianVillageBackground.png",
+                path: "assets/backgrounds/BarbarianVillageBackground.png",
             },
             minimap: {
                 name: "barbarian-village-map",
-                path: "src/assets/maps/BarbarianVillageMap.png",
+                path: "assets/maps/BarbarianVillageMap.png",
             },
             targets: [Barbarian],
             questAmounts: {

@@ -9,11 +9,11 @@ export class VarrockAnvilScene extends LevelScene {
             key: CONSTANTS.SCENES.VARROCK_ANVIL,
             background: {
                 name: "varrock-anvil",
-                path: "src/assets/backgrounds/VarrockAnvilBackground.png",
+                path: "assets/backgrounds/VarrockAnvilBackground.png",
             },
             minimap: {
                 name: "varrock-anvil-map",
-                path: "src/assets/maps/VarrockAnvilMap.png",
+                path: "assets/maps/VarrockAnvilMap.png",
             },
             targets: [Anvil],
             questAmounts: {

@@ -9,11 +9,11 @@ export class AlKharidPalaceScene extends LevelScene {
             key: CONSTANTS.SCENES.AL_KHARID_PALACE,
             background: {
                 name: "al-kharid-palace",
-                path: "src/assets/backgrounds/AlKharidPalaceBackground.png",
+                path: "assets/backgrounds/AlKharidPalaceBackground.png",
             },
             minimap: {
                 name: "al-kharid-palace-map",
-                path: "src/assets/maps/AlKharidPalaceMap.png",
+                path: "assets/maps/AlKharidPalaceMap.png",
             },
             targets: [AlKharidWarrior],
             questAmounts: {

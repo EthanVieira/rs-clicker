@@ -11,11 +11,11 @@ export class Goblin extends Enemy {
     ranged = 1;
 
     // defences
-    stabdefence = -15;
-    slashdefence = -15;
-    crushdefence = -15;
-    magicdefence = -15;
-    rangeddefence = -15;
+    stabDefence = -15;
+    slashDefence = -15;
+    crushDefence = -15;
+    magicDefence = -15;
+    rangedDefence = -15;
 
     // Text
     examineText = "An ugly green creature.";
@@ -25,9 +25,7 @@ export class Goblin extends Enemy {
             scene: scene,
             name: "Goblin",
             questName: "goblin",
-            images: [
-                { name: "goblin", path: "src/assets/sprites/Goblin.png", scale: 0.4 },
-            ],
+            images: [{ name: "goblin", path: "assets/sprites/Goblin.png", scale: 0.4 }],
             maxHealth: 5,
             killGold: 3,
             drops: [

@@ -16,8 +16,8 @@ export class Barbarian extends Enemy {
     strengthBonus = 10;
 
     // defence
-    stabdefence = 1;
-    slashdefence = 1;
+    stabDefence = 1;
+    slashDefence = 1;
 
     // Text
     examineText = "Wotan, a sturdy barbarian warrior.";
@@ -30,12 +30,12 @@ export class Barbarian extends Enemy {
             images: [
                 {
                     name: "male-barbarian",
-                    path: "src/assets/sprites/MaleBarbarian.png",
+                    path: "assets/sprites/MaleBarbarian.png",
                     scale: 0.4,
                 },
                 {
                     name: "female-barbarian",
-                    path: "src/assets/sprites/FemaleBarbarian.png",
+                    path: "assets/sprites/FemaleBarbarian.png",
                     scale: 0.4,
                 },
             ],

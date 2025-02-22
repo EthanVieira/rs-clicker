@@ -9,11 +9,11 @@ export class AirAltarScene extends LevelScene {
             key: CONSTANTS.SCENES.AIR_ALTAR,
             background: {
                 name: "air-altar",
-                path: "src/assets/backgrounds/AirAltarBackground.png",
+                path: "assets/backgrounds/AirAltarBackground.png",
             },
             minimap: {
                 name: "air-altar-map",
-                path: "src/assets/maps/AirAltarMap.png",
+                path: "assets/maps/AirAltarMap.png",
             },
             targets: [AirAltar],
             questAmounts: {

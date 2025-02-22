@@ -10,11 +10,11 @@ export class DraynorFishingScene extends LevelScene {
             key: CONSTANTS.SCENES.DRAYNOR_FISHING,
             background: {
                 name: "draynor-fishing",
-                path: "src/assets/backgrounds/DraynorFishingBackground.png",
+                path: "assets/backgrounds/DraynorFishingBackground.png",
             },
             minimap: {
                 name: "draynor-fishing-map",
-                path: "src/assets/maps/DraynorFishingMap.png",
+                path: "assets/maps/DraynorFishingMap.png",
             },
             targets: [SmallNetFishingSpot],
             questAmounts: { smallNetFishingSpot: [10, 100, 1000] },

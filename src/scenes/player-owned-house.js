@@ -9,11 +9,11 @@ export class PlayerOwnedHouseScene extends LevelScene {
             key: CONSTANTS.SCENES.PLAYER_OWNED_HOUSE,
             background: {
                 name: "player-owned-house",
-                path: "src/assets/backgrounds/PlayerOwnedHouseBackground.png",
+                path: "assets/backgrounds/PlayerOwnedHouseBackground.png",
             },
             minimap: {
                 name: "player-owned-house-map",
-                path: "src/assets/maps/PlayerOwnedHouseMap.png",
+                path: "assets/maps/PlayerOwnedHouseMap.png",
             },
             targets: [TableSpace],
             questAmounts: {

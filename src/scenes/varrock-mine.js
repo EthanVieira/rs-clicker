@@ -11,11 +11,11 @@ export class VarrockMineScene extends LevelScene {
             key: CONSTANTS.SCENES.VARROCK_MINE,
             background: {
                 name: "varrock-mine",
-                path: "src/assets/backgrounds/VarrockMineBackground.png",
+                path: "assets/backgrounds/VarrockMineBackground.png",
             },
             minimap: {
                 name: "varrock-mine-map",
-                path: "src/assets/maps/VarrockMineMap.png",
+                path: "assets/maps/VarrockMineMap.png",
             },
             targets: [TinRock, CopperRock],
             questAmounts: {

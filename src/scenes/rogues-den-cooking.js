@@ -9,11 +9,11 @@ export class RoguesDenCookingScene extends LevelScene {
             key: CONSTANTS.SCENES.ROGUES_DEN_COOKING,
             background: {
                 name: "rogues-den-cooking",
-                path: "src/assets/backgrounds/RoguesDenCookingBackground.png",
+                path: "assets/backgrounds/RoguesDenCookingBackground.png",
             },
             minimap: {
                 name: "rogues-den-cooking-map",
-                path: "src/assets/maps/RoguesDenCookingMap.png",
+                path: "assets/maps/RoguesDenCookingMap.png",
             },
             targets: [CookingFire],
             questAmounts: {

@@ -29,11 +29,11 @@ export class Enemy extends Target {
     rangedStrengthBonus = 0;
 
     // defences
-    stabdefence = 0;
-    slashdefence = 0;
-    crushdefence = 0;
-    magicdefence = 0;
-    rangeddefence = 0;
+    stabDefence = 0;
+    slashDefence = 0;
+    crushDefence = 0;
+    magicDefence = 0;
+    rangedDefence = 0;
 
     actions = [
         { text: "Attack", func: "clickTarget" },
@@ -109,7 +109,9 @@ export class Enemy extends Target {
 
         if (this.getSkill() == EQUIPMENT.WEAPON_TYPES.MAGIC) {
             return {
-                imageName: this.scene.dashboard.spellbook.selectedSpell + "-effect",
+                imageName:
+                    this.scene.dashboard.spellbook.getCurrentSelectedSpellName() +
+                    "-effect",
                 startX: 470,
                 startY: 350,
                 scale: 0.5,
@@ -134,13 +136,9 @@ export class Enemy extends Target {
 
     getSkill() {
         const weapon = this.scene.dashboard.equipment.equipment.WEAPON;
-        const spellSelected = this.scene.dashboard.spellbook.selectedSpell;
         let skill = EQUIPMENT.WEAPON_TYPES.UNARMED;
 
-        if (
-            spellSelected != "None" &&
-            SPELL_MANIFEST.StandardSpellbook[dashToPascalCase(spellSelected)]
-        ) {
+        if (this.scene.dashboard.spellbook.getCurrentSelectedSpell()) {
             skill = EQUIPMENT.WEAPON_TYPES.MAGIC;
         } else if (weapon) {
             skill = weapon.skill;
@@ -157,8 +155,6 @@ export class Enemy extends Target {
         let skill = this.getSkill();
 
         // Get damage based on level
-        // Normally for melee you would use strength for damage and attack for accuracy
-        // But for now we'll use attack for both
         const damageLevel = this.getDamageLevel(skill);
         const accuracyLevel = this.getAccuracyLevel(skill);
 
@@ -173,34 +169,34 @@ export class Enemy extends Target {
                     equipmentStrength = weapon.magicStrengthBonus;
                 }
 
-                enemyBonus = this.magicdefence;
+                enemyBonus = this.magicDefence;
                 break;
             case EQUIPMENT.WEAPON_TYPES.RANGED:
                 equipmentAttack = weapon.rangedBonus;
                 equipmentStrength = weapon.rangedStrengthBonus;
-                enemyBonus = this.rangeddefence;
+                enemyBonus = this.rangedDefence;
                 break;
             case EQUIPMENT.WEAPON_TYPES.MELEE: {
                 equipmentStrength = weapon.strengthBonus;
                 switch (weapon.style) {
                     case EQUIPMENT.ATTACK_STYLE.STAB:
                         equipmentAttack = weapon.stabBonus;
-                        enemyBonus = this.stabdefence;
+                        enemyBonus = this.stabDefence;
                         break;
                     case EQUIPMENT.ATTACK_STYLE.SLASH:
                         equipmentAttack = weapon.slashBonus;
-                        enemyBonus = this.slashdefence;
+                        enemyBonus = this.slashDefence;
                         break;
                     case EQUIPMENT.ATTACK_STYLE.CRUSH:
                         equipmentAttack = weapon.crushBonus;
-                        enemyBonus = this.crushdefence;
+                        enemyBonus = this.crushDefence;
                         break;
                 }
                 break;
             }
             // Unarmed uses crush type attack
             default:
-                enemyBonus = this.crushdefence;
+                enemyBonus = this.crushDefence;
                 break;
         }
 
@@ -214,12 +210,20 @@ export class Enemy extends Target {
             Math.floor((damageLevel + potBonus) * prayerCoeff) + styleBonus;
 
         // Get max hit
-        let maxHit = Math.floor(
-            1.3 +
-                effectiveDamageLevel / 10 +
-                equipmentStrength / 80 +
-                (effectiveDamageLevel * equipmentStrength) / 640
-        );
+        let maxHit = 0;
+        if (skill == EQUIPMENT.WEAPON_TYPES.MAGIC) {
+            const spell = this.scene.dashboard.spellbook.getCurrentSelectedSpell();
+            if (spell) {
+                maxHit = spell.baseMaxHit;
+            }
+        } else {
+            maxHit = Math.floor(
+                1.3 +
+                    effectiveDamageLevel / 10 +
+                    equipmentStrength / 80 +
+                    (effectiveDamageLevel * equipmentStrength) / 640
+            );
+        }
 
         // Check accuracy
         let affinity = 55;
@@ -267,10 +271,7 @@ export class Enemy extends Target {
         if (this.getSkill() == EQUIPMENT.WEAPON_TYPES.MAGIC) {
             const weapon = this.scene.dashboard.equipment.equipment.WEAPON;
             const staffType = weapon && weapon.item == "Staff" ? weapon.type : "None";
-            const spell =
-                SPELL_MANIFEST.StandardSpellbook[
-                    dashToPascalCase(this.scene.dashboard.spellbook.selectedSpell)
-                ];
+            const spell = this.scene.dashboard.spellbook.getCurrentSelectedSpell();
 
             Object.keys(spell.requiredRunes).forEach((rune) => {
                 if (!rune.startsWith(staffType)) {
@@ -340,6 +341,14 @@ export class Enemy extends Target {
         const skill = this.getSkill();
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
+
+        // magic has base xp gain even if hitting a 0
+        if (skill == EQUIPMENT.WEAPON_TYPES.MAGIC) {
+            const spell = this.scene.dashboard.spellbook.getCurrentSelectedSpell();
+            if (spell) {
+                xpIncrease += spell.baseXp;
+            }
+        }
         const skillXpMap = {};
 
         // 50% ranged/mage xp and 50% defence for this case

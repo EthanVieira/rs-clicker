@@ -12,12 +12,12 @@ export class CharacterCreationScene extends Phaser.Scene {
         this.characterData = data;
     }
     preload() {
-        this.load.image("unarmed", "src/assets/ui/CharacterCreationUnarmed.png");
-        this.load.image("warrior", "src/assets/ui/CharacterCreationWarrior.png");
-        this.load.image("ranger", "src/assets/ui/CharacterCreationRanger.png");
-        this.load.image("mage", "src/assets/ui/CharacterCreationMage.png");
+        this.load.image("unarmed", "assets/ui/CharacterCreationUnarmed.png");
+        this.load.image("warrior", "assets/ui/CharacterCreationWarrior.png");
+        this.load.image("ranger", "assets/ui/CharacterCreationRanger.png");
+        this.load.image("mage", "assets/ui/CharacterCreationMage.png");
 
-        this.load.image("play-button", "src/assets/ui/buttons/PlayButton.png");
+        this.load.image("play-button", "assets/ui/buttons/PlayButton.png");
     }
     create() {
         let characterClass = CONSTANTS.CLASS.UNARMED;
