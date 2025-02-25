@@ -67,10 +67,10 @@ export class LevelScene extends Phaser.Scene {
         this.load.image(this.minimap.name, this.minimap.path);
 
         // Overlay
-        this.load.image("overlay", "src/assets/ui/InterfaceNoChat.png");
+        this.load.image("overlay", "assets/ui/InterfaceNoChat.png");
 
         // Exit button
-        this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
+        this.load.image("exit-button", "assets/ui/buttons/ExitButton.png");
     }
 
     create() {

@@ -17,11 +17,11 @@ export default class BronzeSword extends Sword {
     magicBonus = 0;
 
     // defence bonuses
-    stabdefenceBonus = 0;
-    slashdefenceBonus = 2;
-    crushdefenceBonus = 1;
-    magicdefenceBonus = 0;
-    rangeddefenceBonus = 0;
+    stabDefenceBonus = 0;
+    slashDefenceBonus = 2;
+    crushDefenceBonus = 1;
+    magicDefenceBonus = 0;
+    rangedDefenceBonus = 0;
 
     // Other bonuses
     strengthBonus = 5;

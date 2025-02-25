@@ -15,11 +15,11 @@ export class AlKharidWarrior extends Enemy {
     strengthBonus = 9;
 
     // defence
-    stabdefence = 12;
-    slashdefence = 15;
-    crushdefence = 10;
-    magicdefence = -1;
-    rangeddefence = 12;
+    stabDefence = 12;
+    slashDefence = 15;
+    crushDefence = 10;
+    magicDefence = -1;
+    rangedDefence = 12;
 
     // Text
     examineText = "Part of Al Kharid's elite fighting force.";
@@ -32,7 +32,7 @@ export class AlKharidWarrior extends Enemy {
             images: [
                 {
                     name: "al-kharid-warrior",
-                    path: "src/assets/sprites/AlKharidWarrior.png",
+                    path: "assets/sprites/AlKharidWarrior.png",
                     scale: 0.3,
                 },
             ],

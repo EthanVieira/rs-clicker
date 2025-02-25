@@ -22,29 +22,29 @@ export class AudioScene extends Phaser.Scene {
 
     preload() {
         // BGM
-        this.load.audio("al-kharid", "src/assets/audio/bgm/AlKharid.ogg");
-        this.load.audio("barbarianism", "src/assets/audio/bgm/Barbarianism.ogg");
-        this.load.audio("expanse", "src/assets/audio/bgm/Expanse.ogg");
-        this.load.audio("gnome-village", "src/assets/audio/bgm/GnomeVillage.ogg");
-        this.load.audio("harmony", "src/assets/audio/bgm/Harmony.ogg");
-        this.load.audio("home-sweet-home", "src/assets/audio/bgm/HomeSweetHome.ogg");
-        this.load.audio("newbie-melody", "src/assets/audio/bgm/NewbieMelody.ogg");
-        this.load.audio("parade", "src/assets/audio/bgm/Parade.ogg");
-        this.load.audio("rune-essence", "src/assets/audio/bgm/RuneEssence.ogg");
-        this.load.audio("scape-main", "src/assets/audio/bgm/ScapeMain.ogg");
-        this.load.audio("serene", "src/assets/audio/bgm/Serene.ogg");
-        this.load.audio("still-night", "src/assets/audio/bgm/StillNight.ogg");
-        this.load.audio("the-rogues-den", "src/assets/audio/bgm/TheRoguesDen.ogg");
-        this.load.audio("the-trade-parade", "src/assets/audio/bgm/TheTradeParade.ogg");
-        this.load.audio("unknown-land", "src/assets/audio/bgm/UnknownLand.ogg");
+        this.load.audio("al-kharid", "assets/audio/bgm/AlKharid.ogg");
+        this.load.audio("barbarianism", "assets/audio/bgm/Barbarianism.ogg");
+        this.load.audio("expanse", "assets/audio/bgm/Expanse.ogg");
+        this.load.audio("gnome-village", "assets/audio/bgm/GnomeVillage.ogg");
+        this.load.audio("harmony", "/assets/audio/bgm/Harmony.ogg");
+        this.load.audio("home-sweet-home", "assets/audio/bgm/HomeSweetHome.ogg");
+        this.load.audio("newbie-melody", "assets/audio/bgm/NewbieMelody.ogg");
+        this.load.audio("parade", "assets/audio/bgm/Parade.ogg");
+        this.load.audio("rune-essence", "assets/audio/bgm/RuneEssence.ogg");
+        this.load.audio("scape-main", "assets/audio/bgm/ScapeMain.ogg");
+        this.load.audio("serene", "assets/audio/bgm/Serene.ogg");
+        this.load.audio("still-night", "assets/audio/bgm/StillNight.ogg");
+        this.load.audio("the-rogues-den", "assets/audio/bgm/TheRoguesDen.ogg");
+        this.load.audio("the-trade-parade", "assets/audio/bgm/TheTradeParade.ogg");
+        this.load.audio("unknown-land", "assets/audio/bgm/UnknownLand.ogg");
 
         // SFX
         this.load.audio(
             "purchase",
-            "src/assets/audio/sfx/GrandExchangeOfferComplete.mp3"
+            "assets/audio/sfx/GrandExchangeOfferComplete.mp3"
         );
-        this.load.audio("quest-complete-1", "src/assets/audio/sfx/QuestCompleted1.ogg");
-        this.load.audio("quest-complete-2", "src/assets/audio/sfx/QuestCompleted2.ogg");
+        this.load.audio("quest-complete-1", "assets/audio/sfx/QuestCompleted1.ogg");
+        this.load.audio("quest-complete-2", "assets/audio/sfx/QuestCompleted2.ogg");
 
         const skills = [
             "Agility",
@@ -74,31 +74,31 @@ export class AudioScene extends Phaser.Scene {
         for (let skill of skills) {
             this.load.audio(
                 skill.toLowerCase() + "-level-up",
-                "src/assets/audio/sfx/" + skill + "LevelUp.ogg"
+                "assets/audio/sfx/" + skill + "LevelUp.ogg"
             );
         }
 
         // Not currently using the commented ones
-        this.load.audio("axe-equip", "src/assets/audio/sfx/equip/AxeEquip.ogg");
-        // this.load.audio("bolt-equip", "src/assets/audio/sfx/equip/BoltEquip.ogg");
-        // this.load.audio("boots-equip", "src/assets/audio/sfx/equip/BootsEquip.ogg");
+        this.load.audio("axe-equip", "assets/audio/sfx/equip/AxeEquip.ogg");
+        // this.load.audio("bolt-equip", "assets/audio/sfx/equip/BoltEquip.ogg");
+        // this.load.audio("boots-equip", "assets/audio/sfx/equip/BootsEquip.ogg");
         this.load.audio(
             "bow-arrow-equip",
-            "src/assets/audio/sfx/equip/BowArrowEquip.ogg"
+            "assets/audio/sfx/equip/BowArrowEquip.ogg"
         );
-        // this.load.audio("mace-flail-equip", "src/assets/audio/sfx/equip/MaceFlailEquip.ogg");
-        // this.load.audio("maul-equip", "src/assets/audio/sfx/equip/MaulEquip.ogg");
-        // this.load.audio("metal-body-equip", "src/assets/audio/sfx/equip/MetalBodyEquip.ogg");
-        // this.load.audio("metal-helmet-equip", "src/assets/audio/sfx/equip/MetalHelmetEquip.ogg");
-        // this.load.audio("metal-legs-equip", "src/assets/audio/sfx/equip/MetalLegsEquip.ogg");
-        // this.load.audio("non-metal-hat-equip", "src/assets/audio/sfx/equip/NonMetalHatEquip.ogg");
-        // this.load.audio("ranged-armor-equip", "src/assets/audio/sfx/equip/RangedArmorEquip.ogg");
+        // this.load.audio("mace-flail-equip", "assets/audio/sfx/equip/MaceFlailEquip.ogg");
+        // this.load.audio("maul-equip", "assets/audio/sfx/equip/MaulEquip.ogg");
+        // this.load.audio("metal-body-equip", "assets/audio/sfx/equip/MetalBodyEquip.ogg");
+        // this.load.audio("metal-helmet-equip", "assets/audio/sfx/equip/MetalHelmetEquip.ogg");
+        // this.load.audio("metal-legs-equip", "assets/audio/sfx/equip/MetalLegsEquip.ogg");
+        // this.load.audio("non-metal-hat-equip", "assets/audio/sfx/equip/NonMetalHatEquip.ogg");
+        // this.load.audio("ranged-armor-equip", "assets/audio/sfx/equip/RangedArmorEquip.ogg");
         this.load.audio(
             "staff-spear-equip",
-            "src/assets/audio/sfx/equip/StaffSpearEquip.ogg"
+            "assets/audio/sfx/equip/StaffSpearEquip.ogg"
         );
-        this.load.audio("sword-equip", "src/assets/audio/sfx/equip/SwordEquip.ogg");
-        // this.load.audio("whip-equip", "src/assets/audio/sfx/equip/WhipEquip.ogg");
+        this.load.audio("sword-equip", "assets/audio/sfx/equip/SwordEquip.ogg");
+        // this.load.audio("whip-equip", "assets/audio/sfx/equip/WhipEquip.ogg");
     }
 
     create() {

@@ -14,10 +14,10 @@ export class WorldMapScene extends Phaser.Scene {
 
     preload() {
         // Background
-        this.load.image("world-map", "src/assets/maps/WorldMap.png");
+        this.load.image("world-map", "assets/maps/WorldMap.png");
 
         // Exit button
-        this.load.image("exit-button", "src/assets/ui/buttons/ExitButton.png");
+        this.load.image("exit-button", "assets/ui/buttons/ExitButton.png");
     }
 
     create() {

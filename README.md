@@ -1,14 +1,14 @@
 # RS Clicker
 
-![alt text](/src/assets/logos/RSCLogo.png "Swanky RS Clicker logo")
+![alt text](/assets/logos/RSCLogo.png "Swanky RS Clicker logo")
 
 ## Play online
 
 #### [>Click here to play<](https://ethanvieira.github.io/rs-clicker/)
 
-![alt text](/src/assets/screenshots/Login.png "Login Screen")
-![alt text](/src/assets/screenshots/TutorialIsland.png "Tutorial Island")
-![alt text](/src/assets/screenshots/WorldMap.png "World Map")
+![alt text](/assets/screenshots/Login.png "Login Screen")
+![alt text](/assets/screenshots/TutorialIsland.png "Tutorial Island")
+![alt text](/assets/screenshots/WorldMap.png "World Map")
 
 ### Run locally with Python server:
 

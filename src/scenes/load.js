@@ -21,7 +21,7 @@ export class LoadScene extends Phaser.Scene {
                     {
                         type: "image",
                         key: "lesser-demon",
-                        url: "src/assets/sprites/LesserDemon.png",
+                        url: "assets/sprites/LesserDemon.png",
                     },
                 ],
             },
@@ -87,121 +87,115 @@ export class LoadScene extends Phaser.Scene {
         });
 
         // Effects
-        this.load.image("blue-hitsplat", "src/assets/effects/BlueHitsplat.png");
-        this.load.image("red-hitsplat", "src/assets/effects/RedHitsplat.png");
+        this.load.image("blue-hitsplat", "assets/effects/BlueHitsplat.png");
+        this.load.image("red-hitsplat", "assets/effects/RedHitsplat.png");
 
         // Enemies
-        this.load.image("chicken", "src/assets/sprites/Chicken.png");
-        this.load.image("lesser-demon", "src/assets/sprites/LesserDemon.png");
+        this.load.image("chicken", "assets/sprites/Chicken.png");
+        this.load.image("lesser-demon", "assets/sprites/LesserDemon.png");
 
         // Backgrounds/Logos
-        this.load.image("main-menu-bg", "src/assets/backgrounds/MainMenuBg.png");
-        this.load.image("main-menu", "src/assets/ui/MainMenu.png");
-        this.load.image("rsc-logo", "src/assets/logos/RSCLogo.png");
+        this.load.image("main-menu-bg", "assets/backgrounds/MainMenuBg.png");
+        this.load.image("main-menu", "assets/ui/MainMenu.png");
+        this.load.image("rsc-logo", "assets/logos/RSCLogo.png");
 
         // Buttons
-        this.load.image("play-button", "src/assets/ui/buttons/PlayButton.png");
-        this.load.image("settings-button", "src/assets/ui/buttons/SettingsButton.png");
+        this.load.image("play-button", "assets/ui/buttons/PlayButton.png");
+        this.load.image("settings-button", "assets/ui/buttons/SettingsButton.png");
 
         // Dashboard UI
         // Panels and buttons
-        this.load.image("xp-button", "src/assets/ui/buttons/XpCounterButton.png");
-        this.load.image("inventory-button", "src/assets/ui/buttons/InventoryButton.png");
-        this.load.image("skills-panel", "src/assets/ui/SkillsPanel.png");
-        this.load.image("skills-button", "src/assets/ui/buttons/SkillsButton.png");
-        this.load.image("skills-info", "src/assets/ui/SkillsInfo.png");
-        this.load.image("prayer-panel", "src/assets/ui/PrayerPanel.png");
-        this.load.image("prayer-button", "src/assets/ui/buttons/PrayerButton.png");
-        this.load.image("audio-settings", "src/assets/ui/AudioSettings.png");
+        this.load.image("xp-button", "assets/ui/buttons/XpCounterButton.png");
+        this.load.image("inventory-button", "assets/ui/buttons/InventoryButton.png");
+        this.load.image("skills-panel", "assets/ui/SkillsPanel.png");
+        this.load.image("skills-button", "assets/ui/buttons/SkillsButton.png");
+        this.load.image("skills-info", "assets/ui/SkillsInfo.png");
+        this.load.image("prayer-panel", "assets/ui/PrayerPanel.png");
+        this.load.image("prayer-button", "assets/ui/buttons/PrayerButton.png");
+        this.load.image("audio-settings", "assets/ui/AudioSettings.png");
         this.load.image(
             "audio-settings-button",
-            "src/assets/ui/buttons/AudioSettingsButton.png"
+            "assets/ui/buttons/AudioSettingsButton.png"
         );
-        this.load.image("audio-button", "src/assets/ui/buttons/AudioButton.png");
-        this.load.image("quests-panel", "src/assets/ui/QuestsPanel.png");
-        this.load.image("quests-button", "src/assets/ui/buttons/QuestsButton.png");
-        this.load.image("quests-tab-button", "src/assets/ui/buttons/QuestsTabButton.png");
-        this.load.image("stats-tab-button", "src/assets/ui/buttons/StatsTabButton.png");
-        this.load.image("equipment-panel", "src/assets/ui/EquipmentPanel.png");
-        this.load.image("equipment-background", "src/assets/ui/EquipmentBackground.png");
-        this.load.image("equipment-button", "src/assets/ui/buttons/EquipmentButton.png");
-        this.load.image("clan-panel", "src/assets/ui/ClanPanel.png");
-        this.load.image("clan-button", "src/assets/ui/buttons/ClanButton.png");
-        this.load.image("friends-panel", "src/assets/ui/FriendsPanel.png");
-        this.load.image("friends-button", "src/assets/ui/buttons/FriendsButton.png");
-        this.load.image("add-friend-button", "src/assets/ui/buttons/AddFriendButton.png");
+        this.load.image("audio-button", "assets/ui/buttons/AudioButton.png");
+        this.load.image("quests-panel", "assets/ui/QuestsPanel.png");
+        this.load.image("quests-button", "assets/ui/buttons/QuestsButton.png");
+        this.load.image("quests-tab-button", "assets/ui/buttons/QuestsTabButton.png");
+        this.load.image("stats-tab-button", "assets/ui/buttons/StatsTabButton.png");
+        this.load.image("equipment-panel", "assets/ui/EquipmentPanel.png");
+        this.load.image("equipment-background", "assets/ui/EquipmentBackground.png");
+        this.load.image("equipment-button", "assets/ui/buttons/EquipmentButton.png");
+        this.load.image("clan-panel", "assets/ui/ClanPanel.png");
+        this.load.image("clan-button", "assets/ui/buttons/ClanButton.png");
+        this.load.image("friends-panel", "assets/ui/FriendsPanel.png");
+        this.load.image("friends-button", "assets/ui/buttons/FriendsButton.png");
+        this.load.image("add-friend-button", "assets/ui/buttons/AddFriendButton.png");
         this.load.image(
             "delete-friend-button",
-            "src/assets/ui/buttons/DeleteFriendButton.png"
+            "assets/ui/buttons/DeleteFriendButton.png"
         );
-        this.load.image("music-panel", "src/assets/ui/MusicPanel.png");
-        this.load.image("music-button", "src/assets/ui/buttons/MusicButton.png");
+        this.load.image("music-panel", "assets/ui/MusicPanel.png");
+        this.load.image("music-button", "assets/ui/buttons/MusicButton.png");
 
-        this.load.image("spellbook-panel", "src/assets/ui/SpellbookPanel.png");
-        this.load.image("spellbook-button", "src/assets/ui/buttons/SpellbookButton.png");
+        this.load.image("spellbook-panel", "assets/ui/SpellbookPanel.png");
+        this.load.image("spellbook-button", "assets/ui/buttons/SpellbookButton.png");
 
         for (const spell in SPELL_MANIFEST.StandardSpellbook) {
             const spellManifest = SPELL_MANIFEST.StandardSpellbook[spell];
             spellManifest.imageNames.forEach((iconName, i) => {
                 this.load.image(
                     iconName,
-                    "src/assets/ui/icons/spells/" + spellManifest.imagePaths[i]
+                    "assets/ui/icons/spells/" + spellManifest.imagePaths[i]
                 );
 
                 if (i == AVAILABLE_INDEX) {
                     this.load.image(
                         iconName + "-effect",
-                        "src/assets/effects/spells/" + spellManifest.imagePaths[i]
+                        "assets/effects/spells/" + spellManifest.imagePaths[i]
                     );
                 }
             });
         }
 
         for (let i = 2; i <= 6; i++) {
-            this.load.image(
-                `right-click-menu-${i}`,
-                `src/assets/ui/RightClickMenu_${i}.png`
-            );
+            this.load.image(`right-click-menu-${i}`, `assets/ui/RightClickMenu_${i}.png`);
         }
 
-        this.load.image("scroll-background", "src/assets/ui/ScrollBackground.png");
-        this.load.image("scroll-header", "src/assets/ui/ScrollHeader.png");
-        this.load.image("scroll-footer", "src/assets/ui/ScrollFooter.png");
-        this.load.image("scroll-button", "src/assets/ui/ScrollButton.png");
-        this.load.image(
-            "attack-style-button",
-            "src/assets/ui/buttons/AttackStyleButton.png"
-        );
-        this.load.image("attack-style-panel", "src/assets/ui/AttackStylePanel.png");
+        this.load.image("scroll-background", "assets/ui/ScrollBackground.png");
+        this.load.image("scroll-header", "assets/ui/ScrollHeader.png");
+        this.load.image("scroll-footer", "assets/ui/ScrollFooter.png");
+        this.load.image("scroll-button", "assets/ui/ScrollButton.png");
+        this.load.image("attack-style-button", "assets/ui/buttons/AttackStyleButton.png");
+        this.load.image("attack-style-panel", "assets/ui/AttackStylePanel.png");
         this.load.image(
             "attack-style-1-button",
-            "src/assets/ui/buttons/AttackStyle1Button.png"
+            "assets/ui/buttons/AttackStyle1Button.png"
         );
         this.load.image(
             "attack-style-2-button",
-            "src/assets/ui/buttons/AttackStyle2Button.png"
+            "assets/ui/buttons/AttackStyle2Button.png"
         );
         this.load.image(
             "attack-style-3-button",
-            "src/assets/ui/buttons/AttackStyle3Button.png"
+            "assets/ui/buttons/AttackStyle3Button.png"
         );
         this.load.image(
             "attack-style-retaliate-button",
-            "src/assets/ui/buttons/AttackStyleRetaliateButton.png"
+            "assets/ui/buttons/AttackStyleRetaliateButton.png"
         );
 
         // Modal
-        this.load.image("smithing-interface", "src/assets/ui/SmithingInterface.png");
+        this.load.image("smithing-interface", "assets/ui/SmithingInterface.png");
 
         // Load all targets in target manifest
-        let path = "src/assets/sprites/";
+        let path = "assets/sprites/";
         Object.entries(targetManifest).forEach(([target, targetObj]) => {
             this.load.image(targetObj.imageName, path + targetObj.imagePath);
         });
 
         // Load all items in item manifest
-        path = "src/assets/items/icons/";
-        const modelPath = "src/assets/items/models/";
+        path = "assets/items/icons/";
+        const modelPath = "assets/items/models/";
         Object.entries(itemManifest).forEach(([item, itemObj]) => {
             if (itemObj.type == CONSTANTS.ITEM_TYPES.CURRENCY) {
                 itemObj.imageName.forEach((name, i) => {
@@ -218,11 +212,11 @@ export class LoadScene extends Phaser.Scene {
         });
 
         // For attack animations
-        this.load.image("fist", "src/assets/effects/Fist.png");
-        this.load.image("bronze-arrow", "src/assets/effects/BronzeArrow.png");
-        this.load.image("bronze-bolt", "src/assets/effects/BronzeBolt.png");
-        this.load.image("furnace-hands", "src/assets/effects/FurnaceHands.png");
-        this.load.image("hammer-hand", "src/assets/effects/HammerHand.png");
+        this.load.image("fist", "assets/effects/Fist.png");
+        this.load.image("bronze-arrow", "assets/effects/BronzeArrow.png");
+        this.load.image("bronze-bolt", "assets/effects/BronzeBolt.png");
+        this.load.image("furnace-hands", "assets/effects/FurnaceHands.png");
+        this.load.image("hammer-hand", "assets/effects/HammerHand.png");
     }
 
     create() {

@@ -12,7 +12,7 @@ export class CopperRock extends Rock {
             images: [
                 {
                     name: "copper-rock",
-                    path: "src/assets/sprites/CopperRock.png",
+                    path: "assets/sprites/CopperRock.png",
                     scale: 1,
                 },
             ],

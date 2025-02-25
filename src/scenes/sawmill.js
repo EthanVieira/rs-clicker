@@ -9,11 +9,11 @@ export class SawmillScene extends LevelScene {
             key: CONSTANTS.SCENES.SAWMILL,
             background: {
                 name: "sawmill",
-                path: "src/assets/backgrounds/SawmillBackground.png",
+                path: "assets/backgrounds/SawmillBackground.png",
             },
             minimap: {
                 name: "sawmill-map",
-                path: "src/assets/maps/SawmillMap.png",
+                path: "assets/maps/SawmillMap.png",
             },
             targets: [SawmillOperator],
             questAmounts: {

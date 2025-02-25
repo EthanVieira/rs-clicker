@@ -16,11 +16,11 @@ export class Guard extends Enemy {
     strengthBonus = 5;
 
     // defences
-    stabdefence = 18;
-    slashdefence = 25;
-    crushdefence = 19;
-    magicdefence = -4;
-    rangeddefence = 20;
+    stabDefence = 18;
+    slashDefence = 25;
+    crushDefence = 19;
+    magicDefence = -4;
+    rangedDefence = 20;
 
     // Text
     examineText = "He tries to keep order around here.";
@@ -30,7 +30,7 @@ export class Guard extends Enemy {
             scene: scene,
             name: "Guard",
             questName: "guard",
-            images: [{ name: "guard", path: "src/assets/sprites/Guard.png", scale: 0.4 }],
+            images: [{ name: "guard", path: "assets/sprites/Guard.png", scale: 0.4 }],
             maxHealth: 22,
             killGold: 15,
             drops: [{ item: NormalBones, rate: 0.5 }],

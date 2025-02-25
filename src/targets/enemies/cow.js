@@ -16,11 +16,11 @@ export class Cow extends Enemy {
     strengthBonus = -15;
 
     // defence
-    stabdefence = -21;
-    slashdefence = -21;
-    crushdefence = -21;
-    magicdefence = -21;
-    rangeddefence = -21;
+    stabDefence = -21;
+    slashDefence = -21;
+    crushDefence = -21;
+    magicDefence = -21;
+    rangedDefence = -21;
 
     // Text
     examineText = "Converts grass to beef.";
@@ -30,7 +30,7 @@ export class Cow extends Enemy {
             scene: scene,
             name: "Cow",
             questName: "cow",
-            images: [{ name: "cow", path: "src/assets/sprites/Cow.png", scale: 0.4 }],
+            images: [{ name: "cow", path: "assets/sprites/Cow.png", scale: 0.4 }],
             maxHealth: 8,
             killGold: 5,
             drops: [{ item: NormalBones, rate: 0.5 }],

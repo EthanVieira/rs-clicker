@@ -16,7 +16,7 @@ export class SmallNetFishingSpot extends FishingSpot {
             images: [
                 {
                     name: "fishing-spot",
-                    path: "src/assets/sprites/FishingSpot.png",
+                    path: "assets/sprites/FishingSpot.png",
                     scale: 1,
                 },
             ],

@@ -10,11 +10,11 @@ export class RuneEssenceMineScene extends LevelScene {
             key: CONSTANTS.SCENES.RUNE_ESSENCE_MINE,
             background: {
                 name: "rune-essence-mine",
-                path: "src/assets/backgrounds/RuneEssenceMineBackground.png",
+                path: "assets/backgrounds/RuneEssenceMineBackground.png",
             },
             minimap: {
                 name: "rune-essence-mine-map",
-                path: "src/assets/maps/RuneEssenceMineMap.png",
+                path: "assets/maps/RuneEssenceMineMap.png",
             },
             targets: [EssenceMine],
             questAmounts: {

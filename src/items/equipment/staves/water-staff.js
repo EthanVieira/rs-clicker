@@ -8,10 +8,10 @@ export default class WaterStaff extends Staff {
     magicBonus = 10;
 
     // defence bonuses
-    stabdefenceBonus = 2;
-    slashdefenceBonus = 3;
-    crushdefenceBonus = 1;
-    magicdefenceBonus = 10;
+    stabDefenceBonus = 2;
+    slashDefenceBonus = 3;
+    crushDefenceBonus = 1;
+    magicDefenceBonus = 10;
 
     // Other
     strengthBonus = 3;

@@ -9,11 +9,11 @@ export class GnomeVillageAgilityScene extends LevelScene {
             key: CONSTANTS.SCENES.GNOME_VILLAGE_AGILITY,
             background: {
                 name: "gnome-village-agility",
-                path: "src/assets/backgrounds/GnomeVillageAgilityBackground.png",
+                path: "assets/backgrounds/GnomeVillageAgilityBackground.png",
             },
             minimap: {
                 name: "gnome-village-agility-map",
-                path: "src/assets/maps/GnomeVillageAgilityMap.png",
+                path: "assets/maps/GnomeVillageAgilityMap.png",
             },
             targets: [LogObstacle],
             questAmounts: {

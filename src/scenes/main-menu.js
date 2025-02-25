@@ -21,9 +21,9 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("settings", "src/assets/ui/SettingsPanel.png");
-        this.load.image("sound-on", "src/assets/ui/buttons/SoundOn.png");
-        this.load.image("sound-off", "src/assets/ui/buttons/SoundOff.png");
+        this.load.image("settings", "assets/ui/SettingsPanel.png");
+        this.load.image("sound-on", "assets/ui/buttons/SoundOn.png");
+        this.load.image("sound-off", "assets/ui/buttons/SoundOff.png");
     }
 
     create() {

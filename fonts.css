@@ -1,13 +1,13 @@
 @font-face {
     font-family: "runescape";
-    src: url("./src/assets/fonts/runescape.eot"); /* IE9 Compat Modes */
+    src: url("./assets/fonts/runescape.eot"); /* IE9 Compat Modes */
     src: 
-        url("./src/assets/fonts/runescape.eot?#iefix") format("embedded-opentype"),
-        url("./src/assets/fonts/runescape.otf") format("opentype"), /* IE6-IE8 */ 
-        url("./src/assets/fonts/runescape.svg") format("svg"), /* Open Type Font */
-        url("./src/assets/fonts/runescape.ttf") format("truetype"), /* Legacy iOS */
-        url("./src/assets/fonts/runescape.woff") format("woff"), /* Safari, Android, iOS */
-        url("./src/assets/fonts/runescape.woff2") format("woff2"); /* Modern Browsers */
+        url("./assets/fonts/runescape.eot?#iefix") format("embedded-opentype"),
+        url("./assets/fonts/runescape.otf") format("opentype"), /* IE6-IE8 */ 
+        url("./assets/fonts/runescape.svg") format("svg"), /* Open Type Font */
+        url("./assets/fonts/runescape.ttf") format("truetype"), /* Legacy iOS */
+        url("./assets/fonts/runescape.woff") format("woff"), /* Safari, Android, iOS */
+        url("./assets/fonts/runescape.woff2") format("woff2"); /* Modern Browsers */
     font-weight: normal;
     font-style: normal;
 }

@@ -5,7 +5,7 @@ import {
     AVAILABLE_INDEX,
     UNAVAILABLE_INDEX,
 } from "../../spell-manifest.js";
-import { calcLevel } from "../../utilities.js";
+import { calcLevel, dashToPascalCase } from "../../utilities.js";
 
 const BUTTON_INDEX = 0;
 const AVAILABILITY_INDEX = 1;
@@ -122,6 +122,14 @@ export class Spellbook {
             }
             this.spells[availableName][AVAILABILITY_INDEX] = isSpellAvailable;
         });
+    }
+
+    getCurrentSelectedSpell() {
+        return SPELL_MANIFEST.StandardSpellbook[dashToPascalCase(this.selectedSpell)];
+    }
+
+    getCurrentSelectedSpellName() {
+        return this.selectedSpell;
     }
 
     setVisible(isVisible) {

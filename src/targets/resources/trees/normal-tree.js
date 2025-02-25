@@ -10,8 +10,8 @@ export class NormalTree extends Tree {
             name: "Tree",
             questName: "tree",
             images: [
-                { name: "tree1", path: "src/assets/sprites/Tree1.png", scale: 0.7 },
-                { name: "tree2", path: "src/assets/sprites/Tree2.png", scale: 0.4 },
+                { name: "tree1", path: "assets/sprites/Tree1.png", scale: 0.7 },
+                { name: "tree2", path: "assets/sprites/Tree2.png", scale: 0.4 },
             ],
             neededClicks: 5,
             drops: [{ item: NormalLogs, rate: 1 }],

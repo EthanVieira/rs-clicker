@@ -10,11 +10,11 @@ export class LumbridgeScene extends LevelScene {
             key: CONSTANTS.SCENES.LUMBRIDGE,
             background: {
                 name: "lumbridge",
-                path: "src/assets/backgrounds/LumbridgeBackground.png",
+                path: "assets/backgrounds/LumbridgeBackground.png",
             },
             minimap: {
                 name: "lumbridge-map",
-                path: "src/assets/maps/LumbridgeMap.png",
+                path: "assets/maps/LumbridgeMap.png",
             },
             targets: [Cow, Goblin],
             questAmounts: {

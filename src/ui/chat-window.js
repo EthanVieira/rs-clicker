@@ -30,14 +30,14 @@ export class ChatScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("chat-window", "src/assets/ui/ChatWindow.png");
-        this.load.image("shop-chat-window", "src/assets/ui/ShopChatWindow.png");
-        this.load.image("chat-button", "src/assets/ui/buttons/ChatButton.png");
+        this.load.image("chat-window", "assets/ui/ChatWindow.png");
+        this.load.image("shop-chat-window", "assets/ui/ShopChatWindow.png");
+        this.load.image("chat-button", "assets/ui/buttons/ChatButton.png");
         this.load.image(
             "chat-button-notification",
-            "src/assets/ui/buttons/ChatButtonNotification.png"
+            "assets/ui/buttons/ChatButtonNotification.png"
         );
-        this.load.image("prompt-window", "src/assets/ui/PromptWindow.png");
+        this.load.image("prompt-window", "assets/ui/PromptWindow.png");
     }
 
     create() {
@@ -192,15 +192,15 @@ export class ChatScene extends Phaser.Scene {
         this.writeStrings(
             { x: 0, text: "defence Bonuses:", format: FONTS.ITEM_HEADER },
             { x: x[0], text: "Stab", format: FONTS.ITEM_STATS },
-            { x: x[1], text: enemy.stabdefence, format: FONTS.ITEM_STATS },
+            { x: x[1], text: enemy.stabDefence, format: FONTS.ITEM_STATS },
             { x: x[2], text: "Slash", format: FONTS.ITEM_STATS },
-            { x: x[3], text: enemy.slashdefence, format: FONTS.ITEM_STATS },
+            { x: x[3], text: enemy.slashDefence, format: FONTS.ITEM_STATS },
             { x: x[4], text: "Crush", format: FONTS.ITEM_STATS },
-            { x: x[5], text: enemy.crushdefence, format: FONTS.ITEM_STATS },
+            { x: x[5], text: enemy.crushDefence, format: FONTS.ITEM_STATS },
             { x: x[6], text: "Mag", format: FONTS.ITEM_STATS },
-            { x: x[7], text: enemy.magicdefence, format: FONTS.ITEM_STATS },
+            { x: x[7], text: enemy.magicDefence, format: FONTS.ITEM_STATS },
             { x: x[8], text: "Rng", format: FONTS.ITEM_STATS },
-            { x: x[9], text: enemy.rangeddefence, format: FONTS.ITEM_STATS }
+            { x: x[9], text: enemy.rangedDefence, format: FONTS.ITEM_STATS }
         );
     }
 
@@ -249,15 +249,15 @@ export class ChatScene extends Phaser.Scene {
         this.writeStrings(
             { x: x[0], text: "defence Bonuses:", format: FONTS.ITEM_HEADER },
             { x: x[1], text: "Stab", format: FONTS.ITEM_STATS },
-            { x: x[2], text: equipment.stabdefenceBonus, format: FONTS.ITEM_STATS },
+            { x: x[2], text: equipment.stabDefenceBonus, format: FONTS.ITEM_STATS },
             { x: x[3], text: "Slash", format: FONTS.ITEM_STATS },
-            { x: x[4], text: equipment.slashdefenceBonus, format: FONTS.ITEM_STATS },
+            { x: x[4], text: equipment.slashDefenceBonus, format: FONTS.ITEM_STATS },
             { x: x[5], text: "Crush", format: FONTS.ITEM_STATS },
-            { x: x[6], text: equipment.crushdefenceBonus, format: FONTS.ITEM_STATS },
+            { x: x[6], text: equipment.crushDefenceBonus, format: FONTS.ITEM_STATS },
             { x: x[7], text: "Mag", format: FONTS.ITEM_STATS },
-            { x: x[8], text: equipment.magicdefenceBonus, format: FONTS.ITEM_STATS },
+            { x: x[8], text: equipment.magicDefenceBonus, format: FONTS.ITEM_STATS },
             { x: x[9], text: "Rng", format: FONTS.ITEM_STATS },
-            { x: x[10], text: equipment.rangeddefenceBonus, format: FONTS.ITEM_STATS }
+            { x: x[10], text: equipment.rangedDefenceBonus, format: FONTS.ITEM_STATS }
         );
         this.writeStrings(
             { x: x[0], text: "Damage Bonuses:", format: FONTS.ITEM_HEADER },
