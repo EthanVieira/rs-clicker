@@ -5,7 +5,7 @@ export default class Tool extends Item {
 
     animation = {
         imageName: "",
-        scale: 0.25,
+        scale: 0.6,
         curve: 1,
         startX: 450,
         startY: 400,
