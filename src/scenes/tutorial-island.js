@@ -9,11 +9,11 @@ export class TutorialIslandScene extends LevelScene {
             key: CONSTANTS.SCENES.TUTORIAL_ISLAND,
             background: {
                 name: "tutorial-island",
-                path: "src/assets/backgrounds/TutorialIslandBackground.png",
+                path: "assets/backgrounds/TutorialIslandBackground.png",
             },
             minimap: {
                 name: "tutorial-island-map",
-                path: "src/assets/maps/TutorialIslandMap.png",
+                path: "assets/maps/TutorialIslandMap.png",
             },
             targets: [GiantRat],
             questAmounts: {

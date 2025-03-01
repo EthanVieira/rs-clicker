@@ -9,11 +9,11 @@ export class AlKharidFurnaceScene extends LevelScene {
             key: CONSTANTS.SCENES.AL_KHARID_FURNACE,
             background: {
                 name: "al-kharid-furnace",
-                path: "src/assets/backgrounds/AlKharidFurnaceBackground.png",
+                path: "assets/backgrounds/AlKharidFurnaceBackground.png",
             },
             minimap: {
                 name: "al-kharid-furnace-map",
-                path: "src/assets/maps/AlKharidFurnaceMap.png",
+                path: "assets/maps/AlKharidFurnaceMap.png",
             },
             targets: [Furnace],
             questAmounts: {

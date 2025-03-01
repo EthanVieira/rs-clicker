@@ -10,7 +10,7 @@ export class DarkWizard extends Enemy {
     ranged = 1;
 
     // defence
-    magicdefence = 3;
+    magicDefence = 3;
 
     // Text
     examineText = "He works evil magic.";
@@ -23,7 +23,7 @@ export class DarkWizard extends Enemy {
             images: [
                 {
                     name: "dark-wizard",
-                    path: "src/assets/sprites/DarkWizard.png",
+                    path: "assets/sprites/DarkWizard.png",
                     scale: 0.4,
                 },
             ],

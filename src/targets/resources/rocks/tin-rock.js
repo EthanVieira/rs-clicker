@@ -9,9 +9,7 @@ export class TinRock extends Rock {
             scene: scene,
             name: "Tin Rock",
             questName: "tinRock",
-            images: [
-                { name: "tin-rock", path: "src/assets/sprites/TinRock.png", scale: 1 },
-            ],
+            images: [{ name: "tin-rock", path: "assets/sprites/TinRock.png", scale: 1 }],
             neededClicks: 5,
             drops: [{ item: TinOre, rate: 1 }],
             offsetY: 150,

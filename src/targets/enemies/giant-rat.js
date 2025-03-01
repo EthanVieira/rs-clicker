@@ -20,7 +20,7 @@ export class GiantRat extends Enemy {
             images: [
                 {
                     name: "giant-rat",
-                    path: "src/assets/sprites/GiantRat.png",
+                    path: "assets/sprites/GiantRat.png",
                     scale: 0.4,
                 },
             ],

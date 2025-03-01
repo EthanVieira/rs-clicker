@@ -36,9 +36,9 @@ export class ShopScene extends Phaser.Scene {
 
     preload() {
         // Shop Interface
-        this.load.image("shop-interface", "src/assets/ui/ShopInterface.png");
-        this.load.image("shop-button", "src/assets/ui/buttons/ShopButton.png");
-        this.load.image("shop-exit-button", "src/assets/ui/buttons/ShopExitButton.png");
+        this.load.image("shop-interface", "assets/ui/ShopInterface.png");
+        this.load.image("shop-button", "assets/ui/buttons/ShopButton.png");
+        this.load.image("shop-exit-button", "assets/ui/buttons/ShopExitButton.png");
     }
 
     create() {
