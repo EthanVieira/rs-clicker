@@ -1,12 +1,6 @@
 import { Item } from "../item.js";
-import { CONSTANTS, OBJECT_TYPES, EQUIPMENT } from "../../constants/constants.js";
-import {
-    calcLevel,
-    getItemClass,
-    capitalize,
-    aOrAn,
-    getRequiredCombatSkill,
-} from "../../utilities.js";
+import { CONSTANTS, OBJECT_TYPES } from "../../constants/constants.js";
+import { calcLevel, getItemClass, capitalize, aOrAn } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 
 export default class Equipment extends Item {
@@ -36,6 +30,8 @@ export default class Equipment extends Item {
     style = "";
     skill = "";
     objectType = OBJECT_TYPES.EQUIPMENT;
+
+    combatStyles = {};
 
     constructor() {
         super();
@@ -83,21 +79,20 @@ export default class Equipment extends Item {
             } else {
                 console.log("Not high enough level to equip that.");
 
-                const skillText =
-                    this.skill == EQUIPMENT.WEAPON_TYPES.MELEE
-                        ? "attack"
-                        : getRequiredCombatSkill(this.skill);
-                this.scene.scene
-                    .get(CONSTANTS.SCENES.CHAT)
-                    .writeText(
-                        "You need " +
-                            aOrAn(skillText) +
-                            " " +
-                            capitalize(skillText) +
-                            " level of " +
-                            this.requiredLevels[skillText] +
-                            " to equip this item."
-                    );
+                let text = "You need:\n";
+                Object.keys(this.requiredLevels).every((skill) => {
+                    text +=
+                        aOrAn(skill) +
+                        " " +
+                        capitalize(skill) +
+                        " level of " +
+                        this.requiredLevels[skill] +
+                        "\n";
+                });
+
+                text += "to equip this item.";
+
+                this.scene.scene.get(CONSTANTS.SCENES.CHAT).writeText(text);
             }
         } else {
             console.log("Error, trying to equip when already equipped");

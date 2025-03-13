@@ -93,6 +93,8 @@ export class Equipment {
 
         // Add object to the scene
         this.equipment[item.slot] = item;
+
+        this.scene.combatStyle.refreshStyles();
     }
 
     unequipItem(slot) {

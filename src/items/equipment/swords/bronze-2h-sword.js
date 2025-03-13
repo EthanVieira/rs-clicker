@@ -1,6 +1,6 @@
-import Sword from "./sword.js";
+import TwoHandedSword from "./2h-sword.js";
 
-export default class Bronze2hSword extends Sword {
+export default class Bronze2hSword extends TwoHandedSword {
     xp = 37.5;
     bars = [{ name: "BronzeBar", count: 3 }];
     smithingLevel = 14;

@@ -29,12 +29,12 @@ export const defaultData = {
         members: {},
     },
     friends: ["Zezima"],
-    attackStyle: 0,
+    combatStyle: 0,
     autoRetaliate: true,
     // Skill XP
     skills: {
         attack: 0,
-        health: 0,
+        hitpoints: 1154, // level 10
         mining: 0,
         strength: 0,
         agility: 0,

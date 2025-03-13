@@ -1,44 +1,30 @@
-import Smithable from "../smithable.js";
+import Equipment from "./equipment.js";
 import { ATTACK_TYPES, EQUIPMENT } from "../../../constants/constants.js";
 
-export default class Axe extends Smithable {
-    // Attack types
+export default class Scythe extends Equipment {
     slot = EQUIPMENT.SLOTS.WEAPON;
     skill = EQUIPMENT.WEAPON_TYPES.MELEE;
 
     combatStyles = {
-        Chop: {
+        Reap: {
             type: ATTACK_TYPES.SLASH,
-            icon: "axe-chop",
+            icon: "scythe-reap",
             xpGain: ["hitpoints", "attack"],
         },
-        Hack: {
+        Chop: {
             type: ATTACK_TYPES.SLASH,
-            icon: "axe-hack",
+            icon: "scythe-chop",
             xpGain: ["hitpoints", "strength"],
         },
-        Smash: {
+        Jab: {
             type: ATTACK_TYPES.CRUSH,
-            icon: "axe-smash",
+            icon: "scythe-jab",
             xpGain: ["hitpoints", "strength"],
         },
         Block: {
             type: ATTACK_TYPES.SLASH,
-            icon: "axe-block",
+            icon: "scythe-block",
             xpGain: ["hitpoints", "defence"],
         },
     };
-
-    // Attack animation
-    animation = {
-        imageName: "",
-        scale: 0.5,
-        curve: 1,
-        startX: 450,
-        startY: 200,
-        alpha: 1,
-        flipX: true,
-    };
-
-    equipSound = "axe-equip";
 }

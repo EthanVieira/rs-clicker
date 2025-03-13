@@ -128,16 +128,12 @@ class CharacterData {
         return this.characterData.friends;
     }
 
-    getAttackStyle() {
-        return this.characterData.attackStyle;
+    getCombatStyle() {
+        return this.characterData.combatStyle;
     }
 
-    setAttackStyle(styleNum) {
-        if (styleNum >= 0 && styleNum <= 2) {
-            this.characterData.attackStyle = styleNum;
-        } else {
-            console.log("Error: setAttackStyle() index out of range:", styleNum);
-        }
+    setCombatStyle(style) {
+        this.characterData.combatStyle = style;
     }
 
     getAutoRetaliate() {

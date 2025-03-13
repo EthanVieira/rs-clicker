@@ -1,6 +1,6 @@
 import { Enemy } from "./enemy.js";
 import NormalBones from "../../items/bones/normal-bones.js";
-import BronzeDagger from "../../items/equipment/daggers/bronze-dagger.js";
+import BronzeDagger from "../../items/equipment/swords/daggers/bronze-dagger.js";
 
 export class AlKharidWarrior extends Enemy {
     // Base stats

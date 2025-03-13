@@ -1,10 +1,27 @@
 import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../../constants/constants.js";
+import { ATTACK_TYPES, EQUIPMENT } from "../../../constants/constants.js";
 
 export default class Staff extends Equipment {
-    // Attack types
     slot = EQUIPMENT.SLOTS.WEAPON;
-    skill = EQUIPMENT.WEAPON_TYPES.MELEE; // melee when not using a spell
+    skill = EQUIPMENT.WEAPON_TYPES.MELEE;
+
+    combatStyles = {
+        Jab: {
+            type: ATTACK_TYPES.STAB,
+            icon: "staff-jab",
+            xpGain: ["hitpoints", "attack"],
+        },
+        Pound: {
+            type: ATTACK_TYPES.SLASH,
+            icon: "staff-pound",
+            xpGain: ["hitpoints", "strength"],
+        },
+        Block: {
+            type: ATTACK_TYPES.CRUSH,
+            icon: "staff-block",
+            xpGain: ["hitpoints", "defence"],
+        },
+    };
 
     // Attack animation
     animation = {
