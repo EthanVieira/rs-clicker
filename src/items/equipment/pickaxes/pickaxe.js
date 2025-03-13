@@ -18,7 +18,7 @@ export default class Pickaxe extends Equipment {
             xpGain: ["hitpoints", "strength"],
         },
         Smash: {
-            type: ATTACK_TYPES.HEAVY,
+            type: ATTACK_TYPES.CRUSH,
             icon: "pickaxe-smash",
             xpGain: ["hitpoints", "strength"],
         },
