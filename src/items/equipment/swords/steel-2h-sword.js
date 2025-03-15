@@ -1,6 +1,6 @@
-import Sword from "./sword.js";
+import TwoHandedSword from "./2h-sword.js";
 
-export default class Steel2hSword extends Sword {
+export default class Steel2hSword extends TwoHandedSword {
     // Attack bonuses
     stabBonus = -4;
     slashBonus = 21;

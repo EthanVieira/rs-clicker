@@ -1,6 +1,6 @@
-import Sword from "./sword.js";
+import StabSword from "./stab-sword.js";
 
-export default class BronzeSword extends Sword {
+export default class BronzeSword extends StabSword {
     xp = 12.5;
     bars = [{ name: "BronzeBar", count: 1 }];
     smithingLevel = 4;

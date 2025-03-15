@@ -1,9 +1,9 @@
 import { CONSTANTS } from "../constants/constants.js";
-import { AVAILABLE_INDEX, SPELL_MANIFEST } from "../spell-manifest.js";
+import { AVAILABLE_INDEX, SPELL_MANIFEST } from "../constants/spell-manifest.js";
 import { characterData } from "../cookie-io.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
-import { setItemClass } from "../utilities.js";
+import { dashToPascalCase, setItemClass } from "../utilities.js";
 
 export class LoadScene extends Phaser.Scene {
     // Loading bar info
@@ -165,24 +165,91 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("scroll-header", "assets/ui/ScrollHeader.png");
         this.load.image("scroll-footer", "assets/ui/ScrollFooter.png");
         this.load.image("scroll-button", "assets/ui/ScrollButton.png");
-        this.load.image("attack-style-button", "assets/ui/buttons/AttackStyleButton.png");
-        this.load.image("attack-style-panel", "assets/ui/AttackStylePanel.png");
+
+        // Combat styles and panel
+        this.load.image("combat-style-button", "assets/ui/buttons/CombatStyleButton.png");
         this.load.image(
-            "attack-style-1-button",
-            "assets/ui/buttons/AttackStyle1Button.png"
+            "combat-style-button-on",
+            "assets/ui/buttons/CombatStyleButtonOn.png"
         );
         this.load.image(
-            "attack-style-2-button",
-            "assets/ui/buttons/AttackStyle2Button.png"
+            "combat-style-button-off",
+            "assets/ui/buttons/CombatStyleButtonOff.png"
         );
+        this.load.image("combat-style-panel", "assets/ui/CombatStylePanel.png");
         this.load.image(
-            "attack-style-3-button",
-            "assets/ui/buttons/AttackStyle3Button.png"
+            "combat-style-retaliate-button",
+            "assets/ui/buttons/CombatStyleRetaliateButton.png"
         );
-        this.load.image(
-            "attack-style-retaliate-button",
-            "assets/ui/buttons/AttackStyleRetaliateButton.png"
-        );
+
+        const combatStyles = [
+            "axe-chop",
+            "axe-hack",
+            "axe-smash",
+            "axe-block",
+            "blunt-pound",
+            "blunt-pummel",
+            "blunt-block",
+            "bow-accurate",
+            "bow-rapid",
+            "bow-longrange",
+            "chinchompa-short-fuse",
+            "chinchompa-medium-fuse",
+            "chinchompa-long-fuse",
+            "claw-chop",
+            "claw-slash",
+            "claw-lunge",
+            "claw-block",
+            "crossbow-accurate",
+            "crossbow-rapid",
+            "crossbow-longrange",
+            "pickaxe-spike",
+            "pickaxe-impale",
+            "pickaxe-smash",
+            "pickaxe-block",
+            "polearm-jab",
+            "polearm-swipe",
+            "polearm-block",
+            "salamander-scorch",
+            "salamander-flare",
+            "salamander-blaze",
+            "scythe-reap",
+            "scythe-chop",
+            "scythe-jab",
+            "scythe-block",
+            "sword-chop",
+            "sword-slash",
+            "sword-block",
+            "sword-stab",
+            "spear-lunge",
+            "spear-swipe",
+            "spear-pound",
+            "spear-block",
+            "spiked-pound",
+            "spiked-pummel",
+            "spiked-spike",
+            "spiked-block",
+            "staff-jab",
+            "staff-pound",
+            "staff-block",
+            "thrown-accurate",
+            "thrown-rapid",
+            "thrown-longrange",
+            "unarmed-punch",
+            "unarmed-kick",
+            "unarmed-block",
+            "whip-flick",
+            "whip-lash",
+        ];
+
+        combatStyles.forEach((style) => {
+            this.load.image(
+                style,
+                "assets/ui/icons/combat-styles/" +
+                    dashToPascalCase(style) +
+                    "CombatStyle.png"
+            );
+        });
 
         // Modal
         this.load.image("smithing-interface", "assets/ui/SmithingInterface.png");

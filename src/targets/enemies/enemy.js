@@ -1,8 +1,7 @@
 import { HealthBar } from "../../ui/health-bar.js";
 import { Target } from "../target.js";
-import { OBJECT_TYPES, EQUIPMENT, ATTACK_STYLES } from "../../constants/constants.js";
-import { SPELL_MANIFEST } from "../../spell-manifest.js";
-import { calcLevel, getRequiredCombatSkill, dashToPascalCase } from "../../utilities.js";
+import { ATTACK_TYPES, OBJECT_TYPES, EQUIPMENT } from "../../constants/constants.js";
+import { calcLevel } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 
 export class Enemy extends Target {
@@ -178,16 +177,16 @@ export class Enemy extends Target {
                 break;
             case EQUIPMENT.WEAPON_TYPES.MELEE: {
                 equipmentStrength = weapon.strengthBonus;
-                switch (weapon.style) {
-                    case EQUIPMENT.ATTACK_STYLE.STAB:
+                switch (characterData.getCombatStyle()["type"]) {
+                    case ATTACK_TYPES.STAB:
                         equipmentAttack = weapon.stabBonus;
                         enemyBonus = this.stabDefence;
                         break;
-                    case EQUIPMENT.ATTACK_STYLE.SLASH:
+                    case ATTACK_TYPES.SLASH:
                         equipmentAttack = weapon.slashBonus;
                         enemyBonus = this.slashDefence;
                         break;
-                    case EQUIPMENT.ATTACK_STYLE.CRUSH:
+                    case ATTACK_TYPES.CRUSH:
                         equipmentAttack = weapon.crushBonus;
                         enemyBonus = this.crushDefence;
                         break;
@@ -320,21 +319,35 @@ export class Enemy extends Target {
     }
 
     getDamageLevel(skill) {
-        const requiredCombatSkill =
-            skill == EQUIPMENT.WEAPON_TYPES.MELEE
-                ? "strength"
-                : getRequiredCombatSkill(skill);
+        let damageSkill = "";
+        switch (skill) {
+            case EQUIPMENT.WEAPON_TYPES.RANGED:
+                damageSkill = "ranged";
+                break;
+            case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                damageSkill = "magic";
+                break;
+            default:
+                damageSkill = "strength";
+        }
 
-        return calcLevel(characterData.getSkillXp(requiredCombatSkill));
+        return calcLevel(characterData.getSkillXp(damageSkill));
     }
 
     getAccuracyLevel(skill) {
-        const requiredCombatSkill =
-            skill == EQUIPMENT.WEAPON_TYPES.MELEE
-                ? "attack"
-                : getRequiredCombatSkill(skill);
+        let accuracySkill = "";
+        switch (skill) {
+            case EQUIPMENT.WEAPON_TYPES.RANGED:
+                accuracySkill = "ranged";
+                break;
+            case EQUIPMENT.WEAPON_TYPES.MAGIC:
+                accuracySkill = "magic";
+                break;
+            default:
+                accuracySkill = "attack";
+        }
 
-        return calcLevel(characterData.getSkillXp(requiredCombatSkill));
+        return calcLevel(characterData.getSkillXp(accuracySkill));
     }
 
     increaseXp(hitValue) {
@@ -342,26 +355,25 @@ export class Enemy extends Target {
         const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
         let xpIncrease = xpModifier * hitValue;
 
+        const skillXpMap = {};
+
         // magic has base xp gain even if hitting a 0
         if (skill == EQUIPMENT.WEAPON_TYPES.MAGIC) {
             const spell = this.scene.dashboard.spellbook.getCurrentSelectedSpell();
             if (spell) {
                 xpIncrease += spell.baseXp;
             }
-        }
-        const skillXpMap = {};
 
-        // 50% ranged/mage xp and 50% defence for this case
-        if (
-            characterData.getAttackStyle() == ATTACK_STYLES.DEFENSIVE &&
-            skill != EQUIPMENT.WEAPON_TYPES.MELEE
-        ) {
-            xpIncrease /= 2;
-            skillXpMap["defence"] = xpIncrease;
+            skillXpMap["magic"] = xpIncrease;
+        } else {
+            const skills = characterData.getCombatStyle()["xpGain"];
+            xpIncrease /= skills.length;
+
+            skills.forEach((skill) => {
+                skillXpMap[skill] = xpIncrease;
+            });
         }
 
-        // Increase attack/strength/defence/ranged/magic XP
-        skillXpMap[getRequiredCombatSkill(skill)] = xpIncrease;
         characterData.addSkillXp(skillXpMap);
     }
 }

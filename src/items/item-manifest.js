@@ -50,13 +50,13 @@ export const itemManifest = {
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
     BronzeDagger: {
-        classPath: "./equipment/daggers/bronze-dagger.js",
+        classPath: "./equipment/swords/daggers/bronze-dagger.js",
         imagePath: "weapons/BronzeDagger.png",
         imageName: "bronze-dagger",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
     BronzeKnife: {
-        classPath: "./equipment/knives/bronze-knife.js",
+        classPath: "./equipment/thrown/knives/bronze-knife.js",
         imagePath: "weapons/BronzeKnife.png",
         imageName: "bronze-knife",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
@@ -68,7 +68,7 @@ export const itemManifest = {
         type: CONSTANTS.ITEM_TYPES.TOOL,
     },
     BronzeScimitar: {
-        classPath: "./equipment/scimitars/bronze-scimitar.js",
+        classPath: "./equipment/swords/scimitars/bronze-scimitar.js",
         imagePath: "weapons/BronzeScimitar.png",
         imageName: "bronze-scimitar",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
@@ -263,13 +263,13 @@ export const itemManifest = {
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
     SteelDagger: {
-        classPath: "./equipment/daggers/steel-dagger.js",
+        classPath: "./equipment/swords/daggers/steel-dagger.js",
         imagePath: "weapons/SteelDagger.png",
         imageName: "steel-dagger",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
     },
     SteelKnife: {
-        classPath: "./equipment/knives/steel-knife.js",
+        classPath: "./equipment/thrown/knives/steel-knife.js",
         imagePath: "weapons/SteelKnife.png",
         imageName: "steel-knife",
         type: CONSTANTS.ITEM_TYPES.WEAPON,
@@ -281,7 +281,7 @@ export const itemManifest = {
         type: CONSTANTS.ITEM_TYPES.TOOL,
     },
     SteelScimitar: {
-        classPath: "./equipment/scimitars/steel-scimitar.js",
+        classPath: "./equipment/swords/scimitars/steel-scimitar.js",
         imagePath: "weapons/SteelScimitar.png",
         imageName: "steel-scimitar",
         type: CONSTANTS.ITEM_TYPES.WEAPON,

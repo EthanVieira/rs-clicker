@@ -4,7 +4,7 @@ import {
     SPELL_MANIFEST,
     AVAILABLE_INDEX,
     UNAVAILABLE_INDEX,
-} from "../../spell-manifest.js";
+} from "../../constants/spell-manifest.js";
 import { calcLevel, dashToPascalCase } from "../../utilities.js";
 
 const BUTTON_INDEX = 0;

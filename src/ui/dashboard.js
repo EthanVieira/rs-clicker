@@ -9,7 +9,7 @@ import { Quests } from "./panels/quests.js";
 import { MusicPanel } from "./panels/music.js";
 import { Prayer } from "./panels/prayer.js";
 import { Settings } from "./panels/settings.js";
-import { AttackStyle } from "./panels/attack-style.js";
+import { CombatStyle } from "./panels/combat-style.js";
 import { Friends } from "./panels/friends.js";
 import { Spellbook } from "./panels/spellbook.js";
 
@@ -19,7 +19,7 @@ export class DashboardScene extends Phaser.Scene {
     currentPanel = "";
 
     // Panels
-    attackStyle;
+    combatStyle;
     inventory;
     skills;
     prayer;
@@ -93,7 +93,7 @@ export class DashboardScene extends Phaser.Scene {
         this.equipment = new Equipment(this);
         this.clan = new Clan(this);
         this.music = new MusicPanel(this);
-        this.attackStyle = new AttackStyle(this);
+        this.combatStyle = new CombatStyle(this);
         this.friends = new Friends(this);
         this.spellbook = new Spellbook(this);
     }
@@ -111,7 +111,7 @@ export class DashboardScene extends Phaser.Scene {
         this.clan.setVisible(false);
         this.music.setVisible(false);
         this.inventory.setVisible(false);
-        this.attackStyle.setVisible(false);
+        this.combatStyle.setVisible(false);
         this.friends.setVisible(false);
         this.spellbook.setVisible(false);
     }

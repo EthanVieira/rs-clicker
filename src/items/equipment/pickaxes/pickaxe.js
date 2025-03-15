@@ -1,11 +1,33 @@
 import Equipment from "../equipment.js";
-import { EQUIPMENT } from "../../../constants/constants.js";
+import { ATTACK_TYPES, EQUIPMENT } from "../../../constants/constants.js";
 
 export default class Pickaxe extends Equipment {
     // Attack types
     slot = EQUIPMENT.SLOTS.WEAPON;
     skill = EQUIPMENT.WEAPON_TYPES.MELEE;
-    style = EQUIPMENT.ATTACK_STYLE.STAB;
+
+    combatStyles = {
+        Spike: {
+            type: ATTACK_TYPES.STAB,
+            icon: "pickaxe-spike",
+            xpGain: ["hitpoints", "attack"],
+        },
+        Impale: {
+            type: ATTACK_TYPES.STAB,
+            icon: "pickaxe-impale",
+            xpGain: ["hitpoints", "strength"],
+        },
+        Smash: {
+            type: ATTACK_TYPES.CRUSH,
+            icon: "pickaxe-smash",
+            xpGain: ["hitpoints", "strength"],
+        },
+        Block: {
+            type: ATTACK_TYPES.STAB,
+            icon: "pickaxe-block",
+            xpGain: ["hitpoints", "defence"],
+        },
+    };
 
     // Attack animation
     animation = {
