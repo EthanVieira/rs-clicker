@@ -6,22 +6,22 @@ export default class SlashSword extends Sword {
         Chop: {
             type: ATTACK_TYPES.SLASH,
             icon: "sword-chop",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Slash: {
             type: ATTACK_TYPES.SLASH,
             icon: "sword-slash",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Lunge: {
             type: ATTACK_TYPES.STAB,
             icon: "sword-chop",
-            xpGain: ["hitpoints", "attack", "strength", "defence"],
+            xpGain: ["attack", "strength", "defence"],
         },
         Block: {
             type: ATTACK_TYPES.SLASH,
             icon: "sword-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 }

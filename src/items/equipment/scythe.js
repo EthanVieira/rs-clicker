@@ -9,22 +9,22 @@ export default class Scythe extends Equipment {
         Reap: {
             type: ATTACK_TYPES.SLASH,
             icon: "scythe-reap",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Chop: {
             type: ATTACK_TYPES.SLASH,
             icon: "scythe-chop",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Jab: {
             type: ATTACK_TYPES.CRUSH,
             icon: "scythe-jab",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Block: {
             type: ATTACK_TYPES.SLASH,
             icon: "scythe-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 }

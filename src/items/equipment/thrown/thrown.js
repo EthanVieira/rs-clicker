@@ -9,17 +9,17 @@ export default class Thrown extends Equipment {
         Accurate: {
             type: ATTACK_TYPES.LIGHT,
             icon: "thrown-accurate",
-            xpGain: ["hitpoints", "ranged"],
+            xpGain: ["ranged"],
         },
         Rapid: {
             type: ATTACK_TYPES.LIGHT,
             icon: "thrown-rapid",
-            xpGain: ["hitpoints", "ranged"],
+            xpGain: ["ranged"],
         },
         Longrange: {
             type: ATTACK_TYPES.LIGHT,
             icon: "thrown-longrange",
-            xpGain: ["hitpoints", "ranged", "defence"],
+            xpGain: ["ranged", "defence"],
         },
     };
 }

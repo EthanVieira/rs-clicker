@@ -1,7 +1,6 @@
 import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
-import { calcLevel } from "../utilities.js";
 import { Button } from "../ui/button.js";
 
 export class TableSpace extends ClickableObject {
@@ -61,7 +60,7 @@ export class TableSpace extends ClickableObject {
         }
 
         const reqLevel = selectedItem.constructionLevel;
-        const currentLevel = calcLevel(characterData.getSkillXp("construction"));
+        const currentLevel = characterData.getLevel("construction");
 
         if (currentLevel < reqLevel) {
             chat.writeText(

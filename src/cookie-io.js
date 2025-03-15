@@ -173,6 +173,7 @@ class CharacterData {
                 );
 
                 const curLevel = Utilities.calcLevel(this.characterData.skills[skill]);
+                const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
 
                 // Play level up sfx
                 if (curLevel > prevLevel) {
@@ -186,10 +187,11 @@ class CharacterData {
                         " leveled up to " +
                         curLevel;
                     chatScene.writeText(logString, FONTS.ITEM_STATS);
+
+                    dashboardScene.combatStyle.refreshCombatLvl();
                 }
 
                 // Update xp text on dashboard
-                const dashboardScene = this.getScene(CONSTANTS.SCENES.DASHBOARD);
                 dashboardScene.skills.updateSkillsText();
                 animationMap[skill] = xp;
             } else {
@@ -240,6 +242,20 @@ class CharacterData {
         }
     }
 
+    getCombatLevel() {
+        const baseCombatLvl =
+            0.25 *
+            (this.getLevel("defence") +
+                this.getLevel("hitpoints") +
+                this.getLevel("prayer") * 0.5);
+        const meleeCombatLvl =
+            0.325 * (this.getLevel("attack") + this.getLevel("strength"));
+        const rangedCombatLvl = 0.325 * (this.getLevel("ranged") * 1.5);
+        const magicCombatLvl = 0.325 * (this.getLevel("magic") * 1.5);
+
+        return baseCombatLvl + Math.max(meleeCombatLvl, rangedCombatLvl, magicCombatLvl);
+    }
+
     getSkillXp(skill) {
         if (this.characterData.skills[skill] != undefined) {
             return this.characterData.skills[skill];
@@ -247,6 +263,10 @@ class CharacterData {
             console.log("Error: getting invalid skill", skill);
             return 0;
         }
+    }
+
+    getLevel(skill) {
+        return Utilities.calcLevel(this.getSkillXp(skill));
     }
 
     getSkills() {

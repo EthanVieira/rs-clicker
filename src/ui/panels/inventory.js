@@ -1,5 +1,5 @@
 import { CONSTANTS } from "../../constants/constants.js";
-import { calcLevel, getItemClass } from "../../utilities.js";
+import { getItemClass } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 import Coin from "../../items/currencies/coin.js";
 
@@ -206,8 +206,7 @@ export class Inventory {
                     const matchesKey = item.item.includes(keyword);
                     const canUseItem = skillsRequired.every(
                         (skill) =>
-                            calcLevel(characterData.getSkillXp(skill)) >=
-                            item.requiredLevels[skill]
+                            characterData.getLevel(skill) >= item.requiredLevels[skill]
                     );
 
                     return matchesKey && canUseItem;

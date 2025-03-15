@@ -1,7 +1,7 @@
 import { ClickableObject } from "../../clickable-object.js";
 import { CONSTANTS } from "../../constants/constants.js";
 import { characterData } from "../../cookie-io.js";
-import { calcLevel, getItemClass, aOrAn } from "../../utilities.js";
+import { getItemClass, aOrAn } from "../../utilities.js";
 import { Button } from "../../ui/button.js";
 
 export class RunecraftingAltar extends ClickableObject {
@@ -82,7 +82,7 @@ export class RunecraftingAltar extends ClickableObject {
             return;
         }
 
-        const currentLevel = calcLevel(characterData.getSkillXp("runecrafting"));
+        const currentLevel = characterData.getLevel("runecrafting");
 
         if (currentLevel < this.requiredLevel) {
             chat.writeText(

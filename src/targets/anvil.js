@@ -1,7 +1,6 @@
 import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
-import { calcLevel } from "../utilities.js";
 import { Button } from "../ui/button.js";
 import { getItemClass } from "../utilities.js";
 import { SmithingModalWindow } from "../ui/modals/smithing-modal-window.js";
@@ -101,8 +100,7 @@ export class Anvil extends ClickableObject {
         const selectedIndex = inv.curSelectedItemIndex;
 
         const selectedItem = inv.inventory[selectedIndex];
-        const smithingExp = characterData.getSkills().smithing;
-        const smithingLevel = calcLevel(smithingExp);
+        const smithingLevel = characterData.getLevel("smithing");
 
         this.modalWindow.setChoices(
             selectedItem.name,

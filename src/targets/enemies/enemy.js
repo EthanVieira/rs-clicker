@@ -1,7 +1,6 @@
 import { HealthBar } from "../../ui/health-bar.js";
 import { Target } from "../target.js";
 import { ATTACK_TYPES, OBJECT_TYPES, EQUIPMENT } from "../../constants/constants.js";
-import { calcLevel } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 
 export class Enemy extends Target {
@@ -331,7 +330,7 @@ export class Enemy extends Target {
                 damageSkill = "strength";
         }
 
-        return calcLevel(characterData.getSkillXp(damageSkill));
+        return characterData.getLevel(damageSkill);
     }
 
     getAccuracyLevel(skill) {
@@ -347,28 +346,32 @@ export class Enemy extends Target {
                 accuracySkill = "attack";
         }
 
-        return calcLevel(characterData.getSkillXp(accuracySkill));
+        return characterData.getLevel(accuracySkill);
     }
 
     increaseXp(hitValue) {
         const skill = this.getSkill();
-        const xpModifier = 1; // OSRS has an xp mod of 4 but that's assuming your attack speed is much lower
-        let xpIncrease = xpModifier * hitValue;
+        const meleeRangedXpModifier = 4;
+        const magicXpModifier = 2;
+        const hitpointsXpModifier = 1.33;
 
         const skillXpMap = {};
 
         // magic has base xp gain even if hitting a 0
         if (skill == EQUIPMENT.WEAPON_TYPES.MAGIC) {
             const spell = this.scene.dashboard.spellbook.getCurrentSelectedSpell();
+
+            let xpIncrease = magicXpModifier * hitValue;
             if (spell) {
                 xpIncrease += spell.baseXp;
             }
-
             skillXpMap["magic"] = xpIncrease;
         } else {
             const skills = characterData.getCombatStyle()["xpGain"];
-            xpIncrease /= skills.length;
 
+            skillXpMap["hitpoints"] = hitpointsXpModifier * hitValue;
+
+            let xpIncrease = (meleeRangedXpModifier * hitValue) / skills.length;
             skills.forEach((skill) => {
                 skillXpMap[skill] = xpIncrease;
             });

@@ -9,22 +9,22 @@ export default class Claw extends Equipment {
         Chop: {
             type: ATTACK_TYPES.SLASH,
             icon: "claw-chop",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Slash: {
             type: ATTACK_TYPES.SLASH,
             icon: "claw-slash",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Lunge: {
             type: ATTACK_TYPES.STAB,
             icon: "claw-lunge",
-            xpGain: ["hitpoints", "attack", "strength", "defence"],
+            xpGain: ["attack", "strength", "defence"],
         },
         Block: {
             type: ATTACK_TYPES.SLASH,
             icon: "claw-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 }

@@ -1,5 +1,6 @@
 import { ATTACK_TYPES, CONSTANTS, FONTS } from "../../constants/constants.js";
 import { characterData } from "../../cookie-io.js";
+import { getEstimatedPixelWidth } from "../../utilities.js";
 
 export class CombatStyle {
     dashboard;
@@ -11,6 +12,10 @@ export class CombatStyle {
     styleText = [];
     retaliateButton;
     isVisible = false;
+    currentCombatLvl = 1;
+    combatLvlText;
+    equippedWeaponText;
+    equippedWeaponName = "";
 
     constructor(dashboard) {
         this.dashboard = dashboard;
@@ -30,6 +35,7 @@ export class CombatStyle {
             .on("pointerdown", () => {
                 this.setVisible();
                 this.refreshStyles();
+                this.refreshCombatLvl();
             });
 
         this.retaliateButton = dashboard.add
@@ -41,7 +47,18 @@ export class CombatStyle {
                 this.setAutoRetaliate(!characterData.getAutoRetaliate());
             });
 
+        this.combatLvlText = this.dashboard.add
+            .text(595, 232, "Combat Lvl: " + this.currentCombatLvl, FONTS.ITEM_NAME)
+            .setOrigin(0, 0)
+            .setDepth(2);
+
+        this.equippedWeaponText = this.dashboard.add
+            .text(595, 212, this.equippedWeaponName, FONTS.ITEM_NAME)
+            .setOrigin(0, 0)
+            .setDepth(2);
+
         this.refreshStyles();
+        this.refreshCombatLvl();
 
         // Default to hidden
         this.setVisible(false);
@@ -56,23 +73,30 @@ export class CombatStyle {
             Punch: {
                 type: ATTACK_TYPES.CRUSH,
                 icon: "unarmed-punch",
-                xpGain: ["hitpoints", "attack"],
+                xpGain: ["attack"],
             },
             Kick: {
                 type: ATTACK_TYPES.CRUSH,
                 icon: "unarmed-kick",
-                xpGain: ["hitpoints", "strength"],
+                xpGain: ["strength"],
             },
             Block: {
                 type: ATTACK_TYPES.CRUSH,
                 icon: "unarmed-block",
-                xpGain: ["hitpoints", "defence"],
+                xpGain: ["defence"],
             },
         };
 
         if (weapon) {
             combatStyles = weapon.combatStyles;
+            this.equippedWeaponName = weapon.name;
+        } else {
+            this.equippedWeaponName = "Unarmed";
         }
+
+        this.equippedWeaponText.text = this.equippedWeaponName;
+        this.equippedWeaponText.x =
+            635 - getEstimatedPixelWidth(this.equippedWeaponName) * 0.4;
 
         this.styleOffButtons.forEach((b) => b.destroy());
         this.styleOnButtons.forEach((b) => b.destroy());
@@ -143,6 +167,17 @@ export class CombatStyle {
         this.setStyle(index, style);
     }
 
+    refreshCombatLvl() {
+        const combatLevel = Math.floor(characterData.getCombatLevel());
+
+        if (this.currentCombatLvl != combatLevel) {
+            this.currentCombatLvl = combatLevel;
+            this.combatLvlText.text = "Combat Lvl: " + this.currentCombatLvl;
+            this.combatLvlText.x =
+                640 - getEstimatedPixelWidth(this.combatLvlText.text) * 0.4;
+        }
+    }
+
     setStyle(styleIndex, newStyle) {
         this.styleOnButtons.forEach((b) => (b.visible = false));
         this.styleOffButtons.forEach((b) => (b.visible = this.isVisible));
@@ -176,6 +211,8 @@ export class CombatStyle {
         }
 
         // Show/hide panel
+        this.equippedWeaponText.visible = isVisible;
+        this.combatLvlText.visible = isVisible;
         this.panel.visible = isVisible;
         this.retaliateButton.visible = isVisible;
         this.styleIcons.forEach((i) => (i.visible = isVisible));

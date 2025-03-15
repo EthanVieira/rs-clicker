@@ -9,17 +9,17 @@ export default class Blunt extends Equipment {
         Pound: {
             type: ATTACK_TYPES.CRUSH,
             icon: "blunt-pound",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Pummel: {
             type: ATTACK_TYPES.CRUSH,
             icon: "blunt-pummel",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Block: {
             type: ATTACK_TYPES.CRUSH,
             icon: "blunt-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 }

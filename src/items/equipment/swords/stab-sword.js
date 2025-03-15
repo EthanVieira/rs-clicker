@@ -6,22 +6,22 @@ export default class StabSword extends Sword {
         Stab: {
             type: ATTACK_TYPES.STAB,
             icon: "sword-stab",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Lunge: {
             type: ATTACK_TYPES.STAB,
             icon: "sword-chop",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Slash: {
             type: ATTACK_TYPES.SLASH,
             icon: "sword-slash",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Block: {
             type: ATTACK_TYPES.STAB,
             icon: "sword-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 }

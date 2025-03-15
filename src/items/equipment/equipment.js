@@ -1,6 +1,6 @@
 import { Item } from "../item.js";
 import { CONSTANTS, OBJECT_TYPES } from "../../constants/constants.js";
-import { calcLevel, getItemClass, capitalize, aOrAn } from "../../utilities.js";
+import { getItemClass, capitalize, aOrAn } from "../../utilities.js";
 import { characterData } from "../../cookie-io.js";
 
 export default class Equipment extends Item {
@@ -129,9 +129,7 @@ export default class Equipment extends Item {
 
     checkRequiredLevels() {
         return Object.keys(this.requiredLevels).every((skill) => {
-            return (
-                calcLevel(characterData.getSkillXp(skill)) >= this.requiredLevels[skill]
-            );
+            return characterData.getLevel(skill) >= this.requiredLevels[skill];
         });
     }
 

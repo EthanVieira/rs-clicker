@@ -1,7 +1,7 @@
 import { ClickableObject } from "../../clickable-object.js";
 import { CONSTANTS } from "../../constants/constants.js";
 import { characterData } from "../../cookie-io.js";
-import { calcLevel, getItemClass } from "../../utilities.js";
+import { getItemClass } from "../../utilities.js";
 import { Button } from "../../ui/button.js";
 import { ProgressBar } from "../../ui/progress-bar.js";
 
@@ -56,7 +56,7 @@ export class EssenceMine extends ClickableObject {
     isClickable() {
         const curWeapon = this.scene.dashboard.equipment.equipment.WEAPON;
         const inventory = this.scene.dashboard.inventory;
-        const skillLevel = calcLevel(characterData.getSkillXp(this.skill));
+        const skillLevel = characterData.getLevel(this.skill);
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
         const toolKeyword = "Pickaxe";
@@ -103,7 +103,7 @@ export class EssenceMine extends ClickableObject {
 
         if (isFinished) {
             const inv = this.scene.dashboard.inventory;
-            const currentLevel = calcLevel(characterData.getSkillXp(this.skill));
+            const currentLevel = characterData.getLevel(this.skill);
 
             const canMinePureEssence = currentLevel >= this.pureEssenceLevel;
             const essenceName = (canMinePureEssence ? "Pure" : "Rune") + "Essence";
@@ -119,7 +119,7 @@ export class EssenceMine extends ClickableObject {
     }
 
     getClickValue() {
-        return calcLevel(characterData.getSkillXp(this.skill));
+        return characterData.getLevel(this.skill);
     }
 
     getAnimation() {
