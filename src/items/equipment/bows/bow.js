@@ -10,17 +10,17 @@ export default class Bow extends Equipment {
         Accurate: {
             type: ATTACK_TYPES.STANDARD,
             icon: "bow-accurate",
-            xpGain: ["hitpoints", "ranged"],
+            xpGain: ["ranged"],
         },
         Rapid: {
             type: ATTACK_TYPES.STANDARD,
             icon: "bow-rapid",
-            xpGain: ["hitpoints", "ranged"],
+            xpGain: ["ranged"],
         },
         Longrange: {
             type: ATTACK_TYPES.STANDARD,
             icon: "bow-longrange",
-            xpGain: ["hitpoints", "ranged", "defence"],
+            xpGain: ["ranged", "defence"],
         },
     };
 

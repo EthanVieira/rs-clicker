@@ -6,22 +6,22 @@ export default class TwoHandedSword extends Sword {
         Chop: {
             type: ATTACK_TYPES.SLASH,
             icon: "sword-chop",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Slash: {
             type: ATTACK_TYPES.SLASH,
             icon: "sword-slash",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Smash: {
             type: ATTACK_TYPES.CRUSH,
             icon: "sword-slash",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Block: {
             type: ATTACK_TYPES.SLASH,
             icon: "sword-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 }

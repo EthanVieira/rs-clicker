@@ -9,17 +9,17 @@ export default class Polearm extends Equipment {
         Jab: {
             type: ATTACK_TYPES.STAB,
             icon: "polearm-jab",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Swipe: {
             type: ATTACK_TYPES.SLASH,
             icon: "polearm-swipe",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Block: {
             type: ATTACK_TYPES.STAB,
             icon: "polearm-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 }

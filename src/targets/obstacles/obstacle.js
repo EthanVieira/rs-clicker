@@ -1,7 +1,6 @@
 import { ClickableObject } from "../../clickable-object.js";
 import { CONSTANTS } from "../../constants/constants.js";
 import { characterData } from "../../cookie-io.js";
-import { calcLevel } from "../../utilities.js";
 import { Button } from "../../ui/button.js";
 import { ProgressBar } from "../../ui/progress-bar.js";
 
@@ -68,7 +67,7 @@ export class Obstacle extends ClickableObject {
     async clickTarget() {
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
 
-        const currentLevel = calcLevel(characterData.getSkillXp(this.skill));
+        const currentLevel = characterData.getLevel(this.skill);
 
         if (currentLevel < this.requiredLevel) {
             chat.writeText(
@@ -99,7 +98,7 @@ export class Obstacle extends ClickableObject {
     }
 
     getClickValue() {
-        return calcLevel(characterData.getSkillXp(this.skill));
+        return characterData.getLevel(this.skill);
     }
 
     onClick(clickValue) {}

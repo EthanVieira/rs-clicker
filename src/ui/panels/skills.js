@@ -1,5 +1,5 @@
 import { CONSTANTS, FONTS } from "../../constants/constants.js";
-import { calcLevel, calcRemainingXp } from "../../utilities.js";
+import { calcRemainingXp } from "../../utilities.js";
 import { getSkillDescription } from "./skill-descriptions.js";
 import { characterData } from "../../cookie-io.js";
 
@@ -171,7 +171,7 @@ export class Skills {
 
             for (let skill in skills) {
                 let level = Math.min(
-                    calcLevel(skills[skill]),
+                    characterData.getLevel(skill),
                     CONSTANTS.LIMITS.MAX_LEVEL
                 );
                 this.skillText[skill].text = level;

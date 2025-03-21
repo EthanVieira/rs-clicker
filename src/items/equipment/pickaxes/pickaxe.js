@@ -10,22 +10,22 @@ export default class Pickaxe extends Equipment {
         Spike: {
             type: ATTACK_TYPES.STAB,
             icon: "pickaxe-spike",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Impale: {
             type: ATTACK_TYPES.STAB,
             icon: "pickaxe-impale",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Smash: {
             type: ATTACK_TYPES.CRUSH,
             icon: "pickaxe-smash",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Block: {
             type: ATTACK_TYPES.STAB,
             icon: "pickaxe-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 

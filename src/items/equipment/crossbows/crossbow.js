@@ -10,17 +10,17 @@ export default class Crossbow extends Equipment {
         Accurate: {
             type: ATTACK_TYPES.HEAVY,
             icon: "crossbow-accurate",
-            xpGain: ["hitpoints", "ranged"],
+            xpGain: ["ranged"],
         },
         Rapid: {
             type: ATTACK_TYPES.HEAVY,
             icon: "crossbow-rapid",
-            xpGain: ["hitpoints", "ranged"],
+            xpGain: ["ranged"],
         },
         Longrange: {
             type: ATTACK_TYPES.HEAVY,
             icon: "crossbow-longrange",
-            xpGain: ["hitpoints", "ranged", "defence"],
+            xpGain: ["ranged", "defence"],
         },
     };
 

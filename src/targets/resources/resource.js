@@ -1,6 +1,5 @@
 import { ProgressBar } from "../../ui/progress-bar.js";
 import { CONSTANTS } from "../../constants/constants.js";
-import { calcLevel } from "../../utilities.js";
 import { Target } from "../target.js";
 import { characterData } from "../../cookie-io.js";
 
@@ -30,7 +29,7 @@ export class Resource extends Target {
         const inventory = this.scene.dashboard.inventory;
         const chat = this.scene.scene.get(CONSTANTS.SCENES.CHAT);
         let toolKeyword = "";
-        const skillLevel = calcLevel(characterData.getSkillXp(this.skill));
+        const skillLevel = characterData.getLevel(this.skill);
 
         // Skill level too low
         if (skillLevel < this.requiredLevels[this.skill]) {
@@ -88,7 +87,7 @@ export class Resource extends Target {
     }
 
     getClickValue() {
-        return calcLevel(characterData.getSkillXp(this.skill));
+        return characterData.getLevel(this.skill);
     }
 
     onClick(clickValue) {}

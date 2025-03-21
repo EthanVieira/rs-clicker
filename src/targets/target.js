@@ -1,6 +1,5 @@
 import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
-import { calcLevel } from "../utilities.js";
 import { characterData } from "../cookie-io.js";
 
 export class Target extends ClickableObject {
@@ -100,8 +99,7 @@ export class Target extends ClickableObject {
                 for (const item of this.uniqueDrops) {
                     const canGetDrop = Object.keys(item.requiredLevels).every(
                         (skill) =>
-                            calcLevel(characterData.getSkillXp(skill)) >=
-                            item.requiredLevels[skill]
+                            characterData.getLevel(skill) >= item.requiredLevels[skill]
                     );
 
                     if (canGetDrop) {

@@ -10,22 +10,22 @@ export default class Axe extends Smithable {
         Chop: {
             type: ATTACK_TYPES.SLASH,
             icon: "axe-chop",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Hack: {
             type: ATTACK_TYPES.SLASH,
             icon: "axe-hack",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Smash: {
             type: ATTACK_TYPES.CRUSH,
             icon: "axe-smash",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Block: {
             type: ATTACK_TYPES.SLASH,
             icon: "axe-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 

@@ -9,17 +9,17 @@ export default class Whip extends Equipment {
         Flick: {
             type: ATTACK_TYPES.SLASH,
             icon: "whip-flick",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Lash: {
             type: ATTACK_TYPES.SLASH,
             icon: "whip-lash",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Deflect: {
             type: ATTACK_TYPES.SLASH,
             icon: "whip-flick",
-            xpGain: ["hitpoints", "attack", "strength", "defence"],
+            xpGain: ["attack", "strength", "defence"],
         },
     };
 }

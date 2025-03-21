@@ -5,7 +5,7 @@ import {
     AVAILABLE_INDEX,
     UNAVAILABLE_INDEX,
 } from "../../constants/spell-manifest.js";
-import { calcLevel, dashToPascalCase } from "../../utilities.js";
+import { dashToPascalCase } from "../../utilities.js";
 
 const BUTTON_INDEX = 0;
 const AVAILABILITY_INDEX = 1;
@@ -92,10 +92,7 @@ export class Spellbook {
             const availableName = spell.imageNames[AVAILABLE_INDEX];
             const unavailableName = spell.imageNames[UNAVAILABLE_INDEX];
             const hasLevel = Object.keys(spell.requiredLevels).every((skill) => {
-                return (
-                    calcLevel(characterData.getSkills()[skill]) >=
-                    spell.requiredLevels[skill]
-                );
+                return characterData.getLevel(skill) >= spell.requiredLevels[skill];
             });
 
             if (hasLevel) {

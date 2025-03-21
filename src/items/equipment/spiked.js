@@ -9,22 +9,22 @@ export default class Spiked extends Equipment {
         Pound: {
             type: ATTACK_TYPES.CRUSH,
             icon: "spiked-pound",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Pummel: {
             type: ATTACK_TYPES.CRUSH,
             icon: "spiked-pummel",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Spike: {
             type: ATTACK_TYPES.STAB,
             icon: "spiked-spike",
-            xpGain: ["hitpoints", "attack", "strength", "defence"],
+            xpGain: ["attack", "strength", "defence"],
         },
         Block: {
             type: ATTACK_TYPES.CRUSH,
             icon: "spiked-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 }

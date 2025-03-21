@@ -1,7 +1,7 @@
 import { ClickableObject } from "../clickable-object.js";
 import { CONSTANTS } from "../constants/constants.js";
 import { characterData } from "../cookie-io.js";
-import { calcLevel, getItemClass } from "../utilities.js";
+import { getItemClass } from "../utilities.js";
 import { Button } from "../ui/button.js";
 
 export class CookingFire extends ClickableObject {
@@ -61,7 +61,7 @@ export class CookingFire extends ClickableObject {
 
         if (this.validRawMaterials.has(selectedItem.name)) {
             const reqLevel = selectedItem.cookingLvl;
-            const currentLevel = calcLevel(characterData.getSkillXp("cooking"));
+            const currentLevel = characterData.getLevel("cooking");
 
             if (currentLevel < reqLevel) {
                 chat.writeText(

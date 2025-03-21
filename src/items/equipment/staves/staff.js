@@ -9,17 +9,17 @@ export default class Staff extends Equipment {
         Jab: {
             type: ATTACK_TYPES.STAB,
             icon: "staff-jab",
-            xpGain: ["hitpoints", "attack"],
+            xpGain: ["attack"],
         },
         Pound: {
             type: ATTACK_TYPES.SLASH,
             icon: "staff-pound",
-            xpGain: ["hitpoints", "strength"],
+            xpGain: ["strength"],
         },
         Block: {
             type: ATTACK_TYPES.CRUSH,
             icon: "staff-block",
-            xpGain: ["hitpoints", "defence"],
+            xpGain: ["defence"],
         },
     };
 

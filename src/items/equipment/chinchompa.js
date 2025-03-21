@@ -9,17 +9,17 @@ export default class Chinchompa extends Equipment {
         ShortFuse: {
             type: ATTACK_TYPES.HEAVY,
             icon: "chinchompa-short-fuse",
-            xpGain: ["hitpoints", "ranged"],
+            xpGain: ["ranged"],
         },
         MediumFuse: {
             type: ATTACK_TYPES.HEAVY,
             icon: "chinchompa-medium-fuse",
-            xpGain: ["hitpoints", "ranged"],
+            xpGain: ["ranged"],
         },
         LongFuse: {
             type: ATTACK_TYPES.HEAVY,
             icon: "chinchompa-long-fuse",
-            xpGain: ["hitpoints", "ranged", "defence"],
+            xpGain: ["ranged", "defence"],
         },
     };
 }
