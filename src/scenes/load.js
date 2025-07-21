@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants/constants.js";
 import { AVAILABLE_INDEX, SPELL_MANIFEST } from "../constants/spell-manifest.js";
+import { PRAYER_MANIFEST } from "../constants/prayer-manifest.js";
 import { characterData } from "../cookie-io.js";
 import { itemManifest } from "../items/item-manifest.js";
 import { targetManifest } from "../targets/target-manifest.js";
@@ -110,8 +111,17 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("skills-panel", "assets/ui/SkillsPanel.png");
         this.load.image("skills-button", "assets/ui/buttons/SkillsButton.png");
         this.load.image("skills-info", "assets/ui/SkillsInfo.png");
-        this.load.image("prayer-panel", "assets/ui/PrayerPanel.png");
+        this.load.image("prayer-panel", "assets/ui/EmptyPanel.png");
         this.load.image("prayer-button", "assets/ui/buttons/PrayerButton.png");
+
+        for (const prayer in PRAYER_MANIFEST.StandardPrayers) {
+            const prayerManifest = PRAYER_MANIFEST.StandardPrayers[prayer];
+            this.load.image(
+                prayerManifest.imageName,
+                "assets/ui/icons/prayers/" + prayerManifest.imagePath
+            );
+        }
+
         this.load.image("audio-settings", "assets/ui/AudioSettings.png");
         this.load.image(
             "audio-settings-button",
@@ -137,7 +147,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("music-panel", "assets/ui/MusicPanel.png");
         this.load.image("music-button", "assets/ui/buttons/MusicButton.png");
 
-        this.load.image("spellbook-panel", "assets/ui/SpellbookPanel.png");
+        this.load.image("spellbook-panel", "assets/ui/EmptyPanel.png");
         this.load.image("spellbook-button", "assets/ui/buttons/SpellbookButton.png");
 
         for (const spell in SPELL_MANIFEST.StandardSpellbook) {
