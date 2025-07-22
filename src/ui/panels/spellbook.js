@@ -134,12 +134,12 @@ export class Spellbook {
             this.dashboard.hideAllMenus();
             this.button.setAlpha(1);
             this.dashboard.currentPanel = CONSTANTS.PANEL.SPELLBOOK;
-            if (this.selectedSpell != "None") {
-                this.selectedRectangle.setVisible(isVisible);
-            }
         } else {
             this.button.setAlpha(0.1);
-            this.selectedRectangle.setVisible(false);
+        }
+
+        if (this.selectedSpell != "None") {
+            this.selectedRectangle.setVisible(isVisible);
         }
         this.panel.visible = isVisible;
         this.isVisible = isVisible;
