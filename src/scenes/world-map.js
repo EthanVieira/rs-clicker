@@ -34,6 +34,10 @@ export class WorldMapScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive()
             .on("pointerup", () => {
+                characterData
+                    .getScene(CONSTANTS.SCENES.DASHBOARD)
+                    .prayer.stopPrayerDrain();
+
                 this.scene.start(characterData.getCurrentLevel());
             });
 
@@ -62,6 +66,15 @@ export class WorldMapScene extends Phaser.Scene {
                 x: MAP.LUMBRIDGE_TREES.X,
                 y: MAP.LUMBRIDGE_TREES.Y,
                 key: CONSTANTS.SCENES.LUMBRIDGE_TREES,
+            },
+            {
+                text: "Lumbridge\nAltar",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.LUMBRIDGE_ALTAR
+                ),
+                x: MAP.LUMBRIDGE_ALTAR.X,
+                y: MAP.LUMBRIDGE_ALTAR.Y,
+                key: CONSTANTS.SCENES.LUMBRIDGE_ALTAR,
             },
             {
                 text: "Draynor\nFishing",
@@ -205,6 +218,9 @@ export class WorldMapScene extends Phaser.Scene {
                 .setInteractive()
                 .on("pointerup", () => {
                     if (level.condition) {
+                        characterData
+                            .getScene(CONSTANTS.SCENES.DASHBOARD)
+                            .prayer.stopPrayerDrain();
                         this.scene.start(level.key);
                         console.log("Going to " + level.text);
                     } else {

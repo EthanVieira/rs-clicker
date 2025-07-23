@@ -39,12 +39,10 @@ export class AudioScene extends Phaser.Scene {
         this.load.audio("unknown-land", "assets/audio/bgm/UnknownLand.ogg");
 
         // SFX
-        this.load.audio(
-            "purchase",
-            "assets/audio/sfx/GrandExchangeOfferComplete.mp3"
-        );
+        this.load.audio("purchase", "assets/audio/sfx/GrandExchangeOfferComplete.mp3");
         this.load.audio("quest-complete-1", "assets/audio/sfx/QuestCompleted1.ogg");
         this.load.audio("quest-complete-2", "assets/audio/sfx/QuestCompleted2.ogg");
+        this.load.audio("restore-prayer", "assets/audio/sfx/RestorePrayer.ogg");
 
         const skills = [
             "Agility",
@@ -74,7 +72,7 @@ export class AudioScene extends Phaser.Scene {
         for (let skill of skills) {
             this.load.audio(
                 skill.toLowerCase() + "-level-up",
-                "assets/audio/sfx/" + skill + "LevelUp.ogg"
+                "assets/audio/sfx/level-ups/" + skill + "LevelUp.ogg"
             );
         }
 
@@ -82,10 +80,7 @@ export class AudioScene extends Phaser.Scene {
         this.load.audio("axe-equip", "assets/audio/sfx/equip/AxeEquip.ogg");
         // this.load.audio("bolt-equip", "assets/audio/sfx/equip/BoltEquip.ogg");
         // this.load.audio("boots-equip", "assets/audio/sfx/equip/BootsEquip.ogg");
-        this.load.audio(
-            "bow-arrow-equip",
-            "assets/audio/sfx/equip/BowArrowEquip.ogg"
-        );
+        this.load.audio("bow-arrow-equip", "assets/audio/sfx/equip/BowArrowEquip.ogg");
         // this.load.audio("mace-flail-equip", "assets/audio/sfx/equip/MaceFlailEquip.ogg");
         // this.load.audio("maul-equip", "assets/audio/sfx/equip/MaulEquip.ogg");
         // this.load.audio("metal-body-equip", "assets/audio/sfx/equip/MetalBodyEquip.ogg");

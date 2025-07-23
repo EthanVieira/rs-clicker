@@ -169,6 +169,7 @@ export function load(dataName) {
             );
         }
 
+        characterData.getScene(CONSTANTS.SCENES.DASHBOARD).prayer.stopPrayerDrain();
         characterData.getScene(prevLevel).scene.start(currentLevel);
     } else {
         chatScene.writeText(`The test data '${dataName}' does not exist.`);
@@ -193,6 +194,7 @@ export function unlockLevel(levelName) {
             FONTS.ITEM_STATS
         );
 
+        characterData.getScene(CONSTANTS.SCENES.DASHBOARD).prayer.stopPrayerDrain();
         characterData
             .getScene(characterData.getCurrentLevel())
             .scene.start(CONSTANTS.SCENES[constName]);
