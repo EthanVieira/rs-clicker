@@ -30,6 +30,7 @@ export const defaultData = {
     },
     friends: ["Zezima"],
     combatStyle: 0,
+    prayerPoints: 1,
     autoRetaliate: true,
     // Skill XP
     skills: {

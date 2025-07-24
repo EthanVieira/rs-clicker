@@ -1,6 +1,7 @@
 import { CONSTANTS, FONTS } from "../../constants/constants.js";
 import { characterData } from "../../cookie-io.js";
 import { PRAYER_MANIFEST } from "../../constants/prayer-manifest.js";
+import { dashToPascalCase } from "../../utilities.js";
 
 export class Prayer {
     dashboard;
@@ -11,8 +12,10 @@ export class Prayer {
     selectedPrayers = [];
     selectedRectangles = {};
     isVisible = false;
+    secondsSinceLastDrain = 0;
+    drainTaskID;
 
-    curPrayerPoints = 0;
+    maxPrayerPoints = 0;
     curPrayerText;
     prayerHotbarText;
 
@@ -68,20 +71,74 @@ export class Prayer {
 
         // Default to hidden
         this.setVisible(false);
+
+        this.drainTaskID = setInterval(() => {
+            this.applyPrayerDrain();
+            this.refreshPrayers();
+        }, 1000);
+    }
+
+    stopPrayerDrain() {
+        clearInterval(this.drainTaskID);
+    }
+
+    applyPrayerDrain() {
+        const currentPrayPoints = characterData.getPrayerPoints();
+        if (currentPrayPoints > 0) {
+            let totalDrainEffect = 0;
+
+            this.selectedPrayers.forEach((prayer) => {
+                totalDrainEffect +=
+                    PRAYER_MANIFEST.StandardPrayers[dashToPascalCase(prayer)].drainEffect;
+            });
+
+            if (totalDrainEffect > 0) {
+                // TODO: get prayer bonus from equipped items whenever we have items with prayer bonus
+                const prayBonus = 0;
+                const basePrayResistance = 60;
+                const drainResistance = basePrayResistance + 2 * prayBonus;
+                const secondsPerDrain = 0.6 * (drainResistance / totalDrainEffect);
+
+                if (this.secondsSinceLastDrain >= secondsPerDrain) {
+                    characterData.setPrayerPoints(currentPrayPoints - 1);
+                    this.updatePrayerText();
+                    this.secondsSinceLastDrain = 0;
+
+                    if (characterData.getPrayerPoints() <= 0) {
+                        Object.values(this.selectedRectangles).forEach((rect) => {
+                            rect.destroy();
+                        });
+                        this.selectedRectangles = {};
+                        this.selectedPrayers = [];
+                    }
+                } else {
+                    this.secondsSinceLastDrain++;
+                }
+            }
+        }
     }
 
     selectPrayer(prayer) {
-        if (!this.selectedPrayers.includes(prayer)) {
-            const prayerButton = this.prayers[prayer];
-            this.selectedPrayers.push(prayer);
+        if (characterData.getPrayerPoints() > 0) {
+            if (!this.selectedPrayers.includes(prayer)) {
+                const prayerButton = this.prayers[prayer];
+                this.selectedPrayers.push(prayer);
 
-            this.selectedRectangles[prayer] = this.dashboard.add
-                .rectangle(prayerButton.x + 14, prayerButton.y + 15, 38, 38, 0x000000, 0)
-                .setStrokeStyle(1, 0xffffff)
-                .setDepth(1)
-                .setVisible(true);
-        } else {
-            this.unselectPrayer(prayer);
+                this.selectedRectangles[prayer] = this.dashboard.add
+                    .rectangle(
+                        prayerButton.x + 14,
+                        prayerButton.y + 15,
+                        38,
+                        38,
+                        0x000000,
+                        0
+                    )
+                    .setStrokeStyle(1, 0xffffff)
+                    .setDepth(1)
+                    .setVisible(true);
+            } else {
+                this.unselectPrayer(prayer);
+            }
         }
     }
 
@@ -105,8 +162,14 @@ export class Prayer {
     }
 
     setLevel(level) {
-        this.prayerHotbarText.text = level;
-        this.curPrayerText.text = this.curPrayerPoints + "/" + level;
+        this.maxPrayerPoints = level;
+        this.updatePrayerText();
+    }
+
+    updatePrayerText() {
+        const currentPoints = characterData.getPrayerPoints();
+        this.curPrayerText.text = currentPoints + "/" + this.maxPrayerPoints;
+        this.prayerHotbarText.text = currentPoints;
     }
 
     setVisible(isVisible = true) {

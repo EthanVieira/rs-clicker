@@ -70,6 +70,14 @@ class CharacterData {
         return Math.floor(this.characterData.damageByAutoClick);
     }
 
+    getPrayerPoints() {
+        return this.characterData.prayerPoints;
+    }
+
+    setPrayerPoints(points) {
+        this.characterData.prayerPoints = points;
+    }
+
     getInventory() {
         return this.characterData.inventory;
     }
