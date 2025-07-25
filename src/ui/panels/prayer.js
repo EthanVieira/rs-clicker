@@ -19,6 +19,8 @@ export class Prayer {
     curPrayerText;
     prayerHotbarText;
 
+    SELECTED_SQUARE_LENGTH = 38;
+
     constructor(dashboard) {
         this.dashboard = dashboard;
 
@@ -50,16 +52,17 @@ export class Prayer {
             .setOrigin(0.5)
             .setDepth(1);
 
-        // TODO: handle y dif when we have more prayers
-        const xDif = 40;
-
         Object.values(PRAYER_MANIFEST.StandardPrayers).forEach((prayer, i) => {
             const hasLevel = Object.keys(prayer.requiredLevels).every((skill) => {
                 return characterData.getLevel(skill) >= prayer.requiredLevels[skill];
             });
 
             this.prayers[prayer.imageName] = this.dashboard.add
-                .image(560 + xDif * i, 213, prayer.imageName)
+                .image(
+                    553 + this.SELECTED_SQUARE_LENGTH * (i % 5),
+                    213 + this.SELECTED_SQUARE_LENGTH * Math.floor(i / 5),
+                    prayer.imageName
+                )
                 .setOrigin(0)
                 .setDepth(3)
                 .setInteractive()
@@ -121,6 +124,28 @@ export class Prayer {
     selectPrayer(prayer) {
         if (characterData.getPrayerPoints() > 0) {
             if (!this.selectedPrayers.includes(prayer)) {
+                // only allow one active prayer for each bonus type
+                const newBoostedSkills = Object.keys(
+                    PRAYER_MANIFEST.StandardPrayers[dashToPascalCase(prayer)].skillBoosts
+                );
+
+                let prayersToUnselect = new Set();
+
+                this.selectedPrayers.forEach((selectedPrayer) => {
+                    Object.keys(
+                        PRAYER_MANIFEST.StandardPrayers[dashToPascalCase(selectedPrayer)]
+                            .skillBoosts
+                    ).forEach((boostedSkill) => {
+                        if (newBoostedSkills.includes(boostedSkill)) {
+                            prayersToUnselect.add(selectedPrayer);
+                        }
+                    });
+                });
+
+                prayersToUnselect.forEach((selectedPrayer) => {
+                    this.unselectPrayer(selectedPrayer);
+                });
+
                 const prayerButton = this.prayers[prayer];
                 this.selectedPrayers.push(prayer);
 
@@ -128,8 +153,8 @@ export class Prayer {
                     .rectangle(
                         prayerButton.x + 14,
                         prayerButton.y + 15,
-                        38,
-                        38,
+                        this.SELECTED_SQUARE_LENGTH,
+                        this.SELECTED_SQUARE_LENGTH,
                         0x000000,
                         0
                     )
@@ -140,6 +165,10 @@ export class Prayer {
                 this.unselectPrayer(prayer);
             }
         }
+    }
+
+    getActivePrayers() {
+        return this.selectedPrayers;
     }
 
     unselectPrayer(prayer) {

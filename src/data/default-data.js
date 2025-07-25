@@ -76,6 +76,11 @@ export const defaultData = {
                 goblin: 0,
             },
         },
+        LUMBRIDGE_ALTAR: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {},
+        },
         LUMBRIDGE_TREES: {
             // TODO: "enemiesKilled" makes things work nicely but isn't an accurate name here
             // Didn't want to implement the logic to discern between levels for this yet as the

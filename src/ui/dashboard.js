@@ -56,6 +56,7 @@ export class DashboardScene extends Phaser.Scene {
         let logoutButton = new Button(this, 630, 466, 27, 35);
         logoutButton.on("pointerup", () => {
             console.log("Going to main menu");
+            this.prayer.stopPrayerDrain();
             this.currentScene.scene.start(CONSTANTS.SCENES.MAIN_MENU);
         });
 

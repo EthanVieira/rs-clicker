@@ -1,7 +1,9 @@
 import { HealthBar } from "../../ui/health-bar.js";
 import { Target } from "../target.js";
 import { ATTACK_TYPES, OBJECT_TYPES, EQUIPMENT } from "../../constants/constants.js";
+import { PRAYER_MANIFEST } from "../../constants/prayer-manifest.js";
 import { characterData } from "../../cookie-io.js";
+import { dashToPascalCase } from "../../utilities.js";
 
 export class Enemy extends Target {
     blueHitsplat;
@@ -198,14 +200,35 @@ export class Enemy extends Target {
                 break;
         }
 
+        // TODO: get defence bonuses if we ever use those in future
+        let damagePrayerCoeff = 1;
+        let accuracyPrayerCoeff = 1;
+        const prayers = this.scene.dashboard.prayer.getActivePrayers();
+
+        // Get prayer bonuses
+        prayers.forEach((prayer) => {
+            Object.entries(
+                PRAYER_MANIFEST.StandardPrayers[dashToPascalCase(prayer)].skillBoosts
+            ).forEach(([boostedSkill, boost]) => {
+                if (skill == EQUIPMENT.WEAPON_TYPES.UNARMED) {
+                    skill = EQUIPMENT.WEAPON_TYPES.MELEE;
+                }
+
+                if (boostedSkill == skill.toLowerCase() + "Strength") {
+                    damagePrayerCoeff += boost;
+                } else if (boostedSkill == skill.toLowerCase() + "Attack") {
+                    accuracyPrayerCoeff += boost;
+                }
+            });
+        });
+
         // Strength level bonuses
         let potBonus = 0;
         let styleBonus = 3; // Aggressive: 3, Controlled: 1, Accurate/Defensive: 0
-        let prayerCoeff = 1; // Prayer gives multiplier (ex: 1.05)
 
         // Get damage level after bonuses
         let effectiveDamageLevel =
-            Math.floor((damageLevel + potBonus) * prayerCoeff) + styleBonus;
+            Math.floor((damageLevel + potBonus) * damagePrayerCoeff) + styleBonus;
 
         // Get max hit
         let maxHit = 0;
@@ -226,7 +249,7 @@ export class Enemy extends Target {
         // Check accuracy
         let affinity = 55;
         let accuracy =
-            this.calcLevelCoeff(accuracyLevel) +
+            accuracyPrayerCoeff * this.calcLevelCoeff(accuracyLevel) +
             2.5 * this.calcLevelCoeff(equipmentAttack);
         let defence =
             this.calcLevelCoeff(this.defence) + 2.5 * this.calcLevelCoeff(enemyBonus);
@@ -245,6 +268,8 @@ export class Enemy extends Target {
             console.log("player level", damageLevel);
             console.log("item str", equipmentStrength);
             console.log("item attack", equipmentAttack);
+            console.log("prayer attack coeff", accuracyPrayerCoeff);
+            console.log("prayer strength coeff", damagePrayerCoeff);
             console.log("enemy defence", this.defence);
             console.log("enemy bonus", enemyBonus);
             console.log("accuracy", accuracy);

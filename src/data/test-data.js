@@ -63,6 +63,12 @@ magicTestData["inventory"].push({ item: "WaterStaff", count: 1 });
 magicTestData["inventory"].push({ item: "EarthStaff", count: 1 });
 magicTestData["inventory"].push({ item: "FireStaff", count: 1 });
 // ---------------------------------------------------------------------
+const prayerTestData = JSON.parse(JSON.stringify(generalTestData));
+prayerTestData["skills"]["prayer"] = 2100000; // lvl 80
+prayerTestData["prayerPoints"] = 80;
+prayerTestData["inventory"].push({ item: "NormalBones", count: 100000 });
+prayerTestData["currentLevel"] = CONSTANTS.SCENES.LUMBRIDGE_ALTAR;
+// ---------------------------------------------------------------------
 export const dataMap = {
     "new-game": defaultData,
     "all-levels": allLevelsUnlockedData,
@@ -76,5 +82,6 @@ export const dataMap = {
     runecrafting: runecraftingTestData,
     construction: constructionTestData,
     magic: magicTestData,
+    prayer: prayerTestData,
     rich: richData,
 };
