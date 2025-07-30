@@ -103,6 +103,7 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(0)
             .setInteractive()
             .on("pointerup", () => {
+                this.dashboard.prayer.stopPrayerDrain();
                 this.scene.start(CONSTANTS.SCENES.MAP);
                 console.log("Going to World Map");
             });
@@ -117,6 +118,7 @@ export class LevelScene extends Phaser.Scene {
             .setDepth(2)
             .setInteractive()
             .on("pointerup", () => {
+                this.dashboard.prayer.stopPrayerDrain();
                 this.scene.start(CONSTANTS.SCENES.MAIN_MENU);
             });
 
