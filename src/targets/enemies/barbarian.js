@@ -41,7 +41,7 @@ export class Barbarian extends Enemy {
             ],
             maxHealth: 20,
             killGold: 20,
-            drops: [{ item: NormalBones, rate: 0.5 }],
+            drops: [{ item: NormalBones, rate: 0.5, amount: 1 }],
         });
     }
 }

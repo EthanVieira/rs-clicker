@@ -11,7 +11,7 @@ export class TinRock extends Rock {
             questName: "tinRock",
             images: [{ name: "tin-rock", path: "assets/sprites/TinRock.png", scale: 1 }],
             neededClicks: 5,
-            drops: [{ item: TinOre, rate: 1 }],
+            drops: [{ item: TinOre, rate: 1, amount: 1 }],
             offsetY: 150,
             requiredLevels: {
                 mining: 1,

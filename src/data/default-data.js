@@ -81,6 +81,13 @@ export const defaultData = {
             unlocked: false,
             enemiesKilled: {},
         },
+        LUMBRIDGE_THIEVING: {
+            questCompleted: false,
+            unlocked: false,
+            enemiesKilled: {
+                man: 0,
+            },
+        },
         LUMBRIDGE_TREES: {
             // TODO: "enemiesKilled" makes things work nicely but isn't an accurate name here
             // Didn't want to implement the logic to discern between levels for this yet as the

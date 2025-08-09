@@ -40,9 +40,9 @@ export class AlKharidWarrior extends Enemy {
             maxHealth: 19,
             killGold: 20,
             drops: [
-                { item: NormalBones, rate: 0.5 },
+                { item: NormalBones, rate: 0.5, amount: 1 },
                 // { item: BronzeMedHelm, rate: 1 / 64 },
-                { item: BronzeDagger, rate: 1 / 128 }, // TODO: Replace with IronDagger when it's implemented
+                { item: BronzeDagger, rate: 1 / 128, amount: 1 }, // TODO: Replace with IronDagger when it's implemented
             ],
         });
     }

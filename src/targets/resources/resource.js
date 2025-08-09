@@ -41,6 +41,11 @@ export class Resource extends Target {
             return false;
         }
 
+        // no tool required for thieving
+        if (this.skill == "thieving") {
+            return true;
+        }
+
         // Get tool
         switch (this.skill) {
             case "woodcutting":

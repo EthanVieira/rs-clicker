@@ -69,6 +69,9 @@ prayerTestData["prayerPoints"] = 80;
 prayerTestData["inventory"].push({ item: "NormalBones", count: 100000 });
 prayerTestData["currentLevel"] = CONSTANTS.SCENES.LUMBRIDGE_ALTAR;
 // ---------------------------------------------------------------------
+const thievingTestData = JSON.parse(JSON.stringify(generalTestData));
+thievingTestData["skills"]["thieving"] = 2100000; // lvl 80
+thievingTestData["currentLevel"] = CONSTANTS.SCENES.LUMBRIDGE_THIEVING;
 export const dataMap = {
     "new-game": defaultData,
     "all-levels": allLevelsUnlockedData,
@@ -84,4 +87,5 @@ export const dataMap = {
     magic: magicTestData,
     prayer: prayerTestData,
     rich: richData,
+    thieving: thievingTestData,
 };
