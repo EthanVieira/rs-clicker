@@ -26,7 +26,7 @@ export class GiantRat extends Enemy {
             ],
             maxHealth: 5,
             killGold: 1,
-            drops: [{ item: NormalBones, rate: 0.5 }],
+            drops: [{ item: NormalBones, rate: 0.5, amount: 1 }],
             barOffsetY: 110,
             splatOffsetY: 50,
         });

@@ -29,7 +29,7 @@ export class DarkWizard extends Enemy {
             ],
             maxHealth: 12,
             killGold: 10,
-            drops: [{ item: NormalBones, rate: 0.5 }],
+            drops: [{ item: NormalBones, rate: 0.5, amount: 1 }],
         });
     }
 }

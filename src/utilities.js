@@ -152,6 +152,11 @@ export function getItemText(amount) {
 const noncountNouns = ["essence"];
 
 export function pluralize(text) {
+    // special case
+    if (text == "Man") {
+        return "Men";
+    }
+
     let pluralText = text;
 
     if (!text.endsWith("s")) {

@@ -14,6 +14,7 @@ export const CONSTANTS = {
         LUMBRIDGE: "LUMBRIDGE",
         LUMBRIDGE_TREES: "LUMBRIDGE_TREES",
         LUMBRIDGE_ALTAR: "LUMBRIDGE_ALTAR",
+        LUMBRIDGE_THIEVING: "LUMBRIDGE_THIEVING",
         DRAYNOR_FISHING: "DRAYNOR_FISHING",
         ROGUES_DEN_COOKING: "ROGUES_DEN_COOKING",
         AL_KHARID_FURNACE: "AL_KHARID_FURNACE",
@@ -36,6 +37,7 @@ export const CONSTANTS = {
         LUMBRIDGE: "TUTORIAL_ISLAND",
         LUMBRIDGE_TREES: "TUTORIAL_ISLAND",
         LUMBRIDGE_ALTAR: "TUTORIAL_ISLAND",
+        LUMBRIDGE_THIEVING: "TUTORIAL_ISLAND",
         DRAYNOR_FISHING: "TUTORIAL_ISLAND",
         ROGUES_DEN_COOKING: "DRAYNOR_FISHING",
         AL_KHARID_FURNACE: "LUMBRIDGE",
@@ -159,8 +161,8 @@ export const MAP = {
         Y: 4000,
     },
     LUMBRIDGE: {
-        X: 4650,
-        Y: 3505,
+        X: 4700,
+        Y: 3455,
     },
     LUMBRIDGE_TREES: {
         X: 4470,
@@ -169,6 +171,10 @@ export const MAP = {
     LUMBRIDGE_ALTAR: {
         X: 4750,
         Y: 3555,
+    },
+    LUMBRIDGE_THIEVING: {
+        X: 4650,
+        Y: 3505,
     },
     DRAYNOR_FISHING: {
         X: 4180,

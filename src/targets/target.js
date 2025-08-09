@@ -108,7 +108,7 @@ export class Target extends ClickableObject {
                         if (threshold > randomNum) {
                             const droppedItem = new item.item(this.scene.dashboard);
                             console.log(this.name, "dropped", droppedItem.name);
-                            this.scene.dashboard.inventory.addToInventory(droppedItem);
+                            this.scene.dashboard.inventory.addNToInventory(droppedItem, item.amount);
 
                             break;
                         }
@@ -122,7 +122,7 @@ export class Target extends ClickableObject {
                 if (item.rate > Math.random()) {
                     const droppedItem = new item.item(this.scene.dashboard);
                     console.log(this.name, "dropped", droppedItem.name);
-                    this.scene.dashboard.inventory.addToInventory(droppedItem);
+                    this.scene.dashboard.inventory.addNToInventory(droppedItem, item.amount);
                 }
             });
 

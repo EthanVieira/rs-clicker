@@ -77,6 +77,15 @@ export class WorldMapScene extends Phaser.Scene {
                 key: CONSTANTS.SCENES.LUMBRIDGE_ALTAR,
             },
             {
+                text: "Lumbridge\nThieving",
+                condition: characterData.getQuestCompleted(
+                    CONSTANTS.PREREQUISITES.LUMBRIDGE_THIEVING
+                ),
+                x: MAP.LUMBRIDGE_THIEVING.X,
+                y: MAP.LUMBRIDGE_THIEVING.Y,
+                key: CONSTANTS.SCENES.LUMBRIDGE_THIEVING,
+            },
+            {
                 text: "Draynor\nFishing",
                 condition: characterData.getQuestCompleted(
                     CONSTANTS.PREREQUISITES.DRAYNOR_FISHING
