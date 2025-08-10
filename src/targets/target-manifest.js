@@ -51,4 +51,8 @@ export var targetManifest = {
         imagePath: "FishingSpot.png",
         imageName: "fishing-spot",
     },
+    Man: {
+        imagePath: "thieving/Man.png",
+        imageName: "man",
+    },
 };

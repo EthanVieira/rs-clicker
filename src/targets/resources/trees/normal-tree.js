@@ -14,7 +14,7 @@ export class NormalTree extends Tree {
                 { name: "tree2", path: "assets/sprites/Tree2.png", scale: 0.4 },
             ],
             neededClicks: 5,
-            drops: [{ item: NormalLogs, rate: 1 }],
+            drops: [{ item: NormalLogs, rate: 1, amount: 1 }],
             requiredLevels: {
                 woodcutting: 1,
             },

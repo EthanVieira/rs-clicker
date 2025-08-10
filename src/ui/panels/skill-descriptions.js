@@ -54,6 +54,10 @@ export function getSkillDescription(skill) {
             description = "Traverse obstacles.";
             body += "Lv 1: Gnome Agility Course\n";
             break;
+        case "thieving":
+            description = "Steal items from various people and stalls.";
+            body += "Lv 1: Pickpocket men\n";
+            break;
         case "fletching":
             description = "Create ranged weapons using a knife\nand logs";
             body += "Lv 1: Shortbow (50 Logs)\n";

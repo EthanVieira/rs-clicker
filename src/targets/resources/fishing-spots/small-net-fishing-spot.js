@@ -26,11 +26,13 @@ export class SmallNetFishingSpot extends FishingSpot {
                     item: RawShrimps,
                     rate: 0.75,
                     requiredLevels: { fishing: 1 },
+                    amount: 1,
                 },
                 {
                     item: RawAnchovies,
                     rate: 0.25,
                     requiredLevels: { fishing: 15 },
+                    amount: 1,
                 },
             ],
             drops: [],
